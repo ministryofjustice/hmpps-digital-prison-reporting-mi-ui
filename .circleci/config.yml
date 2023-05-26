@@ -85,6 +85,8 @@ jobs:
             
 
   deploy:
+    docker:
+      - image: ministryofjustice/cloud-platform-tools
     parameters:
       env:
         type: string
