@@ -77,12 +77,11 @@ jobs:
 #              only:
 #                - main
           command: |
-            aws ecr get-login --no-include-email
+            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
             docker tag app "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
             docker push "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
             docker tag app "${ECR_ENDPOINT}:latest"
             docker push "${ECR_ENDPOINT}:latest"
-            
 
   deploy:
     docker:
