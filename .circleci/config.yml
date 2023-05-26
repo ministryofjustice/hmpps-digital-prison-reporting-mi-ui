@@ -7,14 +7,11 @@ orbs:
 parameters:
   alerts-slack-channel:
     type: string
-    # Normally team specific alert channel e.g. hmpps_tech_alerts, syscon-alerts, dps_sed_alerts
-    # This is to avoid a general alert dumping ground that no-one then monitors
-    default: hmpps_typescript_notifications
+    default: dpr_cicd_alerts
 
   releases-slack-channel:
     type: string
-    # Normally dps-releases for most teams / projects
-    default: hmpps_typescript_notifications
+    default: dpr_cicd_approvals
 
   node-version:
     type: string
@@ -64,6 +61,7 @@ jobs:
       - image: ministryofjustice/cloud-platform-tools
     steps:
       - checkout
+      - hmpps/create_app_version
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
@@ -78,35 +76,10 @@ jobs:
 #                - main
           command: |
             aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
-            docker tag app "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
-            docker push "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
+            docker tag app "${ECR_ENDPOINT}:${APP_VERSION}"
+            docker push "${ECR_ENDPOINT}:${APP_VERSION}"
             docker tag app "${ECR_ENDPOINT}:latest"
             docker push "${ECR_ENDPOINT}:latest"
-
-  deploy:
-    docker:
-      - image: ministryofjustice/cloud-platform-tools
-    parameters:
-      env:
-        type: string
-        default: dev
-    steps:
-      - checkout
-      - run:
-          name: Authenticate with cluster
-          command: |
-            echo -n ${K8S_CLUSTER_CERT} | base64 -d > ./ca.crt
-            kubectl config set-cluster ${K8S_CLUSTER_NAME} --certificate-authority=./ca.crt --server=https://${K8S_CLUSTER_NAME}
-            kubectl config set-credentials circleci --token=${K8S_TOKEN}
-            kubectl config set-context ${K8S_CLUSTER_NAME} --cluster=${K8S_CLUSTER_NAME} --user=circleci --namespace=${K8S_NAMESPACE}<< parameters.env >>
-            kubectl config use-context ${K8S_CLUSTER_NAME}
-            kubectl --namespace=${K8S_NAMESPACE}<< parameters.env >> get pods
-
-      - run:
-          name: Install demo helm chart
-          command: |
-            helm upgrade demo helm_deploy --install --namespace=${K8S_NAMESPACE}<< parameters.env >>
-            kubectl --namespace=${K8S_NAMESPACE}<< parameters.env >> get pods
 
   unit_test:
     executor:
@@ -165,6 +138,12 @@ jobs:
 workflows:
   version: 2
   build-test-and-deploy:
+    environment:
+      KUBE_ENV_NAME: ${K8S_CLUSTER_NAME}
+      KUBE_ENV_CACERT: ${K8S_CLUSTER_CERT}
+      KUBE_ENV_API: https://${K8S_CLUSTER_NAME}
+      KUBE_ENV_TOKEN: ${K8S_TOKEN}
+      KUBE_ENV_NAMESPACE: ${K8S_NAMESPACE}<< parameters.env >>
     jobs:
       - build:
           filters:
@@ -181,41 +160,54 @@ workflows:
       - build_docker:
           requires:
             - build
-      - deploy:
+      - hmpps/deploy_env:
           name: deploy_dev
           env: "dev"
-#          filters:
-#            branches:
-#              only:
-#                - main
+          jira_update: true
+          release_name: PROJECT_NAME_ENV_NAME
+          context: hmpps-common-vars
+          filters:
+            branches:
+              only:
+                - main
           requires:
             - helm_lint
             - unit_test
             - integration_test
             - build_docker
+          helm_timeout: 5m
 #      - request-preprod-approval:
 #          type: approval
 #          requires:
 #            - deploy_dev
-#      - deploy:
+#      - hmpps/deploy_env:
 #          name: deploy_preprod
 #          env: "preprod"
+#          jira_update: true
+#          jira_env_type: staging
 #          context:
 #            - hmpps-common-vars
 #            - digital-prison-reporting-mi-ui-preprod
 #          requires:
 #            - request-preprod-approval
+#          helm_timeout: 5m
 #      - request-prod-approval:
 #          type: approval
 #          requires:
 #            - deploy_preprod
-#      - deploy:
+#      - hmpps/deploy_env:
 #          name: deploy_prod
 #          env: "prod"
+#          jira_update: true
+#          jira_env_type: production
+#          slack_notification: true
+#          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
 #          context:
+#            - hmpps-common-vars
 #            - digital-prison-reporting-mi-ui-prod
 #          requires:
 #            - request-prod-approval
+#          helm_timeout: 5m
 
   security:
     triggers:
