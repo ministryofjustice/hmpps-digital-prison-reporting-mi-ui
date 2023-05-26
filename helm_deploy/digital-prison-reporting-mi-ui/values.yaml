@@ -32,21 +32,17 @@ generic-service:
   env:
     NODE_ENV: "production"
     TOKEN_VERIFICATION_ENABLED: "true"
-    APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+    REDIS_TLS_ENABLED: "true"
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
   #   [name of kubernetes secret]:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
-#
-#  namespace_secrets:
-#    digital-prison-reporting-mi-ui:
-#      APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
-#      API_CLIENT_ID: "API_CLIENT_ID"
-#      API_CLIENT_SECRET: "API_CLIENT_SECRET"
-#      SYSTEM_CLIENT_ID: "SYSTEM_CLIENT_ID"
-#      SYSTEM_CLIENT_SECRET: "SYSTEM_CLIENT_SECRET"
-#      SESSION_SECRET: "SESSION_SECRET"
+
+  namespace_secrets:
+    digital-prison-reporting-mi-ui-ec-cluster-output:
+      REDIS_HOST: "primary_endpoint_address"
+      REDIS_AUTH_TOKEN: "auth_token"
 
   allowlist:
     office: "217.33.148.210/32"
