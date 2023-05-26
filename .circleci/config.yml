@@ -59,6 +59,54 @@ jobs:
             - dist
             - .cache/Cypress
 
+  build_docker:
+    docker:
+      - image: ministryofjustice/cloud-platform-tools
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build -t app .
+      - deploy:
+          name: Push application Docker image
+#          filters:
+#            branches:
+#              only:
+#                - main
+          command: |
+            aws ecr get-login --no-include-email
+            docker tag app "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
+            docker push "${ECR_ENDPOINT}:${CIRCLE_SHA1}"
+            docker tag app "${ECR_ENDPOINT}:latest"
+            docker push "${ECR_ENDPOINT}:latest"
+            
+
+  deploy:
+    parameters:
+      env:
+        type: string
+        default: dev
+    steps:
+      - checkout
+      - run:
+          name: Authenticate with cluster
+          command: |
+            echo -n ${K8S_CLUSTER_CERT} | base64 -d > ./ca.crt
+            kubectl config set-cluster ${K8S_CLUSTER_NAME} --certificate-authority=./ca.crt --server=https://${K8S_CLUSTER_NAME}
+            kubectl config set-credentials circleci --token=${K8S_TOKEN}
+            kubectl config set-context ${K8S_CLUSTER_NAME} --cluster=${K8S_CLUSTER_NAME} --user=circleci --namespace=${K8S_NAMESPACE}<< parameters.env >>
+            kubectl config use-context ${K8S_CLUSTER_NAME}//TODO: ENV param goes here
+            kubectl --namespace=${K8S_NAMESPACE}<< parameters.env >> get pods
+
+      - run:
+          name: Install demo helm chart
+          command: |
+            helm upgrade demo helm_deploy --install --namespace=${K8S_NAMESPACE}<< parameters.env >>
+            kubectl --namespace=${K8S_NAMESPACE}<< parameters.env >> get pods
+
   unit_test:
     executor:
       name: hmpps/node
@@ -129,21 +177,15 @@ workflows:
             - build
       - hmpps/helm_lint:
           name: helm_lint
-      - hmpps/build_docker:
-          name: build_docker
-          filters:
-            branches:
-              only:
-                - main
-      - hmpps/deploy_env:
-          name: deploy_dev
+      - build_docker:
+          requires:
+            - build
+      - deploy_env:
           env: "dev"
-          jira_update: true
-          context: hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
+#          filters:
+#            branches:
+#              only:
+#                - main
           requires:
             - helm_lint
             - unit_test
