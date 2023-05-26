@@ -191,7 +191,7 @@ workflows:
 #            - hmpps-common-vars
 #            - digital-prison-reporting-mi-ui-preprod
 #          environment:
-#            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}dev"
+#            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}preprod"
 #          requires:
 #            - request-preprod-approval
 #          helm_timeout: 5m
@@ -210,7 +210,7 @@ workflows:
 #            - hmpps-common-vars
 #            - digital-prison-reporting-mi-ui-prod
 #          environment:
-#            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}dev"
+#            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}prod"
 #          requires:
 #            - request-prod-approval
 #          helm_timeout: 5m
