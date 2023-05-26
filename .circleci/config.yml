@@ -159,9 +159,9 @@ workflows:
           env: "dev"
           jira_update: true
           release_name: PROJECT_NAME_ENV_NAME
-          context: hmpps-common-vars
-          environment:
-            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}dev"
+          context:
+            - hmpps-common-vars
+            - digital-prison-reporting-mi-dev
 #          filters:
 #            branches:
 #              only:
@@ -183,9 +183,7 @@ workflows:
 #          jira_env_type: staging
 #          context:
 #            - hmpps-common-vars
-#            - digital-prison-reporting-mi-ui-preprod
-#          environment:
-#            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}preprod"
+#            - digital-prison-reporting-mi-preprod
 #          requires:
 #            - request-preprod-approval
 #          helm_timeout: 5m
@@ -202,7 +200,7 @@ workflows:
 #          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
 #          context:
 #            - hmpps-common-vars
-#            - digital-prison-reporting-mi-ui-prod
+#            - digital-prison-reporting-mi-prod
 #          environment:
 #            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}prod"
 #          requires:
