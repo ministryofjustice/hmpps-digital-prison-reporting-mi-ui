@@ -166,10 +166,12 @@ workflows:
           jira_update: true
           release_name: PROJECT_NAME_ENV_NAME
           context: hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
+          environment:
+            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}dev"
+#          filters:
+#            branches:
+#              only:
+#                - main
           requires:
             - helm_lint
             - unit_test
@@ -188,6 +190,8 @@ workflows:
 #          context:
 #            - hmpps-common-vars
 #            - digital-prison-reporting-mi-ui-preprod
+#          environment:
+#            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}dev"
 #          requires:
 #            - request-preprod-approval
 #          helm_timeout: 5m
@@ -205,6 +209,8 @@ workflows:
 #          context:
 #            - hmpps-common-vars
 #            - digital-prison-reporting-mi-ui-prod
+#          environment:
+#            KUBE_ENV_NAMESPACE: "${K8S_NAMESPACE}dev"
 #          requires:
 #            - request-prod-approval
 #          helm_timeout: 5m
