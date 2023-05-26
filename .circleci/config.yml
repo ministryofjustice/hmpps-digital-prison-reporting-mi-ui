@@ -138,11 +138,6 @@ jobs:
 workflows:
   version: 2
   build-test-and-deploy:
-    environment:
-      KUBE_ENV_NAME: ${K8S_CLUSTER_NAME}
-      KUBE_ENV_CACERT: ${K8S_CLUSTER_CERT}
-      KUBE_ENV_API: https://${K8S_CLUSTER_NAME}
-      KUBE_ENV_TOKEN: ${K8S_TOKEN}
     jobs:
       - build:
           filters:
