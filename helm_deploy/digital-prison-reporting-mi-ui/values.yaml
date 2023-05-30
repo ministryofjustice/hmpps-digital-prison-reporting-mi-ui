@@ -43,6 +43,8 @@ generic-service:
     digital-prison-reporting-mi-ui-ec-cluster-output:
       REDIS_HOST: "primary_endpoint_address"
       REDIS_AUTH_TOKEN: "auth_token"
+    ui-session-secret:
+      SESSION_SECRET: "session_secret"
 
   allowlist:
     office: "217.33.148.210/32"
