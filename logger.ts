@@ -4,6 +4,6 @@ import config from './server/config'
 
 const formatOut = bunyanFormat({ outputMode: 'short', color: !config.production })
 
-const logger = bunyan.createLogger({ name: 'Digital Prison Reporting Mi Ui', stream: formatOut, level: 'debug' })
+const logger = bunyan.createLogger({ name: 'Digital Prison Reporting MI UI', stream: formatOut, level: 'debug' })
 
 export default logger

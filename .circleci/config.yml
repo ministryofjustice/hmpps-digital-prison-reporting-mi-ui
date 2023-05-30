@@ -7,14 +7,11 @@ orbs:
 parameters:
   alerts-slack-channel:
     type: string
-    # Normally team specific alert channel e.g. hmpps_tech_alerts, syscon-alerts, dps_sed_alerts
-    # This is to avoid a general alert dumping ground that no-one then monitors
-    default: hmpps_typescript_notifications
+    default: dpr_cicd_alerts
 
   releases-slack-channel:
     type: string
-    # Normally dps-releases for most teams / projects
-    default: hmpps_typescript_notifications
+    default: dpr_cicd_approvals
 
   node-version:
     type: string
@@ -58,6 +55,31 @@ jobs:
             - build
             - dist
             - .cache/Cypress
+
+  build_docker:
+    docker:
+      - image: ministryofjustice/cloud-platform-tools
+    steps:
+      - checkout
+      - hmpps/create_app_version
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build -t app .
+      - deploy:
+          name: Push application Docker image
+          filters:
+            branches:
+              only:
+                - main
+          command: |
+            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+            docker tag app "${ECR_ENDPOINT}:${APP_VERSION}"
+            docker push "${ECR_ENDPOINT}:${APP_VERSION}"
+            docker tag app "${ECR_ENDPOINT}:latest"
+            docker push "${ECR_ENDPOINT}:latest"
 
   unit_test:
     executor:
@@ -129,17 +151,17 @@ workflows:
             - build
       - hmpps/helm_lint:
           name: helm_lint
-      - hmpps/build_docker:
-          name: build_docker
-          filters:
-            branches:
-              only:
-                - main
+      - build_docker:
+          requires:
+            - build
       - hmpps/deploy_env:
           name: deploy_dev
           env: "dev"
           jira_update: true
-          context: hmpps-common-vars
+          release_name: PROJECT_NAME_ENV_NAME
+          context:
+            - hmpps-common-vars
+            - digital-prison-reporting-mi-dev
           filters:
             branches:
               only:
@@ -161,7 +183,7 @@ workflows:
 #          jira_env_type: staging
 #          context:
 #            - hmpps-common-vars
-#            - digital-prison-reporting-mi-ui-preprod
+#            - digital-prison-reporting-mi-preprod
 #          requires:
 #            - request-preprod-approval
 #          helm_timeout: 5m
@@ -178,7 +200,7 @@ workflows:
 #          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
 #          context:
 #            - hmpps-common-vars
-#            - digital-prison-reporting-mi-ui-prod
+#            - digital-prison-reporting-mi-prod
 #          requires:
 #            - request-prod-approval
 #          helm_timeout: 5m
