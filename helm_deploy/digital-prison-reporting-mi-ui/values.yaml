@@ -45,6 +45,11 @@ generic-service:
       REDIS_AUTH_TOKEN: "auth_token"
     ui-session-secret:
       SESSION_SECRET: "session_secret"
+    hmpps-auth:
+      API_CLIENT_ID: "api_client_id"
+      API_CLIENT_SECRET: "api_client_secret"
+      SYSTEM_CLIENT_ID: "system_client_id"
+      SYSTEM_CLIENT_SECRET: "system_client_secret"
 
   allowlist:
     office: "217.33.148.210/32"
