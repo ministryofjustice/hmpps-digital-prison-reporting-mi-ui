@@ -1,18 +1,18 @@
 ---
 generic-service:
-  nameOverride: digital-prison-reporting-mi-ui
+  nameOverride: hmpps-digital-prison-reporting-mi-ui
 
   replicaCount: 4
 
   image:
-    repository: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/hmpps-digital-prison-reporting/digital-prison-reporting-mi-ui-ecr
+    repository: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/hmpps-digital-prison-reporting/hmpps-digital-prison-reporting-mi-ui-ecr
     tag: app_version    # override at deployment time
     port: 3000
 
   ingress:
     enabled: true
     host: app-hostname.local    # override per environment
-    tlsSecretName: digital-prison-reporting-mi-ui-cert
+    tlsSecretName: hmpps-digital-prison-reporting-mi-ui-cert
 
   livenessProbe:
     httpGet:
@@ -34,7 +34,7 @@ generic-service:
   #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
 
   namespace_secrets:
-    digital-prison-reporting-mi-ui-ec-cluster-output:
+    hmpps-digital-prison-reporting-mi-ui-ec-cluster-output:
       REDIS_HOST: "primary_endpoint_address"
       REDIS_AUTH_TOKEN: "auth_token"
     ui-session-secret:
@@ -56,4 +56,4 @@ generic-service:
     cloudplatform-live-3: "35.177.252.54/32"
 
 generic-prometheus-alerts:
-  targetApplication: digital-prison-reporting-mi-ui
+  targetApplication: hmpps-digital-prison-reporting-mi-ui

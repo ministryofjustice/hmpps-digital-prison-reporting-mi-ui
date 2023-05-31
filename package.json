@@ -1,8 +1,8 @@
 {
-  "name": "digital-prison-reporting-mi-ui",
+  "name": "hmpps-digital-prison-reporting-mi-ui",
   "version": "0.0.1",
   "description": "Digital Prison Reporting MI UI",
-  "repository": "git@github.com:ministryofjustice/digital-prison-reporting-mi-ui.git",
+  "repository": "git@github.com:ministryofjustice/hmpps-digital-prison-reporting-mi-ui.git",
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",

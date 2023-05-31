@@ -1,6 +1,6 @@
-# digital-prison-reporting-mi-ui
-[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fdigital-prison-reporting-mi-ui)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#digital-prison-reporting-mi-ui "Link to report")
-[![CircleCI](https://circleci.com/gh/ministryofjustice/digital-prison-reporting-mi-ui/tree/main.svg?style=svg)](https://circleci.com/gh/ministryofjustice/digital-prison-reporting-mi-ui)
+# hmpps-digital-prison-reporting-mi-ui
+[![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=flat&logo=github&label=MoJ%20Compliant&query=%24.result&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fapi%2Fv1%2Fcompliant_public_repositories%2Fhmpps-digital-prison-reporting-mi-ui)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/public-github-repositories.html#hmpps-digital-prison-reporting-mi-ui "Link to report")
+[![CircleCI](https://circleci.com/gh/ministryofjustice/hmpps-digital-prison-reporting-mi-ui/tree/main.svg?style=svg)](https://circleci.com/gh/ministryofjustice/hmpps-digital-prison-reporting-mi-ui)
 
 # Instructions
 
@@ -10,7 +10,7 @@ see https://github.com/ministryofjustice/dps-project-bootstrap.
 This bootstrap is community managed by the mojdt `#typescript` slack channel. 
 Please raise any questions or queries there. Contributions welcome!
 
-Our security policy is located [here](https://github.com/ministryofjustice/digital-prison-reporting-mi-ui/security/policy). 
+Our security policy is located [here](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui/security/policy). 
 
 More information about the template project including features can be found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
 
@@ -85,9 +85,9 @@ If these are not desired in the cloned project, remove references to `check_outd
 
 ## Deployment to Cloud Platform Environment
 
-The app is deployed to the namespace: `digital-prison-reporting-mi-<env>`.
+The app is deployed to the namespace: `hmpps-digital-prison-reporting-mi-<env>`.
 
-Config for the dev environment can be found here: https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live.cloud-platform.service.justice.gov.uk/digital-prison-reporting-mi-dev
+Config for the dev environment can be found here: https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-digital-prison-reporting-mi-dev
 
 The CPE deployment for this app consists of: 
 - A service account for CircleCI. 
@@ -110,5 +110,5 @@ echo -n 'placeholder' | base64
 Example of applying the secret to an environment:
 
 ```
-kubectl -n digital-prison-reporting-mi-dev apply -f hmps-auth-secret.yaml
+kubectl -n hmpps-digital-prison-reporting-mi-dev apply -f hmps-auth-secret.yaml
 ```
