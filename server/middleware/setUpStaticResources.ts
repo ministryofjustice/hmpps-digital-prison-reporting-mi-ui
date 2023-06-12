@@ -5,6 +5,21 @@ import noCache from 'nocache'
 
 import config from '../config'
 
+const jsStaticResources = [
+  {
+    path: '/assets/js/jquery.min.js',
+    location: '/node_modules/jquery/dist/jquery.min.js',
+  },
+  {
+    path: '/assets/js/jquery-ui.min.js',
+    location: '/node_modules/jquery-ui/dist/jquery-ui.min.js',
+  },
+  {
+    path: '/assets/js/jquery-ui.min.css',
+    location: '/node_modules/jquery-ui/dist/themes/ui-lightness/jquery-ui.min.css',
+  },
+]
+
 export default function setUpStaticResources(): Router {
   const router = express.Router()
 
@@ -30,8 +45,8 @@ export default function setUpStaticResources(): Router {
     router.use('/assets/images/icons', express.static(path.join(process.cwd(), dir), cacheControl))
   })
 
-  Array.of('/node_modules/jquery/dist/jquery.min.js').forEach(dir => {
-    router.use('/assets/js/jquery.min.js', express.static(path.join(process.cwd(), dir), cacheControl))
+  jsStaticResources.forEach(r => {
+    router.use(r.path, express.static(path.join(process.cwd(), r.location), cacheControl))
   })
 
   // Don't cache dynamic resources
