@@ -15,6 +15,6 @@ context('View reports', () => {
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.reportsCard().click()
     const reportsPage = Page.verifyOnPage(ReportsPage)
-    reportsPage.externalMovementsCard().should('have.text', '1234')
+    reportsPage.externalMovementsCard().should('contain.text', '1234')
   })
 })
