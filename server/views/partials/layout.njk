@@ -1,5 +1,7 @@
 {% extends "govuk/template.njk" %}
 
+{% from "./card-group.njk" import appCardGroup %}
+
 {% block head %}
   <!--[if !IE 8]><!-->
   <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>

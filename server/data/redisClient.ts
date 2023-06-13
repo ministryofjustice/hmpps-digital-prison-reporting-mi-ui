@@ -6,7 +6,6 @@ import config from '../config'
 export type RedisClient = ReturnType<typeof createClient>
 
 export const createRedisClient = (): RedisClient => {
-  console.log(config.redis.tls_enabled)
   const client = createClient({
     password: config.redis.password,
     socket: {

@@ -11,11 +11,13 @@ buildAppInsightsClient()
 import HmppsAuthClient from './hmppsAuthClient'
 import { createRedisClient } from './redisClient'
 import TokenStore from './tokenStore'
+import ReportingClient from './reportingClient'
 
 type RestClientBuilder<T> = (token: string) => T
 
 export const dataAccess = () => ({
   hmppsAuthClient: new HmppsAuthClient(new TokenStore(createRedisClient())),
+  reportingClient: new ReportingClient(),
 })
 
 export type DataAccess = ReturnType<typeof dataAccess>
