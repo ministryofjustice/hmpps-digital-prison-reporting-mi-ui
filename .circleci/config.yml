@@ -186,12 +186,16 @@ workflows:
   security:
     triggers:
       - schedule:
-          cron: "8 4 * * 1-5"
+          cron: "15 5 * * 1-5"
           filters:
             branches:
               only:
                 - main
     jobs:
+      - hmpps/gradle_owasp_dependency_check:
+          slack_channel: << pipeline.parameters.alerts-slack-channel >>
+          context:
+            - hmpps-common-vars
       - hmpps/npm_outdated:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
           context:
