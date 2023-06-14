@@ -34,10 +34,10 @@ export default {
   https: production,
   staticResourceCacheDuration: '1h',
   redis: {
-    host: get('REDIS_HOST', 'localhost', requiredInProduction),
+    host: get('REDIS_HOST', '127.0.0.1', requiredInProduction),
     port: parseInt(process.env.REDIS_PORT, 10) || 6379,
     password: process.env.REDIS_AUTH_TOKEN,
-    tls_enabled: get('REDIS_TLS_ENABLED', 'false'),
+    tls_enabled: get('REDIS_TLS_ENABLED', 'false') === 'true',
   },
   session: {
     secret: get('SESSION_SECRET', 'app-insecure-default-session', requiredInProduction),
@@ -65,6 +65,14 @@ export default {
       },
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
+    },
+    reporting: {
+      url: get('REPORTING_API_URL', 'http://127.0.0.1:3002', requiredInProduction),
+      timeout: {
+        response: Number(get('REPORTING_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('REPORTING_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('REPORTING_API_TIMEOUT_RESPONSE', 10000))),
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),

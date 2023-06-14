@@ -11,6 +11,6 @@ generic-service:
     INGRESS_URL: "https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
-
+    REPORTING_API_URL: "http://hmpps-digital-prison-reporting-mi-dev.hmpps-digital-prison-reporting-mi-dev.svc.cluster.local"
 generic-prometheus-alerts:
   alertSeverity: digital-prison-reporting-dev

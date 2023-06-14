@@ -24,11 +24,21 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
       - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
 
+  api:
+    image: 'quay.io/hmpps/hmpps-digital-prison-reporting-mi:latest'
+    networks:
+      - hmpps
+    container_name: api
+    ports:
+      - '3002:8080'
+
   app:
     build: .
     networks:
       - hmpps
-    depends_on: [redis]
+    depends_on:
+      - redis
+      - api
     ports:
       - "3000:3000"
     environment:

@@ -1,6 +1,6 @@
 import superagent, { SuperAgentRequest, Response } from 'superagent'
 
-const url = 'http://localhost:9091/__admin'
+const url = 'http://127.0.0.1:9091/__admin'
 
 const stubFor = (mapping: Record<string, unknown>): SuperAgentRequest =>
   superagent.post(`${url}/mappings`).send(mapping)
