@@ -11,27 +11,51 @@ services:
     ports:
       - '6379:6379'
 
-  hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth:latest
+#  hmpps-auth:
+#    image: quay.io/hmpps/hmpps-auth:latest
+#    networks:
+#      - hmpps
+#    container_name: hmpps-auth
+#    ports:
+#      - "9090:8080"
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=dev
+#      - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
+
+  postgres:
+    image: postgres
     networks:
       - hmpps
-    container_name: hmpps-auth
-    ports:
-      - "9090:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
+    volumes:
+      - ./init-docker-compose-database.sql:/docker-entrypoint-initdb.d/init-database.sql
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=datamart
+    ports:
+      - 5432:5432
 
   api:
     image: 'quay.io/hmpps/hmpps-digital-prison-reporting-mi:latest'
     networks:
       - hmpps
+    depends_on:
+      - postgres
     container_name: api
+    volumes:
+      - ./postgresql-42.6.0.jar:/lib/postgresql.jar
+    environment:
+      - REDSHIFT_JDBC_URL=jdbc:postgresql://postgres:5432/datamart
+      - REDSHIFT_JDBC_USER=postgres
+      - REDSHIFT_JDBC_PASSWORD=postgres
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
     ports:
       - '3002:8080'
-
+    entrypoint: ["java", "-cp", "/app/app.jar", "-XX:+AlwaysActAsServerClassMachine", "-javaagent:/app/agent.jar", "-Dloader.path=/lib", "org.springframework.boot.loader.PropertiesLauncher"]
   app:
     build: .
     networks:

@@ -130,3 +130,6 @@ integration_tests/screenshots/
 
 # Dependency check plugin
 dependency-check-*
+
+# Postgres driver
+/postgresql-*.jar
