@@ -5,5 +5,7 @@ export default class IndexPage extends Page {
     super('Reports')
   }
 
-  externalMovementsCard = (): PageElement => cy.get('.card__link[href="#"]')
+  externalMovementsCard = (): PageElement => cy.get('.card__link[href="#external-movements"]')
+
+  establishmentsCard = (): PageElement => cy.get('.card__link[href="#establishments"]')
 }
