@@ -9,6 +9,7 @@ let app: Express
 beforeEach(() => {
   const reportingClient: jest.Mocked<ReportingClient> = {
     getExternalMovementsCount: jest.fn().mockResolvedValue(789),
+    getEstablishmentsCount: jest.fn().mockResolvedValue(123),
   }
 
   app = appWithAllRoutes({
@@ -41,6 +42,7 @@ describe('GET /reports', () => {
       .expect(res => {
         expect(res.text).toContain('Reports')
         expect(res.text).toContain('789')
+        expect(res.text).toContain('123')
       })
   })
 })

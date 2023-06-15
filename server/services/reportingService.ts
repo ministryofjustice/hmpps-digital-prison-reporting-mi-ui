@@ -6,4 +6,8 @@ export default class ReportingService {
   async getExternalMovementsCount(): Promise<number> {
     return this.reportingClient.getExternalMovementsCount()
   }
+
+  async getEstablishmentsCount(): Promise<number> {
+    return this.reportingClient.getEstablishmentsCount()
+  }
 }

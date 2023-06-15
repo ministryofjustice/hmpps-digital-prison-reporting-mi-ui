@@ -22,14 +22,22 @@ export default function routes(services: Services): Router {
   })
 
   get('/reports', (req, res) => {
-    services.reportingService.getExternalMovementsCount().then(count => {
+    Promise.all([
+      services.reportingService.getExternalMovementsCount(),
+      services.reportingService.getEstablishmentsCount(),
+    ]).then(counts => {
       res.render('pages/card-page', {
         title: 'Reports',
         cards: [
           {
-            text: count,
-            href: '#',
-            description: 'Total number of external movements',
+            text: counts[0],
+            href: '#external-movements',
+            description: 'Total number of external movements - mocked API call',
+          },
+          {
+            text: counts[1],
+            href: '#establishments',
+            description: 'Total number of establishments - retrieved from RedShift',
           },
         ],
       })

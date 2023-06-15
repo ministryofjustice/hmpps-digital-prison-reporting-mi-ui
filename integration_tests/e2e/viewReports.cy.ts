@@ -8,13 +8,15 @@ context('View reports', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('stubExternalMovementsCount')
+    cy.task('stubEstablishmentsCount')
   })
 
-  it('External movement count displays', () => {
+  it('Report counts display', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.reportsCard().click()
     const reportsPage = Page.verifyOnPage(ReportsPage)
     reportsPage.externalMovementsCard().should('contain.text', '1234')
+    reportsPage.establishmentsCard().should('contain.text', '5678')
   })
 })

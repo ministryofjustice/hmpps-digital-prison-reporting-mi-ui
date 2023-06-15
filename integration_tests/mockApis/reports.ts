@@ -1,6 +1,6 @@
 import { stubFor } from './wiremock'
 
-const externalMovementsCount = () =>
+const stubExternalMovementsCount = () =>
   stubFor({
     request: {
       method: 'GET',
@@ -15,6 +15,22 @@ const externalMovementsCount = () =>
     },
   })
 
+const stubEstablishmentsCount = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/reports/establishments/count',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: '{"count": 5678}',
+    },
+  })
+
 export default {
-  stubExternalMovementsCount: externalMovementsCount,
+  stubExternalMovementsCount,
+  stubEstablishmentsCount,
 }

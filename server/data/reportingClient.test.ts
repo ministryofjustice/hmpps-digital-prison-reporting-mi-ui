@@ -26,4 +26,15 @@ describe('reportingClient', () => {
       expect(output).toEqual(response.count)
     })
   })
+
+  describe('getEstablishmentsCount', () => {
+    it('should return data from api', async () => {
+      const response = { count: 456 }
+
+      fakeReportingApi.get('/establishments/count').reply(200, response)
+
+      const output = await reportingClient.getEstablishmentsCount()
+      expect(output).toEqual(response.count)
+    })
+  })
 })
