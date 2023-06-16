@@ -7,22 +7,22 @@ export interface Count {
 }
 
 export default class ReportingClient {
-  private static restClient(): RestClient {
-    return new RestClient('Reporting API Client', config.apis.reporting, null)
+  private static restClient(token: string): RestClient {
+    return new RestClient('Reporting API Client', config.apis.reporting, token)
   }
 
-  getExternalMovementsCount(): Promise<number> {
+  getExternalMovementsCount(token: string): Promise<number> {
     logger.info('Reporting client: Get external movements')
 
-    return ReportingClient.restClient()
+    return ReportingClient.restClient(token)
       .get({ path: '/external-movements/count' })
       .then(response => (<Count>response).count)
   }
 
-  getEstablishmentsCount(): Promise<number> {
+  getEstablishmentsCount(token: string): Promise<number> {
     logger.info('Reporting client: Get external movements')
 
-    return ReportingClient.restClient()
+    return ReportingClient.restClient(token)
       .get({ path: '/establishments/count' })
       .then(response => (<Count>response).count)
   }
