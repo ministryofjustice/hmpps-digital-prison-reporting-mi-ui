@@ -23,8 +23,8 @@ export default function routes(services: Services): Router {
 
   get('/reports', (req, res) => {
     Promise.all([
-      services.reportingService.getExternalMovementsCount(),
-      services.reportingService.getEstablishmentsCount(),
+      services.reportingService.getExternalMovementsCount(res.locals.user.token),
+      services.reportingService.getEstablishmentsCount(res.locals.user.token),
     ]).then(counts => {
       res.render('pages/card-page', {
         title: 'Reports',

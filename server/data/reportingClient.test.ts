@@ -22,7 +22,7 @@ describe('reportingClient', () => {
 
       fakeReportingApi.get('/external-movements/count').reply(200, response)
 
-      const output = await reportingClient.getExternalMovementsCount()
+      const output = await reportingClient.getExternalMovementsCount(null)
       expect(output).toEqual(response.count)
     })
   })
@@ -33,7 +33,7 @@ describe('reportingClient', () => {
 
       fakeReportingApi.get('/establishments/count').reply(200, response)
 
-      const output = await reportingClient.getEstablishmentsCount()
+      const output = await reportingClient.getEstablishmentsCount(null)
       expect(output).toEqual(response.count)
     })
   })
