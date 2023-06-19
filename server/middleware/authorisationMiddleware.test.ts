@@ -17,8 +17,13 @@ function createToken(authorities: string[]) {
 }
 
 describe('authorisationMiddleware', () => {
-  let req: Request
   const next = jest.fn()
+
+  function createReqWithOriginalURl(originalUrl: string): Request {
+    return {
+      originalUrl,
+    } as unknown as Request
+  }
 
   function createResWithToken({ authorities }: { authorities: string[] }): Response {
     return {
@@ -36,6 +41,7 @@ describe('authorisationMiddleware', () => {
   })
 
   it('should return next when no required roles', async () => {
+    const req = createReqWithOriginalURl('/reports')
     const res = createResWithToken({ authorities: [] })
 
     await authorisationMiddleware()(req, res, next)
@@ -45,6 +51,7 @@ describe('authorisationMiddleware', () => {
   })
 
   it('should redirect when user has no authorised roles', async () => {
+    const req = createReqWithOriginalURl('/reports')
     const res = createResWithToken({ authorities: [] })
 
     await authorisationMiddleware(['SOME_REQUIRED_ROLE'])(req, res, next)
@@ -54,7 +61,18 @@ describe('authorisationMiddleware', () => {
   })
 
   it('should return next when user has authorised role', async () => {
+    const req = createReqWithOriginalURl('/reports')
     const res = createResWithToken({ authorities: ['SOME_REQUIRED_ROLE'] })
+
+    await authorisationMiddleware(['SOME_REQUIRED_ROLE'])(req, res, next)
+
+    expect(next).toHaveBeenCalled()
+    expect(res.redirect).not.toHaveBeenCalled()
+  })
+
+  it('should return next when user has no authorised roles on home page', async () => {
+    const req = createReqWithOriginalURl('/')
+    const res = createResWithToken({ authorities: [] })
 
     await authorisationMiddleware(['SOME_REQUIRED_ROLE'])(req, res, next)
 

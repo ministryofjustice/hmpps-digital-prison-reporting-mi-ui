@@ -21,27 +21,29 @@ export default function routes(services: Services): Router {
     })
   })
 
-  get('/reports', (req, res) => {
+  get('/reports', (req, res, next) => {
     Promise.all([
       services.reportingService.getExternalMovementsCount(res.locals.user.token),
       services.reportingService.getEstablishmentsCount(res.locals.user.token),
-    ]).then(counts => {
-      res.render('pages/card-page', {
-        title: 'Reports',
-        cards: [
-          {
-            text: counts[0],
-            href: '#external-movements',
-            description: 'Total number of external movements - mocked API call',
-          },
-          {
-            text: counts[1],
-            href: '#establishments',
-            description: 'Total number of establishments - retrieved from RedShift',
-          },
-        ],
+    ])
+      .then(counts => {
+        res.render('pages/card-page', {
+          title: 'Reports',
+          cards: [
+            {
+              text: counts[0],
+              href: '#external-movements',
+              description: 'Total number of external movements - mocked API call',
+            },
+            {
+              text: counts[1],
+              href: '#establishments',
+              description: 'Total number of establishments - retrieved from RedShift',
+            },
+          ],
+        })
       })
-    })
+      .catch(err => next(err))
   })
 
   return router
