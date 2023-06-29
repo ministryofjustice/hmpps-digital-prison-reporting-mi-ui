@@ -15,6 +15,21 @@ const stubExternalMovementsCount = () =>
     },
   })
 
+const stubExternalMovements = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/reports/external-movements',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: '[]',
+    },
+  })
+
 const stubEstablishmentsCount = () =>
   stubFor({
     request: {
@@ -32,5 +47,6 @@ const stubEstablishmentsCount = () =>
 
 export default {
   stubExternalMovementsCount,
+  stubExternalMovements,
   stubEstablishmentsCount,
 }
