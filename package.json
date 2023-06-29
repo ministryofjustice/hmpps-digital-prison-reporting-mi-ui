@@ -168,6 +168,7 @@
     "nodemon": "^2.0.22",
     "prettier": "^2.8.7",
     "prettier-plugin-jinja-template": "^0.2.0",
+    "rsyncwrapper": "^3.0.1",
     "sass": "^1.62.0",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.0",
