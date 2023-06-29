@@ -7,9 +7,6 @@ context('View reports', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
-    cy.task('stubExternalMovements')
-    cy.task('stubExternalMovementsCount')
-    cy.task('stubEstablishmentsCount')
   })
 
   it('Report page displays', () => {
@@ -18,6 +15,4 @@ context('View reports', () => {
     indexPage.reportsCard().click()
     Page.verifyOnPage(ReportsPage)
   })
-
-  // TODO: Add test coverage for external movements page.
 })
