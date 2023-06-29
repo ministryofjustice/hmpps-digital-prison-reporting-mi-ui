@@ -12,13 +12,12 @@ context('View reports', () => {
     cy.task('stubEstablishmentsCount')
   })
 
-  it('Report counts display', () => {
+  it('Report page displays', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.reportsCard().click()
     Page.verifyOnPage(ReportsPage)
-    // const reportsPage = Page.verifyOnPage(ReportsPage)
-    // reportsPage.externalMovementsCard().should('contain.text', '1234')
-    // reportsPage.establishmentsCard().should('contain.text', '5678')
   })
+
+  // TODO: Add test coverage for external movements page.
 })
