@@ -43,7 +43,10 @@
     },
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "server/**/*.{ts,js,jsx,mjs}"
+      "server/**/*.{ts,js,jsx,mjs}",
+      "!server/(authentication|middleware|monitoring)/**/*.{ts,js,jsx,mjs}",
+      "!server/app.ts",
+      "!server/data/(rest|redis)Client.ts"
     ],
     "testMatch": [
       "<rootDir>/(server|job)/**/?(*.)(cy|test).{ts,js,jsx,mjs}"

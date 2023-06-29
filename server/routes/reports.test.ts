@@ -8,7 +8,18 @@ let app: Express
 
 beforeEach(() => {
   const reportingClient: jest.Mocked<ReportingClient> = {
-    getList: jest.fn().mockResolvedValue({}),
+    getList: jest.fn().mockResolvedValue([
+      {
+        prisonNumber: 'N9980PJ',
+        date: '2023-01-31',
+        time: '03:01',
+        from: 'Cardiff',
+        to: 'Kirkham',
+        direction: 'In',
+        type: 'Admission',
+        reason: 'Unconvicted Remand',
+      },
+    ]),
     getCount: jest.fn().mockResolvedValue(789),
   }
 
@@ -38,10 +49,12 @@ describe('GET /reports', () => {
 describe('GET /reports/external-movements', () => {
   it('should render External Movements report', () => {
     return request(app)
-      .get('/reports')
+      .get('/reports/external-movements')
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain('External movements')
+        expect(res.text).toContain('N9980PJ')
+        expect(res.text).toContain('31/01/2023')
       })
   })
 })
