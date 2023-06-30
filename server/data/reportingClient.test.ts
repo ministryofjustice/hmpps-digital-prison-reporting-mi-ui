@@ -2,6 +2,7 @@ import nock from 'nock'
 
 import config from '../config'
 import ReportingClient from './reportingClient'
+import type { ListRequest } from '../types/reports'
 
 describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
@@ -16,25 +17,39 @@ describe('reportingClient', () => {
     nock.cleanAll()
   })
 
-  describe('getExternalMovementsCount', () => {
+  describe('getCount', () => {
     it('should return data from api', async () => {
       const response = { count: 123 }
+      const resourceName = 'external-movements'
 
-      fakeReportingApi.get('/external-movements/count').reply(200, response)
+      fakeReportingApi.get(`/${resourceName}/count`).reply(200, response)
 
-      const output = await reportingClient.getExternalMovementsCount(null)
+      const output = await reportingClient.getCount(resourceName, null)
       expect(output).toEqual(response.count)
     })
   })
 
-  describe('getEstablishmentsCount', () => {
+  describe('getList', () => {
     it('should return data from api', async () => {
-      const response = { count: 456 }
+      const response = [{ test: 'true' }]
+      const listRequest: ListRequest = {
+        selectedPage: 1,
+        pageSize: 2,
+        sortColumn: 'three',
+        sortedAsc: true,
+      }
+      const expectedQuery: Record<string, string> = {
+        selectedPage: '1',
+        pageSize: '2',
+        sortColumn: 'three',
+        sortedAsc: 'true',
+      }
+      const resourceName = 'external-movements'
 
-      fakeReportingApi.get('/establishments/count').reply(200, response)
+      fakeReportingApi.get(`/${resourceName}`).query(expectedQuery).reply(200, response)
 
-      const output = await reportingClient.getEstablishmentsCount(null)
-      expect(output).toEqual(response.count)
+      const output = await reportingClient.getList(resourceName, null, listRequest)
+      expect(output).toEqual(response)
     })
   })
 })

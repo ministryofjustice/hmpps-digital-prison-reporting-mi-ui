@@ -1,0 +1,25 @@
+{% extends "../partials/layout.njk" %}
+
+{% from "../../components/data-table/view.njk" import appDataTable %}
+
+{% set pageTitle = applicationName + " - " + title %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+
+  <h1>{{ title }}</h1>
+
+  <div class="govuk-width-container ">
+    {{ appDataTable(
+      dataTableOptions.head,
+      dataTableOptions.rows,
+      dataTableOptions.count,
+      dataTableOptions.listRequest.selectedPage,
+      dataTableOptions.listRequest.pageSize,
+      dataTableOptions.listRequest.sortColumn,
+      dataTableOptions.listRequest.sortedAsc,
+      dataTableOptions.createUrlForParameters
+    ) }}
+  </div>
+
+{% endblock %}

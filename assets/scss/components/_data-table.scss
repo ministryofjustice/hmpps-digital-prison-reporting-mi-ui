@@ -1,0 +1,57 @@
+.data-table-page-size {
+  text-align: right;
+}
+
+// Cannibalised from MoJ sortable table
+
+.data-table-header-button {
+  background-color: transparent;
+  border-width: 0;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  -webkit-box-shadow: 0 0 0 0;
+  -moz-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
+  color: #005ea5;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: inherit;
+  margin: 0;
+  padding: 0 10px 0 0;
+  position: relative;
+  text-align: inherit;
+  text-decoration: none;
+}
+
+.data-table-header-button-sort-none:before {
+  content: " \25bc";
+  position: absolute;
+  right: -1px;
+  top: 9px;
+  font-size: 0.5em;
+}
+
+.data-table-header-button-sort-none:after {
+  content: " \25b2";
+  position: absolute;
+  right: -1px;
+  top: 1px;
+  font-size: 0.5em;
+}
+
+.data-table-header-button-sort-ascending:after {
+  content: " \25b2";
+  font-size: .8em;
+  position: absolute;
+  right: -5px;
+  top: 2px;
+}
+
+.data-table-header-button-sort-descending:after {
+  content: " \25bc";
+  font-size: .8em;
+  position: absolute;
+  right: -5px;
+  top: 2px;
+}
