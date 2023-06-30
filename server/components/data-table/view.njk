@@ -60,7 +60,7 @@
           name: "sort",
           value: pageSize,
           attributes: {
-            onchange: "window.location.href = ('" + createUrlForParameters({ selectedPage: 1, pageSize: "thisValue" }) + "'.replace(/thisValue/, this.value))"
+            "data-navigate-to": createUrlForParameters({ selectedPage: 1, pageSize: "thisValue" })
           },
           items: [
             {
