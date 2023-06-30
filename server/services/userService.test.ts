@@ -11,7 +11,7 @@ describe('User service', () => {
 
   describe('getUser', () => {
     beforeEach(() => {
-      hmppsAuthClient = new HmppsAuthClient(null) as jest.Mocked<HmppsAuthClient>
+      hmppsAuthClient = new HmppsAuthClient() as jest.Mocked<HmppsAuthClient>
       userService = new UserService(hmppsAuthClient)
     })
     it('Retrieves and formats user name', async () => {
