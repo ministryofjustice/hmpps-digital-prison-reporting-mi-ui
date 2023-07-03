@@ -42,7 +42,7 @@
     </div>
 </div>
   <div>
-    <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-column-two-thirds">
     {{ govukPagination({
       previous: {
         href: createUrlForParameters({ selectedPage: selectedPage - 1 })
@@ -53,7 +53,7 @@
       items: pages
     }) }}
     </div>
-    <div class="govuk-grid-column-one-half data-table-page-size">
+    <div class="govuk-grid-column-one-third data-table-page-size">
       <div class="govuk-input__wrapper">
         {{ govukSelect({
           id: "pageSize",
