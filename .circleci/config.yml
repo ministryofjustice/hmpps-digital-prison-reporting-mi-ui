@@ -211,7 +211,6 @@ workflows:
           context:
             - hmpps-common-vars
       - owasp/commandline_owasp_dependency_check:
-          executor: java_11
           context: global
           persist_to_workspace: true
       - hmpps/trivy_latest_scan:
