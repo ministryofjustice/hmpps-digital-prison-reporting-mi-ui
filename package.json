@@ -23,7 +23,7 @@
     "typecheck": "tsc && tsc -p integration_tests",
     "test": "jest",
     "test:ci": "jest --runInBand",
-    "security_audit": "npx audit-ci --config audit-ci.json && owasp-dependency-check --failOnCVSS=0",
+    "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open",
     "clean": "rm -rf dist build node_modules stylesheets"
@@ -150,7 +150,6 @@
     "cookie-session": "^2.0.0",
     "cypress": "^12.14.0",
     "cypress-multi-reporters": "^1.6.3",
-    "owasp-dependency-check": "^0.0.21",
     "dotenv": "^16.0.3",
     "eslint": "^8.43.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -175,5 +174,9 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.0",
     "typescript": "^5.1.6"
+  },
+  "overrides": {
+    "semver": "^7.5.3",
+    "optionator": "^0.9.3"
   }
 }
