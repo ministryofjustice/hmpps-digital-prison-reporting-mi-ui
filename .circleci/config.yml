@@ -133,7 +133,6 @@ workflows:
             - hmpps-common-vars
       - owasp/commandline_owasp_dependency_check:
           context: global
-          persist_to_workspace: true
       - hmpps/build_docker:
           name: build_docker
           filters:
@@ -211,7 +210,6 @@ workflows:
             - hmpps-common-vars
       - owasp/commandline_owasp_dependency_check:
           context: global
-          persist_to_workspace: true
       - hmpps/trivy_latest_scan:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
           context:
