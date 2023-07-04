@@ -175,5 +175,9 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.0",
     "typescript": "^5.1.6"
+  },
+  "overrides": {
+    "semver": "^7.5.3",
+    "optionator": "^0.9.3"
   }
 }
