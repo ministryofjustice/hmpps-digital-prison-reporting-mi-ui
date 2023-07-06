@@ -1,4 +1,6 @@
 import Dict = NodeJS.Dict
+import type { FilterDefinition } from '../../components/filters/types'
+import { FieldFormat } from './enum'
 
 export interface ReportConfig {
   title: string
@@ -14,22 +16,8 @@ export interface ListRequest {
   sortedAsc: boolean
 }
 
-export interface Header {
-  html: string
-  format?: string
-}
-
-export interface Cell {
-  text: string
-  format?: string
-}
-
-export interface DataTableOptions {
-  listRequest: ListRequest
-  head: Array<Header>
-  rows: Array<Array<Cell>>
-  count: number
-  createUrlForParameters(updateQueryParams: Dict<string>): string
+export interface FilteredListRequest extends ListRequest {
+  filters: Dict<string>
 }
 
 export interface FieldDefinition {
@@ -38,14 +26,4 @@ export interface FieldDefinition {
   data?(row: Dict<string>): string
   format?: FieldFormat
   filter?: FilterDefinition
-}
-
-export interface FilterDefinition {
-  type: FilterType
-  options?: Array<FilterOption>
-}
-
-export interface FilterOption {
-  value: string
-  text: string
 }

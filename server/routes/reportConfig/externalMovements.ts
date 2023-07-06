@@ -1,5 +1,7 @@
-import type { FieldDefinition, FilterOption, ReportConfig } from '../../types/reports'
-import { FieldFormat, FilterType } from '../../types/reports/enum'
+import type { FieldDefinition, ReportConfig } from '../../types/reports'
+import type { FilterOption } from '../../components/filters/types'
+import { FieldFormat } from '../../types/reports/enum'
+import { FilterType } from '../../components/filters/enum'
 
 const directionOptions: Array<FilterOption> = [
   {
@@ -12,17 +14,6 @@ const directionOptions: Array<FilterOption> = [
   },
 ]
 
-const typeOptions: Array<FilterOption> = [
-  {
-    value: 'transfer',
-    text: 'Transfer',
-  },
-  {
-    value: 'admission',
-    text: 'Admission',
-  },
-]
-
 const dataFormat: Array<FieldDefinition> = [
   { header: 'Prison Number', name: 'prisonNumber' },
   { header: 'Date', name: 'date', format: FieldFormat.date, filter: { type: FilterType.dateRange } },
@@ -30,7 +21,7 @@ const dataFormat: Array<FieldDefinition> = [
   { header: 'From', name: 'from' },
   { header: 'To', name: 'to' },
   { header: 'Direction', name: 'direction', filter: { type: FilterType.radio, options: directionOptions } },
-  { header: 'Type', name: 'type', filter: { type: FilterType.radio, options: typeOptions } },
+  { header: 'Type', name: 'type' },
   { header: 'Reason', name: 'reason' },
 ]
 

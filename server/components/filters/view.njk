@@ -1,0 +1,61 @@
+{#
+  filters: [{
+    text,           // The text to show next to the filter
+    id,             // The unique ID of the filter
+    type,           // The type of the filter (e.g. select)
+    options,        // The options to display if this filter is a select or a radio
+    value,          // The selected value of the filter.
+  }],
+  urlWithNoFilters // The page URL without any filters applied.
+#}
+
+{% from "govuk/components/select/macro.njk"       import govukSelect %}
+{% from "govuk/components/radios/macro.njk"       import govukRadios %}
+{% from "moj/components/filter/macro.njk"         import mojFilter -%}
+
+{% macro appFilters(filters, urlWithNoFilters) %}
+  {%- set filterOptionsHtml %}
+    {%- for filter in filters %}
+      {%- if filter.type === 'select' %}
+        {{ govukSelect({
+          id: 'filters.' + filter.name,
+          name: 'filters.' + filter.name,
+          value: filter.value,
+          items: filter.options,
+          label: {
+            text: filter.text
+          }
+        }) }}
+      {% elif filter.type === 'radio' %}
+        {{ govukRadios({
+          id: 'filters.' + filter.name,
+          name: 'filters.' + filter.name,
+          fieldset: {
+            legend: {
+              text: filter.text,
+              classes: "govuk-label govuk-!-font-weight-bold"
+            }
+          },
+          items: filter.options,
+          value: filter.value
+        }) }}
+      {% endif %}
+    {%- endfor %}
+  {%- endset %}
+
+  {{ mojFilter({
+    heading: {
+      text: 'Filter'
+    },
+
+    submit: {
+      attributes: {
+        'data-apply-form-to-querystring': 'true',
+        'data-apply-form-selector': '.moj-filter-layout__filter input',
+        'data-apply-base-url': urlWithNoFilters
+      }
+    },
+
+    optionsHtml: filterOptionsHtml
+  }) }}
+{% endmacro %}

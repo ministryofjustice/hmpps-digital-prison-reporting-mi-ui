@@ -18,7 +18,7 @@ describe('Reporting service', () => {
       const expectedCount = 456
       reportingClient.getCount.mockResolvedValue(expectedCount)
 
-      const result = await reportingService.getCount(null, null)
+      const result = await reportingService.getCount(null, null, {})
 
       expect(result).toEqual(expectedCount)
     })

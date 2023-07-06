@@ -2,8 +2,8 @@ import nunjucks from 'nunjucks'
 import path from 'path'
 import filters from './utils'
 import Dict = NodeJS.Dict
-import type { DataTableOptions } from '../../types/reports'
-import { ReportQuery } from '../../types/reports/class'
+import type { ListRequest } from '../../types/reports'
+import type { DataTableOptions } from './types'
 
 const testView =
   '{% from "view.njk" import appDataTable %}' +
@@ -27,7 +27,7 @@ Object.keys(filters).forEach(filterName => {
   env.addFilter(filterName, filters[filterName])
 })
 
-const defaultListRequest: ReportQuery = {
+const defaultListRequest: ListRequest = {
   selectedPage: 1,
   pageSize: 2,
   sortColumn: 'header1',
