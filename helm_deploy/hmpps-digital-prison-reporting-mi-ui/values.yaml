@@ -55,6 +55,7 @@ generic-service:
     cloudplatform-live-2: "3.8.51.207/32"
     cloudplatform-live-3: "35.177.252.54/32"
     health-check: "3.11.70.209/32"
+    it-health-check: "54.37.241.156/32"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-digital-prison-reporting-mi-ui
