@@ -17,7 +17,7 @@ generic-service:
     modsecurity_audit_enabled: false
     modsecurity_snippet: |
       SecRuleEngine On
-      SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD OPTIONS"
+      SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET OPTIONS"
     annotations:
       nginx.ingress.kubernetes.io/proxy-read-timeout: "360"
       nginx.ingress.kubernetes.io/proxy-body-size: 100m
