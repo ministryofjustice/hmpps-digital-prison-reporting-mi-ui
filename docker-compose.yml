@@ -19,7 +19,7 @@ services:
     ports:
       - "9090:8080"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/auth/health" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
     environment:
       - SPRING_PROFILES_ACTIVE=dev
       - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
@@ -55,7 +55,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
     ports:
       - '3002:8080'
-    entrypoint: [ "java", "-cp", "/app/app.jar", "-XX:+AlwaysActAsServerClassMachine", "-javaagent:/app/agent.jar", "-Dloader.path=/lib", "org.springframework.boot.loader.PropertiesLauncher" ]
+    entrypoint: ["java", "-cp", "/app/app.jar", "-XX:+AlwaysActAsServerClassMachine", "-javaagent:/app/agent.jar", "-Dloader.path=/lib", "org.springframework.boot.loader.PropertiesLauncher"]
   app:
     build: .
     networks:
