@@ -2,7 +2,7 @@ import nock from 'nock'
 
 import config from '../config'
 import ReportingClient from './reportingClient'
-import type { ListRequest } from '../types/reports'
+import type { FilteredListRequest } from '../types/reports'
 
 describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
@@ -24,7 +24,7 @@ describe('reportingClient', () => {
 
       fakeReportingApi.get(`/${resourceName}/count`).reply(200, response)
 
-      const output = await reportingClient.getCount(resourceName, null)
+      const output = await reportingClient.getCount(resourceName, null, {})
       expect(output).toEqual(response.count)
     })
   })
@@ -32,11 +32,12 @@ describe('reportingClient', () => {
   describe('getList', () => {
     it('should return data from api', async () => {
       const response = [{ test: 'true' }]
-      const listRequest: ListRequest = {
+      const listRequest: FilteredListRequest = {
         selectedPage: 1,
         pageSize: 2,
         sortColumn: 'three',
         sortedAsc: true,
+        filters: {},
       }
       const expectedQuery: Record<string, string> = {
         selectedPage: '1',

@@ -1,5 +1,6 @@
 import Dict = NodeJS.Dict
-import type { Cell, FieldDefinition, Header, ListRequest } from '../../types/reports'
+import type { Cell, Header } from './types'
+import type { FieldDefinition, ListRequest } from '../../types/reports'
 import { FieldFormat } from '../../types/reports/enum'
 
 const LOCALE = 'en-GB'
@@ -59,15 +60,15 @@ export default {
           text = d[f.name]
         }
 
-        let fieldFormat: string = FieldFormat.string.toString()
+        let fieldFormat: FieldFormat = f.format ?? FieldFormat.string
 
-        if (f.format && f.format !== FieldFormat.string) {
-          fieldFormat = FieldFormat.numeric.toString()
+        if (fieldFormat === FieldFormat.date) {
+          fieldFormat = FieldFormat.numeric
         }
 
         const cell: Cell = {
           text,
-          format: fieldFormat,
+          format: fieldFormat.toString(),
         }
 
         return cell
