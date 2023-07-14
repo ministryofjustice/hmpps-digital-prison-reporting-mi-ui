@@ -39,3 +39,18 @@ export const toRecord = (listRequest: FilteredListRequest) => {
   }
   return record
 }
+
+export const toRecordWithFilterPrefix = (listRequest: FilteredListRequest, filtersPrefix: string) => {
+  const record: Record<string, string> = {
+    selectedPage: listRequest.selectedPage.toString(),
+    pageSize: listRequest.pageSize.toString(),
+    sortColumn: listRequest.sortColumn,
+    sortedAsc: listRequest.sortedAsc.toString(),
+  }
+
+  Object.keys(listRequest.filters).forEach(filterName => {
+    record[`${filtersPrefix}${filterName}`] = listRequest.filters[filterName]
+  })
+
+  return record
+}

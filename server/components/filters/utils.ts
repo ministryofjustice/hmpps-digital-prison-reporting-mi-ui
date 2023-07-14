@@ -30,6 +30,7 @@ export default {
     format: Array<FieldDefinition>,
     filterValues: Dict<string>,
     createUrlForParameters: (updateQueryParams: Dict<string>) => string,
+    filtersPrefix: string,
   ) =>
     format
       .filter(f => f.filter)
@@ -46,7 +47,7 @@ export default {
 
         return {
           text: `${f.header}: ${filterValueText}`,
-          href: createUrlForParameters({ [f.name]: '' }),
+          href: createUrlForParameters({ [`${filtersPrefix}${f.name}`]: '' }),
           classes: 'filter-summary-remove-button govuk-button--secondary',
         }
       }),

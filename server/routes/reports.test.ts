@@ -57,4 +57,37 @@ describe('GET /reports/external-movements', () => {
         expect(res.text).toContain('31/01/2023')
       })
   })
+
+  it('should render correct paging URL when filtered', () => {
+    return request(app)
+      .get('/reports/external-movements?filters.direction=in')
+      .expect('Content-Type', /html/)
+      .expect(res => {
+        expect(res.text).toContain(
+          '?selectedPage=2&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;filters.direction=in',
+        )
+      })
+  })
+
+  it('should render correct sorting URL when filtered', () => {
+    return request(app)
+      .get('/reports/external-movements?filters.direction=in')
+      .expect('Content-Type', /html/)
+      .expect(res => {
+        expect(res.text).toContain(
+          '?selectedPage=1&pageSize=20&sortColumn=prisonNumber&sortedAsc=false&filters.direction=in',
+        )
+      })
+  })
+
+  it('should render correct remove filter URL when filtered', () => {
+    return request(app)
+      .get('/reports/external-movements?filters.direction=in&filters.type=jaunt')
+      .expect('Content-Type', /html/)
+      .expect(res => {
+        expect(res.text).toContain(
+          '?selectedPage=1&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;filters.type=jaunt"',
+        )
+      })
+  })
 })

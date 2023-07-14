@@ -6,8 +6,8 @@ import urlHelper from '../utils/urlHelper'
 import DataTableUtils from '../components/data-table/utils'
 import { ReportQuery } from '../types/reports/class'
 import FilterUtils from '../components/filters/utils'
-import { DataTableOptions } from '../components/data-table/types'
-import { FilterOptions } from '../components/filters/types'
+import type { DataTableOptions } from '../components/data-table/types'
+import type { FilterOptions } from '../components/filters/types'
 
 const filtersQueryParamPrefix = 'filters.'
 
@@ -23,7 +23,7 @@ export default function routes(router: Router, services: Services) {
       services.reportingService.getCount(reportConfig.resourceName, res.locals.user.token, reportQuery.filters),
     ])
       .then(data => {
-        const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery)
+        const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery, filtersQueryParamPrefix)
 
         const dataTableOptions: DataTableOptions = {
           listRequest: reportQuery,
@@ -39,6 +39,7 @@ export default function routes(router: Router, services: Services) {
             reportConfig.format,
             reportQuery.filters,
             createUrlForParameters,
+            filtersQueryParamPrefix,
           ),
         }
 
