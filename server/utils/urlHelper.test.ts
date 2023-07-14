@@ -19,7 +19,7 @@ describe('Create URL', () => {
 
     const url = UrlHelper.createUrlForParameters(currentQueryParams, updateQueryParams, filtersPrefix)
 
-    expect(url).toEqual('?selectedPage=10&pageSize=20&sortColumn=30&sortedAsc=false')
+    expect(url).toEqual('?selectedPage=1&pageSize=20&sortColumn=30&sortedAsc=false')
   })
 
   it('Clear single filter', () => {

@@ -47,7 +47,10 @@ export default {
 
         return {
           text: `${f.header}: ${filterValueText}`,
-          href: createUrlForParameters({ [`${filtersPrefix}${f.name}`]: '' }),
+          href: createUrlForParameters({
+            [`${filtersPrefix}${f.name}`]: '',
+            selectedPage: '1',
+          }),
           classes: 'filter-summary-remove-button govuk-button--secondary',
         }
       }),
