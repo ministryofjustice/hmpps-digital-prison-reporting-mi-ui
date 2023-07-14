@@ -25,6 +25,7 @@ const createUrlForParameters = (
     queryParams = toRecord({
       ...currentQueryParams,
       filters: null,
+      selectedPage: 1,
     })
   }
 
