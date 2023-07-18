@@ -30,6 +30,10 @@ const externalMovements: ReportConfig = {
   resourceName: 'external-movements',
   format: dataFormat,
   defaultSortColumn: 'prisonNumber',
+  apiFieldNameOverrides: {
+    'date.start': 'startDate',
+    'date.end': 'endDate',
+  },
 }
 
 export default externalMovements

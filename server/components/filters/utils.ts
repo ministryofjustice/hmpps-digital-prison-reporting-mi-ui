@@ -3,6 +3,10 @@ import Dict = NodeJS.Dict
 import { FilterType } from './enum'
 import { FilterValue } from './types'
 
+const LOCALE = 'en-GB'
+
+const toLocaleDate = (isoDate?: string) => (isoDate ? new Date(isoDate).toLocaleDateString(LOCALE) : null)
+
 export default {
   getFilters: (format: Array<FieldDefinition>, filterValues: Dict<string>) =>
     format
@@ -34,13 +38,24 @@ export default {
   ) =>
     format
       .filter(f => f.filter)
-      .filter(f => filterValues[f.name])
+      .filter(f =>
+        f.filter.type === FilterType.dateRange
+          ? filterValues[`${f.name}.start`] || filterValues[`${f.name}.end`]
+          : filterValues[f.name],
+      )
       .map(f => {
         let filterValueText = filterValues[f.name]
         if (f.filter.type === FilterType.dateRange) {
-          const start = filterValues[`${f.name}.start`]
-          const end = filterValues[`${f.name}.end`]
-          filterValueText = `${start} - ${end}`
+          const start = toLocaleDate(filterValues[`${f.name}.start`])
+          const end = toLocaleDate(filterValues[`${f.name}.end`])
+
+          if (start && end) {
+            filterValueText = `${start} - ${end}`
+          } else if (start) {
+            filterValueText = `From ${start}`
+          } else {
+            filterValueText = `Until ${end}`
+          }
         } else if (f.filter.options) {
           filterValueText = f.filter.options.find(o => o.value === filterValues[f.name]).text
         }
