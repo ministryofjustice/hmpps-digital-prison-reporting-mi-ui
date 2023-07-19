@@ -4,22 +4,24 @@ import Dict = NodeJS.Dict
 import { FilterType } from './enum'
 import { DateRange } from './types'
 
+const options = [
+  {
+    value: '1',
+    text: 'One',
+  },
+  {
+    value: '2',
+    text: 'Two',
+  },
+]
+
 const selectFieldFormat: Array<FieldDefinition> = [
   {
     header: 'Select Field',
     name: 'selectField',
     filter: {
       type: FilterType.select,
-      options: [
-        {
-          value: '1',
-          text: 'One',
-        },
-        {
-          value: '2',
-          text: 'Two',
-        },
-      ],
+      options,
     },
   },
 ]
@@ -30,16 +32,7 @@ const radioFieldFormat: Array<FieldDefinition> = [
     name: 'radioField',
     filter: {
       type: FilterType.select,
-      options: [
-        {
-          value: '1',
-          text: 'One',
-        },
-        {
-          value: '2',
-          text: 'Two',
-        },
-      ],
+      options,
     },
   },
 ]
