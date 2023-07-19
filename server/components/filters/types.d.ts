@@ -14,7 +14,6 @@ export interface FilterValue {
   name: string
   type: FilterType
   value?: string | DateRange
-  valueText?: string
   options?: Array<FilterOption>
 }
 

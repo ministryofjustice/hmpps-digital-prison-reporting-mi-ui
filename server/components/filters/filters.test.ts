@@ -1,8 +1,9 @@
 import { parse } from 'node-html-parser'
 import nunjucks from 'nunjucks'
 import path from 'path'
+import { FilterType } from './enum'
 
-nunjucks.configure(
+const env = nunjucks.configure(
   [
     path.join(__dirname, '../../../node_modules/govuk-frontend'),
     path.join(__dirname, '../../../node_modules/@ministryofjustice/frontend'),
@@ -11,12 +12,14 @@ nunjucks.configure(
   { autoescape: true },
 )
 
+env.addGlobal('getTodayIsoDate', () => '2007-08-09')
+
 const defaultOptions = {
   filters: [
     {
       text: 'Direction',
       name: 'direction',
-      type: 'radio',
+      type: FilterType.radio,
       options: [
         { value: 'in', text: 'In' },
         { value: 'out', text: 'Out' },
@@ -26,12 +29,21 @@ const defaultOptions = {
     {
       text: 'Type',
       name: 'type',
-      type: 'select',
+      type: FilterType.select,
       options: [
         { value: 'a', text: 'A' },
         { value: 'b', text: 'B' },
       ],
       value: 'b',
+    },
+    {
+      text: 'Date',
+      name: 'date',
+      type: FilterType.dateRange,
+      value: {
+        start: '2001-02-03',
+        end: '2004-05-06',
+      },
     },
   ],
   urlWithNoFilters: 'urlWithNoFiltersValue',
@@ -67,5 +79,23 @@ describe('Filters options render correctly', () => {
     expect(secondDirectionRadio[0].getAttribute('type')).toEqual('radio')
     expect(secondDirectionRadio[0].getAttribute('value')).toEqual('out')
     expect(secondDirectionRadio[0].getAttribute('checked')).toBeUndefined()
+  })
+
+  it('Date range filters render successfully', () => {
+    const rendered = parse(nunjucks.renderString(testView, defaultOptions))
+
+    const startDate = rendered.querySelectorAll('#filters\\.date\\.start')
+    expect(startDate.length).toEqual(1)
+    expect(startDate[0].tagName).toBe('INPUT')
+    expect(startDate[0].getAttribute('type')).toEqual('date')
+    expect(startDate[0].getAttribute('value')).toEqual('2001-02-03')
+    expect(startDate[0].getAttribute('max')).toEqual('2007-08-09')
+
+    const endDate = rendered.querySelectorAll('#filters\\.date\\.end')
+    expect(endDate.length).toEqual(1)
+    expect(endDate[0].tagName).toBe('INPUT')
+    expect(endDate[0].getAttribute('type')).toEqual('date')
+    expect(endDate[0].getAttribute('value')).toEqual('2004-05-06')
+    expect(endDate[0].getAttribute('max')).toEqual('2007-08-09')
   })
 })

@@ -19,8 +19,18 @@ export default function routes(router: Router, services: Services) {
     const reportQuery = new ReportQuery(req.query, reportConfig.defaultSortColumn, filtersQueryParamPrefix)
 
     Promise.all([
-      services.reportingService.getList(reportConfig.resourceName, res.locals.user.token, reportQuery),
-      services.reportingService.getCount(reportConfig.resourceName, res.locals.user.token, reportQuery.filters),
+      services.reportingService.getList(
+        reportConfig.resourceName,
+        res.locals.user.token,
+        reportQuery,
+        reportConfig.apiFieldNameOverrides,
+      ),
+      services.reportingService.getCount(
+        reportConfig.resourceName,
+        res.locals.user.token,
+        reportQuery.filters,
+        reportConfig.apiFieldNameOverrides,
+      ),
     ])
       .then(data => {
         const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery, filtersQueryParamPrefix)

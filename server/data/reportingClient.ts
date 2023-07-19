@@ -10,29 +10,53 @@ export interface Count {
   count: number
 }
 
+const applyFieldNameOverrides = (values: Dict<string>, apiFieldNameOverrides: Dict<string>) => {
+  const updatedValues = {}
+
+  Object.keys(values).forEach(fieldName => {
+    if (apiFieldNameOverrides[fieldName]) {
+      updatedValues[apiFieldNameOverrides[fieldName]] = values[fieldName]
+    } else {
+      updatedValues[fieldName] = values[fieldName]
+    }
+  })
+
+  return updatedValues
+}
+
 export default class ReportingClient {
   private static restClient(token: string): RestClient {
     return new RestClient('Reporting API Client', config.apis.reporting, token)
   }
 
-  getCount(resourceName: string, token: string, filters: Dict<string>): Promise<number> {
+  getCount(
+    resourceName: string,
+    token: string,
+    filters: Dict<string>,
+    apiFieldNameOverrides: Dict<string>,
+  ): Promise<number> {
     logger.info(`Reporting client: Get ${resourceName} count`)
 
     return ReportingClient.restClient(token)
       .get({
         path: `/${resourceName}/count`,
-        query: querystring.stringify(filters),
+        query: querystring.stringify(applyFieldNameOverrides(filters, apiFieldNameOverrides)),
       })
       .then(response => (<Count>response).count)
   }
 
-  getList(resourceName: string, token: string, listRequest: FilteredListRequest): Promise<Array<Dict<string>>> {
+  getList(
+    resourceName: string,
+    token: string,
+    listRequest: FilteredListRequest,
+    apiFieldNameOverrides: Dict<string>,
+  ): Promise<Array<Dict<string>>> {
     logger.info(`Reporting client: Get ${resourceName} list`)
 
     return ReportingClient.restClient(token)
       .get({
         path: `/${resourceName}`,
-        query: querystring.stringify(toRecord(listRequest)),
+        query: querystring.stringify(applyFieldNameOverrides(toRecord(listRequest), apiFieldNameOverrides)),
       })
       .then(response => <Array<Dict<string>>>response)
   }

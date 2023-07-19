@@ -24,7 +24,7 @@ describe('reportingClient', () => {
 
       fakeReportingApi.get(`/${resourceName}/count`).reply(200, response)
 
-      const output = await reportingClient.getCount(resourceName, null, {})
+      const output = await reportingClient.getCount(resourceName, null, {}, {})
       expect(output).toEqual(response.count)
     })
   })
@@ -37,19 +37,24 @@ describe('reportingClient', () => {
         pageSize: 2,
         sortColumn: 'three',
         sortedAsc: true,
-        filters: {},
+        filters: {
+          'original.filter': 'true',
+        },
       }
       const expectedQuery: Record<string, string> = {
         selectedPage: '1',
         pageSize: '2',
         sortColumn: 'three',
         sortedAsc: 'true',
+        updatedFilter: 'true',
       }
       const resourceName = 'external-movements'
 
       fakeReportingApi.get(`/${resourceName}`).query(expectedQuery).reply(200, response)
 
-      const output = await reportingClient.getList(resourceName, null, listRequest)
+      const output = await reportingClient.getList(resourceName, null, listRequest, {
+        'original.filter': 'updatedFilter',
+      })
       expect(output).toEqual(response)
     })
   })

@@ -41,4 +41,9 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   )
 
   njkEnv.addFilter('initialiseName', initialiseName)
+
+  njkEnv.addGlobal('getTodayIsoDate', () => {
+    const date = new Date()
+    return date.toISOString().substring(0, 10)
+  })
 }

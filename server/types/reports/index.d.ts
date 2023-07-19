@@ -7,6 +7,7 @@ export interface ReportConfig {
   resourceName: string
   format: Array<FieldDefinition>
   defaultSortColumn: string
+  apiFieldNameOverrides?: Dict<string>
 }
 
 export interface ListRequest {
