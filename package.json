@@ -137,7 +137,7 @@
     "@types/jest": "^29.5.3",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.15.13",
-    "@types/nunjucks": "^3.2.2",
+    "@types/nunjucks": "^3.2.3",
     "@types/passport": "^1.0.12",
     "@types/passport-oauth2": "^1.4.12",
     "@types/superagent": "^4.1.16",
