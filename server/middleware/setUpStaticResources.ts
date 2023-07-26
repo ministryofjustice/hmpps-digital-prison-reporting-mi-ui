@@ -10,14 +10,6 @@ const jsStaticResources = [
     path: '/assets/js/jquery.min.js',
     location: '/node_modules/jquery/dist/jquery.min.js',
   },
-  {
-    path: '/assets/js/jquery-ui.min.js',
-    location: '/node_modules/jquery-ui/dist/jquery-ui.min.js',
-  },
-  {
-    path: '/assets/js/jquery-ui.min.css',
-    location: '/node_modules/jquery-ui/dist/themes/ui-lightness/jquery-ui.min.css',
-  },
 ]
 
 export default function setUpStaticResources(): Router {
