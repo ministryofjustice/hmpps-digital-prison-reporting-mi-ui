@@ -2,8 +2,6 @@
 # Per environment values which override defaults in hmpps-digital-prison-reporting-mi-ui/values.yaml
 
 generic-service:
-  replicaCount: 2
-
   ingress:
     host: digital-prison-reporting-mi-ui.hmpps.service.justice.gov.uk
 
