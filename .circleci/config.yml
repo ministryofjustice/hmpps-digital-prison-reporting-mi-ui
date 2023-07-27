@@ -184,6 +184,7 @@ workflows:
           jira_env_type: production
           slack_notification: true
           slack_channel_name: << pipeline.parameters.releases-slack-channel >>
+          release_name: PROJECT_NAME_ENV_NAME
           context:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-prod
