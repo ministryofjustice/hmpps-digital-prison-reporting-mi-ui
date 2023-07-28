@@ -14,5 +14,6 @@ generic-service:
     REPORTING_API_URL: "http://hmpps-digital-prison-reporting-mi-dev.hmpps-digital-prison-reporting-mi-dev.svc.cluster.local"
     TOKEN_VERIFICATION_ENABLED: true
     AUTHORISED_ROLES: ROLE_PRISONS_REPORTING_USER
+
 generic-prometheus-alerts:
   alertSeverity: digital-prison-reporting-dev
