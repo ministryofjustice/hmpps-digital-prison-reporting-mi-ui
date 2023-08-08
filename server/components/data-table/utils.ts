@@ -69,6 +69,7 @@ export default {
         const cell: Cell = {
           text,
           format: fieldFormat.toString(),
+          classes: f.wrap ? `data-table-cell-wrap-${f.wrap}` : '',
         }
 
         return cell

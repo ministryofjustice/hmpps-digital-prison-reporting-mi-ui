@@ -14,10 +14,14 @@ const applyFieldNameOverrides = (values: Dict<string>, apiFieldNameOverrides: Di
   const updatedValues = {}
 
   Object.keys(values).forEach(fieldName => {
-    if (apiFieldNameOverrides[fieldName]) {
-      updatedValues[apiFieldNameOverrides[fieldName]] = values[fieldName]
+    const value = values[fieldName]
+
+    if (fieldName === 'sortColumn' && apiFieldNameOverrides[value]) {
+      updatedValues[fieldName] = apiFieldNameOverrides[value]
+    } else if (apiFieldNameOverrides[fieldName]) {
+      updatedValues[apiFieldNameOverrides[fieldName]] = value
     } else {
-      updatedValues[fieldName] = values[fieldName]
+      updatedValues[fieldName] = value
     }
   })
 

@@ -4,3 +4,7 @@ export enum FieldFormat {
   numeric,
   date,
 }
+
+export enum WordWrap {
+  None = 'data-table-cell-wrap-none',
+}

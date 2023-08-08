@@ -79,10 +79,10 @@ export default {
     reporting: {
       url: get('REPORTING_API_URL', 'http://127.0.0.1:3002', requiredInProduction),
       timeout: {
-        response: Number(get('REPORTING_API_TIMEOUT_RESPONSE', 10000)),
-        deadline: Number(get('REPORTING_API_TIMEOUT_DEADLINE', 10000)),
+        response: Number(get('REPORTING_API_TIMEOUT_RESPONSE', 60000)),
+        deadline: Number(get('REPORTING_API_TIMEOUT_DEADLINE', 60000)),
       },
-      agent: new AgentConfig(Number(get('REPORTING_API_TIMEOUT_RESPONSE', 10000))),
+      agent: new AgentConfig(Number(get('REPORTING_API_TIMEOUT_RESPONSE', 60000))),
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),

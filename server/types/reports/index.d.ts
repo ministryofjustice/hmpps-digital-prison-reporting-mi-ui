@@ -1,6 +1,6 @@
 import Dict = NodeJS.Dict
 import type { FilterDefinition } from '../../components/filters/types'
-import { FieldFormat } from './enum'
+import { FieldFormat, WordWrap } from './enum'
 
 export interface ReportConfig {
   title: string
@@ -27,4 +27,5 @@ export interface FieldDefinition {
   data?(row: Dict<string>): string
   format?: FieldFormat
   filter?: FilterDefinition
+  wrap?: WordWrap
 }
