@@ -34,7 +34,6 @@ const externalMovements: ReportConfig = {
   apiFieldNameOverrides: {
     'date.start': 'startDate',
     'date.end': 'endDate',
-    name: 'lastName',
   },
 }
 
