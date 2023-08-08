@@ -9,6 +9,7 @@ export interface Header {
 export interface Cell {
   text: string
   format?: string
+  classes?: string
 }
 
 export interface DataTableOptions {

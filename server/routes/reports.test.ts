@@ -11,6 +11,8 @@ beforeEach(() => {
     getList: jest.fn().mockResolvedValue([
       {
         prisonNumber: 'N9980PJ',
+        firstName: 'Roger',
+        lastName: 'Rogerson',
         date: '2023-01-31',
         time: '03:01',
         from: 'Cardiff',
