@@ -30,6 +30,8 @@ const stubExternalMovements = () =>
         '[' +
         '    {\n' +
         '      "prisonNumber": "N9980PJ",\n' +
+        '      "firstName": "Todd",\n' +
+        '      "lastName": "Toddington",\n' +
         '      "date": "2023-01-31",\n' +
         '      "time": "03:01",\n' +
         '      "from": "Cardiff",\n' +
@@ -40,6 +42,8 @@ const stubExternalMovements = () =>
         '    },\n' +
         '    {\n' +
         '      "prisonNumber": "Q9660WX",\n' +
+        '      "firstName": "Bob",\n' +
+        '      "lastName": "Bobbington",\n' +
         '      "date": "2023-04-25",\n' +
         '      "time": "12:19",\n' +
         '      "from": "Elmley",\n' +
@@ -50,6 +54,8 @@ const stubExternalMovements = () =>
         '    },\n' +
         '    {\n' +
         '      "prisonNumber": "L9600OY",\n' +
+        '      "firstName": "Steph",\n' +
+        '      "lastName": "Stephsworth",\n' +
         '      "date": "2023-02-12",\n' +
         '      "time": "10:31",\n' +
         '      "from": "Ranby",\n' +
