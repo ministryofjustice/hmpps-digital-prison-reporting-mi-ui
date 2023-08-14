@@ -135,7 +135,7 @@
     "@types/http-errors": "^2.0.1",
     "@types/jest": "^29.5.3",
     "@types/jsonwebtoken": "^9.0.1",
-    "@types/node": "^20.4.4",
+    "@types/node": "^20.5.0",
     "@types/nunjucks": "^3.2.3",
     "@types/passport": "^1.0.12",
     "@types/passport-oauth2": "^1.4.12",
