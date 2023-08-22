@@ -1,0 +1,31 @@
+name: Add coverage to PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - run: npm ci
+
+      - name: Calculate test coverage
+        run: |
+          npm run test > logs.txt
+          grep '% Stmts' logs.txt -A2 > message.txt
+
+      - name: PR comment
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          comment_tag: coverage
+          filePath: message.txt
