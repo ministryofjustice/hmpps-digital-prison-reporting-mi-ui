@@ -29,8 +29,8 @@
     "clean": "rm -rf dist build node_modules stylesheets"
   },
   "engines": {
-    "node": "^18",
-    "npm": "^9"
+    "node": "^20",
+    "npm": "^10"
   },
   "jest": {
     "transform": {
@@ -135,7 +135,7 @@
     "@types/http-errors": "^2.0.1",
     "@types/jest": "^29.5.4",
     "@types/jsonwebtoken": "^9.0.1",
-    "@types/node": "^20.4.4",
+    "@types/node": "^20.5.9",
     "@types/nunjucks": "^3.2.3",
     "@types/passport": "^1.0.12",
     "@types/passport-oauth2": "^1.4.12",
@@ -147,7 +147,7 @@
     "audit-ci": "^6.6.1",
     "concurrently": "^8.0.1",
     "cookie-session": "^2.0.0",
-    "cypress": "^13.0.0",
+    "cypress": "^13.1.0",
     "cypress-multi-reporters": "^1.6.3",
     "dotenv": "^16.3.1",
     "eslint": "^8.45.0",
