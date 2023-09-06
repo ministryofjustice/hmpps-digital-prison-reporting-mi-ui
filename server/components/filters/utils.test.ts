@@ -1,49 +1,58 @@
 import Utils from './utils'
-import { FieldDefinition } from '../../types/reports'
 import Dict = NodeJS.Dict
 import { FilterType } from './enum'
 import { DateRange } from './types'
+import { components } from '../../types/api'
 
 const options = [
   {
-    value: '1',
-    text: 'One',
+    name: '1',
+    displayName: 'One',
   },
   {
-    value: '2',
-    text: 'Two',
+    name: '2',
+    displayName: 'Two',
   },
 ]
 
-const selectFieldFormat: Array<FieldDefinition> = [
+const selectFieldFormat: Array<components['schemas']['FieldDefinition']> = [
   {
-    header: 'Select Field',
+    displayName: 'Select Field',
     name: 'selectField',
     filter: {
       type: FilterType.select,
-      options,
+      staticOptions: options,
     },
+    sortable: true,
+    defaultSortColumn: false,
+    type: 'string',
   },
 ]
 
-const radioFieldFormat: Array<FieldDefinition> = [
+const radioFieldFormat: Array<components['schemas']['FieldDefinition']> = [
   {
-    header: 'Radio Field',
+    displayName: 'Radio Field',
     name: 'radioField',
     filter: {
-      type: FilterType.select,
-      options,
+      type: FilterType.radio,
+      staticOptions: options,
     },
+    sortable: true,
+    defaultSortColumn: false,
+    type: 'string',
   },
 ]
 
-const dateRangeFieldFormat: Array<FieldDefinition> = [
+const dateRangeFieldFormat: Array<components['schemas']['FieldDefinition']> = [
   {
-    header: 'Date Range Field',
+    displayName: 'Date Range Field',
     name: 'dateRangeField',
     filter: {
       type: FilterType.dateRange,
     },
+    sortable: true,
+    defaultSortColumn: false,
+    type: 'string',
   },
 ]
 
@@ -57,8 +66,11 @@ describe('getFilters', () => {
 
     expect(result.length).toEqual(1)
     expect(result[0].name).toEqual(selectFieldFormat[0].name)
-    expect(result[0].options).toEqual(selectFieldFormat[0].filter.options)
-    expect(result[0].value).toEqual(selectFieldFormat[0].filter.options[1].value)
+    expect(result[0].options[0].value).toEqual(selectFieldFormat[0].filter.staticOptions[0].name)
+    expect(result[0].options[0].text).toEqual(selectFieldFormat[0].filter.staticOptions[0].displayName)
+    expect(result[0].options[1].value).toEqual(selectFieldFormat[0].filter.staticOptions[1].name)
+    expect(result[0].options[1].text).toEqual(selectFieldFormat[0].filter.staticOptions[1].displayName)
+    expect(result[0].value).toEqual(selectFieldFormat[0].filter.staticOptions[1].name)
   })
 
   it('Radio filter mapped correctly', () => {
@@ -70,8 +82,11 @@ describe('getFilters', () => {
 
     expect(result.length).toEqual(1)
     expect(result[0].name).toEqual(radioFieldFormat[0].name)
-    expect(result[0].options).toEqual(radioFieldFormat[0].filter.options)
-    expect(result[0].value).toEqual(radioFieldFormat[0].filter.options[1].value)
+    expect(result[0].options[0].value).toEqual(selectFieldFormat[0].filter.staticOptions[0].name)
+    expect(result[0].options[0].text).toEqual(selectFieldFormat[0].filter.staticOptions[0].displayName)
+    expect(result[0].options[1].value).toEqual(selectFieldFormat[0].filter.staticOptions[1].name)
+    expect(result[0].options[1].text).toEqual(selectFieldFormat[0].filter.staticOptions[1].displayName)
+    expect(result[0].value).toEqual(radioFieldFormat[0].filter.staticOptions[1].name)
   })
 
   it('Date range filter mapped correctly', () => {
@@ -84,7 +99,7 @@ describe('getFilters', () => {
 
     expect(result.length).toEqual(1)
     expect(result[0].name).toEqual(dateRangeFieldFormat[0].name)
-    expect(result[0].options).toBeUndefined()
+    expect(result[0].options).toBeFalsy()
     expect(result[0].value).toBeTruthy()
 
     expect(<DateRange>result[0].value).toBeTruthy()
@@ -93,10 +108,13 @@ describe('getFilters', () => {
   })
 
   it('No filter mapped correctly', () => {
-    const format: Array<FieldDefinition> = [
+    const format: Array<components['schemas']['FieldDefinition']> = [
       {
-        header: 'No Filter Field',
+        displayName: 'No Filter Field',
         name: 'noFilterField',
+        sortable: true,
+        defaultSortColumn: false,
+        type: 'string',
       },
     ]
     const filterValues: Dict<string> = {
@@ -171,21 +189,5 @@ describe('getSelectedFilters', () => {
     expect(result.length).toEqual(1)
     expect(result[0].text).toEqual('Date Range Field: Until 06/05/2004')
     expect(result[0].href).toEqual('{"dateRangeField":"","selectedPage":"1"}')
-  })
-
-  it('No filter mapped correctly', () => {
-    const format: Array<FieldDefinition> = [
-      {
-        header: 'No Filter Field',
-        name: 'noFilterField',
-      },
-    ]
-    const filterValues: Dict<string> = {
-      selectField: '2',
-    }
-
-    const result = Utils.getSelectedFilters(format, filterValues, createUrlForParameters, '')
-
-    expect(result.length).toEqual(0)
   })
 })

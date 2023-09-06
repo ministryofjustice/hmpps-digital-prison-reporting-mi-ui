@@ -26,7 +26,8 @@
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open",
-    "clean": "rm -rf dist build node_modules stylesheets"
+    "clean": "rm -rf dist build node_modules stylesheets",
+    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output server/types/api.d.ts"
   },
   "engines": {
     "node": "^20",
@@ -168,6 +169,7 @@
     "nock": "^13.3.3",
     "node-html-parser": "^6.1.5",
     "nodemon": "^3.0.1",
+    "openapi-typescript": "^6.5.4",
     "prettier": "^2.8.7",
     "prettier-plugin-jinja-template": "^0.5.0",
     "sass": "^1.66.1",

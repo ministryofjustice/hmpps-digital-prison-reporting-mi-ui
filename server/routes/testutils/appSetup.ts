@@ -8,6 +8,7 @@ import nunjucksSetup from '../../utils/nunjucksSetup'
 import errorHandler from '../../errorHandler'
 import * as auth from '../../authentication/auth'
 import { Services } from '../../services'
+import populateDefinitions from '../../middleware/populateDefinitions'
 
 export const user = {
   firstName: 'first',
@@ -36,6 +37,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
     res.locals.user = { ...req.user }
     next()
   })
+  app.use(populateDefinitions(services.reportingService))
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
   app.use(routes(services))

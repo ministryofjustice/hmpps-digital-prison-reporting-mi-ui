@@ -1,31 +1,13 @@
-import * as querystring from 'querystring'
 import logger from '../../logger'
 import config from '../config'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
 import type { FilteredListRequest } from '../types/reports'
 import { toRecord } from '../types/reports/class'
+import { components, operations } from '../types/api'
 
 export interface Count {
   count: number
-}
-
-const applyFieldNameOverrides = (values: Dict<string>, apiFieldNameOverrides: Dict<string>) => {
-  const updatedValues = {}
-
-  Object.keys(values).forEach(fieldName => {
-    const value = values[fieldName]
-
-    if (fieldName === 'sortColumn' && apiFieldNameOverrides[value]) {
-      updatedValues[fieldName] = apiFieldNameOverrides[value]
-    } else if (apiFieldNameOverrides[fieldName]) {
-      updatedValues[apiFieldNameOverrides[fieldName]] = value
-    } else {
-      updatedValues[fieldName] = value
-    }
-  })
-
-  return updatedValues
 }
 
 export default class ReportingClient {
@@ -33,35 +15,42 @@ export default class ReportingClient {
     return new RestClient('Reporting API Client', config.apis.reporting, token)
   }
 
-  getCount(
-    resourceName: string,
-    token: string,
-    filters: Dict<string>,
-    apiFieldNameOverrides: Dict<string>,
-  ): Promise<number> {
+  getCount(resourceName: string, token: string, filters: Dict<string>): Promise<number> {
     logger.info(`Reporting client: Get ${resourceName} count`)
 
     return ReportingClient.restClient(token)
       .get({
         path: `/${resourceName}/count`,
-        query: querystring.stringify(applyFieldNameOverrides(filters, apiFieldNameOverrides)),
+        query: filters,
       })
       .then(response => (<Count>response).count)
   }
 
-  getList(
-    resourceName: string,
-    token: string,
-    listRequest: FilteredListRequest,
-    apiFieldNameOverrides: Dict<string>,
-  ): Promise<Array<Dict<string>>> {
+  getList(resourceName: string, token: string, listRequest: FilteredListRequest): Promise<Array<Dict<string>>> {
     logger.info(`Reporting client: Get ${resourceName} list`)
 
     return ReportingClient.restClient(token)
       .get({
         path: `/${resourceName}`,
-        query: querystring.stringify(applyFieldNameOverrides(toRecord(listRequest), apiFieldNameOverrides)),
+        query: toRecord(listRequest),
       })
       .then(response => <Array<Dict<string>>>response)
+  }
+
+  getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinition']>> {
+    logger.info(`Reporting client: Get definitions`)
+
+    const params: operations['definitions']['parameters'] = {
+      query: {
+        renderMethod: 'HTML',
+      },
+    }
+
+    return ReportingClient.restClient(token)
+      .get({
+        path: '/definitions',
+        query: params.query,
+      })
+      .then(response => <Array<components['schemas']['ReportDefinition']>>response)
   }
 }

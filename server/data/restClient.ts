@@ -10,7 +10,7 @@ import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
 
 interface GetRequest {
   path?: string
-  query?: string
+  query?: object
   headers?: Record<string, string>
   responseType?: string
   raw?: boolean
@@ -45,7 +45,7 @@ export default class RestClient {
     return this.config.timeout
   }
 
-  async get({ path = null, query = '', headers = {}, responseType = '', raw = false }: GetRequest): Promise<unknown> {
+  async get({ path = null, query = {}, headers = {}, responseType = '', raw = false }: GetRequest): Promise<unknown> {
     logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${query}`)
     try {
       const result = await superagent

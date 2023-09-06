@@ -2,7 +2,6 @@ import IndexPage from '../pages/index'
 import Page from '../pages/page'
 import ReportsPage from '../pages/reports'
 import ExternalMovementsPage from '../pages/ExternalMovementsPage'
-import reportConfigs from '../../server/routes/reportConfig'
 
 function goToExternalMovementsPage() {
   cy.signIn()
@@ -13,7 +12,7 @@ function goToExternalMovementsPage() {
   return Page.verifyOnPage(ExternalMovementsPage)
 }
 
-const reportConfig = reportConfigs['external-movements']
+const columns = 9
 
 context('View external movements report', () => {
   beforeEach(() => {
@@ -27,15 +26,11 @@ context('View external movements report', () => {
   it('Displays', () => {
     const externalMovementsPage = goToExternalMovementsPage()
 
-    const columns = reportConfig.format.length
     externalMovementsPage.dataTable().get('th').should('have.length', columns)
   })
 
   it('Displays correctly mapped data', () => {
     const externalMovementsPage = goToExternalMovementsPage()
-
-    const columns = reportConfig.format.length
-
     const cells = externalMovementsPage.dataTable().get('td')
     cells.should('have.length', columns * 3)
     cells.should('contain.text', 'N9980PJ')
@@ -80,7 +75,7 @@ context('View external movements report', () => {
     const dataTable = externalMovementsPage.dataTable()
 
     dataTable
-      .get(`.data-table-header-button[data-column=${reportConfig.defaultSortColumn}]`)
+      .get(`.data-table-header-button[data-column=prisonNumber]`)
       .should('have.class', 'data-table-header-button-sort-ascending')
   })
 
@@ -89,7 +84,7 @@ context('View external movements report', () => {
 
     const dataTable = externalMovementsPage.dataTable()
 
-    const defaultSortColumnSelector = `.data-table-header-button[data-column=${reportConfig.defaultSortColumn}]`
+    const defaultSortColumnSelector = `.data-table-header-button[data-column=prisonNumber]`
 
     dataTable.get(defaultSortColumnSelector).click()
     dataTable.get(defaultSortColumnSelector).should('have.class', 'data-table-header-button-sort-descending')
@@ -100,9 +95,8 @@ context('View external movements report', () => {
 
     const dataTable = externalMovementsPage.dataTable()
 
-    const defaultSortColumnSelector = `.data-table-header-button[data-column=${reportConfig.defaultSortColumn}]`
-    const anotherSortColumnName = reportConfig.format.find(f => f.name !== reportConfig.defaultSortColumn).name
-    const anotherSortColumnSelector = `.data-table-header-button[data-column=${anotherSortColumnName}]`
+    const defaultSortColumnSelector = `.data-table-header-button[data-column=prisonNumber]`
+    const anotherSortColumnSelector = `.data-table-header-button[data-column=date]`
 
     dataTable.get(anotherSortColumnSelector).click()
 

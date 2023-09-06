@@ -3,6 +3,7 @@ import nock from 'nock'
 import config from '../config'
 import ReportingClient from './reportingClient'
 import type { FilteredListRequest } from '../types/reports'
+import { components } from '../types/api'
 
 describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
@@ -24,7 +25,7 @@ describe('reportingClient', () => {
 
       fakeReportingApi.get(`/${resourceName}/count`).reply(200, response)
 
-      const output = await reportingClient.getCount(resourceName, null, {}, {})
+      const output = await reportingClient.getCount(resourceName, null, {})
       expect(output).toEqual(response.count)
     })
   })
@@ -46,15 +47,33 @@ describe('reportingClient', () => {
         pageSize: '2',
         sortColumn: 'three',
         sortedAsc: 'true',
-        updatedFilter: 'true',
+        'original.filter': 'true',
       }
       const resourceName = 'external-movements'
 
       fakeReportingApi.get(`/${resourceName}`).query(expectedQuery).reply(200, response)
 
-      const output = await reportingClient.getList(resourceName, null, listRequest, {
-        'original.filter': 'updatedFilter',
-      })
+      const output = await reportingClient.getList(resourceName, null, listRequest)
+      expect(output).toEqual(response)
+    })
+  })
+
+  describe('getDefinitions', () => {
+    it('should return definitions from api', async () => {
+      const response: Array<components['schemas']['ReportDefinition']> = [
+        {
+          id: 'test-report',
+          name: 'Test report',
+          variants: [],
+        },
+      ]
+      const query = {
+        renderMethod: 'HTML',
+      }
+
+      fakeReportingApi.get(`/definitions`).query(query).reply(200, response)
+
+      const output = await reportingClient.getDefinitions(null)
       expect(output).toEqual(response)
     })
   })

@@ -1,15 +1,43 @@
 import Dict = NodeJS.Dict
 import type { Cell, Header } from './types'
-import type { FieldDefinition, ListRequest } from '../../types/reports'
-import { FieldFormat } from '../../types/reports/enum'
+import type { ListRequest } from '../../types/reports'
+import { components } from '../../types/api'
 
-const LOCALE = 'en-GB'
+const mapDate = (isoDate: string, format: string) => {
+  const date = new Date(isoDate)
+  const add0 = (t: number) => {
+    return t < 10 ? `0${t}` : t
+  }
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1 // 0 indexed
+  const day = date.getDate()
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+  const seconds = date.getSeconds()
+  const replacement = {
+    yyyy: year,
+    MM: add0(month),
+    m: month,
+    dd: add0(day),
+    d: day,
+    hh: add0(hours),
+    h: hours,
+    mm: add0(minutes),
+    M: minutes,
+    ss: add0(seconds),
+    s: seconds,
+  }
 
-const mapDate = (isoDate: string) => new Date(isoDate).toLocaleDateString(LOCALE)
+  let result = format
+  Object.keys(replacement).forEach(key => {
+    result = result.replace(key, replacement[key])
+  })
+  return result
+}
 
 export default {
   mapHeader: (
-    format: Array<FieldDefinition>,
+    format: Array<components['schemas']['FieldDefinition']>,
     listRequest: ListRequest,
     createUrlForParameters: (updateQueryParams: Dict<string>) => string,
   ) => {
@@ -40,36 +68,40 @@ export default {
           `aria-sort="${ariaSort}" ` +
           `class="data-table-header-button data-table-header-button-sort-${ariaSort}" ` +
           `href="${url}"` +
-          `>${f.header}</a>`,
+          `>${f.displayName}</a>`,
       }
 
       return header
     })
   },
 
-  mapData: (data: Array<Dict<string>>, format: Array<FieldDefinition>) =>
+  mapData: (data: Array<Dict<string>>, format: Array<components['schemas']['FieldDefinition']>) =>
     data.map(d =>
       format.map(f => {
         let text: string
 
-        if (f.data) {
-          text = f.data(d)
-        } else if (f.format === FieldFormat.date) {
-          text = mapDate(d[f.name])
+        if (f.dateFormat) {
+          text = mapDate(d[f.name], f.dateFormat)
         } else {
           text = d[f.name]
         }
 
-        let fieldFormat: FieldFormat = f.format ?? FieldFormat.string
+        let fieldFormat: string
 
-        if (fieldFormat === FieldFormat.date) {
-          fieldFormat = FieldFormat.numeric
+        switch (f.type) {
+          case 'long':
+          case 'datetime':
+            fieldFormat = 'numeric'
+            break
+
+          default:
+            fieldFormat = 'string'
         }
 
         const cell: Cell = {
           text,
-          format: fieldFormat.toString(),
-          classes: f.wrap ? `data-table-cell-wrap-${f.wrap}` : '',
+          format: fieldFormat,
+          classes: f.wordWrap ? `data-table-cell-wrap-${f.wordWrap.toLowerCase()}` : '',
         }
 
         return cell
