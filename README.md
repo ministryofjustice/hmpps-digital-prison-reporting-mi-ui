@@ -122,3 +122,23 @@ Example of applying the secret to an environment:
 ```
 kubectl -n hmpps-digital-prison-reporting-mi-dev apply -f hmps-auth-secret.yaml
 ```
+
+## Updating API type definitions
+
+If the API's OpenAPI spec is updated due to changes in the API itself, the Type Definitions in the UI code can be updated automatically:
+
+### Generate types
+
+Run the following command to re-generate the types based on the OpenAPI spec deployed to the Dev environment:
+
+```shell
+npm run generate-api-types
+```
+
+### Update file to match linting expectations
+
+Next, update the file to match the linting expectations by:
+
+- Opening `server/types/api.d.ts`.
+- Selecting a red-underlined line (e.g. a string with double quotes).
+- Pressing Option + Enter, then selecting "ESLint: Fix current file".
