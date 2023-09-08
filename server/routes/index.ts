@@ -3,6 +3,7 @@ import { type RequestHandler, Router } from 'express'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
+import { components } from '../types/api'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -24,13 +25,11 @@ export default function routes(services: Services): Router {
   get('/reports', (req, res) => {
     res.render('pages/card', {
       title: 'Reports',
-      cards: [
-        {
-          text: 'External movements',
-          href: '/reports/external-movements',
-          description: 'View external movements',
-        },
-      ],
+      cards: res.locals.definitions.map((d: components['schemas']['ReportDefinition']) => ({
+        text: d.name,
+        href: `/reports/${d.id}`,
+        description: d.description,
+      })),
     })
   })
 

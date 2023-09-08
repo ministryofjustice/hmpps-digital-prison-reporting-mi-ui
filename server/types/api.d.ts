@@ -65,18 +65,19 @@ export interface components {
     FieldDefinition: {
       name: string
       displayName: string
-      dateFormat?: string
       /** @enum {string} */
       wordWrap?: 'None'
       filter?: components['schemas']['FilterDefinition']
       sortable: boolean
       defaultSortColumn: boolean
-      type: string
+      /** @enum {string} */
+      type: 'String' | 'Date' | 'Long'
     }
     FilterDefinition: {
       /** @enum {string} */
       type: 'Radio' | 'Select' | 'DateRange'
       staticOptions?: components['schemas']['FilterOption'][]
+      defaultValue?: string
     }
     FilterOption: {
       name: string
@@ -88,13 +89,16 @@ export interface components {
       description?: string
       variants: components['schemas']['VariantDefinition'][]
     }
+    Specification: {
+      template: string
+      fields: components['schemas']['FieldDefinition'][]
+    }
     VariantDefinition: {
       id: string
       name: string
       resourceName: string
       description?: string
-      specification?: string
-      fields: components['schemas']['FieldDefinition'][]
+      specification?: components['schemas']['Specification']
     }
   }
   responses: never

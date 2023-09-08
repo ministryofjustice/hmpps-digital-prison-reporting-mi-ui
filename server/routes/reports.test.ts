@@ -31,86 +31,88 @@ beforeEach(() => {
           {
             id: 'list',
             name: 'List',
-            fields: [
-              {
-                name: 'prisonNumber',
-                displayName: 'Prison Number',
-                sortable: true,
-                defaultSortColumn: true,
-                type: 'string',
-              },
-              {
-                name: 'firstName',
-                displayName: 'First Name',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-              },
-              {
-                name: 'lastName',
-                displayName: 'Last Name',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-              },
-              {
-                name: 'date',
-                displayName: 'Date',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-                dateFormat: 'dd/MM/yyyy',
-              },
-              {
-                name: 'time',
-                displayName: 'Time',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-              },
-              {
-                name: 'from',
-                displayName: 'From',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-              },
-              {
-                name: 'to',
-                displayName: 'To',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-              },
-              {
-                name: 'direction',
-                displayName: 'Direction',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-                filter: {
-                  type: 'Radio',
-                  staticOptions: [
-                    { name: 'in', displayName: 'In' },
-                    { name: 'out', displayName: 'Out' },
-                  ],
+            specification: {
+              template: 'list',
+              fields: [
+                {
+                  name: 'prisonNumber',
+                  displayName: 'Prison Number',
+                  sortable: true,
+                  defaultSortColumn: true,
+                  type: 'String',
                 },
-              },
-              {
-                name: 'type',
-                displayName: 'Type',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-              },
-              {
-                name: 'reason',
-                displayName: 'Reason',
-                sortable: true,
-                defaultSortColumn: false,
-                type: 'string',
-              },
-            ],
+                {
+                  name: 'firstName',
+                  displayName: 'First Name',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'lastName',
+                  displayName: 'Last Name',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'date',
+                  displayName: 'Date',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'Date',
+                },
+                {
+                  name: 'time',
+                  displayName: 'Time',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'from',
+                  displayName: 'From',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'to',
+                  displayName: 'To',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'direction',
+                  displayName: 'Direction',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                  filter: {
+                    type: 'Radio',
+                    staticOptions: [
+                      { name: 'in', displayName: 'In' },
+                      { name: 'out', displayName: 'Out' },
+                    ],
+                  },
+                },
+                {
+                  name: 'type',
+                  displayName: 'Type',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'reason',
+                  displayName: 'Reason',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+              ],
+            },
           },
         ],
       },
@@ -148,7 +150,7 @@ describe('GET /reports/external-movements/list', () => {
       .expect(res => {
         expect(res.text).toContain('List')
         expect(res.text).toContain('N9980PJ')
-        expect(res.text).toContain('31/01/2023')
+        expect(res.text).toContain('31/01/23')
       })
   })
 

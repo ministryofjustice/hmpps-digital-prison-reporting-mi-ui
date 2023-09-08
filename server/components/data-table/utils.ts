@@ -3,36 +3,18 @@ import type { Cell, Header } from './types'
 import type { ListRequest } from '../../types/reports'
 import { components } from '../../types/api'
 
-const mapDate = (isoDate: string, format: string) => {
+const mapDate = (isoDate: string) => {
   const date = new Date(isoDate)
   const add0 = (t: number) => {
     return t < 10 ? `0${t}` : t
   }
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1 // 0 indexed
-  const day = date.getDate()
-  const hours = date.getHours()
-  const minutes = date.getMinutes()
-  const seconds = date.getSeconds()
-  const replacement = {
-    yyyy: year,
-    MM: add0(month),
-    m: month,
-    dd: add0(day),
-    d: day,
-    hh: add0(hours),
-    h: hours,
-    mm: add0(minutes),
-    M: minutes,
-    ss: add0(seconds),
-    s: seconds,
-  }
+  const year = date.getFullYear().toString().slice(2)
+  const month = add0(date.getMonth() + 1) // 0 indexed
+  const day = add0(date.getDate())
+  const hours = add0(date.getHours())
+  const minutes = add0(date.getMinutes())
 
-  let result = format
-  Object.keys(replacement).forEach(key => {
-    result = result.replace(key, replacement[key])
-  })
-  return result
+  return `${day}/${month}/${year} ${hours}:${minutes}`
 }
 
 export default {
@@ -78,19 +60,16 @@ export default {
   mapData: (data: Array<Dict<string>>, format: Array<components['schemas']['FieldDefinition']>) =>
     data.map(d =>
       format.map(f => {
-        let text: string
-
-        if (f.dateFormat) {
-          text = mapDate(d[f.name], f.dateFormat)
-        } else {
-          text = d[f.name]
-        }
-
+        let text: string = d[f.name]
         let fieldFormat: string
 
         switch (f.type) {
-          case 'long':
-          case 'datetime':
+          case 'Date':
+            fieldFormat = 'numeric'
+            text = mapDate(d[f.name])
+            break
+
+          case 'Long':
             fieldFormat = 'numeric'
             break
 

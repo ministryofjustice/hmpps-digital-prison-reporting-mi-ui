@@ -1,5 +1,6 @@
 import type { NextFunction, RequestHandler, Router } from 'express'
 import createError from 'http-errors'
+import querystring from 'querystring'
 import type { Services } from '../services'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import urlHelper from '../utils/urlHelper'
@@ -48,9 +49,33 @@ export default function routes(router: Router, services: Services) {
   }
 
   function getDefaultSortColumn(variantDefinition: components['schemas']['VariantDefinition']) {
-    const defaultSortColumn = variantDefinition.fields.find(f => f.defaultSortColumn)
-    return defaultSortColumn ? defaultSortColumn.name : variantDefinition.fields[0].name
+    const defaultSortColumn = variantDefinition.specification.fields.find(f => f.defaultSortColumn)
+    return defaultSortColumn ? defaultSortColumn.name : variantDefinition.specification.fields[0].name
   }
+
+  get('/reports/:report', (req, res, next) => {
+    const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
+
+    res.render('pages/card', {
+      title: reportDefinition.name,
+      breadCrumbList: [{ text: 'Reports', href: '/reports' }],
+      cards: reportDefinition.variants.map((v: components['schemas']['VariantDefinition']) => {
+        const defaultFilters: Record<string, string> = {}
+
+        v.specification.fields
+          .filter(f => f.filter && f.filter.defaultValue)
+          .forEach(f => {
+            defaultFilters[`${filtersQueryParamPrefix}${f.name}`] = f.filter.defaultValue
+          })
+
+        return {
+          text: v.name,
+          href: `/reports/${reportDefinition.id}/${v.id}?${querystring.stringify(defaultFilters)}`,
+          description: v.description,
+        }
+      }),
+    })
+  })
 
   get('/reports/:report/:variant', (req, res, next) => {
     const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
@@ -67,16 +92,16 @@ export default function routes(router: Router, services: Services) {
 
         const dataTableOptions: DataTableOptions = {
           listRequest: reportQuery,
-          head: DataTableUtils.mapHeader(variantDefinition.fields, reportQuery, createUrlForParameters),
-          rows: DataTableUtils.mapData(data[0], variantDefinition.fields),
+          head: DataTableUtils.mapHeader(variantDefinition.specification.fields, reportQuery, createUrlForParameters),
+          rows: DataTableUtils.mapData(data[0], variantDefinition.specification.fields),
           count: data[1],
           createUrlForParameters,
         }
 
         const filterOptions: FilterOptions = {
-          filters: FilterUtils.getFilters(variantDefinition.fields, reportQuery.filters),
+          filters: FilterUtils.getFilters(variantDefinition.specification.fields, reportQuery.filters),
           selectedFilters: FilterUtils.getSelectedFilters(
-            variantDefinition.fields,
+            variantDefinition.specification.fields,
             reportQuery.filters,
             createUrlForParameters,
             filtersQueryParamPrefix,
@@ -85,6 +110,10 @@ export default function routes(router: Router, services: Services) {
 
         res.render('pages/report', {
           title: variantDefinition.name,
+          breadCrumbList: [
+            { text: 'Reports', href: '/reports' },
+            { text: reportDefinition.name, href: `/reports/${reportDefinition.id}` },
+          ],
           dataTableOptions,
           filterOptions,
         })
