@@ -23,6 +23,100 @@ beforeEach(() => {
       },
     ]),
     getCount: jest.fn().mockResolvedValue(789),
+    getDefinitions: jest.fn().mockResolvedValue([
+      {
+        id: 'external-movements',
+        name: 'External movements',
+        variants: [
+          {
+            id: 'list',
+            name: 'List',
+            specification: {
+              template: 'list',
+              fields: [
+                {
+                  name: 'prisonNumber',
+                  displayName: 'Prison Number',
+                  sortable: true,
+                  defaultSortColumn: true,
+                  type: 'String',
+                },
+                {
+                  name: 'firstName',
+                  displayName: 'First Name',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'lastName',
+                  displayName: 'Last Name',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'date',
+                  displayName: 'Date',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'Date',
+                },
+                {
+                  name: 'time',
+                  displayName: 'Time',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'from',
+                  displayName: 'From',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'to',
+                  displayName: 'To',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'direction',
+                  displayName: 'Direction',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                  filter: {
+                    type: 'Radio',
+                    staticOptions: [
+                      { name: 'in', displayName: 'In' },
+                      { name: 'out', displayName: 'Out' },
+                    ],
+                  },
+                },
+                {
+                  name: 'type',
+                  displayName: 'Type',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+                {
+                  name: 'reason',
+                  displayName: 'Reason',
+                  sortable: true,
+                  defaultSortColumn: false,
+                  type: 'String',
+                },
+              ],
+            },
+          },
+        ],
+      },
+    ]),
   }
 
   app = appWithAllRoutes({
@@ -48,21 +142,21 @@ describe('GET /reports', () => {
   })
 })
 
-describe('GET /reports/external-movements', () => {
+describe('GET /reports/external-movements/list', () => {
   it('should render External Movements report', () => {
     return request(app)
-      .get('/reports/external-movements')
+      .get('/reports/external-movements/list')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('External movements')
+        expect(res.text).toContain('List')
         expect(res.text).toContain('N9980PJ')
-        expect(res.text).toContain('31/01/2023')
+        expect(res.text).toContain('31/01/23')
       })
   })
 
   it('should render correct paging URL when filtered', () => {
     return request(app)
-      .get('/reports/external-movements?filters.direction=in')
+      .get('/reports/external-movements/list?filters.direction=in')
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
@@ -73,7 +167,7 @@ describe('GET /reports/external-movements', () => {
 
   it('should render correct sorting URL when filtered', () => {
     return request(app)
-      .get('/reports/external-movements?filters.direction=in')
+      .get('/reports/external-movements/list?filters.direction=in')
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
@@ -84,7 +178,7 @@ describe('GET /reports/external-movements', () => {
 
   it('should render correct remove filter URL when filtered', () => {
     return request(app)
-      .get('/reports/external-movements?filters.direction=in&filters.type=jaunt')
+      .get('/reports/external-movements/list?filters.direction=in&filters.type=jaunt')
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(

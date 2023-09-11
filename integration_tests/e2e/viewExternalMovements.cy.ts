@@ -2,59 +2,54 @@ import IndexPage from '../pages/index'
 import Page from '../pages/page'
 import ReportsPage from '../pages/reports'
 import ExternalMovementsPage from '../pages/ExternalMovementsPage'
-import reportConfigs from '../../server/routes/reportConfig'
+import ExternalMovementsLastMonthPage from '../pages/ExternalMovementsLastMonthPage'
 
-function goToExternalMovementsPage() {
+function goToExternalMovementsLastMonthPage() {
   cy.signIn()
-  const indexPage = Page.verifyOnPage(IndexPage)
-  indexPage.reportsCard().click()
-  const reportsPage = Page.verifyOnPage(ReportsPage)
-  reportsPage.externalMovementsCard().click()
-  return Page.verifyOnPage(ExternalMovementsPage)
+  Page.verifyOnPage(IndexPage).reportsCard().click()
+  Page.verifyOnPage(ReportsPage).externalMovementsCard().click()
+  Page.verifyOnPage(ExternalMovementsPage).externalMovementsLastMonthCard().click()
+  return Page.verifyOnPage(ExternalMovementsLastMonthPage)
 }
 
-const reportConfig = reportConfigs['external-movements']
+const columns = 8
 
-context('View external movements report', () => {
+context('View external movements last month list', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('stubExternalMovements')
     cy.task('stubExternalMovementsCount')
+    cy.task('stubDefinitions')
   })
 
   it('Displays', () => {
-    const externalMovementsPage = goToExternalMovementsPage()
-
-    const columns = reportConfig.format.length
-    externalMovementsPage.dataTable().get('th').should('have.length', columns)
+    const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
+    externalMovementsLastMonthPage.dataTable().get('th').should('have.length', columns)
   })
 
   it('Displays correctly mapped data', () => {
-    const externalMovementsPage = goToExternalMovementsPage()
-
-    const columns = reportConfig.format.length
-
-    const cells = externalMovementsPage.dataTable().get('td')
+    const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
+    const cells = externalMovementsLastMonthPage.dataTable().get('td')
     cells.should('have.length', columns * 3)
     cells.should('contain.text', 'N9980PJ')
-    cells.should('contain.text', '31/01/2023')
+    cells.should('contain.text', '31/01/23')
   })
 
   it('Displays correct default paging options', () => {
-    const externalMovementsPage = goToExternalMovementsPage()
+    const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
 
-    const paging = externalMovementsPage.paging()
+    const paging = externalMovementsLastMonthPage.paging()
 
     // 1, 2, ..., 5, Next
     paging.get('.govuk-pagination__link').should('have.length', 4)
   })
 
   it('Next page link works as expected', () => {
-    const externalMovementsPage = goToExternalMovementsPage()
+    const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
 
-    const paging = externalMovementsPage.paging()
+    const paging = externalMovementsLastMonthPage.paging()
 
     paging.get('.govuk-pagination__link[rel=Next]').click()
 
@@ -63,9 +58,9 @@ context('View external movements report', () => {
   })
 
   it('Previous page link works as expected', () => {
-    const externalMovementsPage = goToExternalMovementsPage()
+    const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
 
-    const paging = externalMovementsPage.paging()
+    const paging = externalMovementsLastMonthPage.paging()
 
     paging.get('.govuk-pagination__link[rel=Next]').click()
     paging.get('.govuk-pagination__link[rel=Prev]').click()
@@ -75,34 +70,37 @@ context('View external movements report', () => {
   })
 
   it('Displays correct default sorting options', () => {
-    const externalMovementsPage = goToExternalMovementsPage()
+    const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
 
-    const dataTable = externalMovementsPage.dataTable()
+    const dataTable = externalMovementsLastMonthPage.dataTable()
 
     dataTable
-      .get(`.data-table-header-button[data-column=${reportConfig.defaultSortColumn}]`)
+      .get(`.data-table-header-button[data-column=prisonNumber]`)
+      .should('have.class', 'data-table-header-button-sort-none')
+
+    dataTable
+      .get(`.data-table-header-button[data-column=date]`)
       .should('have.class', 'data-table-header-button-sort-ascending')
   })
 
   it('Reverses sorting when currently sorted column header clicked', () => {
-    const externalMovementsPage = goToExternalMovementsPage()
+    const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
 
-    const dataTable = externalMovementsPage.dataTable()
+    const dataTable = externalMovementsLastMonthPage.dataTable()
 
-    const defaultSortColumnSelector = `.data-table-header-button[data-column=${reportConfig.defaultSortColumn}]`
+    const defaultSortColumnSelector = `.data-table-header-button[data-column=date]`
 
     dataTable.get(defaultSortColumnSelector).click()
     dataTable.get(defaultSortColumnSelector).should('have.class', 'data-table-header-button-sort-descending')
   })
 
   it('Displays correct sorting when another column header is clicked', () => {
-    const externalMovementsPage = goToExternalMovementsPage()
+    const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
 
-    const dataTable = externalMovementsPage.dataTable()
+    const dataTable = externalMovementsLastMonthPage.dataTable()
 
-    const defaultSortColumnSelector = `.data-table-header-button[data-column=${reportConfig.defaultSortColumn}]`
-    const anotherSortColumnName = reportConfig.format.find(f => f.name !== reportConfig.defaultSortColumn).name
-    const anotherSortColumnSelector = `.data-table-header-button[data-column=${anotherSortColumnName}]`
+    const defaultSortColumnSelector = `.data-table-header-button[data-column=date]`
+    const anotherSortColumnSelector = `.data-table-header-button[data-column=prisonNumber]`
 
     dataTable.get(anotherSortColumnSelector).click()
 

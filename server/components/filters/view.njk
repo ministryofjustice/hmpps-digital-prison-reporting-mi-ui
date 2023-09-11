@@ -17,7 +17,7 @@
 {% macro appFilters(filters, urlWithNoFilters) %}
   {%- set filterOptionsHtml %}
     {%- for filter in filters %}
-      {%- if filter.type === 'select' %}
+      {%- if filter.type === 'Select' %}
         {{ govukSelect({
           id: 'filters.' + filter.name,
           name: 'filters.' + filter.name,
@@ -27,7 +27,7 @@
             text: filter.text
           }
         }) }}
-      {% elif filter.type === 'radio' %}
+      {% elif filter.type === 'Radio' %}
         {{ govukRadios({
           id: 'filters.' + filter.name,
           name: 'filters.' + filter.name,
@@ -40,7 +40,7 @@
           items: filter.options,
           value: filter.value
         }) }}
-        {% elif filter.type === 'date-range' %}
+        {% elif filter.type === 'DateRange' %}
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-label govuk-!-font-weight-bold">

@@ -7,6 +7,7 @@ context('View reports', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('stubDefinitions')
   })
 
   it('Report page displays', () => {

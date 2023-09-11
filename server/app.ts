@@ -21,6 +21,8 @@ import config from './config'
 import routes from './routes'
 import type { Services } from './services'
 import populateCurrentUrl from './middleware/populateCurrentUrl'
+import populateDefinitions from './middleware/populateDefinitions'
+import asyncMiddleware from './middleware/asyncMiddleware'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -41,6 +43,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(populateCurrentUrl())
+  app.use(asyncMiddleware(populateDefinitions(services.reportingService)))
 
   app.use(routes(services))
 

@@ -1,4 +1,4 @@
-{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "./breadCrumb.njk" import breadCrumb %}
 
 <header class="hmpps-header" role="banner">
   <div class="hmpps-header__container">
@@ -48,3 +48,7 @@
     </p>
   </div>
 </div>
+
+{% if (currentUrl != "/") %}
+  {{ breadCrumb(title, breadCrumbList) }}
+{% endif %}

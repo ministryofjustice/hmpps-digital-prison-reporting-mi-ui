@@ -1,22 +1,24 @@
-import type { FieldDefinition } from '../../types/reports'
 import Dict = NodeJS.Dict
 import { FilterType } from './enum'
 import { FilterValue } from './types'
+import { components } from '../../types/api'
 
 const LOCALE = 'en-GB'
 
 const toLocaleDate = (isoDate?: string) => (isoDate ? new Date(isoDate).toLocaleDateString(LOCALE) : null)
 
 export default {
-  getFilters: (format: Array<FieldDefinition>, filterValues: Dict<string>) =>
+  getFilters: (format: Array<components['schemas']['FieldDefinition']>, filterValues: Dict<string>) =>
     format
       .filter(f => f.filter)
       .map(f => {
         const filter: FilterValue = {
-          text: f.header,
+          text: f.displayName,
           name: f.name,
           type: f.filter.type,
-          options: f.filter.options,
+          options: f.filter.staticOptions
+            ? f.filter.staticOptions.map(o => ({ value: o.name, text: o.displayName }))
+            : null,
           value: filterValues[f.name],
         }
 
@@ -31,7 +33,7 @@ export default {
       }),
 
   getSelectedFilters: (
-    format: Array<FieldDefinition>,
+    format: Array<components['schemas']['FieldDefinition']>,
     filterValues: Dict<string>,
     createUrlForParameters: (updateQueryParams: Dict<string>) => string,
     filtersPrefix: string,
@@ -56,12 +58,12 @@ export default {
           } else {
             filterValueText = `Until ${end}`
           }
-        } else if (f.filter.options) {
-          filterValueText = f.filter.options.find(o => o.value === filterValues[f.name]).text
+        } else if (f.filter.staticOptions) {
+          filterValueText = f.filter.staticOptions.find(o => o.name === filterValues[f.name]).displayName
         }
 
         return {
-          text: `${f.header}: ${filterValueText}`,
+          text: `${f.displayName}: ${filterValueText}`,
           href: createUrlForParameters({
             [`${filtersPrefix}${f.name}`]: '',
             selectedPage: '1',
