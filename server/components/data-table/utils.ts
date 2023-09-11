@@ -24,33 +24,39 @@ export default {
     createUrlForParameters: (updateQueryParams: Dict<string>) => string,
   ) => {
     return format.map(f => {
-      let ariaSort = 'none'
-      let url = createUrlForParameters({
-        sortColumn: f.name,
-        sortedAsc: 'true',
-      })
+      let header: Header
 
-      if (f.name === listRequest.sortColumn) {
-        ariaSort = listRequest.sortedAsc ? 'ascending' : 'descending'
+      if (f.sortable) {
+        let ariaSort = 'none'
+        let url = createUrlForParameters({
+          sortColumn: f.name,
+          sortedAsc: 'true',
+        })
 
-        if (listRequest.sortedAsc) {
-          url = createUrlForParameters({
-            sortColumn: f.name,
-            sortedAsc: 'false',
-          })
+        if (f.name === listRequest.sortColumn) {
+          ariaSort = listRequest.sortedAsc ? 'ascending' : 'descending'
+
+          if (listRequest.sortedAsc) {
+            url = createUrlForParameters({
+              sortColumn: f.name,
+              sortedAsc: 'false',
+            })
+          }
         }
-      }
 
-      const header: Header = {
-        // TODO: This changes the header alignment, and looks very odd.
-        // format: (f.format ?? FieldFormat.string) === FieldFormat.string ? null : 'numeric',
-        html:
-          `<a ` +
-          `data-column="${f.name}" ` +
-          `aria-sort="${ariaSort}" ` +
-          `class="data-table-header-button data-table-header-button-sort-${ariaSort}" ` +
-          `href="${url}"` +
-          `>${f.displayName}</a>`,
+        header = {
+          html:
+            `<a ` +
+            `data-column="${f.name}" ` +
+            `aria-sort="${ariaSort}" ` +
+            `class="data-table-header-button data-table-header-button-sort-${ariaSort}" ` +
+            `href="${url}"` +
+            `>${f.displayName}</a>`,
+        }
+      } else {
+        header = {
+          html: `<a data-column="${f.name}" class="data-table-header-button">${f.displayName}</a>`,
+        }
       }
 
       return header
@@ -80,7 +86,7 @@ export default {
         const cell: Cell = {
           text,
           format: fieldFormat,
-          classes: f.wordWrap ? `data-table-cell-wrap-${f.wordWrap.toLowerCase()}` : '',
+          classes: f.wordWrap ? `data-table-cell-wrap-${f.wordWrap.toLowerCase()}` : null,
         }
 
         return cell
