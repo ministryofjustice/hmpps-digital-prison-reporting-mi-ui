@@ -53,6 +53,16 @@ export default function routes(router: Router, services: Services) {
     return defaultSortColumn ? defaultSortColumn.name : variantDefinition.specification.fields[0].name
   }
 
+  function getTemplateLocation(template: string) {
+    switch (template) {
+      case 'list':
+        return 'pages/list'
+
+      default:
+        return null
+    }
+  }
+
   get('/reports/:report', (req, res, next) => {
     const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
 
@@ -108,7 +118,7 @@ export default function routes(router: Router, services: Services) {
           ),
         }
 
-        res.render('pages/report', {
+        res.render(getTemplateLocation(variantDefinition.specification.template), {
           title: variantDefinition.name,
           breadCrumbList: [
             { text: 'Reports', href: '/reports' },
