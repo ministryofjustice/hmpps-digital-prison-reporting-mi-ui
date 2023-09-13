@@ -1,0 +1,53 @@
+{% extends layoutTemplate %}
+
+{% from "moj/components/button-menu/macro.njk" import mojButtonMenu -%}
+{% from "../data-table/view.njk" import appDataTable %}
+{% from "../filters/view.njk"    import appFilters %}
+
+{% set pageTitle = applicationName + " - " + title %}
+{% set mainClasses = "app-container govuk-body" %}
+{% set urlWithNoFilters = dataTableOptions.createUrlForParameters(null) %}
+{% set selectedFilters = filterOptions.selectedFilters %}
+
+{% if (filterOptions.selectedFilters.length > 0) %}
+  {% set selectedFilters = [{
+    text: 'Clear all',
+    href: urlWithNoFilters,
+    classes: 'govuk-button--primary'
+  }].concat(selectedFilters) %}
+{% endif %}
+
+{% block content %}
+
+  <h1 class="govuk-heading-m">{{ title }}</h1>
+
+  <div class="moj-filter-layout">
+    <div class="moj-filter-layout__filter">
+      {{ appFilters(
+        filterOptions.filters,
+        urlWithNoFilters
+      ) }}
+    </div>
+    <div class="moj-filter-layout__content">
+      <div class="moj-action-bar">
+        <div id="filter-bar" class="moj-button-menu"></div>
+        {{ mojButtonMenu({
+          items: selectedFilters
+        }) }}
+      </div>
+      <div class="moj-scrollable-pane">
+        {{ appDataTable(
+          dataTableOptions.head,
+          dataTableOptions.rows,
+          dataTableOptions.count,
+          dataTableOptions.listRequest.selectedPage,
+          dataTableOptions.listRequest.pageSize,
+          dataTableOptions.listRequest.sortColumn,
+          dataTableOptions.listRequest.sortedAsc,
+          dataTableOptions.createUrlForParameters
+        ) }}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
