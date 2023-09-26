@@ -26,8 +26,13 @@ export default {
     otherOptions,
     layoutTemplate,
   }: RenderListInput) => {
-    const reportQuery = new ReportQuery(request.query, getDefaultSortColumn(fields), filtersQueryParameterPrefix)
-    const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery, filtersQueryParameterPrefix)
+    const reportQuery = new ReportQuery(
+      fields,
+      request.query,
+      getDefaultSortColumn(fields),
+      filtersQueryParameterPrefix,
+    )
+    const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery)
 
     const listData = getListDataSources(reportQuery)
 
