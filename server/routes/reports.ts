@@ -3,15 +3,8 @@ import createError from 'http-errors'
 import querystring from 'querystring'
 import type { Services } from '../services'
 import asyncMiddleware from '../middleware/asyncMiddleware'
-import urlHelper from '../utils/urlHelper'
-import DataTableUtils from '../components/data-table/utils'
-import { ReportQuery } from '../types/reports/class'
-import FilterUtils from '../components/filters/utils'
-import type { DataTableOptions } from '../components/data-table/types'
-import type { FilterOptions } from '../components/filters/types'
 import { components } from '../types/api'
-
-const filtersQueryParamPrefix = 'filters.'
+import ReportListUtils from '../components/report-list/utils'
 
 export default function routes(router: Router, services: Services) {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
@@ -48,21 +41,6 @@ export default function routes(router: Router, services: Services) {
     return null
   }
 
-  function getDefaultSortColumn(variantDefinition: components['schemas']['VariantDefinition']) {
-    const defaultSortColumn = variantDefinition.specification.fields.find(f => f.defaultSortColumn)
-    return defaultSortColumn ? defaultSortColumn.name : variantDefinition.specification.fields[0].name
-  }
-
-  function getTemplateLocation(template: string) {
-    switch (template) {
-      case 'list':
-        return 'pages/list'
-
-      default:
-        return null
-    }
-  }
-
   get('/reports/:report', (req, res, next) => {
     const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
 
@@ -75,7 +53,7 @@ export default function routes(router: Router, services: Services) {
         v.specification.fields
           .filter(f => f.filter && f.filter.defaultValue)
           .forEach(f => {
-            defaultFilters[`${filtersQueryParamPrefix}${f.name}`] = f.filter.defaultValue
+            defaultFilters[`${ReportListUtils.filtersQueryParameterPrefix}${f.name}`] = f.filter.defaultValue
           })
 
         return {
@@ -91,43 +69,33 @@ export default function routes(router: Router, services: Services) {
     const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
     const variantDefinition = getVariantDefinition(reportDefinition, req.params.variant, next)
 
-    const reportQuery = new ReportQuery(req.query, getDefaultSortColumn(variantDefinition), filtersQueryParamPrefix)
+    const { resourceName } = variantDefinition
+    const { token } = res.locals.user
 
-    Promise.all([
-      services.reportingService.getList(variantDefinition.resourceName, res.locals.user.token, reportQuery),
-      services.reportingService.getCount(variantDefinition.resourceName, res.locals.user.token, reportQuery.filters),
-    ])
-      .then(data => {
-        const createUrlForParameters = urlHelper.getCreateUrlForParametersFunction(reportQuery, filtersQueryParamPrefix)
-
-        const dataTableOptions: DataTableOptions = {
-          listRequest: reportQuery,
-          head: DataTableUtils.mapHeader(variantDefinition.specification.fields, reportQuery, createUrlForParameters),
-          rows: DataTableUtils.mapData(data[0], variantDefinition.specification.fields),
-          count: data[1],
-          createUrlForParameters,
-        }
-
-        const filterOptions: FilterOptions = {
-          filters: FilterUtils.getFilters(variantDefinition.specification.fields, reportQuery.filters),
-          selectedFilters: FilterUtils.getSelectedFilters(
-            variantDefinition.specification.fields,
-            reportQuery.filters,
-            createUrlForParameters,
-            filtersQueryParamPrefix,
-          ),
-        }
-
-        res.render(getTemplateLocation(variantDefinition.specification.template), {
+    switch (variantDefinition.specification.template) {
+      case 'list':
+        ReportListUtils.renderList({
           title: variantDefinition.name,
-          breadCrumbList: [
-            { text: 'Reports', href: '/reports' },
-            { text: reportDefinition.name, href: `/reports/${reportDefinition.id}` },
-          ],
-          dataTableOptions,
-          filterOptions,
+          fields: variantDefinition.specification.fields,
+          request: req,
+          response: res,
+          next,
+          getListDataSources: reportQuery => ({
+            data: services.reportingService.getList(resourceName, token, reportQuery),
+            count: services.reportingService.getCount(resourceName, token, reportQuery.filters),
+          }),
+          otherOptions: {
+            breadCrumbList: [
+              { text: 'Reports', href: '/reports' },
+              { text: reportDefinition.name, href: `/reports/${reportDefinition.id}` },
+            ],
+          },
+          layoutTemplate: 'partials/layout.njk',
         })
-      })
-      .catch(err => next(err))
+        break
+
+      default:
+        next()
+    }
   })
 }

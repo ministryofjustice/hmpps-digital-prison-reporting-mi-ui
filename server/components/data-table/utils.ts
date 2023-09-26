@@ -1,7 +1,6 @@
 import Dict = NodeJS.Dict
 import type { Cell, Header } from './types'
-import type { ListRequest } from '../../types/reports'
-import { components } from '../../types/api'
+import type { ListRequest, FieldDefinition } from '../../types/reports'
 
 const mapDate = (isoDate: string) => {
   const date = new Date(isoDate)
@@ -19,7 +18,7 @@ const mapDate = (isoDate: string) => {
 
 export default {
   mapHeader: (
-    format: Array<components['schemas']['FieldDefinition']>,
+    format: Array<FieldDefinition>,
     listRequest: ListRequest,
     createUrlForParameters: (updateQueryParams: Dict<string>) => string,
   ) => {
@@ -63,7 +62,7 @@ export default {
     })
   },
 
-  mapData: (data: Array<Dict<string>>, format: Array<components['schemas']['FieldDefinition']>) =>
+  mapData: (data: Array<Dict<string>>, format: Array<FieldDefinition>) =>
     data.map(d =>
       format.map(f => {
         let text: string = d[f.name]
