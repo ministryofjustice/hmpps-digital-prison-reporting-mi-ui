@@ -1,5 +1,5 @@
 import type { ParsedQs } from 'qs'
-import { FilteredListRequest } from './index'
+import { FieldDefinition, FilteredListRequest } from './index'
 import Dict = NodeJS.Dict
 
 export class ReportQuery implements FilteredListRequest {
@@ -13,11 +13,14 @@ export class ReportQuery implements FilteredListRequest {
 
   filters: Dict<string>
 
-  constructor(queryParams: ParsedQs, defaultSortColumn: string, filtersPrefix: string) {
+  filtersPrefix: string
+
+  constructor(fields: Array<FieldDefinition>, queryParams: ParsedQs, defaultSortColumn: string, filtersPrefix: string) {
     this.selectedPage = queryParams.selectedPage ? Number(queryParams.selectedPage) : 1
     this.pageSize = queryParams.pageSize ? Number(queryParams.pageSize) : 20
     this.sortColumn = queryParams.sortColumn ? queryParams.sortColumn.toString() : defaultSortColumn
     this.sortedAsc = queryParams.sortedAsc !== 'false'
+    this.filtersPrefix = filtersPrefix
 
     this.filters = {}
     Object.keys(queryParams)
@@ -26,6 +29,21 @@ export class ReportQuery implements FilteredListRequest {
       .forEach(key => {
         this.filters[key.replace(filtersPrefix, '')] = queryParams[key].toString()
       })
+  }
+
+  toRecordWithFilterPrefix() {
+    const record: Record<string, string> = {
+      selectedPage: this.selectedPage.toString(),
+      pageSize: this.pageSize.toString(),
+      sortColumn: this.sortColumn,
+      sortedAsc: this.sortedAsc.toString(),
+    }
+
+    Object.keys(this.filters).forEach(filterName => {
+      record[`${this.filtersPrefix}${filterName}`] = this.filters[filterName]
+    })
+
+    return record
   }
 }
 
@@ -37,20 +55,5 @@ export const toRecord = (listRequest: FilteredListRequest) => {
     sortedAsc: listRequest.sortedAsc.toString(),
     ...listRequest.filters,
   }
-  return record
-}
-
-export const toRecordWithFilterPrefix = (listRequest: FilteredListRequest, filtersPrefix: string) => {
-  const record: Record<string, string> = {
-    selectedPage: listRequest.selectedPage.toString(),
-    pageSize: listRequest.pageSize.toString(),
-    sortColumn: listRequest.sortColumn,
-    sortedAsc: listRequest.sortedAsc.toString(),
-  }
-
-  Object.keys(listRequest.filters).forEach(filterName => {
-    record[`${filtersPrefix}${filterName}`] = listRequest.filters[filterName]
-  })
-
   return record
 }

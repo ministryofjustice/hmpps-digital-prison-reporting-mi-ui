@@ -46,7 +46,7 @@ export default class RestClient {
   }
 
   async get({ path = null, query = {}, headers = {}, responseType = '', raw = false }: GetRequest): Promise<unknown> {
-    logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${query}`)
+    logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${JSON.stringify(query)}`)
     try {
       const result = await superagent
         .get(`${this.apiUrl()}${path}`)

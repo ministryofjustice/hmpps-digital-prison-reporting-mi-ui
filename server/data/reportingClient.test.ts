@@ -2,8 +2,8 @@ import nock from 'nock'
 
 import config from '../config'
 import ReportingClient from './reportingClient'
-import type { FilteredListRequest } from '../types/reports'
 import { components } from '../types/api'
+import { ReportQuery } from '../types/reports/class'
 
 describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
@@ -33,21 +33,36 @@ describe('reportingClient', () => {
   describe('getList', () => {
     it('should return data from api', async () => {
       const response = [{ test: 'true' }]
-      const listRequest: FilteredListRequest = {
-        selectedPage: 1,
-        pageSize: 2,
-        sortColumn: 'three',
-        sortedAsc: true,
-        filters: {
-          'original.filter': 'true',
+      const listRequest: ReportQuery = new ReportQuery(
+        [
+          {
+            name: 'original.filter',
+            displayName: 'Original',
+            sortable: true,
+            defaultSortColumn: false,
+            filter: {
+              type: 'Radio',
+            },
+            type: 'String',
+          },
+        ],
+        {
+          selectedPage: '1',
+          pageSize: '2',
+          sortColumn: 'three',
+          sortedAsc: 'true',
+          'f.original.filter': 'true',
         },
-      }
+        'one',
+        'f.',
+      )
+
       const expectedQuery: Record<string, string> = {
         selectedPage: '1',
         pageSize: '2',
         sortColumn: 'three',
         sortedAsc: 'true',
-        'original.filter': 'true',
+        'f.original.filter': 'true',
       }
       const resourceName = 'external-movements'
 

@@ -1,13 +1,9 @@
 import querystring from 'querystring'
 import Dict = NodeJS.Dict
-import { ReportQuery, toRecord, toRecordWithFilterPrefix } from '../types/reports/class'
+import { ReportQuery, toRecord } from '../types/reports/class'
 
-const createUrlForParameters = (
-  currentQueryParams: ReportQuery,
-  updateQueryParams: Dict<string>,
-  filtersPrefix: string,
-) => {
-  let queryParams: Dict<string> = toRecordWithFilterPrefix(currentQueryParams, filtersPrefix)
+const createUrlForParameters = (currentQueryParams: ReportQuery, updateQueryParams: Dict<string>) => {
+  let queryParams: Dict<string> = currentQueryParams.toRecordWithFilterPrefix()
 
   if (updateQueryParams) {
     Object.keys(updateQueryParams).forEach(q => {
@@ -43,8 +39,7 @@ const createUrlForParameters = (
 export default {
   createUrlForParameters,
 
-  getCreateUrlForParametersFunction: (currentQueryParams: ReportQuery, filtersPrefix: string) => {
-    return (updateQueryParams: Dict<string>) =>
-      createUrlForParameters(currentQueryParams, updateQueryParams, filtersPrefix)
+  getCreateUrlForParametersFunction: (currentQueryParams: ReportQuery) => {
+    return (updateQueryParams: Dict<string>) => createUrlForParameters(currentQueryParams, updateQueryParams)
   },
 }

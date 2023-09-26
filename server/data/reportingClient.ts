@@ -2,8 +2,7 @@ import logger from '../../logger'
 import config from '../config'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
-import type { FilteredListRequest } from '../types/reports'
-import { toRecord } from '../types/reports/class'
+import { ReportQuery } from '../types/reports/class'
 import { components, operations } from '../types/api'
 
 export interface Count {
@@ -26,13 +25,13 @@ export default class ReportingClient {
       .then(response => (<Count>response).count)
   }
 
-  getList(resourceName: string, token: string, listRequest: FilteredListRequest): Promise<Array<Dict<string>>> {
+  getList(resourceName: string, token: string, listRequest: ReportQuery): Promise<Array<Dict<string>>> {
     logger.info(`Reporting client: Get ${resourceName} list`)
 
     return ReportingClient.restClient(token)
       .get({
         path: `/${resourceName}`,
-        query: toRecord(listRequest),
+        query: listRequest.toRecordWithFilterPrefix(),
       })
       .then(response => <Array<Dict<string>>>response)
   }

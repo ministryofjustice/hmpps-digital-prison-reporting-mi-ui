@@ -53,7 +53,21 @@ export default function routes(router: Router, services: Services) {
         v.specification.fields
           .filter(f => f.filter && f.filter.defaultValue)
           .forEach(f => {
-            defaultFilters[`${ReportListUtils.filtersQueryParameterPrefix}${f.name}`] = f.filter.defaultValue
+            if (f.filter.type === 'DateRange') {
+              const dates = f.filter.defaultValue.split(' - ')
+
+              if (dates.length >= 1) {
+                // eslint-disable-next-line prefer-destructuring
+                defaultFilters[`${ReportListUtils.filtersQueryParameterPrefix}${f.name}.start`] = dates[0]
+
+                if (dates.length >= 2) {
+                  // eslint-disable-next-line prefer-destructuring
+                  defaultFilters[`${ReportListUtils.filtersQueryParameterPrefix}${f.name}.end`] = dates[1]
+                }
+              }
+            } else {
+              defaultFilters[`${ReportListUtils.filtersQueryParameterPrefix}${f.name}`] = f.filter.defaultValue
+            }
           })
 
         return {
