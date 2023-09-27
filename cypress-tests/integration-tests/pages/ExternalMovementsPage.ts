@@ -1,4 +1,4 @@
-import Page, { PageElement } from './page'
+import Page, { PageElement } from '../../common/pages/page'
 
 export default class ExternalMovementsPage extends Page {
   constructor() {

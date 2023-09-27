@@ -1,5 +1,5 @@
-import IndexPage from '../pages/index'
-import Page from '../pages/page'
+import IndexPage from '../../common/pages'
+import Page from '../../common/pages/page'
 import ReportsPage from '../pages/reports'
 import ExternalMovementsPage from '../pages/ExternalMovementsPage'
 import ExternalMovementsLastMonthPage from '../pages/ExternalMovementsLastMonthPage'
