@@ -24,8 +24,8 @@
     "test": "jest",
     "test:ci": "jest --runInBand",
     "security_audit": "npx audit-ci --config audit-ci.json",
-    "int-test": "cypress run --config-file cypress-tests/integration-tests/cypress.config.js",
-    "int-test-ui": "cypress open --config-file cypress-tests/integration-tests/cypress.config.js",
+    "int-test": "cypress run",
+    "int-test-ui": "cypress open",
     "clean": "rm -rf dist build node_modules stylesheets",
     "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output server/types/api.d.ts",
     "acceptance-test": "cypress run --config-file cypress-tests/acceptance-tests/cypress.config.js"
