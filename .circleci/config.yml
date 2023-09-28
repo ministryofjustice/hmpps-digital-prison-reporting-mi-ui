@@ -116,6 +116,7 @@ jobs:
       name: hmpps/node_redis
       node_tag: << pipeline.parameters.node-version >>
       redis_tag: "7.0"
+    circleci_ip_ranges: true
     steps:
       - checkout
       - attach_workspace:
