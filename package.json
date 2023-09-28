@@ -20,14 +20,15 @@
     "start-feature:dev": "concurrently -k -p \"[{name}]\" -n \"Views,TypeScript,Node,Sass\" -c \"yellow.bold,cyan.bold,green.bold,blue.bold\" \"npm run watch-views\" \"npm run watch-ts\" \"npm run watch-node-feature\" \"npm run watch-sass\"",
     "record-build-info": "node ./bin/record-build-info",
     "lint": "eslint . --cache --max-warnings 0",
-    "typecheck": "tsc && tsc -p integration_tests",
+    "typecheck": "tsc && tsc -p cypress-tests",
     "test": "jest",
     "test:ci": "jest --runInBand",
     "security_audit": "npx audit-ci --config audit-ci.json",
-    "int-test": "cypress run --config video=false",
+    "int-test": "cypress run",
     "int-test-ui": "cypress open",
     "clean": "rm -rf dist build node_modules stylesheets",
-    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output server/types/api.d.ts"
+    "generate-api-types": "openapi-typescript https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/v3/api-docs --output server/types/api.d.ts",
+    "acceptance-test": "cypress run --config-file cypress-tests/acceptance-tests/cypress.config.js"
   },
   "engines": {
     "node": "^20",
@@ -82,7 +83,7 @@
       "migrations/*",
       "node_modules/*",
       "test/*",
-      "integration_tests/*"
+      "cypress-tests/*"
     ],
     "delay": 2500,
     "ext": "js,json,html,njk"
@@ -126,6 +127,8 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^18.0.6",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@types/bunyan": "^1.8.8",
     "@types/bunyan-format": "^0.2.5",
     "@types/compression": "^1.7.2",

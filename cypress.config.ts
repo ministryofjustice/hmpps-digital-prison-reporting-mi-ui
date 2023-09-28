@@ -1,20 +1,20 @@
 import { defineConfig } from 'cypress'
-import { resetStubs } from './integration_tests/mockApis/wiremock'
-import auth from './integration_tests/mockApis/auth'
-import tokenVerification from './integration_tests/mockApis/tokenVerification'
-import reports from './integration_tests/mockApis/reports'
+import { resetStubs } from './cypress-tests/integration-tests/mockApis/wiremock'
+import auth from './cypress-tests/integration-tests/mockApis/auth'
+import tokenVerification from './cypress-tests/integration-tests/mockApis/tokenVerification'
+import reports from './cypress-tests/integration-tests/mockApis/reports'
 
 export default defineConfig({
   chromeWebSecurity: false,
-  fixturesFolder: 'integration_tests/fixtures',
-  screenshotsFolder: 'integration_tests/screenshots',
-  videosFolder: 'integration_tests/videos',
+  fixturesFolder: 'cypress-tests/integration-tests/fixtures',
+  screenshotsFolder: 'cypress-tests/integration-tests/screenshots',
+  videosFolder: 'cypress-tests/integration-tests/videos',
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
     configFile: 'reporter-config.json',
   },
-  videoUploadOnPasses: false,
   taskTimeout: 60000,
+  video: true,
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
@@ -28,7 +28,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
-    specPattern: 'integration_tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: 'integration_tests/support/index.ts',
+    specPattern: 'cypress-tests/integration-tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    supportFile: 'cypress-tests/integration-tests/support/index.ts',
   },
 })

@@ -123,8 +123,10 @@ assets/stylesheets/*.css
 build-info.json
 dist/
 test_results/
-integration_tests/videos/
-integration_tests/screenshots/
+cypress-tests/integration-tests/videos/
+cypress-tests/integration-tests/screenshots/
+/cypress-tests/acceptance-tests/videos/
+/cypress-tests/acceptance-tests/screenshots/
 */*.iml
 **/Chart.lock
 
