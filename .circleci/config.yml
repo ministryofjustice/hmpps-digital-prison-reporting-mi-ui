@@ -131,9 +131,9 @@ jobs:
       - store_test_results:
           path: test_results
       - store_artifacts:
-          path: cypress-tests/integration-tests/videos
+          path: cypress-tests/acceptance-tests/videos
       - store_artifacts:
-          path: cypress-tests/integration-tests/screenshots
+          path: cypress-tests/acceptance-tests/screenshots
 
 workflows:
   version: 2

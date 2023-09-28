@@ -10,6 +10,7 @@ Feature: Login
   Scenario: Unauthenticated user navigating to reports page is redirected to auth
     When I navigate to the "reports" page
     Then I am redirected to the login page
+    And the message "Enter a valid username and password" is displayed
 
   Scenario: Signing-in with invalid credentials causes a message to be displayed
     Given I navigate to the "sign-in" page

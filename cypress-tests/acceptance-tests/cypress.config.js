@@ -7,12 +7,13 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   fixturesFolder: 'cypress-tests/acceptance-tests/fixtures',
   screenshotsFolder: 'cypress-tests/acceptance-tests/screenshots',
+  videosFolder: 'cypress-tests/acceptance-tests/videos',
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
     configFile: 'reporter-config.json',
   },
   taskTimeout: 60000,
-  video: false,
+  video: true,
   e2e: {
     specPattern: '**/*.feature',
     async setupNodeEvents(on, config) {
