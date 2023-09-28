@@ -1,10 +1,10 @@
-import { defineConfig } from 'cypress'
-import { resetStubs } from './cypress-tests/integration-tests/mockApis/wiremock'
-import auth from './cypress-tests/integration-tests/mockApis/auth'
-import tokenVerification from './cypress-tests/integration-tests/mockApis/tokenVerification'
-import reports from './cypress-tests/integration-tests/mockApis/reports'
+const { defineConfig } = require('cypress')
+const { resetStubs } = require('./mockApis/wiremock')
+const auth = require('./mockApis/auth')
+const tokenVerification = require('./mockApis/tokenVerification')
+const reports = require('./mockApis/reports')
 
-export default defineConfig({
+module.exports = defineConfig({
   chromeWebSecurity: false,
   fixturesFolder: 'cypress-tests/integration-tests/fixtures',
   screenshotsFolder: 'cypress-tests/integration-tests/screenshots',
