@@ -30,4 +30,8 @@ module.exports = defineConfig({
     baseUrl: 'https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk/',
     supportFile: 'cypress-tests/acceptance-tests/support/index.ts',
   },
+  env: {
+    USERNAME: 'Populated from CYPRESS_USERNAME env var',
+    PASSWORD: 'Populated from CYPRESS_PASSWORD env var',
+  },
 })
