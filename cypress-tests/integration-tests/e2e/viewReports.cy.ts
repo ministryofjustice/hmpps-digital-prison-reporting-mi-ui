@@ -1,6 +1,6 @@
 import IndexPage from '../../common/pages'
 import Page from '../../common/pages/page'
-import ReportsPage from '../pages/reports'
+import ReportsPage from '../../common/pages/ReportsPage'
 
 context('View reports', () => {
   beforeEach(() => {

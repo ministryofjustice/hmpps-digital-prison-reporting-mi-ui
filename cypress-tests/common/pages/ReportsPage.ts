@@ -1,4 +1,4 @@
-import Page, { PageElement } from '../../common/pages/page'
+import Page, { PageElement } from './page'
 
 export default class ReportsPage extends Page {
   constructor() {
