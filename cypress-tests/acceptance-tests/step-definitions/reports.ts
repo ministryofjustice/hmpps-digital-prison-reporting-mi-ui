@@ -5,14 +5,13 @@ import Page from '../../common/pages/page'
 import ReportsPage from '../../common/pages/ReportsPage'
 import { components } from '../../../server/types/api'
 import VariantsPage from '../../common/pages/VariantsPage'
-import ListPage from '../../common/pages/ListPage'
 
 const getReportDefinitions = (context: Mocha.Context) => {
   if (!context.reportDefinitions) {
-    return cy.getCookie('jwtSession', { domain: 'sign-in-dev.hmpps.service.justice.gov.uk' }).then(tokenCookie => {
+    return cy.getCookie('jwtSession', { domain: Cypress.env('SIGN_IN_URL') }).then(tokenCookie => {
       return cy
         .request({
-          url: 'https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk/definitions?renderMethod=HTML',
+          url: `${Cypress.env('API_BASE_URL')}/definitions?renderMethod=HTML`,
           auth: {
             bearer: tokenCookie.value,
           },
@@ -53,6 +52,26 @@ Given('I navigate to a list report', function (this: Mocha.Context) {
   })
 })
 
+When('I click on a report card', function (this: Mocha.Context) {
+  const page = Page.verifyOnPage(ReportsPage)
+  getReportDefinitions(this).then(reportDefinitions => {
+    const reportDefinition = reportDefinitions.pop()
+    this.currentReportDefinition = reportDefinition
+    page.card(reportDefinition.id).click()
+  })
+})
+
+When('I click on a variant card', function (this: Mocha.Context) {
+  const page = new VariantsPage(this.currentReportDefinition)
+
+  page.checkOnPage()
+
+  const variantDefinition = page.reportDefinition.variants.pop()
+  this.currentVariantDefinition = variantDefinition
+
+  page.card(variantDefinition.id).click()
+})
+
 Then('a card is displayed for each report', function (this: Mocha.Context) {
   const page = Page.verifyOnPage(ReportsPage)
   getReportDefinitions(this).then(reportDefinitions => {
@@ -69,39 +88,12 @@ Then('a card is displayed for each report', function (this: Mocha.Context) {
   })
 })
 
-When('I click on a report card', function (this: Mocha.Context) {
-  const page = Page.verifyOnPage(ReportsPage)
-  getReportDefinitions(this).then(reportDefinitions => {
-    const reportDefinition = reportDefinitions.pop()
-    this.currentReportDefinition = reportDefinition
-    page.card(reportDefinition.id).click()
-  })
-})
-
-When('I click on a variant card', function (this: Mocha.Context) {
-  const reportDefinition: components['schemas']['ReportDefinition'] = this.currentReportDefinition
-  const page = new VariantsPage(reportDefinition.id, reportDefinition.name)
-
-  page.checkOnPage()
-
-  const variantDefinition = reportDefinition.variants.pop()
-  this.currentVariantDefinition = variantDefinition
-
-  page.card(variantDefinition.id).click()
-})
-
-When(/^I click the Show Filter button$/, function () {
-  const page = new ListPage(this.currentVariantDefinition.name)
-  page.showFilterButton().click()
-})
-
 Then('a card is displayed for each variant', function (this: Mocha.Context) {
-  const reportDefinition: components['schemas']['ReportDefinition'] = this.currentReportDefinition
-  const page = new VariantsPage(reportDefinition.id, reportDefinition.name)
+  const page = new VariantsPage(this.currentReportDefinition)
 
   page.checkOnPage()
 
-  reportDefinition.variants.forEach(variantDefinition => {
+  page.reportDefinition.variants.forEach(variantDefinition => {
     page
       .card(variantDefinition.id)
       .should('not.be.null')
@@ -111,20 +103,4 @@ Then('a card is displayed for each variant', function (this: Mocha.Context) {
       .get('.card__description')
       .should('contain.text', variantDefinition.description)
   })
-})
-
-Then(/^the Show Filter button is displayed$/, function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition.name)
-
-  page.showFilterButton().should('exist')
-})
-
-Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
-  const panel = new ListPage(this.currentVariantDefinition.name).filterPanel()
-
-  if (panelStatus === 'open') {
-    panel.should('not.have.class', 'moj-js-hidden')
-  } else {
-    panel.should('have.class', 'moj-js-hidden')
-  }
 })

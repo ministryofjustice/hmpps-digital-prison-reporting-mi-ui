@@ -31,7 +31,7 @@ Then(
         break
 
       case 'list':
-        new ListPage(this.currentVariantDefinition.name).checkOnPage()
+        new ListPage(this.currentVariantDefinition).checkOnPage()
         break
 
       default:

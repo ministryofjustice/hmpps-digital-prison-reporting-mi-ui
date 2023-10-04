@@ -38,3 +38,5 @@ Feature: Reports navigation
     And a breadcrumb link is shown for the Reports page
     And a breadcrumb link is shown for the Variants page
     And a breadcrumb with no link is shown for the List page
+
+  Scenario: Default filters are applied to variant URL
