@@ -142,3 +142,22 @@ Next, update the file to match the linting expectations by:
 - Opening `server/types/api.d.ts`.
 - Selecting a red-underlined line (e.g. a string with double quotes).
 - Pressing Option + Enter, then selecting "ESLint: Fix current file".
+
+## Running acceptance tests
+
+Acceptance tests can be run using the following commands:
+
+```shell
+npm run acceptance-test
+```
+
+They can be configured using the following environment variables:
+
+```shell
+CYPRESS_USERNAME=# The HMPPS Auth user's username, for the relevant environment (e.g. SPEGG_GEN)
+CYPRESS_PASSWORD=# The HMPPS Auth user's password, for the relevant environment (e.g. Password1!)
+CYPRESS_BASE_URL=# The URL of the UI to test (defaults to 'https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk/')
+CYPRESS_SIGN_IN_URL=# The URL of the HMPPS Auth server (defaults to 'sign-in-dev.hmpps.service.justice.gov.uk')
+CYPRESS_API_BASE_URL=# The base URL of the environment's API (defaults to 'https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk')
+```
+
