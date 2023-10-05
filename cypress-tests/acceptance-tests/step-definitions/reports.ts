@@ -63,9 +63,6 @@ When('I click on a report card', function (this: Mocha.Context) {
 
 When('I click on a variant card', function (this: Mocha.Context) {
   const page = new VariantsPage(this.currentReportDefinition)
-
-  page.checkOnPage()
-
   const variantDefinition = page.reportDefinition.variants.pop()
   this.currentVariantDefinition = variantDefinition
 
@@ -74,6 +71,7 @@ When('I click on a variant card', function (this: Mocha.Context) {
 
 Then('a card is displayed for each report', function (this: Mocha.Context) {
   const page = Page.verifyOnPage(ReportsPage)
+
   getReportDefinitions(this).then(reportDefinitions => {
     reportDefinitions.forEach(reportDefinition => {
       page
@@ -91,8 +89,6 @@ Then('a card is displayed for each report', function (this: Mocha.Context) {
 Then('a card is displayed for each variant', function (this: Mocha.Context) {
   const page = new VariantsPage(this.currentReportDefinition)
 
-  page.checkOnPage()
-
   page.reportDefinition.variants.forEach(variantDefinition => {
     page
       .card(variantDefinition.id)
@@ -102,5 +98,37 @@ Then('a card is displayed for each variant', function (this: Mocha.Context) {
       .parent()
       .get('.card__description')
       .should('contain.text', variantDefinition.description)
+  })
+})
+
+Then('the variant card URL should contain default filter values', function () {
+  const page = new VariantsPage(this.currentReportDefinition)
+  let fieldWithDefaultFilterValue: components['schemas']['FieldDefinition']
+
+  const variantWithDefaultFilterValue = page.reportDefinition.variants.find(variantDefinition => {
+    const matchingField = variantDefinition.specification.fields.find(
+      field => field.filter && field.filter.defaultValue,
+    )
+
+    if (matchingField) {
+      fieldWithDefaultFilterValue = matchingField
+      return true
+    }
+    return false
+  })
+
+  page.card(variantWithDefaultFilterValue.id).should(link => {
+    if (fieldWithDefaultFilterValue.filter.type === 'DateRange') {
+      // eslint-disable-next-line no-unused-expressions
+      expect(link.attr('href').match(new RegExp(`${fieldWithDefaultFilterValue.name}\\.start=\\d{4}-\\d{2}-\\d{2}`))).is
+        .not.null
+      // eslint-disable-next-line no-unused-expressions
+      expect(link.attr('href').match(new RegExp(`${fieldWithDefaultFilterValue.name}\\.end=\\d{4}-\\d{2}-\\d{2}`))).is
+        .not.null
+    } else {
+      expect(link.attr('href')).contains(
+        `${fieldWithDefaultFilterValue.name}=${fieldWithDefaultFilterValue.filter.defaultValue}`,
+      )
+    }
   })
 })
