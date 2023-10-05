@@ -160,4 +160,3 @@ CYPRESS_BASE_URL=# The URL of the UI to test (defaults to 'https://digital-priso
 CYPRESS_SIGN_IN_URL=# The URL of the HMPPS Auth server (defaults to 'sign-in-dev.hmpps.service.justice.gov.uk')
 CYPRESS_API_BASE_URL=# The base URL of the environment's API (defaults to 'https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk')
 ```
-
