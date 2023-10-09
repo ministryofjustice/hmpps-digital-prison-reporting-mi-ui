@@ -185,6 +185,8 @@ workflows:
       - acceptance_test:
           requires:
             - deploy_dev
+          context:
+            - hmpps-digital-prison-reporting-mi-auth
       - request-test-approval:
           type: approval
           requires:

@@ -1,4 +1,4 @@
-import Page, { PageElement } from '../../common/pages/page'
+import Page, { PageElement } from './page'
 
 export default class ReportsPage extends Page {
   constructor() {
@@ -6,4 +6,6 @@ export default class ReportsPage extends Page {
   }
 
   externalMovementsCard = (): PageElement => cy.get('.card__link[href="/reports/external-movements"]')
+
+  card = (id: string): PageElement => cy.get(`.card__link[href="/reports/${id}"]`)
 }
