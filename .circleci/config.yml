@@ -34,7 +34,7 @@ jobs:
       - npm-config/set-registry:
           registry-prurl: //npm.pkg.github.com/
           scope: '@ministryofjustice'
-          auth-token: << environment.GITHUB_TOKEN >>
+          auth-token: ${GITHUB_TOKEN}
       - run:
           name: Install Dependencies
           command: npm ci --no-audit
