@@ -12,6 +12,7 @@ jobs:
 
     permissions:
       pull-requests: write
+      packages: read
 
     steps:
       - uses: actions/checkout@v3
