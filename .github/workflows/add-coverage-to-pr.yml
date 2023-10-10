@@ -21,7 +21,10 @@ jobs:
         with:
           node-version: latest
 
-      - run: npm ci
+      - name: Install dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm ci
 
       - name: Calculate test coverage
         run: |
