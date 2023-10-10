@@ -1,10 +1,10 @@
 import type { NextFunction, RequestHandler, Router } from 'express'
 import createError from 'http-errors'
 import querystring from 'querystring'
+import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
 import type { Services } from '../services'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import { components } from '../types/api'
-import ReportListUtils from '../components/report-list/utils'
 
 export default function routes(router: Router, services: Services) {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))

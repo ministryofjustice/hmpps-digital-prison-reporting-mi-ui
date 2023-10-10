@@ -1,6 +1,6 @@
 {% extends "govuk/template.njk" %}
 
-{% from "./card-group.njk" import appCardGroup %}
+{% from "dpr/components/card-group/view.njk" import dprCardGroup %}
 
 {% block head %}
   <!--[if !IE 8]><!-->
@@ -29,7 +29,7 @@
   <body>, to avoid blocking the initial render. #}
   <script src="/assets/govuk/all.js"></script>
   <script src="/assets/govukFrontendInit.js"></script>
-  <script src="/assets/app.js"></script>
   <script src="/assets/moj/all.js"></script>
   <script src="/assets/mojFilterInit.js"></script>
+  <script src="/assets/dpr/js/client.js"></script>
 {% endblock %}
