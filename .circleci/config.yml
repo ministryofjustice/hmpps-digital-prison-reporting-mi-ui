@@ -4,7 +4,6 @@ orbs:
   hmpps: ministryofjustice/hmpps@7.3.3
   slack: circleci/slack@4.12.1
   owasp: entur/owasp@0.0.17
-  npm-config: cobli/npm-config@1.0.0
 
 parameters:
   alerts-slack-channel:
@@ -31,10 +30,6 @@ jobs:
           command: 'sudo npm install -g npm@latest'
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
-      - npm-config/set-registry:
-          registry-prurl: //npm.pkg.github.com/
-          scope: '@ministryofjustice'
-          auth-token: ${GITHUB_TOKEN}
       - run:
           name: Install Dependencies
           command: npm ci --no-audit
