@@ -8,7 +8,7 @@ Feature: List report
     Given the Show Filter button is displayed
     And the Filter panel is closed
     When I click the Show Filter button
-    Then the Filter panel is closed
+    Then the Filter panel is open
     And filters are displayed for filterable fields
 
   Scenario: Data is displayed correctly
