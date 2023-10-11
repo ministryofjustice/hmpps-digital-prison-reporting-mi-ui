@@ -11,7 +11,7 @@ const otherStaticResources = [
     location: '/node_modules/jquery/dist/jquery.min.js',
   },
   {
-    path: '/assets/spr',
+    path: '/assets/dpr',
     location: '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
   },
 ]
