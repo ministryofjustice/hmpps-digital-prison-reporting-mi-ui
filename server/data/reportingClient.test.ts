@@ -1,9 +1,9 @@
 import nock from 'nock'
 
+import ReportQuery from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/ReportQuery'
 import config from '../config'
 import ReportingClient from './reportingClient'
 import { components } from '../types/api'
-import { ReportQuery } from '../types/reports/class'
 
 describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope

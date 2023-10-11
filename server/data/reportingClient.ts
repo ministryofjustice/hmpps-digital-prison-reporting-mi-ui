@@ -1,8 +1,8 @@
+import ReportQuery from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/ReportQuery'
 import logger from '../../logger'
 import config from '../config'
 import RestClient from './restClient'
 import Dict = NodeJS.Dict
-import { ReportQuery } from '../types/reports/class'
 import { components, operations } from '../types/api'
 
 export interface Count {

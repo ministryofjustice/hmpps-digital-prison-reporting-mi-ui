@@ -1,7 +1,7 @@
+import ReportQuery from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/ReportQuery'
 import type ReportingClient from '../data/reportingClient'
 import Dict = NodeJS.Dict
 import { components } from '../types/api'
-import { ReportQuery } from '../types/reports/class'
 
 export default class ReportingService {
   constructor(private readonly reportingClient: ReportingClient) {}

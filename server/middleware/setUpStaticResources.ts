@@ -5,10 +5,14 @@ import noCache from 'nocache'
 
 import config from '../config'
 
-const jsStaticResources = [
+const otherStaticResources = [
   {
     path: '/assets/js/jquery.min.js',
     location: '/node_modules/jquery/dist/jquery.min.js',
+  },
+  {
+    path: '/assets/dpr',
+    location: '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets',
   },
 ]
 
@@ -37,7 +41,7 @@ export default function setUpStaticResources(): Router {
     router.use('/assets/images/icons', express.static(path.join(process.cwd(), dir), cacheControl))
   })
 
-  jsStaticResources.forEach(r => {
+  otherStaticResources.forEach(r => {
     router.use(r.path, express.static(path.join(process.cwd(), r.location), cacheControl))
   })
 

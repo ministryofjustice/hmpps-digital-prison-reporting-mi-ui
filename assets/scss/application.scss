@@ -6,9 +6,7 @@ $govuk-page-width: $moj-page-width;
 
 @import 'govuk/all';
 @import 'moj/all';
+@import 'node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/all';
 
 @import './components/header-bar';
-@import './components/card-group';
-@import './components/data-table';
-@import './components/filter';
 @import 'assets/scss/local';
