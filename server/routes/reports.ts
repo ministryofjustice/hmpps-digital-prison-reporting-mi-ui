@@ -96,7 +96,7 @@ export default function routes(router: Router, services: Services) {
           next,
           getListDataSources: reportQuery => ({
             data: services.reportingService.getList(resourceName, token, reportQuery),
-            count: services.reportingService.getCount(resourceName, token, reportQuery.filters),
+            count: services.reportingService.getCount(resourceName, token, reportQuery),
           }),
           otherOptions: {
             breadCrumbList: [

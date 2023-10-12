@@ -14,13 +14,13 @@ export default class ReportingClient {
     return new RestClient('Reporting API Client', config.apis.reporting, token)
   }
 
-  getCount(resourceName: string, token: string, filters: Dict<string>): Promise<number> {
+  getCount(resourceName: string, token: string, listRequest: ReportQuery): Promise<number> {
     logger.info(`Reporting client: Get ${resourceName} count`)
 
     return ReportingClient.restClient(token)
       .get({
         path: `/${resourceName}/count`,
-        query: filters,
+        query: listRequest.toRecordWithFilterPrefix(),
       })
       .then(response => (<Count>response).count)
   }

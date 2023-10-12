@@ -1,13 +1,12 @@
 import ReportQuery from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/ReportQuery'
 import type ReportingClient from '../data/reportingClient'
-import Dict = NodeJS.Dict
 import { components } from '../types/api'
 
 export default class ReportingService {
   constructor(private readonly reportingClient: ReportingClient) {}
 
-  async getCount(resourceName: string, token: string, filters: Dict<string>): Promise<number> {
-    return this.reportingClient.getCount(resourceName, token, filters)
+  async getCount(resourceName: string, token: string, listRequest: ReportQuery): Promise<number> {
+    return this.reportingClient.getCount(resourceName, token, listRequest)
   }
 
   async getList(resourceName: string, token: string, listRequest: ReportQuery): Promise<Array<NodeJS.Dict<string>>> {
