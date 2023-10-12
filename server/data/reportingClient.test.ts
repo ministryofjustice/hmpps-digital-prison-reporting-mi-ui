@@ -9,6 +9,30 @@ describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
   let reportingClient: ReportingClient
 
+  const listRequest: ReportQuery = new ReportQuery(
+    [
+      {
+        name: 'original.filter',
+        displayName: 'Original',
+        sortable: true,
+        defaultSortColumn: false,
+        filter: {
+          type: 'Radio',
+        },
+        type: 'String',
+      },
+    ],
+    {
+      selectedPage: '1',
+      pageSize: '2',
+      sortColumn: 'three',
+      sortedAsc: 'true',
+      'f.original.filter': 'true',
+    },
+    'one',
+    'f.',
+  )
+
   beforeEach(() => {
     fakeReportingApi = nock(config.apis.reporting.url)
     reportingClient = new ReportingClient()
@@ -23,9 +47,9 @@ describe('reportingClient', () => {
       const response = { count: 123 }
       const resourceName = 'external-movements'
 
-      fakeReportingApi.get(`/${resourceName}/count`).reply(200, response)
+      fakeReportingApi.get(new RegExp(`\\/${resourceName}\\/count\\?.+`)).reply(200, response)
 
-      const output = await reportingClient.getCount(resourceName, null, {})
+      const output = await reportingClient.getCount(resourceName, null, listRequest)
       expect(output).toEqual(response.count)
     })
   })
@@ -33,30 +57,6 @@ describe('reportingClient', () => {
   describe('getList', () => {
     it('should return data from api', async () => {
       const response = [{ test: 'true' }]
-      const listRequest: ReportQuery = new ReportQuery(
-        [
-          {
-            name: 'original.filter',
-            displayName: 'Original',
-            sortable: true,
-            defaultSortColumn: false,
-            filter: {
-              type: 'Radio',
-            },
-            type: 'String',
-          },
-        ],
-        {
-          selectedPage: '1',
-          pageSize: '2',
-          sortColumn: 'three',
-          sortedAsc: 'true',
-          'f.original.filter': 'true',
-        },
-        'one',
-        'f.',
-      )
-
       const expectedQuery: Record<string, string> = {
         selectedPage: '1',
         pageSize: '2',
