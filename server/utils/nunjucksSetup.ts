@@ -2,6 +2,7 @@
 import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
+import setUpNunjucksFilters from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters'
 import { initialiseName } from './utils'
 import applicationVersion from '../applicationVersion'
 
@@ -43,8 +44,5 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   njkEnv.addFilter('initialiseName', initialiseName)
 
-  njkEnv.addGlobal('getTodayIsoDate', () => {
-    const date = new Date()
-    return date.toISOString().substring(0, 10)
-  })
+  setUpNunjucksFilters(njkEnv)
 }
