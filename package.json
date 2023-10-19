@@ -130,7 +130,7 @@
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^18.0.6",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
-    "@types/bunyan": "^1.8.8",
+    "@types/bunyan": "^1.8.10",
     "@types/bunyan-format": "^0.2.5",
     "@types/compression": "^1.7.2",
     "@types/connect-flash": "0.0.38",
