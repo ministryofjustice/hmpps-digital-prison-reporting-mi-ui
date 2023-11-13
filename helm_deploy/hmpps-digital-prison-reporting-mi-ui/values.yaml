@@ -55,7 +55,7 @@ generic-service:
       API_CLIENT_SECRET: "api_client_secret"
       SYSTEM_CLIENT_ID: "system_client_id"
       SYSTEM_CLIENT_SECRET: "system_client_secret"
-    digital-prison-reporting-mi-ui:
+    hmpps-digital-prison-reporting-mi-ui:
       APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
 
   allowlist:
