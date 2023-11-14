@@ -3,14 +3,15 @@
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import { components } from '../../../server/types/api'
 import ListPage from '../../common/pages/ListPage'
+import { getAccessTokenFromHmppsAuth } from './utils'
 
 const getData = (resourceName: string) => {
-  return cy.getCookie('jwtSession', { domain: Cypress.env('SIGN_IN_URL') }).then(tokenCookie => {
+  return getAccessTokenFromHmppsAuth().then(token => {
     return cy
       .request({
         url: `${Cypress.env('API_BASE_URL')}/${resourceName}`,
         auth: {
-          bearer: tokenCookie.value,
+          bearer: token,
         },
       })
       .then(response => {

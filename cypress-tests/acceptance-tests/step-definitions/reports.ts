@@ -5,26 +5,7 @@ import Page from '../../common/pages/page'
 import ReportsPage from '../../common/pages/ReportsPage'
 import { components } from '../../../server/types/api'
 import VariantsPage from '../../common/pages/VariantsPage'
-
-const getReportDefinitions = (context: Mocha.Context) => {
-  if (!context.reportDefinitions) {
-    return cy.getCookie('jwtSession', { domain: Cypress.env('SIGN_IN_URL') }).then(tokenCookie => {
-      return cy
-        .request({
-          url: `${Cypress.env('API_BASE_URL')}/definitions?renderMethod=HTML`,
-          auth: {
-            bearer: tokenCookie.value,
-          },
-        })
-        .then(response => {
-          const reportDefinitions = response.body as Array<components['schemas']['ReportDefinition']>
-          context.reportDefinitions = reportDefinitions
-          return reportDefinitions
-        })
-    })
-  }
-  return cy.wrap(context.reportDefinitions as Array<components['schemas']['ReportDefinition']>)
-}
+import { getReportDefinitions } from './utils'
 
 Given('I navigate to a list report', function (this: Mocha.Context) {
   getReportDefinitions(this).then(reportDefinitions => {
