@@ -136,7 +136,7 @@
     "@types/connect-flash": "0.0.38",
     "@types/cookie-session": "^2.0.44",
     "@types/csurf": "^1.11.3",
-    "@types/express-session": "^1.17.7",
+    "@types/express-session": "^1.17.10",
     "@types/http-errors": "^2.0.4",
     "@types/jest": "^29.5.8",
     "@types/jsonwebtoken": "^9.0.1",
