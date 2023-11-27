@@ -98,7 +98,7 @@ const stubDefinitions = () =>
         '              "name": "prisonNumber",\n' +
         '              "display": "Prison Number",\n' +
         '              "sortable": true,\n' +
-        '              "defaultSortColumn": false,\n' +
+        '              "defaultsort": false,\n' +
         '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
@@ -106,7 +106,7 @@ const stubDefinitions = () =>
         '              "display": "Name",\n' +
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
-        '              "defaultSortColumn": false,\n' +
+        '              "defaultsort": false,\n' +
         '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
@@ -117,7 +117,7 @@ const stubDefinitions = () =>
         '                "defaultValue": "2023-08-08 - 2023-09-08"\n' +
         '              },\n' +
         '              "sortable": true,\n' +
-        '              "defaultSortColumn": true,\n' +
+        '              "defaultsort": true,\n' +
         '              "type": "date"\n' +
         '            },\n' +
         '            {\n' +
@@ -125,7 +125,7 @@ const stubDefinitions = () =>
         '              "display": "From",\n' +
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
-        '              "defaultSortColumn": false,\n' +
+        '              "defaultsort": false,\n' +
         '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
@@ -133,7 +133,7 @@ const stubDefinitions = () =>
         '              "display": "To",\n' +
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
-        '              "defaultSortColumn": false,\n' +
+        '              "defaultsort": false,\n' +
         '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
@@ -153,21 +153,21 @@ const stubDefinitions = () =>
         '                ]\n' +
         '              },\n' +
         '              "sortable": true,\n' +
-        '              "defaultSortColumn": false,\n' +
+        '              "defaultsort": false,\n' +
         '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "type",\n' +
         '              "display": "Type",\n' +
         '              "sortable": true,\n' +
-        '              "defaultSortColumn": false,\n' +
+        '              "defaultsort": false,\n' +
         '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "reason",\n' +
         '              "display": "Reason",\n' +
         '              "sortable": true,\n' +
-        '              "defaultSortColumn": false,\n' +
+        '              "defaultsort": false,\n' +
         '              "type": "string"\n' +
         '            }\n' +
         '          ]\n' +
