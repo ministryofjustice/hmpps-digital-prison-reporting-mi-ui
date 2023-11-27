@@ -1,9 +1,9 @@
 import nock from 'nock'
 
 import ReportQuery from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/ReportQuery'
+import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import config from '../config'
 import ReportingClient from './reportingClient'
-import { components } from '../types/api'
 
 describe('reportingClient', () => {
   let fakeReportingApi: nock.Scope
@@ -13,13 +13,13 @@ describe('reportingClient', () => {
     [
       {
         name: 'original.filter',
-        displayName: 'Original',
+        display: 'Original',
         sortable: true,
-        defaultSortColumn: false,
+        defaultsort: false,
         filter: {
           type: 'Radio',
         },
-        type: 'String',
+        type: 'string',
       },
     ],
     {

@@ -1,5 +1,5 @@
+import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import Page, { PageElement } from './page'
-import { components } from '../../../server/types/api'
 
 export default class ListPage extends Page {
   variantDefinition: components['schemas']['VariantDefinition']

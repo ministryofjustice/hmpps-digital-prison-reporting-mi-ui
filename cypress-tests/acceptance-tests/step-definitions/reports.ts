@@ -1,9 +1,9 @@
 /* eslint-disable func-names */
 
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor'
+import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import Page from '../../common/pages/page'
 import ReportsPage from '../../common/pages/ReportsPage'
-import { components } from '../../../server/types/api'
 import VariantsPage from '../../common/pages/VariantsPage'
 
 const getReportDefinitions = (context: Mocha.Context) => {
@@ -118,7 +118,7 @@ Then('the variant card URL should contain default filter values', function () {
   })
 
   page.card(variantWithDefaultFilterValue.id).should(link => {
-    if (fieldWithDefaultFilterValue.filter.type === 'DateRange') {
+    if (fieldWithDefaultFilterValue.filter.type === 'daterange') {
       // eslint-disable-next-line no-unused-expressions
       expect(link.attr('href').match(new RegExp(`${fieldWithDefaultFilterValue.name}\\.start=\\d{4}-\\d{2}-\\d{2}`))).is
         .not.null

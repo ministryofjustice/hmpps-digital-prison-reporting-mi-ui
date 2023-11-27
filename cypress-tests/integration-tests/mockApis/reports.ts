@@ -96,79 +96,79 @@ const stubDefinitions = () =>
         '          "fields": [\n' +
         '            {\n' +
         '              "name": "prisonNumber",\n' +
-        '              "displayName": "Prison Number",\n' +
+        '              "display": "Prison Number",\n' +
         '              "sortable": true,\n' +
         '              "defaultSortColumn": false,\n' +
-        '              "type": "String"\n' +
+        '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "name",\n' +
-        '              "displayName": "Name",\n' +
+        '              "display": "Name",\n' +
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
         '              "defaultSortColumn": false,\n' +
-        '              "type": "String"\n' +
+        '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "date",\n' +
-        '              "displayName": "Date",\n' +
+        '              "display": "Date",\n' +
         '              "filter": {\n' +
-        '                "type": "DateRange",\n' +
+        '                "type": "daterange",\n' +
         '                "defaultValue": "2023-08-08 - 2023-09-08"\n' +
         '              },\n' +
         '              "sortable": true,\n' +
         '              "defaultSortColumn": true,\n' +
-        '              "type": "Date"\n' +
+        '              "type": "date"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "origin",\n' +
-        '              "displayName": "From",\n' +
+        '              "display": "From",\n' +
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
         '              "defaultSortColumn": false,\n' +
-        '              "type": "String"\n' +
+        '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "destination",\n' +
-        '              "displayName": "To",\n' +
+        '              "display": "To",\n' +
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
         '              "defaultSortColumn": false,\n' +
-        '              "type": "String"\n' +
+        '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "direction",\n' +
-        '              "displayName": "Direction",\n' +
+        '              "display": "Direction",\n' +
         '              "filter": {\n' +
         '                "type": "Radio",\n' +
         '                "staticOptions": [\n' +
         '                  {\n' +
         '                    "name": "in",\n' +
-        '                    "displayName": "In"\n' +
+        '                    "display": "In"\n' +
         '                  },\n' +
         '                  {\n' +
         '                    "name": "out",\n' +
-        '                    "displayName": "Out"\n' +
+        '                    "display": "Out"\n' +
         '                  }\n' +
         '                ]\n' +
         '              },\n' +
         '              "sortable": true,\n' +
         '              "defaultSortColumn": false,\n' +
-        '              "type": "String"\n' +
+        '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "type",\n' +
-        '              "displayName": "Type",\n' +
+        '              "display": "Type",\n' +
         '              "sortable": true,\n' +
         '              "defaultSortColumn": false,\n' +
-        '              "type": "String"\n' +
+        '              "type": "string"\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "reason",\n' +
-        '              "displayName": "Reason",\n' +
+        '              "display": "Reason",\n' +
         '              "sortable": true,\n' +
         '              "defaultSortColumn": false,\n' +
-        '              "type": "String"\n' +
+        '              "type": "string"\n' +
         '            }\n' +
         '          ]\n' +
         '        }\n' +
