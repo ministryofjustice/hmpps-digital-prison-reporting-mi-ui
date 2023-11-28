@@ -1,9 +1,9 @@
 import { type RequestHandler, Router } from 'express'
 
+import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
-import { components } from '../types/api'
 
 export default function routes(services: Services): Router {
   const router = Router()

@@ -1,6 +1,6 @@
 import ReportQuery from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/ReportQuery'
+import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import type ReportingClient from '../data/reportingClient'
-import { components } from '../types/api'
 
 export default class ReportingService {
   constructor(private readonly reportingClient: ReportingClient) {}

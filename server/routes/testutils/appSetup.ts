@@ -17,7 +17,7 @@ export const user = {
   userId: 'id',
   token: 'token',
   username: 'user1',
-  displayName: 'First Last',
+  display: 'First Last',
   activeCaseLoadId: 'MDI',
   authSource: 'NOMIS',
 }

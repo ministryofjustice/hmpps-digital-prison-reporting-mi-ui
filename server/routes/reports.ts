@@ -2,9 +2,9 @@ import type { NextFunction, RequestHandler, Router } from 'express'
 import createError from 'http-errors'
 import querystring from 'querystring'
 import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
+import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import type { Services } from '../services'
 import asyncMiddleware from '../middleware/asyncMiddleware'
-import { components } from '../types/api'
 
 export default function routes(router: Router, services: Services) {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
@@ -53,7 +53,7 @@ export default function routes(router: Router, services: Services) {
         v.specification.fields
           .filter(f => f.filter && f.filter.defaultValue)
           .forEach(f => {
-            if (f.filter.type === 'DateRange') {
+            if (f.filter.type === 'daterange') {
               const dates = f.filter.defaultValue.split(' - ')
 
               if (dates.length >= 1) {
@@ -88,7 +88,7 @@ export default function routes(router: Router, services: Services) {
 
     switch (variantDefinition.specification.template) {
       case 'list':
-        ReportListUtils.renderList({
+        ReportListUtils.renderListWithData({
           title: variantDefinition.name,
           fields: variantDefinition.specification.fields,
           request: req,
