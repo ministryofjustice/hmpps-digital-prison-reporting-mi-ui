@@ -1,8 +1,8 @@
 import type { NextFunction, RequestHandler, Router } from 'express'
 import createError from 'http-errors'
-import querystring from 'querystring'
 import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
+import CardUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/card-group/utils'
 import type { Services } from '../services'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 
@@ -47,35 +47,11 @@ export default function routes(router: Router, services: Services) {
     res.render('pages/card', {
       title: reportDefinition.name,
       breadCrumbList: [{ text: 'Reports', href: '/reports' }],
-      cards: reportDefinition.variants.map((v: components['schemas']['VariantDefinition']) => {
-        const defaultFilters: Record<string, string> = {}
-
-        v.specification.fields
-          .filter(f => f.filter && f.filter.defaultValue)
-          .forEach(f => {
-            if (f.filter.type === 'daterange') {
-              const dates = f.filter.defaultValue.split(' - ')
-
-              if (dates.length >= 1) {
-                // eslint-disable-next-line prefer-destructuring
-                defaultFilters[`${ReportListUtils.filtersQueryParameterPrefix}${f.name}.start`] = dates[0]
-
-                if (dates.length >= 2) {
-                  // eslint-disable-next-line prefer-destructuring
-                  defaultFilters[`${ReportListUtils.filtersQueryParameterPrefix}${f.name}.end`] = dates[1]
-                }
-              }
-            } else {
-              defaultFilters[`${ReportListUtils.filtersQueryParameterPrefix}${f.name}`] = f.filter.defaultValue
-            }
-          })
-
-        return {
-          text: v.name,
-          href: `/reports/${reportDefinition.id}/${v.id}?${querystring.stringify(defaultFilters)}`,
-          description: v.description,
-        }
-      }),
+      cards: CardUtils.variantDefinitionsToCards(
+        reportDefinition,
+        '/reports',
+        ReportListUtils.filtersQueryParameterPrefix,
+      ),
     })
   })
 

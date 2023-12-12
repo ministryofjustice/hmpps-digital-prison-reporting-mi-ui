@@ -1,6 +1,6 @@
 import { type RequestHandler, Router } from 'express'
 
-import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
+import CardUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/card-group/utils'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
@@ -25,11 +25,7 @@ export default function routes(services: Services): Router {
   get('/reports', (req, res) => {
     res.render('pages/card', {
       title: 'Reports',
-      cards: res.locals.definitions.map((d: components['schemas']['ReportDefinition']) => ({
-        text: d.name,
-        href: `/reports/${d.id}`,
-        description: d.description,
-      })),
+      cards: CardUtils.reportDefinitionsToCards(res.locals.definitions, '/reports'),
     })
   })
 
