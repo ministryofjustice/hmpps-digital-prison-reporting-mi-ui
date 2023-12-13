@@ -247,6 +247,7 @@ workflows:
     jobs:
       - hmpps/npm_outdated:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
+          dependencies_to_check: typescript
           context:
             - hmpps-common-vars
       - hmpps/npm_security_audit:
