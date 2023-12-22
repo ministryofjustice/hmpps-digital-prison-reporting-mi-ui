@@ -144,7 +144,7 @@
     "@types/nunjucks": "^3.2.3",
     "@types/passport": "^1.0.12",
     "@types/passport-oauth2": "^1.4.12",
-    "@types/superagent": "^4.1.22",
+    "@types/superagent": "^8.1.0",
     "@types/supertest": "^2.0.14",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
