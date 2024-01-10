@@ -170,10 +170,10 @@ workflows:
       - hmpps/build_docker:
           name: build_docker
           additional_docker_tag: "Build.${CIRCLE_WORKFLOW_ID}"
-#          filters:
-#            branches:
-#              only:
-#                - main
+          filters:
+            branches:
+              only:
+                - main
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -186,10 +186,10 @@ workflows:
           context:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-dev
-#          filters:
-#            branches:
-#              only:
-#                - main
+          filters:
+            branches:
+              only:
+                - main
           requires:
             - helm_lint
             - unit_test
