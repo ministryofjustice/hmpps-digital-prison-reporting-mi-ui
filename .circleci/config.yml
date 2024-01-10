@@ -145,7 +145,7 @@ jobs:
     steps:
       - mem/remember:
           env_var: APP_VERSION
-          value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
+          value: "Build.${CIRCLE_BUILD_NUM}"
 
 workflows:
   version: 2
