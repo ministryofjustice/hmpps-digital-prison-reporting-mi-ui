@@ -169,7 +169,7 @@ workflows:
             - hmpps-common-vars
       - hmpps/build_docker:
           name: build_docker
-          additional_docker_tag: ${CIRCLE_BUILD_NUM}.${SHORT_SHA1}
+          additional_docker_tag: "Build.${CIRCLE_BUILD_NUM}"
 #          filters:
 #            branches:
 #              only:
