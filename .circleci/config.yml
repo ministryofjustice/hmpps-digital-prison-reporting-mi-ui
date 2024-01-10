@@ -165,10 +165,11 @@ workflows:
 #            branches:
 #              only:
 #                - main
-      - mem/remember:
-          name: remember-version-for-dev
-          env_var: APP_VERSION
-          value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
+      - remember-version-for-dev:
+          steps:
+            - mem/remember:
+                env_var: APP_VERSION
+                value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
           requires:
             - build_docker
       - hmpps/deploy_env:
@@ -198,10 +199,11 @@ workflows:
           type: approval
           requires:
             - acceptance_test
-      - mem/remember:
-          name: remember-version-for-test
-          env_var: APP_VERSION
-          value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
+      - remember-version-for-test:
+          steps:
+            - mem/remember:
+                env_var: APP_VERSION
+                value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
           requires:
             - request-test-approval
       - hmpps/deploy_env:
@@ -219,10 +221,11 @@ workflows:
           type: approval
           requires:
             - acceptance_test
-      - mem/remember:
-          name: remember-version-for-preprod
-          env_var: APP_VERSION
-          value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
+      - remember-version-for-preprod:
+          steps:
+            - mem/remember:
+                env_var: APP_VERSION
+                value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
           requires:
             - request-preprod-approval
       - hmpps/deploy_env:
@@ -241,10 +244,11 @@ workflows:
           type: approval
           requires:
             - deploy_preprod
-      - mem/remember:
-          name: remember-version-for-prod
-          env_var: APP_VERSION
-          value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
+      - remember-version-for-prod:
+          steps:
+            - mem/remember:
+                env_var: APP_VERSION
+                value: "${CIRCLE_BUILD_NUM}.${SHORT_SHA1}"
           requires:
             - request-prod-approval
       - hmpps/deploy_env:
