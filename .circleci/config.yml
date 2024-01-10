@@ -4,6 +4,7 @@ orbs:
   hmpps: ministryofjustice/hmpps@7
   slack: circleci/slack@4.12.1
   owasp: entur/owasp@0.0.17
+  mem: circleci/rememborb@0.0.2
 
 parameters:
   alerts-slack-channel:
