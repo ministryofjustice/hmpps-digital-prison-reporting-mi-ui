@@ -1,0 +1,13 @@
+{% extends "../partials/layout.njk" %}
+
+{% set pageTitle = applicationName + " - " + title %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+
+  <h1>{{ title }}</h1>
+
+  <p class="govuk-body">We are currently performing scheduled maintenance</p>
+  <p class="govuk-body">Normal service will resume shortly</p>
+
+{% endblock %}
