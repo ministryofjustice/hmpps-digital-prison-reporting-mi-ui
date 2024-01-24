@@ -27,10 +27,10 @@ services:
       - TOKEN_VERIFICATION_API_URL=https://token-verification-api-dev.prison.service.justice.gov.uk
       - TOKEN_VERIFICATION_ENABLED=true
       # These will need to match creds in the dev auth service
-      - API_CLIENT_ID=stu-pegg
-      - API_CLIENT_SECRET=SCeMoeD5XK9%-BDI3.5ERk.KoIj(lK:IT:Q$XHzPzQOxcQD,+xh.C5!(pxb&
-      - SYSTEM_CLIENT_ID=stu-pegg
-      - SYSTEM_CLIENT_SECRET=SCeMoeD5XK9%-BDI3.5ERk.KoIj(lK:IT:Q$XHzPzQOxcQD,+xh.C5!(pxb&
+      - API_CLIENT_ID=client-id
+      - API_CLIENT_SECRET=client-secret
+      - SYSTEM_CLIENT_ID=system-client-id
+      - SYSTEM_CLIENT_SECRET=system-client-secret
 
 networks:
   hmpps:
