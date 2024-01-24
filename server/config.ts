@@ -89,5 +89,5 @@ export default {
   authorisation: {
     roles: getAuthorisedRoles(),
   },
-  maintenanceMode: get('MAINTENANCE_MODE', false, requiredInProduction),
+  maintenanceMode: get('MAINTENANCE_MODE', 'The site is undergoing scheduled maintenance', requiredInProduction),
 }

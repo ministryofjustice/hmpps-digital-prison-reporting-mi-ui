@@ -4,6 +4,7 @@ import CardUtils from '@ministryofjustice/hmpps-digital-prison-reporting-fronten
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
+import config from '../config'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -32,6 +33,7 @@ export default function routes(services: Services): Router {
   get('/maintenance', (req, res) => {
     res.render('pages/maintenance', {
       title: 'Site Maintenance',
+      description: config.maintenanceMode,
     })
   })
 
