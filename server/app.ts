@@ -16,6 +16,7 @@ import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
+import siteMaintenanceRedirect from './middleware/siteMaintenanceRedirect'
 import config from './config'
 
 import routes from './routes'
@@ -35,6 +36,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpHealthChecks())
   app.use(setUpWebSecurity())
   app.use(setUpWebSession())
+  app.use(siteMaintenanceRedirect())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
   nunjucksSetup(app, path)

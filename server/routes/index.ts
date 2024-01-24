@@ -29,6 +29,12 @@ export default function routes(services: Services): Router {
     })
   })
 
+  get('/maintenance', (req, res) => {
+    res.render('pages/maintenance', {
+      title: 'Site Maintenance',
+    })
+  })
+
   addReportingRoutes(router, services)
 
   return router

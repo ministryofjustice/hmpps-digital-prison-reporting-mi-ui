@@ -89,4 +89,5 @@ export default {
   authorisation: {
     roles: getAuthorisedRoles(),
   },
+  maintenanceMode: get('MAINTENANCE_MODE', false, requiredInProduction),
 }
