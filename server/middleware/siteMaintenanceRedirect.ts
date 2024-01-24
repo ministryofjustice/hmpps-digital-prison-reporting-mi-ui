@@ -3,9 +3,13 @@ import config from '../config'
 
 export default function siteMaintenanceRedirect(): RequestHandler {
   return (req, res, next) => {
-    if (config.maintenanceMode) {
+    const inMaintenanceMode = config.maintenanceMode
+    const onMaintenancePage = req.path === '/maintenance' || req.path.includes('assets')
+
+    if (inMaintenanceMode && !onMaintenancePage) {
       return res.redirect('/maintenance')
     }
+
     return next()
   }
 }
