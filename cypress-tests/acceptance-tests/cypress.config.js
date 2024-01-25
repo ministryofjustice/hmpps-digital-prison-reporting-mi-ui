@@ -25,6 +25,12 @@ module.exports = defineConfig({
           plugins: [createEsbuildPlugin(config)],
         }),
       )
+      on('task', {
+        log(message) {
+          console.log(message)
+          return null
+        },
+      })
       return config
     },
     baseUrl: 'https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk/',
