@@ -31,21 +31,25 @@ Given('I navigate to a list report', function (this: Mocha.Context) {
     let reportId
     let variantId
 
+    const externalMovementsDefinition = reportDefinitions.filter(reportDefinition => {
+      return reportDefinition.id === 'external-movements'
+    })[0]
+
+    // eslint-disable-next-line no-unused-expressions
+    expect(externalMovementsDefinition).is.not.null
+
     // eslint-disable-next-line no-unused-expressions
     expect(
-      reportDefinitions.find(
-        reportDefinition =>
-          reportDefinition.variants.find(variantDefinition => {
-            if (variantDefinition.specification.template === 'list') {
-              reportId = reportDefinition.id
-              variantId = variantDefinition.id
-              this.currentReportDefinition = reportDefinition
-              this.currentVariantDefinition = variantDefinition
-              return true
-            }
-            return false
-          }) !== null,
-      ),
+      externalMovementsDefinition.variants.find(variantDefinition => {
+        if (variantDefinition.specification.template === 'list') {
+          reportId = externalMovementsDefinition.id
+          variantId = variantDefinition.id
+          this.currentReportDefinition = externalMovementsDefinition
+          this.currentVariantDefinition = variantDefinition
+          return true
+        }
+        return false
+      }) !== null,
     ).is.not.null
 
     cy.visit(`/reports/${reportId}/${variantId}`)
