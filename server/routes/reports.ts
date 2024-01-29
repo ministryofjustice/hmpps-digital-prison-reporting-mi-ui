@@ -59,14 +59,17 @@ export default function routes(router: Router, services: Services) {
     const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
     const variantDefinition = getVariantDefinition(reportDefinition, req.params.variant, next)
 
-    const { resourceName } = variantDefinition
+    const { resourceName, specification } = variantDefinition
     const { token } = res.locals.user
 
-    switch (variantDefinition.specification.template) {
-      case 'list':
+    switch (specification.template) {
+      case 'list': {
+        const { name: title, classification, printable } = variantDefinition
         ReportListUtils.renderListWithData({
-          title: variantDefinition.name,
-          fields: variantDefinition.specification.fields,
+          title,
+          fields: specification.fields,
+          classification,
+          printable,
           request: req,
           response: res,
           next,
@@ -83,7 +86,7 @@ export default function routes(router: Router, services: Services) {
           layoutTemplate: 'partials/layout.njk',
         })
         break
-
+      }
       default:
         next()
     }
