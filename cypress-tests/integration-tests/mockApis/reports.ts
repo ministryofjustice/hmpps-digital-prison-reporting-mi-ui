@@ -89,6 +89,33 @@ const stubDefinitions = () =>
         '      {\n' +
         '        "id": "last-month",\n' +
         '        "name": "Last month",\n' +
+        '        "description": "All movements in the past month"\n' +
+        '      }\n' +
+        '    ]\n' +
+        '  }\n' +
+        ']',
+    },
+  })
+
+const stubDefinition = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/reports/definitions/external-movements/last-month',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:
+        '  {\n' +
+        '    "id": "external-movements",\n' +
+        '    "name": "External Movements",\n' +
+        '    "description": "Reports about prisoner external movements",\n' +
+        '    "variant": {\n' +
+        '        "id": "last-month",\n' +
+        '        "name": "Last month",\n' +
         '        "resourceName": "external-movements",\n' +
         '        "description": "All movements in the past month",\n' +
         '        "specification": {\n' +
@@ -173,9 +200,7 @@ const stubDefinitions = () =>
         '          ]\n' +
         '        }\n' +
         '      }\n' +
-        '    ]\n' +
-        '  }\n' +
-        ']',
+        '  }\n',
     },
   })
 
@@ -183,4 +208,5 @@ export default {
   stubExternalMovementsCount,
   stubExternalMovements,
   stubDefinitions,
+  stubDefinition,
 }

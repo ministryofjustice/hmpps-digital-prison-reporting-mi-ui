@@ -1,13 +1,16 @@
+import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
 import type { Express } from 'express'
 import request from 'supertest'
 import { appWithAllRoutes } from './testutils/appSetup'
 import ReportingService from '../services/reportingService'
-import ReportingClient from '../data/reportingClient'
 
 let app: Express
 
 beforeEach(() => {
   const reportingClient: jest.Mocked<ReportingClient> = {
+    getFieldValues: undefined,
+    getListWithWarnings: undefined,
+    restClient: undefined,
     getList: jest.fn().mockResolvedValue([
       {
         prisonNumber: 'N9980PJ',
@@ -31,92 +34,101 @@ beforeEach(() => {
           {
             id: 'list',
             name: 'List',
-            specification: {
-              template: 'list',
-              fields: [
-                {
-                  name: 'prisonNumber',
-                  display: 'Prison Number',
-                  sortable: true,
-                  defaultsort: true,
-                  type: 'string',
-                },
-                {
-                  name: 'firstName',
-                  display: 'First Name',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'string',
-                },
-                {
-                  name: 'lastName',
-                  display: 'Last Name',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'string',
-                },
-                {
-                  name: 'date',
-                  display: 'Date',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'date',
-                },
-                {
-                  name: 'time',
-                  display: 'Time',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'string',
-                },
-                {
-                  name: 'from',
-                  display: 'From',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'string',
-                },
-                {
-                  name: 'to',
-                  display: 'To',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'string',
-                },
-                {
-                  name: 'direction',
-                  display: 'Direction',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'string',
-                  filter: {
-                    type: 'Radio',
-                    staticOptions: [
-                      { name: 'in', displayName: 'In' },
-                      { name: 'out', displayName: 'Out' },
-                    ],
-                  },
-                },
-                {
-                  name: 'type',
-                  display: 'Type',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'string',
-                },
-                {
-                  name: 'reason',
-                  display: 'Reason',
-                  sortable: true,
-                  defaultsort: false,
-                  type: 'string',
-                },
-              ],
-            },
           },
         ],
       },
     ]),
+    getDefinition: jest.fn().mockResolvedValue({
+      id: 'external-movements',
+      name: 'External movements',
+      variant: {
+        id: 'list',
+        name: 'List',
+        resourceName: '/resource/location',
+        specification: {
+          template: 'list',
+          fields: [
+            {
+              name: 'prisonNumber',
+              display: 'Prison Number',
+              sortable: true,
+              defaultsort: true,
+              type: 'string',
+            },
+            {
+              name: 'firstName',
+              display: 'First Name',
+              sortable: true,
+              defaultsort: false,
+              type: 'string',
+            },
+            {
+              name: 'lastName',
+              display: 'Last Name',
+              sortable: true,
+              defaultsort: false,
+              type: 'string',
+            },
+            {
+              name: 'date',
+              display: 'Date',
+              sortable: true,
+              defaultsort: false,
+              type: 'date',
+            },
+            {
+              name: 'time',
+              display: 'Time',
+              sortable: true,
+              defaultsort: false,
+              type: 'string',
+            },
+            {
+              name: 'from',
+              display: 'From',
+              sortable: true,
+              defaultsort: false,
+              type: 'string',
+            },
+            {
+              name: 'to',
+              display: 'To',
+              sortable: true,
+              defaultsort: false,
+              type: 'string',
+            },
+            {
+              name: 'direction',
+              display: 'Direction',
+              sortable: true,
+              defaultsort: false,
+              type: 'string',
+              filter: {
+                type: 'Radio',
+                staticOptions: [
+                  { name: 'in', displayName: 'In' },
+                  { name: 'out', displayName: 'Out' },
+                ],
+              },
+            },
+            {
+              name: 'type',
+              display: 'Type',
+              sortable: true,
+              defaultsort: false,
+              type: 'string',
+            },
+            {
+              name: 'reason',
+              display: 'Reason',
+              sortable: true,
+              defaultsort: false,
+              type: 'string',
+            },
+          ],
+        },
+      },
+    }),
   }
 
   app = appWithAllRoutes({
@@ -182,7 +194,7 @@ describe('GET /reports/external-movements/list', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
-          '?selectedPage=1&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;filters.type=jaunt"',
+          '?selectedPage=1&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;filters.direction=~clear~&amp;filters.type=jaunt"',
         )
       })
   })

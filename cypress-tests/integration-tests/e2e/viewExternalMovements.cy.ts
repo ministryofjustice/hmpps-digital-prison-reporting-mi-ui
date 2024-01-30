@@ -22,6 +22,7 @@ context('View external movements last month list', () => {
     cy.task('stubExternalMovements')
     cy.task('stubExternalMovementsCount')
     cy.task('stubDefinitions')
+    cy.task('stubDefinition')
   })
 
   it('Displays', () => {
@@ -32,7 +33,7 @@ context('View external movements last month list', () => {
   it('Displays correctly mapped data', () => {
     const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
     const cells = externalMovementsLastMonthPage.dataTable().get('td')
-    cells.should('have.length', columns * 3)
+    cells.should('have.length', columns * 3 + 2)
     cells.should('contain.text', 'N9980PJ')
     cells.should('contain.text', '31/01/23')
   })

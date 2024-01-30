@@ -9,6 +9,7 @@ context('SignIn', () => {
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
     cy.task('stubDefinitions')
+    cy.task('stubDefinition')
   })
 
   it('Unauthenticated user directed to auth', () => {
