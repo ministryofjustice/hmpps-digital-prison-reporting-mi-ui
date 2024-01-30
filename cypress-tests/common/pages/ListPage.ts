@@ -2,17 +2,17 @@ import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-fr
 import Page, { PageElement } from './page'
 
 export default class ListPage extends Page {
-  variantDefinition: components['schemas']['VariantDefinition']
+  fullDefinition: components['schemas']['SingleVariantReportDefinition']
 
-  constructor(variantDefinition: components['schemas']['VariantDefinition']) {
-    super(variantDefinition.name)
+  constructor(fullDefinition: components['schemas']['SingleVariantReportDefinition']) {
+    super(fullDefinition.variant.name)
 
-    this.variantDefinition = variantDefinition
+    this.fullDefinition = fullDefinition
   }
 
   showFilterButton = (): PageElement => cy.get(`.filter-summary-show-filter-button`)
 
-  clearAllButton = (): PageElement => cy.get(`.moj-button-menu__wrapper .govuk-button--primary`)
+  resetFiltersButton = (): PageElement => cy.get(`.moj-button-menu__wrapper .govuk-button--secondary`).first()
 
   pagingLink = (): PageElement => cy.get('.govuk-pagination__link').first()
 
@@ -26,7 +26,7 @@ export default class ListPage extends Page {
 
   applyFiltersButton = (): PageElement => cy.get(`[data-apply-form-to-querystring='true']`)
 
-  selectedFilterButton = (): PageElement => cy.get('.filter-summary-remove-button')
+  selectedFilterButton = (): PageElement => cy.get('.filter-summary-remove-button').first().next()
 
   unsortedSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort='none']`).first()
 

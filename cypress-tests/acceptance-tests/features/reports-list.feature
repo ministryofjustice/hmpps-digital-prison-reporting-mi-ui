@@ -34,11 +34,11 @@ Feature: List report
     When I click the selected filter
     Then no filters are selected
 
-  Scenario: Clicking 'Clear all' removes all filters
+  Scenario: Clicking 'Reset filters' resets the filters
     Given I click the Show Filter button
     And I select a filter
     And I apply the filters
-    When I click a the Clear all button
+    When I click a the Reset filters button
     Then no filters are selected
 
   Scenario: Sorting on a previously unselected column
@@ -59,5 +59,6 @@ Feature: List report
     And the displayed data is not larger than the page size
 
   Scenario: Navigating paging
+    Given I click the selected filter
     When I click a paging link
     Then the current page is shown in the URL

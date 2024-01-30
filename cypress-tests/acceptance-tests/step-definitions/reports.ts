@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names, no-unused-expressions */
 
 import { Given, Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
@@ -17,42 +17,50 @@ const getReportDefinitions = (context: Mocha.Context) => {
           },
         })
         .then(response => {
-          const reportDefinitions = response.body as Array<components['schemas']['ReportDefinition']>
+          const reportDefinitions = response.body as Array<components['schemas']['ReportDefinitionSummary']>
           context.reportDefinitions = reportDefinitions
           return reportDefinitions
         })
     })
   }
-  return cy.wrap(context.reportDefinitions as Array<components['schemas']['ReportDefinition']>)
+  return cy.wrap(context.reportDefinitions as Array<components['schemas']['ReportDefinitionSummary']>)
+}
+
+const getFullDefinition = (context: Mocha.Context, reportId: string, variantId: string) => {
+  if (!context.fullDefinition) {
+    return cy.getCookie('jwtSession', { domain: Cypress.env('SIGN_IN_URL') }).then(tokenCookie => {
+      return cy
+        .request({
+          url: `${Cypress.env('API_BASE_URL')}/definitions/${reportId}/${variantId}`,
+          auth: {
+            bearer: tokenCookie.value,
+          },
+        })
+        .then(response => {
+          const fullDefinition = response.body as components['schemas']['SingleVariantReportDefinition']
+          context.fullDefinition = fullDefinition
+          return fullDefinition
+        })
+    })
+  }
+  return cy.wrap(context.fullDefinition as components['schemas']['SingleVariantReportDefinition'])
 }
 
 Given('I navigate to a list report', function (this: Mocha.Context) {
   getReportDefinitions(this).then(reportDefinitions => {
-    let reportId
-    let variantId
-
-    const externalMovementsDefinition = reportDefinitions.filter(reportDefinition => {
+    const externalMovementsDefinitionSummary = reportDefinitions.filter(reportDefinition => {
       return reportDefinition.id === 'external-movements'
     })[0]
 
-    // eslint-disable-next-line no-unused-expressions
-    expect(externalMovementsDefinition).is.not.null
+    expect(externalMovementsDefinitionSummary).is.not.null
 
-    // eslint-disable-next-line no-unused-expressions
-    expect(
-      externalMovementsDefinition.variants.find(variantDefinition => {
-        if (variantDefinition.specification.template === 'list') {
-          reportId = externalMovementsDefinition.id
-          variantId = variantDefinition.id
-          this.currentReportDefinition = externalMovementsDefinition
-          this.currentVariantDefinition = variantDefinition
-          return true
-        }
-        return false
-      }) !== null,
-    ).is.not.null
+    const variantId = externalMovementsDefinitionSummary.variants[0].id
 
-    cy.visit(`/reports/${reportId}/${variantId}`)
+    getFullDefinition(this, externalMovementsDefinitionSummary.id, variantId).then(fullDefinition => {
+      expect(fullDefinition.variant.specification.template).is.equal('list')
+
+      cy.visit(`/reports/${fullDefinition.id}/${variantId}`)
+    })
   })
 })
 
@@ -69,8 +77,9 @@ When('I click on a variant card', function (this: Mocha.Context) {
   const page = new VariantsPage(this.currentReportDefinition)
   const variantDefinition = page.reportDefinition.variants.pop()
   this.currentVariantDefinition = variantDefinition
-
-  page.card(variantDefinition.id).click()
+  getFullDefinition(this, page.reportDefinition.id, variantDefinition.id).then(() => {
+    page.card(variantDefinition.id).click()
+  })
 })
 
 Then('a card is displayed for each report', function (this: Mocha.Context) {
@@ -102,37 +111,5 @@ Then('a card is displayed for each variant', function (this: Mocha.Context) {
       .parent()
       .get('.card__description')
       .should('contain.text', variantDefinition.description)
-  })
-})
-
-Then('the variant card URL should contain default filter values', function () {
-  const page = new VariantsPage(this.currentReportDefinition)
-  let fieldWithDefaultFilterValue: components['schemas']['FieldDefinition']
-
-  const variantWithDefaultFilterValue = page.reportDefinition.variants.find(variantDefinition => {
-    const matchingField = variantDefinition.specification.fields.find(
-      field => field.filter && field.filter.defaultValue,
-    )
-
-    if (matchingField) {
-      fieldWithDefaultFilterValue = matchingField
-      return true
-    }
-    return false
-  })
-
-  page.card(variantWithDefaultFilterValue.id).should(link => {
-    if (fieldWithDefaultFilterValue.filter.type === 'daterange') {
-      // eslint-disable-next-line no-unused-expressions
-      expect(link.attr('href').match(new RegExp(`${fieldWithDefaultFilterValue.name}\\.start=\\d{4}-\\d{2}-\\d{2}`))).is
-        .not.null
-      // eslint-disable-next-line no-unused-expressions
-      expect(link.attr('href').match(new RegExp(`${fieldWithDefaultFilterValue.name}\\.end=\\d{4}-\\d{2}-\\d{2}`))).is
-        .not.null
-    } else {
-      expect(link.attr('href')).contains(
-        `${fieldWithDefaultFilterValue.name}=${fieldWithDefaultFilterValue.filter.defaultValue}`,
-      )
-    }
   })
 })

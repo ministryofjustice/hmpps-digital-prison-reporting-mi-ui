@@ -2,7 +2,7 @@ import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-fr
 import Page, { PageElement } from './page'
 
 export default class VariantsPage extends Page {
-  reportDefinition: components['schemas']['ReportDefinition']
+  reportDefinition: components['schemas']['ReportDefinitionSummary']
 
   constructor(reportDefinition) {
     super(reportDefinition.name)

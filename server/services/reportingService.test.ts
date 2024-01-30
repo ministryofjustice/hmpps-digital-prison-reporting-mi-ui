@@ -38,7 +38,7 @@ describe('Reporting service', () => {
 
   describe('getDefinitions', () => {
     it('Retrieves definitions from client', async () => {
-      const expectedResponse: Array<components['schemas']['ReportDefinition']> = [
+      const expectedResponse: Array<components['schemas']['ReportDefinitionSummary']> = [
         {
           id: 'test-report',
           name: 'Test report',

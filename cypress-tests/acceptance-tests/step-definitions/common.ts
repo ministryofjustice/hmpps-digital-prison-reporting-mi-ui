@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names, no-unused-expressions */
 
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import Page from '../../common/pages/page'
@@ -31,7 +31,7 @@ Then(
         break
 
       case 'list':
-        new ListPage(this.currentVariantDefinition).checkOnPage()
+        new ListPage(this.fullDefinition).checkOnPage()
         break
 
       default:
