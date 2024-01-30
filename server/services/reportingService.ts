@@ -13,7 +13,7 @@ export default class ReportingService {
     return this.reportingClient.getList(resourceName, token, listRequest)
   }
 
-  async getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinition']>> {
+  async getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
     return this.reportingClient.getDefinitions(token)
   }
 

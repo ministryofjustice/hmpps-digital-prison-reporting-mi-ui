@@ -20,14 +20,14 @@ const getData = (resourceName: string) => {
 }
 
 When(/^I click the Show Filter button$/, function () {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
   page.showFilterButton().click()
 })
 
 When('I select a filter', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
-  const filterField = page.variantDefinition.specification.fields.find(
+  const filterField = page.fullDefinition.variant.specification.fields.find(
     field => field.filter && field.filter.type !== 'daterange',
   )
 
@@ -53,25 +53,25 @@ When('I select a filter', function (this: Mocha.Context) {
 })
 
 When('I apply the filters', function () {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   page.applyFiltersButton().click()
 })
 
 When('I click the selected filter', function () {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   page.selectedFilterButton().click()
 })
 
-When('I click a the Clear all button', function () {
-  const page = new ListPage(this.currentVariantDefinition)
+When('I click a the Reset filters button', function () {
+  const page = new ListPage(this.fullDefinition)
 
-  page.clearAllButton().click()
+  page.resetFiltersButton().click()
 })
 
 When('I select a column to sort on', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   page
     .unsortedSortColumnLink()
@@ -82,7 +82,7 @@ When('I select a column to sort on', function (this: Mocha.Context) {
 })
 
 When('I select a previously selected column to sort on', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   page
     .currentSortColumnLink()
@@ -93,14 +93,14 @@ When('I select a previously selected column to sort on', function (this: Mocha.C
 })
 
 When(/^I select a page size of (\d+)$/, function (this: Mocha.Context, pageSize: number) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   this.currentPageSize = pageSize
   page.pageSizeSelector().select(`${pageSize}`)
 })
 
 When('I click a paging link', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   page
     .pagingLink()
@@ -111,13 +111,13 @@ When('I click a paging link', function (this: Mocha.Context) {
 })
 
 Then('the Show Filter button is displayed', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   page.showFilterButton().should('exist')
 })
 
 Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
-  const panel = new ListPage(this.currentVariantDefinition).filterPanel()
+  const panel = new ListPage(this.fullDefinition).filterPanel()
 
   if (panelStatus === 'open') {
     panel.should('not.have.class', 'moj-js-hidden')
@@ -126,9 +126,9 @@ Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
   }
 })
 Then('filters are displayed for filterable fields', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
-  page.variantDefinition.specification.fields
+  page.fullDefinition.variant.specification.fields
     .filter(field => field.filter)
     .forEach(field => {
       switch (field.filter.type) {
@@ -157,17 +157,17 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
 })
 
 Then('the column headers are displayed correctly', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
-  page.variantDefinition.specification.fields.forEach(field => {
+  page.fullDefinition.variant.specification.fields.forEach(field => {
     page.dataTable().find('thead').contains(field.display)
   })
 })
 
 Then('date times are displayed in the correct format', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
-  page.variantDefinition.specification.fields.forEach((field, index) => {
+  page.fullDefinition.variant.specification.fields.forEach((field, index) => {
     if (field.type === 'date') {
       page
         .dataTable()
@@ -177,12 +177,12 @@ Then('date times are displayed in the correct format', function (this: Mocha.Con
   })
 })
 Then('the correct data is displayed on the page', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
-  getData(page.variantDefinition.resourceName).then(data => {
+  const page = new ListPage(this.fullDefinition)
+  getData(page.fullDefinition.variant.resourceName).then(data => {
     page.dataTable().find('tbody tr').should('have.length', data.length)
     const record = data.pop()
     Object.keys(record).forEach(key => {
-      if (page.variantDefinition.specification.fields.find(f => f.name === key).type !== 'date') {
+      if (page.fullDefinition.variant.specification.fields.find(f => f.name === key).type !== 'date') {
         page.dataTable().find('tbody tr').first().contains(record[key])
       }
     })
@@ -190,7 +190,7 @@ Then('the correct data is displayed on the page', function (this: Mocha.Context)
 })
 
 Then('the selected filter value is displayed', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   const selectedField: components['schemas']['FieldDefinition'] = this.selectedFilter.field
   const selectedValue: components['schemas']['FilterOption'] = this.selectedFilter.value
@@ -199,7 +199,7 @@ Then('the selected filter value is displayed', function (this: Mocha.Context) {
 })
 
 Then('no filters are selected', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   page.selectedFilterButton().should('not.exist')
 })
@@ -214,7 +214,7 @@ Then('the selected filter value is shown in the URL', function (this: Mocha.Cont
 })
 
 Then('the data is filtered correctly', function (this: Mocha.Context) {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
   const selectedField: components['schemas']['FieldDefinition'] = this.selectedFilter.field
   const selectedValue: components['schemas']['FilterOption'] = this.selectedFilter.value
 
@@ -226,7 +226,7 @@ Then('the data is filtered correctly', function (this: Mocha.Context) {
 Then(
   /^the sorted column is shown as sorted (ascending|descending) in the header$/,
   function (this: Mocha.Context, direction: string) {
-    const page = new ListPage(this.currentVariantDefinition)
+    const page = new ListPage(this.fullDefinition)
     const { currentSortColumn } = this
 
     page.currentSortColumnLink().should(link => {
@@ -259,7 +259,7 @@ Then('the page size is shown in the URL', function (this: Mocha.Context) {
 })
 
 Then('the displayed data is not larger than the page size', function () {
-  const page = new ListPage(this.currentVariantDefinition)
+  const page = new ListPage(this.fullDefinition)
 
   page.dataTable().find('tbody tr').should('have.length.at.most', this.currentPageSize)
 })

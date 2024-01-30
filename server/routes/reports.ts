@@ -10,11 +10,13 @@ export default function routes(router: Router, services: Services) {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
   const getReportDefinition = (
-    definitions: Array<components['schemas']['ReportDefinition']>,
+    definitions: Array<components['schemas']['ReportDefinitionSummary']>,
     reportName: string,
     next: NextFunction,
-  ): components['schemas']['ReportDefinition'] => {
-    const reportDefinition = definitions.find((d: components['schemas']['ReportDefinition']) => d.id === reportName)
+  ): components['schemas']['ReportDefinitionSummary'] => {
+    const reportDefinition = definitions.find(
+      (d: components['schemas']['ReportDefinitionSummary']) => d.id === reportName,
+    )
 
     if (reportDefinition) {
       return reportDefinition
