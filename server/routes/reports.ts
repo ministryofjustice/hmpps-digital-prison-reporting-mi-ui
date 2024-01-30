@@ -24,68 +24,47 @@ export default function routes(router: Router, services: Services) {
     return null
   }
 
-  const getVariantDefinition = (
-    reportDefinition: components['schemas']['ReportDefinition'],
-    variantName: string,
-    next: NextFunction,
-  ): components['schemas']['VariantDefinition'] => {
-    const variantDefinition = reportDefinition.variants.find(
-      (d: components['schemas']['VariantDefinition']) => d.id === variantName,
-    )
-
-    if (variantDefinition) {
-      return variantDefinition
-    }
-
-    next(createError(404, 'Not found'))
-    return null
-  }
-
   get('/reports/:report', (req, res, next) => {
     const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
 
     res.render('pages/card', {
       title: reportDefinition.name,
       breadCrumbList: [{ text: 'Reports', href: '/reports' }],
-      cards: CardUtils.variantDefinitionsToCards(
-        reportDefinition,
-        '/reports',
-        ReportListUtils.filtersQueryParameterPrefix,
-      ),
+      cards: CardUtils.variantDefinitionsToCards(reportDefinition, '/reports'),
     })
   })
 
   get('/reports/:report/:variant', (req, res, next) => {
-    const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
-    const variantDefinition = getVariantDefinition(reportDefinition, req.params.variant, next)
-
-    const { resourceName } = variantDefinition
     const { token } = res.locals.user
 
-    switch (variantDefinition.specification.template) {
-      case 'list':
-        ReportListUtils.renderListWithData({
-          title: variantDefinition.name,
-          fields: variantDefinition.specification.fields,
-          request: req,
-          response: res,
-          next,
-          getListDataSources: reportQuery => ({
-            data: services.reportingService.getList(resourceName, token, reportQuery),
-            count: services.reportingService.getCount(resourceName, token, reportQuery),
-          }),
-          otherOptions: {
-            breadCrumbList: [
-              { text: 'Reports', href: '/reports' },
-              { text: reportDefinition.name, href: `/reports/${reportDefinition.id}` },
-            ],
-          },
-          layoutTemplate: 'partials/layout.njk',
-        })
-        break
+    services.reportingService.getDefinition(token, req.params.report, req.params.variant).then(fullDefinition => {
+      const { resourceName } = fullDefinition.variant
 
-      default:
-        next()
-    }
+      switch (fullDefinition.variant.specification.template) {
+        case 'list':
+          ReportListUtils.renderListWithData({
+            title: fullDefinition.variant.name,
+            variantDefinition: fullDefinition.variant,
+            request: req,
+            response: res,
+            next,
+            getListDataSources: reportQuery => ({
+              data: services.reportingService.getList(resourceName, token, reportQuery),
+              count: services.reportingService.getCount(resourceName, token, reportQuery),
+            }),
+            otherOptions: {
+              breadCrumbList: [
+                { text: 'Reports', href: '/reports' },
+                { text: fullDefinition.name, href: `/reports/${fullDefinition.id}` },
+              ],
+            },
+            layoutTemplate: 'partials/layout.njk',
+          })
+          break
+
+        default:
+          next()
+      }
+    })
   })
 }

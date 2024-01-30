@@ -15,7 +15,7 @@
   <script src="/assets/js/jquery.min.js"></script> 
 {% endblock %}
 
-{% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
+{% block pageTitle %}{{c | default(applicationName)}}{% endblock %}
 
 {% block header %}
   {% include "./header.njk" %}

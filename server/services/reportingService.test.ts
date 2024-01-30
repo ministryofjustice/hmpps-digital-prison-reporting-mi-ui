@@ -1,16 +1,16 @@
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
-import ReportingClient from '../data/reportingClient'
+import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
 import ReportingService from './reportingService'
 import Dict = NodeJS.Dict
 
-jest.mock('../data/reportingClient')
+jest.mock('@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient')
 
 describe('Reporting service', () => {
   let reportingClient: jest.Mocked<ReportingClient>
   let reportingService: ReportingService
 
   beforeEach(() => {
-    reportingClient = new ReportingClient() as jest.Mocked<ReportingClient>
+    reportingClient = new ReportingClient(null) as jest.Mocked<ReportingClient>
     reportingService = new ReportingService(reportingClient)
   })
 
