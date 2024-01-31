@@ -26,7 +26,9 @@ export default class ListPage extends Page {
 
   applyFiltersButton = (): PageElement => cy.get(`[data-apply-form-to-querystring='true']`)
 
-  selectedFilterButton = (): PageElement => cy.get('.filter-summary-remove-button').first().next()
+  selectedFilterButton = (): PageElement => cy.get('.filter-summary-remove-button').first()
+
+  selectedFilterButtons = (): PageElement => cy.get('.filter-summary-remove-button')
 
   unsortedSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort='none']`).first()
 
