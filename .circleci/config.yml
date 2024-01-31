@@ -223,7 +223,7 @@ workflows:
       - request-preprod-approval:
           type: approval
           requires:
-            - acceptance_test
+            - deploy_dev
       - remember-app-version:
           name: remember-version-for-preprod
           requires:
