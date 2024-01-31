@@ -58,7 +58,7 @@ When('I apply the filters', function () {
   page.applyFiltersButton().click()
 })
 
-When('I click the selected filter', function () {
+When(/^I (click|clear) the (selected|default) filter$/, function () {
   const page = new ListPage(this.fullDefinition)
 
   page.selectedFilterButton().click()
@@ -201,7 +201,13 @@ Then('the selected filter value is displayed', function (this: Mocha.Context) {
 Then('no filters are selected', function (this: Mocha.Context) {
   const page = new ListPage(this.fullDefinition)
 
-  page.selectedFilterButton().should('not.exist')
+  page.selectedFilterButtons().should('not.exist')
+})
+
+Then('only the default filter is selected', function (this: Mocha.Context) {
+  const page = new ListPage(this.fullDefinition)
+
+  page.selectedFilterButton().next().should('not.exist')
 })
 
 Then('the selected filter value is shown in the URL', function (this: Mocha.Context) {
