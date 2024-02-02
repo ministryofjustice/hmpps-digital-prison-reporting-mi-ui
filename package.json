@@ -99,7 +99,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^1.8.1",
-    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^2.1.1",
+    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^2.2.1",
     "agentkeepalive": "^4.5.0",
     "applicationinsights": "^2.9.2",
     "body-parser": "^1.20.2",
@@ -144,6 +144,8 @@
     "@types/nunjucks": "^3.2.3",
     "@types/passport": "^1.0.12",
     "@types/passport-oauth2": "^1.4.12",
+    "@types/qs": "^6.9.11",
+    "@types/querystringify": "^2.0.2",
     "@types/superagent": "^8.1.1",
     "@types/supertest": "^6.0.2",
     "@types/uuid": "^9.0.7",
