@@ -11,13 +11,10 @@ Feature: List report
     Then the Filter panel is open
     And filters are displayed for filterable fields
 
-#  Disabled due to issues calling API from CircleCI:
-#  https://dsdmoj.atlassian.net/browse/DPR2-232
-#  Scenario: Data is displayed correctly
-#    When I navigate to a list report
-#    Then the column headers are displayed correctly
-#    And date times are displayed in the correct format
-#    And the correct data is displayed on the page
+  Scenario: Data is displayed correctly
+    When I navigate to a list report
+    Then the column headers are displayed correctly
+    And the correct data is displayed on the page
 
   Scenario: Filtering data displays correct results
     Given I clear the default filter
@@ -37,11 +34,9 @@ Feature: List report
     Then no filters are selected
 
   Scenario: Clicking 'Reset filters' resets the filters
-    Given I click the Show Filter button
-    And I select a filter
-    And I apply the filters
+    Given I clear the default filter
     When I click a the Reset filters button
-    Then no filters are selected
+    Then the default filter value is displayed
 
   Scenario: Sorting on a previously unselected column
     Given I clear the default filter

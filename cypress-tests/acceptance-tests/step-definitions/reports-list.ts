@@ -4,20 +4,20 @@ import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import ListPage from '../../common/pages/ListPage'
 
-const getData = (resourceName: string) => {
-  return cy.getCookie('jwtSession', { domain: Cypress.env('SIGN_IN_URL') }).then(tokenCookie => {
-    return cy
-      .request({
-        url: `${Cypress.env('API_BASE_URL')}/${resourceName}`,
-        auth: {
-          bearer: tokenCookie.value,
-        },
-      })
-      .then(response => {
-        return response.body as Array<Record<string, string>>
-      })
-  })
-}
+const data = [
+  {
+    column1: 'Eleven',
+    column2: 12,
+    column3: 'Thirteen',
+    column4: '16/12/14',
+  },
+  {
+    column1: 'One',
+    column2: 2,
+    column3: 'Three',
+    column4: '06/05/04',
+  },
+]
 
 When(/^I click the Show Filter button$/, function () {
   const page = new ListPage(this.fullDefinition)
@@ -159,32 +159,19 @@ Then('filters are displayed for filterable fields', function (this: Mocha.Contex
 Then('the column headers are displayed correctly', function (this: Mocha.Context) {
   const page = new ListPage(this.fullDefinition)
 
-  page.fullDefinition.variant.specification.fields.forEach(field => {
-    page.dataTable().find('thead').contains(field.display)
+  const columnNames = ['Column 1', 'Column 2', 'Column 3', 'Date']
+
+  columnNames.forEach(columnName => {
+    page.dataTable().find('thead').contains(columnName)
   })
 })
 
-Then('date times are displayed in the correct format', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
-
-  page.fullDefinition.variant.specification.fields.forEach((field, index) => {
-    if (field.type === 'date') {
-      page
-        .dataTable()
-        .get(`tbody tr:first-child td:nth-child(${index + 1})`)
-        .contains(/\d\d\/\d\d\/\d\d \d\d:\d\d/)
-    }
-  })
-})
 Then('the correct data is displayed on the page', function (this: Mocha.Context) {
   const page = new ListPage(this.fullDefinition)
-  getData(page.fullDefinition.variant.resourceName).then(data => {
-    page.dataTable().find('tbody tr').should('have.length', data.length)
-    const record = data.pop()
+
+  data.forEach(record => {
     Object.keys(record).forEach(key => {
-      if (page.fullDefinition.variant.specification.fields.find(f => f.name === key).type !== 'date') {
-        page.dataTable().find('tbody tr').first().contains(record[key])
-      }
+      page.dataTable().contains(record[key].toString())
     })
   })
 })
@@ -274,4 +261,10 @@ Then('the current page is shown in the URL', function (this: Mocha.Context) {
   cy.location().should(location => {
     expect(location.search).to.contain(`selectedPage=${this.currentPage}`)
   })
+})
+
+Then('the default filter value is displayed', function (this: Mocha.Context) {
+  const page = new ListPage(this.fullDefinition)
+
+  page.selectedFilterButton().contains('Date: 01/01/2004')
 })

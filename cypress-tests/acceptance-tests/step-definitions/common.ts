@@ -14,7 +14,7 @@ When(/I navigate to the (.+) page/, (page: string) => {
       cy.visit('/')
       break
     default:
-      cy.visit(`/${lowercasePage}`)
+      cy.visit(`/${lowercasePage}?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest`)
   }
 })
 
