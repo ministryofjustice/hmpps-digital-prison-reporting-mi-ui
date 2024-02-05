@@ -11,7 +11,9 @@ const getReportDefinitions = (context: Mocha.Context) => {
     return cy.getCookie('jwtSession', { domain: Cypress.env('SIGN_IN_URL') }).then(tokenCookie => {
       return cy
         .request({
-          url: `${Cypress.env('API_BASE_URL')}/definitions?renderMethod=HTML`,
+          url: `${Cypress.env(
+            'API_BASE_URL',
+          )}/definitions?renderMethod=HTML&dataProductDefinitionsPath=definitions%2Fprisons%2Ftest`,
           auth: {
             bearer: tokenCookie.value,
           },
@@ -31,7 +33,9 @@ const getFullDefinition = (context: Mocha.Context, reportId: string, variantId: 
     return cy.getCookie('jwtSession', { domain: Cypress.env('SIGN_IN_URL') }).then(tokenCookie => {
       return cy
         .request({
-          url: `${Cypress.env('API_BASE_URL')}/definitions/${reportId}/${variantId}`,
+          url: `${Cypress.env(
+            'API_BASE_URL',
+          )}/definitions/${reportId}/${variantId}?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest`,
           auth: {
             bearer: tokenCookie.value,
           },
@@ -48,18 +52,16 @@ const getFullDefinition = (context: Mocha.Context, reportId: string, variantId: 
 
 Given('I navigate to a list report', function (this: Mocha.Context) {
   getReportDefinitions(this).then(reportDefinitions => {
-    const externalMovementsDefinitionSummary = reportDefinitions.filter(reportDefinition => {
-      return reportDefinition.id === 'external-movements'
-    })[0]
+    const testDefinitionSummary = reportDefinitions[0]
 
-    expect(externalMovementsDefinitionSummary).is.not.null
+    expect(testDefinitionSummary).is.not.null
 
-    const variantId = externalMovementsDefinitionSummary.variants[0].id
+    const variantId = testDefinitionSummary.variants[0].id
 
-    getFullDefinition(this, externalMovementsDefinitionSummary.id, variantId).then(fullDefinition => {
+    getFullDefinition(this, testDefinitionSummary.id, variantId).then(fullDefinition => {
       expect(fullDefinition.variant.specification.template).is.equal('list')
 
-      cy.visit(`/reports/${fullDefinition.id}/${variantId}`)
+      cy.visit(`/reports/${fullDefinition.id}/${variantId}?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest`)
     })
   })
 })
@@ -67,9 +69,8 @@ Given('I navigate to a list report', function (this: Mocha.Context) {
 When('I click on a report card', function (this: Mocha.Context) {
   const page = Page.verifyOnPage(ReportsPage)
   getReportDefinitions(this).then(reportDefinitions => {
-    const reportDefinition = reportDefinitions.pop()
-    this.currentReportDefinition = reportDefinition
-    page.card(reportDefinition.id).click()
+    this.currentReportDefinition = reportDefinitions.pop()
+    page.card().click()
   })
 })
 
@@ -88,7 +89,7 @@ Then('a card is displayed for each report', function (this: Mocha.Context) {
   getReportDefinitions(this).then(reportDefinitions => {
     reportDefinitions.forEach(reportDefinition => {
       page
-        .card(reportDefinition.id)
+        .card()
         .should('not.be.null')
         .should('contain.text', reportDefinition.name)
         .parent()

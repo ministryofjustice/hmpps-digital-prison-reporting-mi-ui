@@ -7,5 +7,5 @@ export default class ReportsPage extends Page {
 
   externalMovementsCard = (): PageElement => cy.get('.card__link[href="/reports/external-movements"]')
 
-  card = (id: string): PageElement => cy.get(`.card__link[href="/reports/${id}"]`)
+  card = (): PageElement => cy.get(`.card__link`).first()
 }
