@@ -5,6 +5,7 @@ import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
 import config from '../config'
+import { getDefinitionsParameters } from '../utils/utils'
 
 export default function routes(services: Services): Router {
   const router = Router()
@@ -26,7 +27,11 @@ export default function routes(services: Services): Router {
   get('/reports', (req, res) => {
     res.render('pages/card', {
       title: 'Reports',
-      cards: CardUtils.reportDefinitionsToCards(res.locals.definitions, '/reports'),
+      cards: CardUtils.reportDefinitionsToCards(
+        res.locals.definitions,
+        '/reports',
+        getDefinitionsParameters(req.query),
+      ),
     })
   })
 

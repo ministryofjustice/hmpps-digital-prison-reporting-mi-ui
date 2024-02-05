@@ -13,15 +13,19 @@ export default class ReportingService {
     return this.reportingClient.getList(resourceName, token, listRequest)
   }
 
-  async getDefinitions(token: string): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
-    return this.reportingClient.getDefinitions(token)
+  async getDefinitions(
+    token: string,
+    dataProductDefinitionsPath?: string,
+  ): Promise<Array<components['schemas']['ReportDefinitionSummary']>> {
+    return this.reportingClient.getDefinitions(token, dataProductDefinitionsPath)
   }
 
   async getDefinition(
     token: string,
     reportId: string,
     variantId: string,
+    dataProductDefinitionsPath?: string,
   ): Promise<components['schemas']['SingleVariantReportDefinition']> {
-    return this.reportingClient.getDefinition(token, reportId, variantId)
+    return this.reportingClient.getDefinition(token, reportId, variantId, dataProductDefinitionsPath)
   }
 }
