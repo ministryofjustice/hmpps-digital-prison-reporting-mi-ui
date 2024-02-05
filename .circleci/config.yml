@@ -196,15 +196,15 @@ workflows:
             - integration_test
             - remember-version-for-dev
           helm_timeout: 5m
-#      - acceptance_test:
-#          requires:
-#            - deploy_dev
-#          context:
-#            - hmpps-digital-prison-reporting-mi-auth
+      - acceptance_test:
+          requires:
+            - deploy_dev
+          context:
+            - hmpps-digital-prison-reporting-mi-auth
       - request-test-approval:
           type: approval
           requires:
-            - deploy_dev
+            - acceptance_test
       - remember-app-version:
           name: remember-version-for-test
           requires:
@@ -223,7 +223,7 @@ workflows:
       - request-preprod-approval:
           type: approval
           requires:
-            - deploy_dev
+            - acceptance_test
       - remember-app-version:
           name: remember-version-for-preprod
           requires:
