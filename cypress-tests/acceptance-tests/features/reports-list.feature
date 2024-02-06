@@ -35,6 +35,7 @@ Feature: List report
 
   Scenario: Clicking 'Reset filters' resets the filters
     Given I clear the default filter
+    When I click the Show Filter button
     When I click a the Reset filters button
     Then the default filter value is displayed
 
