@@ -90,4 +90,5 @@ export default {
     roles: getAuthorisedRoles(),
   },
   maintenanceMode: get('MAINTENANCE_MODE', ''),
+  definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', true, requiredInProduction)),
 }
