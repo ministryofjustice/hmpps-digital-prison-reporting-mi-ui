@@ -21,7 +21,7 @@ const data = [
 
 When(/^I click the Show Filter button$/, function () {
   const page = new ListPage(this.fullDefinition)
-  page.showFilterButton().click()
+  page.showFilterButton().click(10, 30)
 })
 
 When('I select a filter', function (this: Mocha.Context) {
@@ -117,12 +117,12 @@ Then('the Show Filter button is displayed', function (this: Mocha.Context) {
 })
 
 Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
-  const panel = new ListPage(this.fullDefinition).filterPanel()
+  const panel = new ListPage(this.fullDefinition).showFilterButton()
 
   if (panelStatus === 'open') {
-    panel.should('not.have.class', 'moj-js-hidden')
+    panel.should('have.attr', 'open')
   } else {
-    panel.should('have.class', 'moj-js-hidden')
+    panel.should('not.have.attr', 'open')
   }
 })
 Then('filters are displayed for filterable fields', function (this: Mocha.Context) {
