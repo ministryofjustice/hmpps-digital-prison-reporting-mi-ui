@@ -6,7 +6,7 @@
 # Instructions
 
 This is an HMPPS project that has been created as part of bootstrapping -
-see https://github.com/ministryofjustice/dps-project-bootstrap.
+see https://github.com/ministryofjustice/hmpps-project-bootstrap.
 
 This bootstrap is community managed by the mojdt `#typescript` slack channel.
 Please raise any questions or queries there. Contributions welcome!
