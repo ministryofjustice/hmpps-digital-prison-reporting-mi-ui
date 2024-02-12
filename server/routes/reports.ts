@@ -39,7 +39,6 @@ export default function routes(router: Router, services: Services) {
 
   get('/reports/:report/:variant', (req, res, next) => {
     const { token } = res.locals.user
-
     services.reportingService
       .getDefinition(token, req.params.report, req.params.variant, getDefinitionsPath(req.query))
       .then(fullDefinition => {
