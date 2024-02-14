@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "husky install",
     "copy-views": "cp -R server/views dist/server/",
-    "compile-sass": "sass --quiet-deps --no-source-map --load-path=node_modules/govuk-frontend --load-path=node_modules/@ministryofjustice/frontend --load-path=. assets/scss/application.scss:./assets/stylesheets/application.css assets/scss/application-ie8.scss:./assets/stylesheets/application-ie8.css --style compressed",
+    "compile-sass": "sass --quiet-deps --no-source-map --load-path=node_modules/govuk-frontend/dist --load-path=node_modules/@ministryofjustice/frontend --load-path=. assets/scss/application.scss:./assets/stylesheets/application.css --style compressed",
     "watch-ts": "tsc -w",
     "watch-views": "nodemon --watch server/views -e html,njk -x npm run copy-views",
     "watch-node": "DEBUG=gov-starter-server* nodemon -r dotenv/config --watch dist/ dist/server.js | bunyan -o short",
@@ -98,8 +98,8 @@
     ]
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^1.8.1",
-    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^2.5.0",
+    "@ministryofjustice/frontend": "^2.1.0",
+    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^3.0.0",
     "agentkeepalive": "^4.5.0",
     "applicationinsights": "^2.9.2",
     "body-parser": "^1.20.2",
@@ -112,10 +112,9 @@
     "express": "^4.18.2",
     "express-prom-bundle": "^6.6.0",
     "express-session": "^1.17.3",
-    "govuk-frontend": "^4.7",
+    "govuk-frontend": "^5.1.0",
     "helmet": "^7.0.0",
     "http-errors": "^2.0.0",
-    "jquery": "^3.6.4",
     "jwt-decode": "^3.1.2",
     "nocache": "^4.0.0",
     "nunjucks": "^3.2.4",

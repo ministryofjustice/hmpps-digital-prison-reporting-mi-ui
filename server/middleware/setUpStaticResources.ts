@@ -7,8 +7,8 @@ import config from '../config'
 
 const otherStaticResources = [
   {
-    path: '/assets/js/jquery.min.js',
-    location: '/node_modules/jquery/dist/jquery.min.js',
+    path: '/assets/govuk/all.js',
+    location: '/node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js',
   },
   {
     path: '/assets/dpr',
@@ -28,11 +28,10 @@ export default function setUpStaticResources(): Router {
     '/assets',
     '/assets/stylesheets',
     '/assets/js',
-    '/node_modules/govuk-frontend/govuk/assets',
-    '/node_modules/govuk-frontend',
+    '/node_modules/govuk-frontend/dist/govuk/assets',
+    '/node_modules/govuk-frontend/dist',
     '/node_modules/@ministryofjustice/frontend/moj/assets',
     '/node_modules/@ministryofjustice/frontend',
-    '/node_modules/jquery/dist',
   ).forEach(dir => {
     router.use('/assets', express.static(path.join(process.cwd(), dir), cacheControl))
   })
