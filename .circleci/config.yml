@@ -145,7 +145,7 @@ jobs:
     steps:
       - mem/remember:
           env_var: APP_VERSION
-          value: "Build.${SHORT_SHA1}"
+          value: "Build.${CIRCLE_SHA1}"
 
 workflows:
   version: 2
@@ -169,11 +169,11 @@ workflows:
             - hmpps-common-vars
       - hmpps/build_docker:
           name: build_docker
-          additional_docker_tag: "Build.${SHORT_SHA1}"
-          filters:
-            branches:
-              only:
-                - main
+          additional_docker_tag: "Build.${CIRCLE_SHA1}"
+#          filters:
+#            branches:
+#              only:
+#                - main
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -186,10 +186,10 @@ workflows:
           context:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-dev
-          filters:
-            branches:
-              only:
-                - main
+#          filters:
+#            branches:
+#              only:
+#                - main
           requires:
             - helm_lint
             - unit_test
