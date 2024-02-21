@@ -33,7 +33,10 @@ export default function routes(router: Router, services: Services) {
     res.render('pages/card', {
       title: reportDefinition.name,
       breadCrumbList: [{ text: 'Reports', href: '/reports' }],
-      cards: CardUtils.variantDefinitionsToCards(reportDefinition, '/reports', getDefinitionsParameters(req.query)),
+      cards: {
+        items: CardUtils.variantDefinitionsToCards(reportDefinition, '/reports', getDefinitionsParameters(req.query)),
+        variant: 1,
+      },
     })
   })
 

@@ -14,24 +14,30 @@ export default function routes(services: Services): Router {
   get('/', (req, res) => {
     res.render('pages/card', {
       title: 'Home',
-      cards: [
-        {
-          text: 'Reports',
-          href: '/reports',
-          description: 'View MI reports',
-        },
-      ],
+      cards: {
+        items: [
+          {
+            text: 'Reports',
+            href: '/reports',
+            description: 'View MI reports',
+          },
+        ],
+        variant: 1,
+      },
     })
   })
 
   get('/reports', (req, res) => {
     res.render('pages/card', {
       title: 'Reports',
-      cards: CardUtils.reportDefinitionsToCards(
-        res.locals.definitions,
-        '/reports',
-        getDefinitionsParameters(req.query),
-      ),
+      cards: {
+        items: CardUtils.reportDefinitionsToCards(
+          res.locals.definitions,
+          '/reports',
+          getDefinitionsParameters(req.query),
+        ),
+        variant: 1,
+      },
     })
   })
 
