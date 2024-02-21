@@ -19,6 +19,8 @@ generic-service:
     groups:
       - circleci
       - internal
+      - prisons
+      - private_prisons
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-reporting-dev
