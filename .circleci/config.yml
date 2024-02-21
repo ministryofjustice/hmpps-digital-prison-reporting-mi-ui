@@ -145,7 +145,7 @@ jobs:
     steps:
       - mem/remember:
           env_var: APP_VERSION
-          value: "Build.${CIRCLE_WORKFLOW_ID}"
+          value: "Build.${SHORT_SHA1}"
 
 workflows:
   version: 2
@@ -169,7 +169,7 @@ workflows:
             - hmpps-common-vars
       - hmpps/build_docker:
           name: build_docker
-          additional_docker_tag: "Build.${CIRCLE_WORKFLOW_ID}"
+          additional_docker_tag: "Build.${SHORT_SHA1}"
           filters:
             branches:
               only:
