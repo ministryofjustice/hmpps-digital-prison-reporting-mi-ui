@@ -54,6 +54,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: true,
               type: 'string',
+              visible: true,
             },
             {
               name: 'firstName',
@@ -61,6 +62,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'lastName',
@@ -68,6 +70,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'date',
@@ -75,6 +78,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'date',
+              visible: true,
             },
             {
               name: 'time',
@@ -82,6 +86,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'from',
@@ -89,6 +94,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'to',
@@ -96,6 +102,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'direction',
@@ -103,6 +110,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
               filter: {
                 type: 'Radio',
                 staticOptions: [
@@ -117,6 +125,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'reason',
@@ -124,6 +133,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
           ],
         },
