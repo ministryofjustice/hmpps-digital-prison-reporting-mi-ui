@@ -126,7 +126,8 @@ const stubDefinition = () =>
         '              "display": "Prison Number",\n' +
         '              "sortable": true,\n' +
         '              "defaultsort": false,\n' +
-        '              "type": "string"\n' +
+        '              "type": "string",\n' +
+        '              "visible": true\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "name",\n' +
@@ -134,7 +135,8 @@ const stubDefinition = () =>
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
         '              "defaultsort": false,\n' +
-        '              "type": "string"\n' +
+        '              "type": "string",\n' +
+        '              "visible": true\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "date",\n' +
@@ -145,7 +147,8 @@ const stubDefinition = () =>
         '              },\n' +
         '              "sortable": true,\n' +
         '              "defaultsort": true,\n' +
-        '              "type": "date"\n' +
+        '              "type": "date",\n' +
+        '              "visible": true\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "origin",\n' +
@@ -153,7 +156,8 @@ const stubDefinition = () =>
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
         '              "defaultsort": false,\n' +
-        '              "type": "string"\n' +
+        '              "type": "string",\n' +
+        '              "visible": true\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "destination",\n' +
@@ -161,7 +165,8 @@ const stubDefinition = () =>
         '              "wordWrap": "None",\n' +
         '              "sortable": true,\n' +
         '              "defaultsort": false,\n' +
-        '              "type": "string"\n' +
+        '              "type": "string",\n' +
+        '              "visible": true\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "direction",\n' +
@@ -181,21 +186,24 @@ const stubDefinition = () =>
         '              },\n' +
         '              "sortable": true,\n' +
         '              "defaultsort": false,\n' +
-        '              "type": "string"\n' +
+        '              "type": "string",\n' +
+        '              "visible": true\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "type",\n' +
         '              "display": "Type",\n' +
         '              "sortable": true,\n' +
         '              "defaultsort": false,\n' +
-        '              "type": "string"\n' +
+        '              "type": "string",\n' +
+        '              "visible": true\n' +
         '            },\n' +
         '            {\n' +
         '              "name": "reason",\n' +
         '              "display": "Reason",\n' +
         '              "sortable": true,\n' +
         '              "defaultsort": false,\n' +
-        '              "type": "string"\n' +
+        '              "type": "string",\n' +
+        '              "visible": true\n' +
         '            }\n' +
         '          ]\n' +
         '        }\n' +
