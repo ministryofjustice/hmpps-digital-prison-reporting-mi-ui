@@ -19,13 +19,33 @@ context('View reports', () => {
     Page.verifyOnPage(ReportsPage)
   })
 
-  it('Report page reports invalid reportId', () => {
+  it('Report page rejects invalid reportId', () => {
     cy.signIn()
     Page.verifyOnPage(IndexPage)
     cy.visit('/reports/invalid-report')
 
     const errorPage = new ErrorPage()
     errorPage.messageHeader().should('contain.text', 'Unrecognised report ID "invalid-report"')
+    errorPage.statusCodeHeader().should('contain.text', '404')
+  })
+
+  it('Report page rejects invalid reportId', () => {
+    cy.signIn()
+    Page.verifyOnPage(IndexPage)
+    cy.visit('/reports/invalid-report/last-year')
+
+    const errorPage = new ErrorPage()
+    errorPage.messageHeader().should('contain.text', 'Unrecognised report ID "invalid-report"')
+    errorPage.statusCodeHeader().should('contain.text', '404')
+  })
+
+  it('Report page rejects invalid variantId', () => {
+    cy.signIn()
+    Page.verifyOnPage(IndexPage)
+    cy.visit('/reports/external-movements/last-year')
+
+    const errorPage = new ErrorPage()
+    errorPage.messageHeader().should('contain.text', 'Unrecognised variant ID "last-year"')
     errorPage.statusCodeHeader().should('contain.text', '404')
   })
 })
