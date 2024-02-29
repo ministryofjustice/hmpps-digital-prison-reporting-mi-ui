@@ -1,5 +1,5 @@
 import type { RequestHandler, Router } from 'express'
-import { NotFound } from 'http-errors'
+import createError, { NotFound } from 'http-errors'
 import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import CardUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/card-group/utils'
@@ -44,37 +44,45 @@ export default function routes(router: Router, services: Services) {
   })
 
   get('/reports/:report/:variant', (req, res, next) => {
-    const { token } = res.locals.user
-    services.reportingService
-      .getDefinition(token, req.params.report, req.params.variant, getDefinitionsPath(req.query))
-      .then(fullDefinition => {
-        const { resourceName } = fullDefinition.variant
+    const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report)
 
-        switch (fullDefinition.variant.specification.template) {
-          case 'list':
-            ReportListUtils.renderListWithData({
-              title: fullDefinition.variant.name,
-              variantDefinition: fullDefinition.variant,
-              request: req,
-              response: res,
-              next,
-              getListDataSources: reportQuery => ({
-                data: services.reportingService.getList(resourceName, token, reportQuery),
-                count: services.reportingService.getCount(resourceName, token, reportQuery),
-              }),
-              otherOptions: {
-                breadCrumbList: [
-                  { text: 'Reports', href: '/reports' },
-                  { text: fullDefinition.name, href: `/reports/${fullDefinition.id}` },
-                ],
-              },
-              layoutTemplate: 'partials/layout.njk',
-            })
-            break
+    if (!reportDefinition) {
+      next(NotFound(`${USER_MESSAGE_PREFIX}Unrecognised report ID "${req.params.report}"`))
+    } else if (!reportDefinition.variants.find(v => v.id === req.params.variant)) {
+      next(NotFound(`${USER_MESSAGE_PREFIX}Unrecognised variant ID "${req.params.variant}"`))
+    } else {
+      const { token } = res.locals.user
+      services.reportingService
+        .getDefinition(token, req.params.report, req.params.variant, getDefinitionsPath(req.query))
+        .then(fullDefinition => {
+          const { resourceName } = fullDefinition.variant
 
-          default:
-            next()
-        }
-      })
+          switch (fullDefinition.variant.specification.template) {
+            case 'list':
+              ReportListUtils.renderListWithData({
+                title: fullDefinition.variant.name,
+                variantDefinition: fullDefinition.variant,
+                request: req,
+                response: res,
+                next,
+                getListDataSources: reportQuery => ({
+                  data: services.reportingService.getList(resourceName, token, reportQuery),
+                  count: services.reportingService.getCount(resourceName, token, reportQuery),
+                }),
+                otherOptions: {
+                  breadCrumbList: [
+                    { text: 'Reports', href: '/reports' },
+                    { text: fullDefinition.name, href: `/reports/${fullDefinition.id}` },
+                  ],
+                },
+                layoutTemplate: 'partials/layout.njk',
+              })
+              break
+
+            default:
+              next(createError(500, `Unrecognised template: ${fullDefinition.variant.specification.template}`))
+          }
+        })
+    }
   })
 }
