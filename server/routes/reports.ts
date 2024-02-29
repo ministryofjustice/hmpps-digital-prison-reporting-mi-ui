@@ -1,11 +1,12 @@
-import type { NextFunction, RequestHandler, Router } from 'express'
-import createError from 'http-errors'
+import type { RequestHandler, Router } from 'express'
+import { NotFound } from 'http-errors'
 import ReportListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/report-list/utils'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import CardUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/card-group/utils'
 import type { Services } from '../services'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import { getDefinitionsParameters, getDefinitionsPath } from '../utils/utils'
+import { USER_MESSAGE_PREFIX } from '../errorHandler'
 
 export default function routes(router: Router, services: Services) {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
@@ -13,7 +14,6 @@ export default function routes(router: Router, services: Services) {
   const getReportDefinition = (
     definitions: Array<components['schemas']['ReportDefinitionSummary']>,
     reportName: string,
-    next: NextFunction,
   ): components['schemas']['ReportDefinitionSummary'] => {
     const reportDefinition = definitions.find(
       (d: components['schemas']['ReportDefinitionSummary']) => d.id === reportName,
@@ -23,21 +23,24 @@ export default function routes(router: Router, services: Services) {
       return reportDefinition
     }
 
-    next(createError(404, 'Not found'))
     return null
   }
 
   get('/reports/:report', (req, res, next) => {
-    const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report, next)
+    const reportDefinition = getReportDefinition(res.locals.definitions, req.params.report)
 
-    res.render('pages/card', {
-      title: reportDefinition.name,
-      breadCrumbList: [{ text: 'Reports', href: '/reports' }],
-      cards: {
-        items: CardUtils.variantDefinitionsToCards(reportDefinition, '/reports', getDefinitionsParameters(req.query)),
-        variant: 1,
-      },
-    })
+    if (!reportDefinition) {
+      next(NotFound(`${USER_MESSAGE_PREFIX}Unrecognised report ID "${req.params.report}"`))
+    } else {
+      res.render('pages/card', {
+        title: reportDefinition.name,
+        breadCrumbList: [{ text: 'Reports', href: '/reports' }],
+        cards: {
+          items: CardUtils.variantDefinitionsToCards(reportDefinition, '/reports', getDefinitionsParameters(req.query)),
+          variant: 1,
+        },
+      })
+    }
   })
 
   get('/reports/:report/:variant', (req, res, next) => {
