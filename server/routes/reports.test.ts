@@ -54,6 +54,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: true,
               type: 'string',
+              visible: true,
             },
             {
               name: 'firstName',
@@ -61,6 +62,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'lastName',
@@ -68,6 +70,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'date',
@@ -75,6 +78,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'date',
+              visible: true,
             },
             {
               name: 'time',
@@ -82,6 +86,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'from',
@@ -89,6 +94,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'to',
@@ -96,6 +102,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'direction',
@@ -103,6 +110,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
               filter: {
                 type: 'Radio',
                 staticOptions: [
@@ -117,6 +125,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
             {
               name: 'reason',
@@ -124,6 +133,7 @@ beforeEach(() => {
               sortable: true,
               defaultsort: false,
               type: 'string',
+              visible: true,
             },
           ],
         },
@@ -172,7 +182,7 @@ describe('GET /reports/external-movements/list', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
-          '?selectedPage=2&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;filters.direction=in',
+          '?selectedPage=2&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;columns=prisonNumber,firstName,lastName,date,time,from,to,direction,type,reason&amp;filters.direction=in',
         )
       })
   })
@@ -183,7 +193,7 @@ describe('GET /reports/external-movements/list', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
-          '?selectedPage=1&pageSize=20&sortColumn=prisonNumber&sortedAsc=false&filters.direction=in',
+          '?selectedPage=1&pageSize=20&sortColumn=prisonNumber&sortedAsc=false&columns=prisonNumber,firstName,lastName,date,time,from,to,direction,type,reason&filters.direction=in',
         )
       })
   })
@@ -194,7 +204,7 @@ describe('GET /reports/external-movements/list', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
-          '?selectedPage=1&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;filters.direction=~clear~&amp;filters.type=jaunt"',
+          '?selectedPage=1&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;columns=prisonNumber,firstName,lastName,date,time,from,to,direction,type,reason&amp;filters.direction=~clear~&amp;filters.type=jaunt"',
         )
       })
   })
