@@ -65,6 +65,7 @@ export default function routes(router: Router, services: Services) {
               ReportListUtils.renderListWithData({
                 title: fullDefinition.variant.name,
                 variantDefinition: fullDefinition.variant,
+                reportName: fullDefinition.name,
                 request: req,
                 response: res,
                 next,
