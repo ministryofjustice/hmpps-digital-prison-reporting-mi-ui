@@ -30,6 +30,7 @@ export default function routes(services: Services): Router {
   get('/reports', (req, res) => {
     res.render('pages/card', {
       title: 'Reports',
+      breadCrumbList: [{ text: 'Home', href: '/' }],
       cards: {
         items: CardUtils.reportDefinitionsToCards(
           res.locals.definitions,

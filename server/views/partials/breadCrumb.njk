@@ -1,21 +1,19 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-{% macro breadCrumb(pageTitle, breadCrumbList = []) %}
+{% macro breadCrumb(breadCrumbList = []) %}
 
-  {% set rows = [{
-      text: "Home",
-      href: '/'
-    }] %}
+  {% set rows = [
+    {
+      text: "Digital Prison Services",
+      href: 'https://dps.prison.service.justice.gov.uk/'
+    }
+  ] %}
 
   {% if (breadCrumbList.length > 0) %}
     {% set rows = rows.concat(breadCrumbList) %}
   {% endif %}
 
-  {% set rows = rows.concat([{
-    text: pageTitle
-  }]) %}
-
-{{ govukBreadcrumbs({
+  {{ govukBreadcrumbs({
   collapseOnMobile: true,
   items: rows,
   classes: "govuk-!-display-none-print hmpps-header__container"
