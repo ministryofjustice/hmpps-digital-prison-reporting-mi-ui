@@ -1,4 +1,4 @@
-name: Add coverage to PR
+name: PR preparation
 
 on:
   pull_request:
@@ -7,19 +7,29 @@ on:
       - synchronize
 
 jobs:
-  coverage:
+  preparation:
     runs-on: ubuntu-latest
 
     permissions:
       pull-requests: write
+      contents: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v3
+        with:
+          node-version: latest
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci --no-audit
+
+      - name: Add linting fixes
+        run: npm run lint:fix
+
+      - name: Commit linting fixes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Linting fixes
 
       - name: Calculate test coverage
         run: |
