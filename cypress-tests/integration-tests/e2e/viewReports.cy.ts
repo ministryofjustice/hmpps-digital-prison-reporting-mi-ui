@@ -10,6 +10,7 @@ context('View reports', () => {
     cy.task('stubAuthUser')
     cy.task('stubDefinitions')
     cy.task('stubDefinition')
+    cy.task('stubUserCaseload')
   })
 
   it('Report page displays', () => {

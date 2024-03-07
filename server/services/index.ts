@@ -3,9 +3,9 @@ import UserService from './userService'
 import ReportingService from './reportingService'
 
 export const services = () => {
-  const { hmppsAuthClient, reportingClient } = dataAccess()
+  const { hmppsAuthClient, reportingClient, userClient } = dataAccess()
 
-  const userService = new UserService(hmppsAuthClient)
+  const userService = new UserService(hmppsAuthClient, userClient)
   const reportingService = new ReportingService(reportingClient)
 
   return {
