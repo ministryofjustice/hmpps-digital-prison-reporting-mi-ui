@@ -23,6 +23,7 @@ context('View external movements last month list', () => {
     cy.task('stubExternalMovementsCount')
     cy.task('stubDefinitions')
     cy.task('stubDefinition')
+    cy.task('stubUserCaseload')
   })
 
   it('Displays', () => {

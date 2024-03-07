@@ -212,9 +212,25 @@ const stubDefinition = () =>
     },
   })
 
+const stubUserCaseload = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/reports/user/caseload/active',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: '["ABC"]',
+    },
+  })
+
 export default {
   stubExternalMovementsCount,
   stubExternalMovements,
   stubDefinitions,
   stubDefinition,
+  stubUserCaseload,
 }
