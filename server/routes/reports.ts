@@ -35,8 +35,8 @@ export default function routes(router: Router, services: Services) {
       res.render('pages/card', {
         title: reportDefinition.name,
         breadCrumbList: [
-          { text: 'Home', href: '/' },
-          { text: 'Reports', href: '/reports' },
+          { text: 'Home', href: `/${res.locals.pathSuffix}` },
+          { text: 'Reports', href: `/reports${res.locals.pathSuffix}` },
         ],
         cards: {
           items: CardUtils.variantDefinitionsToCards(reportDefinition, '/reports', getDefinitionsParameters(req.query)),
@@ -75,9 +75,9 @@ export default function routes(router: Router, services: Services) {
                 }),
                 otherOptions: {
                   breadCrumbList: [
-                    { text: 'Home', href: '/' },
-                    { text: 'Reports', href: '/reports' },
-                    { text: fullDefinition.name, href: `/reports/${fullDefinition.id}` },
+                    { text: 'Home', href: `/${res.locals.pathSuffix}` },
+                    { text: 'Reports', href: `/reports${res.locals.pathSuffix}` },
+                    { text: fullDefinition.name, href: `/reports/${fullDefinition.id}${res.locals.pathSuffix}` },
                   ],
                 },
                 layoutTemplate: 'partials/layout.njk',

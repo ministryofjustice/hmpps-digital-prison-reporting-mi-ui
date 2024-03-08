@@ -5,15 +5,19 @@ import config from '../config'
 
 export default (service: ReportingService): RequestHandler => {
   return (req, res, next) => {
-    const definitionsPath = getDefinitionsPath(req.query)
+    let definitionsPath = getDefinitionsPath(req.query)
+    res.locals.pathSuffix = ''
 
     if (definitionsPath && !config.definitionPathsEnabled) {
       req.query.dataProductDefinitionsPath = null
+      definitionsPath = null
+    } else if (definitionsPath) {
+      res.locals.pathSuffix = `?dataProductDefinitionsPath=${definitionsPath}`
     }
 
     if (res.locals.user.token && service) {
       return service
-        .getDefinitions(res.locals.user.token, getDefinitionsPath(req.query))
+        .getDefinitions(res.locals.user.token, definitionsPath)
         .then(definitions => {
           res.locals.definitions = definitions
           next()

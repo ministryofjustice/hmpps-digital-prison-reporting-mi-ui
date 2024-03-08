@@ -18,7 +18,7 @@ export default function routes(services: Services): Router {
         items: [
           {
             text: 'Reports',
-            href: '/reports',
+            href: `/reports${res.locals.pathSuffix}`,
             description: 'View MI reports',
           },
         ],
@@ -30,7 +30,7 @@ export default function routes(services: Services): Router {
   get('/reports', (req, res) => {
     res.render('pages/card', {
       title: 'Reports',
-      breadCrumbList: [{ text: 'Home', href: '/' }],
+      breadCrumbList: [{ text: 'Home', href: `/${res.locals.pathSuffix}` }],
       cards: {
         items: CardUtils.reportDefinitionsToCards(
           res.locals.definitions,

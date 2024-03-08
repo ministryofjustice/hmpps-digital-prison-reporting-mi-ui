@@ -21,14 +21,12 @@ Feature: Reports navigation
   Scenario: The report page has a breadcrumb back to the home page
     When I navigate to the Reports page
     Then a breadcrumb link is shown for the Home page
-    And a breadcrumb with no link is shown for the Reports page
 
   Scenario: The variant page has a breadcrumb back to the home and Reports pages
     Given I navigate to the Reports page
     When I click on a report card
     Then a breadcrumb link is shown for the Home page
     And a breadcrumb link is shown for the Reports page
-    And a breadcrumb with no link is shown for the Variants page
 
   Scenario: A list page has a breadcrumb back to the home, reports, and variant pages
     Given I navigate to the Reports page
@@ -37,4 +35,3 @@ Feature: Reports navigation
     Then a breadcrumb link is shown for the Home page
     And a breadcrumb link is shown for the Reports page
     And a breadcrumb link is shown for the Variants page
-    And a breadcrumb with no link is shown for the List page

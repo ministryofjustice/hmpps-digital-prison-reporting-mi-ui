@@ -1,13 +1,8 @@
-import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
-import Page, { PageElement } from './page'
+import Page, { PageElement } from '../../common/pages/page'
 
 export default class ListPage extends Page {
-  fullDefinition: components['schemas']['SingleVariantReportDefinition']
-
-  constructor(fullDefinition: components['schemas']['SingleVariantReportDefinition']) {
-    super(fullDefinition.variant.name)
-
-    this.fullDefinition = fullDefinition
+  constructor() {
+    super('Test Variant')
   }
 
   showFilterButton = (): PageElement => cy.get(`#Filters-accordion-button`)

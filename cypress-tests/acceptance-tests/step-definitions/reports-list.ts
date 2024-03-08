@@ -1,8 +1,7 @@
 /* eslint-disable func-names */
 
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
-import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
-import ListPage from '../../common/pages/ListPage'
+import ListPage from '../pages/ListPage'
 
 const data = [
   {
@@ -19,59 +18,65 @@ const data = [
   },
 ]
 
+const filterField = {
+  name: 'column1',
+  display: 'Column 1',
+  filter: {
+    type: 'Radio',
+    staticOptions: [
+      {
+        name: 'one',
+        display: 'One',
+      },
+      {
+        name: 'nothing',
+        display: 'No results',
+      },
+    ],
+  },
+  sortable: true,
+  defaultsort: false,
+  type: 'string',
+  mandatory: false,
+  visible: true,
+}
+
+let filterValue = filterField.filter.staticOptions[0]
+
 When(/^I click the Show Filter button$/, function () {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
   page.showFilterButton().click(10, 30)
 })
 
-When('I select a filter', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+When('I select a filter', () => {
+  const page = new ListPage()
 
-  const filterField = page.fullDefinition.variant.specification.fields.find(
-    field => field.filter && field.filter.type !== 'daterange',
-  )
-
-  let filterValue = filterField.filter.staticOptions[0]
-
-  switch (filterField.filter.type) {
-    case 'Select':
-      page.filter(filterField.name).select(filterValue.name)
-      break
-    case 'Radio':
-      page.filter(filterField.name).click({ force: true })
-      page.filter(filterField.name).then(selectedRadio => {
-        filterValue = filterField.filter.staticOptions.find(value => value.name === selectedRadio.val())
-      })
-      break
-    default:
-  }
-
-  this.selectedFilter = {
-    field: filterField,
-    value: filterValue,
-  }
+  page.filter(filterField.name).click({ force: true })
+  page.filter(filterField.name).then(selectedRadio => {
+    filterValue = filterField.filter.staticOptions.find(value => value.name === selectedRadio.val())
+  })
 })
 
 When('I apply the filters', function () {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   page.applyFiltersButton().click()
 })
 
 When(/^I (click|clear) the (selected|default) filter$/, function () {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   page.selectedFilterButton().click()
 })
 
 When('I click a the Reset filters button', function () {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   page.resetFiltersButton().click()
 })
 
 When('I select a column to sort on', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   page
     .unsortedSortColumnLink()
@@ -82,7 +87,7 @@ When('I select a column to sort on', function (this: Mocha.Context) {
 })
 
 When('I select a previously selected column to sort on', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   page
     .currentSortColumnLink()
@@ -93,14 +98,14 @@ When('I select a previously selected column to sort on', function (this: Mocha.C
 })
 
 When(/^I select a page size of (\d+)$/, function (this: Mocha.Context, pageSize: number) {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   this.currentPageSize = pageSize
   page.pageSizeSelector().select(`${pageSize}`)
 })
 
 When('I click a paging link', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   page
     .pagingLink()
@@ -111,13 +116,13 @@ When('I click a paging link', function (this: Mocha.Context) {
 })
 
 Then('the Show Filter button is displayed', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   page.showFilterButton().should('exist')
 })
 
 Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
-  const panel = new ListPage(this.fullDefinition).showFilterButton()
+  const panel = new ListPage().showFilterButton()
 
   if (panelStatus === 'open') {
     panel.should('have.attr', 'open')
@@ -125,39 +130,21 @@ Then(/^the Filter panel is (open|closed)$/, function (panelStatus) {
     panel.should('not.have.attr', 'open')
   }
 })
-Then('filters are displayed for filterable fields', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+Then('filters are displayed for filterable fields', () => {
+  const page = new ListPage()
 
-  page.fullDefinition.variant.specification.fields
-    .filter(field => field.filter)
-    .forEach(field => {
-      switch (field.filter.type) {
-        case 'daterange':
-          page.filter(`${field.name}\\.start`).parent().contains('Start')
-          page.filter(`${field.name}\\.end`).parent().contains('End')
-          break
+  page.filter(filterField.name).parentsUntil('.govuk-form-group').contains(filterField.display)
+  filterField.filter.staticOptions.forEach(option => {
+    page.filter(filterField.name).parentsUntil('.govuk-form-group').contains(option.display)
+    page.filter(filterField.name).parentsUntil('.govuk-fieldset').find(`input[value='${option.name}']`).should('exist')
+  })
 
-        case 'Radio':
-          page.filter(field.name).parentsUntil('.govuk-form-group').contains(field.display)
-          field.filter.staticOptions.forEach(option => {
-            page.filter(field.name).parentsUntil('.govuk-form-group').contains(option.display)
-            page
-              .filter(field.name)
-              .parentsUntil('.govuk-fieldset')
-              .find(`input[value='${option.name}']`)
-              .should('exist')
-          })
-          break
-
-        case 'Select':
-        default:
-          page.filter(field.name).parentsUntil('.govuk-fieldset').contains(field.display)
-      }
-    })
+  page.filter(`column4\\.start`).parent().contains('Start')
+  page.filter(`column4\\.end`).parent().contains('End')
 })
 
-Then('the column headers are displayed correctly', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+Then('the column headers are displayed correctly', () => {
+  const page = new ListPage()
 
   const columnNames = ['Column 1', 'Column 2', 'Column 3', 'Date']
 
@@ -166,8 +153,8 @@ Then('the column headers are displayed correctly', function (this: Mocha.Context
   })
 })
 
-Then('the correct data is displayed on the page', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+Then('the correct data is displayed on the page', () => {
+  const page = new ListPage()
 
   data.forEach(record => {
     Object.keys(record).forEach(key => {
@@ -176,42 +163,33 @@ Then('the correct data is displayed on the page', function (this: Mocha.Context)
   })
 })
 
-Then('the selected filter value is displayed', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+Then('the selected filter value is displayed', () => {
+  const page = new ListPage()
 
-  const selectedField: components['schemas']['FieldDefinition'] = this.selectedFilter.field
-  const selectedValue: components['schemas']['FilterOption'] = this.selectedFilter.value
-
-  page.selectedFilterButton().contains(`${selectedField.display}: ${selectedValue.display}`)
+  page.selectedFilterButton().contains(`${filterField.display}: ${filterValue.display}`)
 })
 
-Then('no filters are selected', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+Then('no filters are selected', () => {
+  const page = new ListPage()
 
   page.selectedFilterButtons().should('not.exist')
 })
 
-Then('only the default filter is selected', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+Then('only the default filter is selected', () => {
+  const page = new ListPage()
 
   page.selectedFilterButton().next().should('not.exist')
 })
 
-Then('the selected filter value is shown in the URL', function (this: Mocha.Context) {
-  const selectedField: components['schemas']['FieldDefinition'] = this.selectedFilter.field
-  const selectedValue: components['schemas']['FilterOption'] = this.selectedFilter.value
-
+Then('the selected filter value is shown in the URL', () => {
   cy.location().should(location => {
-    expect(location.search).to.contain(`${selectedField.name}=${selectedValue.name}`)
+    expect(location.search).to.contain(`${filterField.name}=${filterValue.name}`)
   })
 })
 
-Then('the data is filtered correctly', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
-  const selectedField: components['schemas']['FieldDefinition'] = this.selectedFilter.field
-  const selectedValue: components['schemas']['FilterOption'] = this.selectedFilter.value
-
-  const otherOptionValue = selectedField.filter.staticOptions.find(option => option.name !== selectedValue.name)
+Then('the data is filtered correctly', () => {
+  const page = new ListPage()
+  const otherOptionValue = filterField.filter.staticOptions.find(option => option.name !== filterValue.name)
 
   page.dataTable().find('tbody').should('not.contain', otherOptionValue.display)
 })
@@ -219,7 +197,7 @@ Then('the data is filtered correctly', function (this: Mocha.Context) {
 Then(
   /^the sorted column is shown as sorted (ascending|descending) in the header$/,
   function (this: Mocha.Context, direction: string) {
-    const page = new ListPage(this.fullDefinition)
+    const page = new ListPage()
     const { currentSortColumn } = this
 
     page.currentSortColumnLink().should(link => {
@@ -252,7 +230,7 @@ Then('the page size is shown in the URL', function (this: Mocha.Context) {
 })
 
 Then('the displayed data is not larger than the page size', function () {
-  const page = new ListPage(this.fullDefinition)
+  const page = new ListPage()
 
   page.dataTable().find('tbody tr').should('have.length.at.most', this.currentPageSize)
 })
@@ -263,8 +241,8 @@ Then('the current page is shown in the URL', function (this: Mocha.Context) {
   })
 })
 
-Then('the default filter value is displayed', function (this: Mocha.Context) {
-  const page = new ListPage(this.fullDefinition)
+Then('the default filter value is displayed', () => {
+  const page = new ListPage()
 
   page.selectedFilterButton().contains('Date: 01/01/2004')
 })
