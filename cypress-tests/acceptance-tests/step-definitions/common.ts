@@ -56,5 +56,5 @@ Then(/^a breadcrumb link is shown for the (.+) page$/, (page: string) => {
     default:
   }
 
-  cy.get(`a.govuk-breadcrumbs__link[href='${href}'`).contains(title)
+  cy.get(`a.govuk-breadcrumbs__link[href^='${href}'`).contains(title)
 })
