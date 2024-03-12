@@ -28,13 +28,16 @@ context('View external movements last month list', () => {
 
   it('Displays', () => {
     const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
-    externalMovementsLastMonthPage.dataTable().get('th').should('have.length', columns)
+    externalMovementsLastMonthPage
+      .dataTable()
+      .get('th')
+      .should('have.length', columns + 1) // Plus print header
   })
 
   it('Displays correctly mapped data', () => {
     const externalMovementsLastMonthPage = goToExternalMovementsLastMonthPage()
     const cells = externalMovementsLastMonthPage.dataTable().get('td')
-    cells.should('have.length', columns * 3 + 2)
+    cells.should('have.length', columns * 3 + 1)
     cells.should('contain.text', 'N9980PJ')
     cells.should('contain.text', '31/01/23')
   })

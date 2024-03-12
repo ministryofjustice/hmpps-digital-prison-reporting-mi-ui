@@ -1,9 +1,9 @@
 .hmpps-header {
   @include govuk-responsive-padding(3, 'top');
-  @include govuk-responsive-padding(3, 'bottom');
   background-color: govuk-colour('black');
 
   &__container {
+    @include govuk-responsive-padding(3, 'bottom');
     @include govuk-width-container;
     display: flex;
     justify-content: space-between;
@@ -111,6 +111,11 @@
 
   @media print {
     display: none;
+  }
+
+  .govuk-phase-banner {
+    background-color: white;
+    padding-bottom: 0;
   }
 }
 

@@ -32,21 +32,23 @@
       </ul>
     </nav>
   </div>
-</header>
 
-<div class="govuk-phase-banner">
-  <div class="hmpps-header__container">
-    <p class="govuk-phase-banner__content">
-      <strong class="govuk-tag govuk-phase-banner__content__tag">
-        Beta
-      </strong>
-      <span class="govuk-phase-banner__text">
+  <div class="govuk-phase-banner">
+    <div class="hmpps-header__container">
+      <p class="govuk-phase-banner__content">
+        <strong class="govuk-tag govuk-phase-banner__content__tag">
+          Beta
+        </strong>
+        <span class="govuk-phase-banner__text">
         {%  set subject = ("Private Beta Feedback - " + pageTitle) | urlencode %}
-        {% set body = ("Page URL: " + currentUrl) | urlencode %}
+          {% set body = ("Page URL: " + currentUrl) | urlencode %}
         This is a new service – your <a class="govuk-link" href="mailto:digitalprisonreporting@digital.justice.gov.uk?subject={{ subject }}&body={{ body }}">feedback</a> will help us to improve it.
       </span>
-    </p>
+      </p>
+    </div>
   </div>
-</div>
+</header>
 
-{{ breadCrumb(breadCrumbList) }}
+<nav>
+  {{ breadCrumb(breadCrumbList) }}
+</nav>
