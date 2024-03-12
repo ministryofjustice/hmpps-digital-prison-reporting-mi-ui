@@ -117,6 +117,7 @@ const stubDefinition = () =>
         '        "id": "last-month",\n' +
         '        "name": "Last month",\n' +
         '        "resourceName": "external-movements",\n' +
+        '        "classification": "OFFICIAL",\n' +
         '        "description": "All movements in the past month",\n' +
         '        "specification": {\n' +
         '          "template": "list",\n' +
