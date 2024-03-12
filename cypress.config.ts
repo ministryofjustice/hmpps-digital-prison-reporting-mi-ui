@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { defineConfig } from 'cypress'
 import { resetStubs } from './cypress-tests/integration-tests/mockApis/wiremock'
 import auth from './cypress-tests/integration-tests/mockApis/auth'
@@ -22,6 +24,16 @@ export default defineConfig({
         ...auth,
         ...tokenVerification,
         ...reports,
+        log(message) {
+          console.log(message)
+
+          return null
+        },
+        table(message) {
+          console.table(message)
+
+          return null
+        },
       })
     },
     baseUrl: 'http://localhost:3007',
