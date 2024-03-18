@@ -27,7 +27,10 @@ export default class ListPage extends Page {
 
   selectedFilterButtons = (): PageElement => cy.get('.filter-summary-remove-button')
 
-  unsortedSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort='none']`).first()
+  unsortedSortColumnLink = (): PageElement => this.dataTable().find(`a.data-table-header-button-sort-none`).first()
 
-  currentSortColumnLink = (): PageElement => this.dataTable().find(`a[aria-sort!='none']`).first()
+  currentSortColumnLink = (): PageElement =>
+    this.dataTable()
+      .find(`a.data-table-header-button-sort-ascending, a.data-table-header-button-sort-descending`)
+      .first()
 }

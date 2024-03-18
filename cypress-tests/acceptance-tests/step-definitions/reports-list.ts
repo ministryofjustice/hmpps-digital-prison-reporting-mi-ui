@@ -202,7 +202,6 @@ Then(
 
     page.currentSortColumnLink().should(link => {
       expect(link).to.have.data('column', currentSortColumn)
-      expect(link).to.have.attr('aria-sort', direction)
       expect(link).to.have.class(`data-table-header-button-sort-${direction}`)
     })
   },

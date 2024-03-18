@@ -129,6 +129,9 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
+          name: Ensure old pods have spun down
+          command: sleep 30
+      - run:
           name: acceptance tests
           command: npm run acceptance-test
       - store_test_results:
