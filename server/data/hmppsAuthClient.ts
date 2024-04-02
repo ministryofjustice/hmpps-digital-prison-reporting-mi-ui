@@ -18,12 +18,12 @@ export default class HmppsAuthClient {
 
   getUser(token: string): Promise<User> {
     logger.info(`Getting user details: calling HMPPS Auth`)
-    return HmppsAuthClient.restClient(token).get({ path: '/api/user/me' }) as Promise<User>
+    return HmppsAuthClient.restClient(token).get({ path: '/users/me' }) as Promise<User>
   }
 
   getUserRoles(token: string): Promise<string[]> {
     return HmppsAuthClient.restClient(token)
-      .get({ path: '/api/user/me/roles' })
+      .get({ path: '/users/me/roles' })
       .then(roles => (<UserRole[]>roles).map(role => role.roleCode))
   }
 }

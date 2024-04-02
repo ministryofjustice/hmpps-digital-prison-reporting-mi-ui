@@ -24,7 +24,7 @@ describe('hmppsAuthClient', () => {
       const response = { data: 'data' }
 
       fakeHmppsAuthApi
-        .get('/api/user/me')
+        .get('/users/me')
         .matchHeader('authorization', `Bearer ${token.access_token}`)
         .reply(200, response)
 
@@ -36,7 +36,7 @@ describe('hmppsAuthClient', () => {
   describe('getUserRoles', () => {
     it('should return data from api', async () => {
       fakeHmppsAuthApi
-        .get('/api/user/me/roles')
+        .get('/users/me/roles')
         .matchHeader('authorization', `Bearer ${token.access_token}`)
         .reply(200, [{ roleCode: 'role1' }, { roleCode: 'role2' }])
 
