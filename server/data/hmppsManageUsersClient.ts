@@ -11,19 +11,19 @@ export interface UserRole {
   roleCode: string
 }
 
-export default class HmppsAuthClient {
+export default class HmppsManageUsersClient {
   private static restClient(token: string): RestClient {
-    return new RestClient('HMPPS Auth Client', config.apis.hmppsAuth, token)
+    return new RestClient('HMPPS Auth Client', config.apis.manageUsers, token)
   }
 
   getUser(token: string): Promise<User> {
     logger.info(`Getting user details: calling HMPPS Auth`)
-    return HmppsAuthClient.restClient(token).get({ path: '/api/user/me' }) as Promise<User>
+    return HmppsManageUsersClient.restClient(token).get({ path: '/users/me' }) as Promise<User>
   }
 
   getUserRoles(token: string): Promise<string[]> {
-    return HmppsAuthClient.restClient(token)
-      .get({ path: '/api/user/me/roles' })
+    return HmppsManageUsersClient.restClient(token)
+      .get({ path: '/users/me/roles' })
       .then(roles => (<UserRole[]>roles).map(role => role.roleCode))
   }
 }
