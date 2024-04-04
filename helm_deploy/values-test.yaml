@@ -7,13 +7,14 @@ generic-service:
     host: digital-prison-reporting-mi-ui-test.hmpps.service.justice.gov.uk
 
   env:
-    INGRESS_URL: "https://digital-prison-reporting-mi-ui-test.hmpps.service.justice.gov.uk"
-    HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
-    TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
-    REPORTING_API_URL: "http://hmpps-digital-prison-reporting-mi-test.hmpps-digital-prison-reporting-mi-test.svc.cluster.local"
+    INGRESS_URL: 'https://digital-prison-reporting-mi-ui-test.hmpps.service.justice.gov.uk'
+    HMPPS_AUTH_URL: 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth'
+    HMPPS_MANAGE_USERS_URL: 'https://manage-users-api-dev.hmpps.service.justice.gov.uk'
+    TOKEN_VERIFICATION_API_URL: 'https://token-verification-api-dev.prison.service.justice.gov.uk'
+    REPORTING_API_URL: 'http://hmpps-digital-prison-reporting-mi-test.hmpps-digital-prison-reporting-mi-test.svc.cluster.local'
     TOKEN_VERIFICATION_ENABLED: true
     AUTHORISED_ROLES: ROLE_PRISONS_REPORTING_USER
-    DEFINITION_PATHS_ENABLED: "true"
+    DEFINITION_PATHS_ENABLED: 'true'
 
   allowlist:
     hmp-parc-1: 217.161.76.162/32

@@ -12,9 +12,11 @@ import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-f
 import HmppsAuthClient from './hmppsAuthClient'
 import config from '../config'
 import UserClient from './userClient'
+import HmppsManageUsersClient from './hmppsManageUsersClient'
 
 export const dataAccess = () => ({
   hmppsAuthClient: new HmppsAuthClient(),
+  hmppsManageUsersClient: new HmppsManageUsersClient(),
   reportingClient: new ReportingClient(config.apis.reporting),
   userClient: new UserClient(config.apis.reporting),
 })

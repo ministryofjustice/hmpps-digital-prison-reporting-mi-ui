@@ -1,5 +1,5 @@
 import { convertToTitleCase } from '../utils/utils'
-import type HmppsAuthClient from '../data/hmppsAuthClient'
+import type HmppsManageUsersClient from '../data/hmppsManageUsersClient'
 import UserClient from '../data/userClient'
 
 export interface UserDetails {
@@ -9,10 +9,13 @@ export interface UserDetails {
 }
 
 export default class UserService {
-  constructor(private readonly hmppsAuthClient: HmppsAuthClient, private readonly userClient: UserClient) {}
+  constructor(
+    private readonly hmppsManageUsersClient: HmppsManageUsersClient,
+    private readonly userClient: UserClient,
+  ) {}
 
   async getUser(token: string): Promise<UserDetails> {
-    const user = await this.hmppsAuthClient.getUser(token)
+    const user = await this.hmppsManageUsersClient.getUser(token)
     const activeCaseLoadId = await this.userClient.getActiveCaseload(token)
     return {
       ...user,

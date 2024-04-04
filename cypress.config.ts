@@ -5,6 +5,7 @@ import { resetStubs } from './cypress-tests/integration-tests/mockApis/wiremock'
 import auth from './cypress-tests/integration-tests/mockApis/auth'
 import tokenVerification from './cypress-tests/integration-tests/mockApis/tokenVerification'
 import reports from './cypress-tests/integration-tests/mockApis/reports'
+import manageUsers from './cypress-tests/integration-tests/mockApis/manageUsers'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -24,6 +25,7 @@ export default defineConfig({
         ...auth,
         ...tokenVerification,
         ...reports,
+        ...manageUsers,
         log(message) {
           console.log(message)
 
