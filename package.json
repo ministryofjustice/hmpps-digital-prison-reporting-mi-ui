@@ -145,7 +145,7 @@
     "@types/passport-oauth2": "^1.4.12",
     "@types/qs": "^6.9.15",
     "@types/querystringify": "^2.0.2",
-    "@types/superagent": "^8.1.1",
+    "@types/superagent": "^8.1.7",
     "@types/supertest": "^6.0.2",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
