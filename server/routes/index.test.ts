@@ -20,3 +20,14 @@ describe('GET /', () => {
       })
   })
 })
+
+describe('GET /info', () => {
+  it('should return app info', () => {
+    return request(app)
+      .get('/info')
+      .expect('Content-Type', 'application/json')
+      .expect(res => {
+        expect(res.text).toBe('{"app":"Digital Prison Reporting","activeAgencies":["***"]}')
+      })
+  })
+})

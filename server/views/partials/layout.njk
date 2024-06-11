@@ -4,12 +4,30 @@
 
 {% block head %}
   <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
+  {% if feComponents.jsIncludes %}
+    {% for js in feComponents.jsIncludes %}
+      <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
+    {% endfor %}
+  {% endif %}
+  {% if feComponents.cssIncludes %}
+    {% for css in feComponents.cssIncludes %}
+      <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
+    {% endfor %}
+  {% endif %}
 {% endblock %}
 
-{% block pageTitle %}{{c | default(applicationName)}}{% endblock %}
+{% set pageTitle = applicationName + " - " + title %}
+
+{% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
 {% block header %}
-  {% include "./header.njk" %}
+  {% if feComponents.header %}
+    {{ feComponents.header | safe }}
+  {% else %}
+    {% include "./header.njk" %}
+  {% endif %}
+
+  {% include "./subheader.njk" %}
 {% endblock %}
 
 {% block bodyStart %}
@@ -23,4 +41,12 @@
   <script src="/assets/moj/all.js"></script>
   <script type="module" src="/assets/dpr/js/all.mjs"></script>
   <script type="module" src="/assets/dprFrontendInit.js"></script>
+{% endblock %}
+
+{% block footer %}
+  {% if feComponents.footer %}
+    {{ feComponents.footer | safe }}
+  {% else %}
+    {% include "./footer.njk" %}
+  {% endif %}
 {% endblock %}

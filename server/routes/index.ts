@@ -7,6 +7,16 @@ import addReportingRoutes from './reports'
 import config from '../config'
 import { getDefinitionsParameters } from '../utils/utils'
 
+interface ServiceActiveAgencies {
+  app: string
+  activeAgencies: string[]
+}
+
+const applicationInfo: ServiceActiveAgencies = {
+  app: 'Digital Prison Reporting',
+  activeAgencies: config.activeEstablishments,
+}
+
 export default function routes(services: Services): Router {
   const router = Router()
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
@@ -47,6 +57,11 @@ export default function routes(services: Services): Router {
       title: 'Site Maintenance',
       description: config.maintenanceMode,
     })
+  })
+
+  get('/info', (req, res) => {
+    res.setHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify(applicationInfo))
   })
 
   addReportingRoutes(router, services)

@@ -92,6 +92,13 @@ export default {
       },
       agent: new AgentConfig(Number(get('REPORTING_API_TIMEOUT_RESPONSE', 60000))),
     },
+    frontendComponents: {
+      url: get(
+        'DPS_COMPONENT_API_URL',
+        'https://frontend-components-dev.hmpps.service.justice.gov.uk',
+        requiredInProduction,
+      ),
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   authorisation: {
@@ -99,4 +106,6 @@ export default {
   },
   maintenanceMode: get('MAINTENANCE_MODE', ''),
   definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', true, requiredInProduction)),
+  digitalPrisonServiceUrl: get('DPS_URL', 'http://localhost:3000', requiredInProduction),
+  activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
 }

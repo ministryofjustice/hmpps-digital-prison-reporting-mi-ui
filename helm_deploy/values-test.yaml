@@ -15,6 +15,9 @@ generic-service:
     TOKEN_VERIFICATION_ENABLED: true
     AUTHORISED_ROLES: ROLE_PRISONS_REPORTING_USER
     DEFINITION_PATHS_ENABLED: 'true'
+    DPS_COMPONENT_API_URL: 'https://frontend-components-dev.hmpps.service.justice.gov.uk'
+    DPS_URL: 'https://dps-dev.prison.service.justice.gov.uk'
+    ACTIVE_ESTABLISHMENTS: '***'
 
   allowlist:
     hmp-parc-1: 217.161.76.162/32
