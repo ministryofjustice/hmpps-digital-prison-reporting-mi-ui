@@ -1,19 +1,22 @@
+import AsyncReportStoreService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/requestedReportsService'
+import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import { dataAccess } from '../data'
 import UserService from './userService'
-import ReportingService from './reportingService'
 import HmppsComponentsService from './hmppsComponentsService'
 
 export const services = () => {
-  const { reportingClient, userClient, hmppsManageUsersClient } = dataAccess()
+  const { reportingClient, userClient, hmppsManageUsersClient, userDataStore } = dataAccess()
 
   const userService = new UserService(hmppsManageUsersClient, userClient)
   const reportingService = new ReportingService(reportingClient)
   const hmppsComponentsService = new HmppsComponentsService()
+  const asyncReportsStore = new AsyncReportStoreService(userDataStore)
 
   return {
     userService,
     reportingService,
     hmppsComponentsService,
+    asyncReportsStore,
   }
 }
 

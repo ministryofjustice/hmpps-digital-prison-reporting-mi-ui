@@ -58,7 +58,9 @@ And then, to build the assets and start the app with nodemon:
 
 `npm run start:dev`
 
-If you want to use the dev HMPPS Auth instead of the local one, you can add the following env vars (e.g. in your IntelliJ run config):
+### Run with HMPPS Auth
+
+If you want to use the dev HMPPS Auth instead of the local one, you can add the following env vars to an .env file (or in your IntelliJ run config):
 
 ```shell
 HMPPS_AUTH_URL=https://sign-in-dev.hmpps.service.justice.gov.uk/auth

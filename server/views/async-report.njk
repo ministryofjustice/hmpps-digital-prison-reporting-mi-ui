@@ -1,0 +1,11 @@
+{% extends "./partials/layout.njk" %}
+{% from "dpr/components/async-filters/view.njk" import dprAsyncFilters %}
+
+{% set pageTitle = applicationName + " - " + title %}
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    {{ dprAsyncReportList(renderData) }}
+  </div>
+{% endblock %}

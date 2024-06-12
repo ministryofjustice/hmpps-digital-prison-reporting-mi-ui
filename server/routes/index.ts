@@ -1,6 +1,9 @@
 import { type RequestHandler, Router } from 'express'
 
 import CardUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/card-group/utils'
+import addAsyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
+import AsyncCardGroupUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/async-card-group/utils'
+
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
@@ -21,15 +24,22 @@ export default function routes(services: Services): Router {
   const router = Router()
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
-  get('/', (req, res) => {
+  get('/', async (req, res) => {
     res.render('pages/card', {
       title: 'Home',
+      requestedReports: {
+        ...(await AsyncCardGroupUtils.renderAsyncReportsList({
+          asyncReportsStore: services.asyncReportsStore,
+          dataSources: services.reportingService,
+          res,
+        })),
+      },
       cards: {
         items: [
           {
             text: 'Reports',
             href: `/reports${res.locals.pathSuffix}`,
-            description: 'View MI reports',
+            description: 'View MI reports ',
           },
         ],
         variant: 1,
@@ -65,6 +75,11 @@ export default function routes(services: Services): Router {
   })
 
   addReportingRoutes(router, services)
+  addAsyncReportingRoutes({
+    router,
+    asyncReportsStore: services.asyncReportsStore,
+    dataSources: services.reportingService,
+  })
 
   return router
 }

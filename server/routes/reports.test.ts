@@ -1,8 +1,8 @@
 import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
 import type { Express } from 'express'
 import request from 'supertest'
+import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import { appWithAllRoutes } from './testutils/appSetup'
-import ReportingService from '../services/reportingService'
 
 let app: Express
 
@@ -139,6 +139,10 @@ beforeEach(() => {
         },
       },
     }),
+    requestAsyncReport: jest.fn(),
+    getAsyncReport: jest.fn(),
+    getAsyncReportStatus: jest.fn(),
+    getAsyncCount: jest.fn(),
   }
 
   app = appWithAllRoutes({

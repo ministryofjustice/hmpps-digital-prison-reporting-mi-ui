@@ -3,6 +3,8 @@ import express from 'express'
 import path from 'path'
 import createError from 'http-errors'
 
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
@@ -50,6 +52,8 @@ export default function createApp(services: Services): express.Application {
   app.get('*', getFrontendComponents(services.hmppsComponentsService))
 
   app.use(routes(services))
+  app.use(cookieParser())
+  app.use(bodyParser.json())
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))
