@@ -21,9 +21,13 @@ export default function setUpWebSecurity(): Router {
   // This ensures only scripts we trust are loaded, and not anything injected into the
   // page by an attacker.
   const scriptSrc = ["'self'", (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`]
-  const styleSrc = ["'self'", (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`]
+  const styleSrc = [
+    "'self'",
+    (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
+    'fonts.googleapis.com',
+  ]
   const imgSrc = ["'self'", 'data:']
-  const fontSrc = ["'self'"]
+  const fontSrc = ["'self'", 'fonts.gstatic.com']
   const formAction = [`'self' ${config.apis.hmppsAuth.externalUrl} ${config.digitalPrisonServiceUrl}`]
 
   if (config.apis.frontendComponents.url) {
