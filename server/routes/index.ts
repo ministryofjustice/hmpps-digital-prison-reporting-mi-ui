@@ -25,7 +25,7 @@ export default function routes(services: Services): Router {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
   get('/', async (req, res) => {
-    res.render('pages/card', {
+    res.render('pages/home', {
       title: 'Home',
       requestedReports: {
         ...(await AsyncCardGroupUtils.renderAsyncReportsList({

@@ -8,6 +8,8 @@
 
   <h1>{{ title }}</h1>
 
+  {{ dprAsyncCardGroup(requestedReports.cardData, requestedReports.tableData) }}
+
   <div class="govuk-width-container">
     {{ dprCardGroup(cards.items, cards.variant) }}
   </div>
