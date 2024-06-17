@@ -79,6 +79,7 @@ export default function routes(services: Services): Router {
     router,
     asyncReportsStore: services.asyncReportsStore,
     dataSources: services.reportingService,
+    // layoutTemplatePath: 'pages/partials/layout.njk',
   })
 
   return router
