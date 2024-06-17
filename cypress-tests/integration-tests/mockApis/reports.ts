@@ -101,7 +101,7 @@ const stubDefinition = () =>
   stubFor({
     request: {
       method: 'GET',
-      urlPattern: '/reports/definitions/external-movements/last-month\\?.+',
+      urlPattern: '/reports/definitions/external-movements/last-month.*',
     },
     response: {
       status: 200,

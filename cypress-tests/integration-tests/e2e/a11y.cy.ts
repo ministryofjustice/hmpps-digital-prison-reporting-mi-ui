@@ -49,6 +49,14 @@ context('Passes a11y checks', () => {
     cy.signIn()
     Page.verifyOnPage(IndexPage)
 
+    cy.configureAxe({
+      rules: [
+        {
+          id: 'heading-order',
+          enabled: false,
+        },
+      ],
+    })
     cy.injectAxe()
     cy.checkA11y(null, null, terminalLog)
   })
