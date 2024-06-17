@@ -5,9 +5,7 @@ import { appWithAllRoutes } from './testutils/appSetup'
 let app: Express
 
 beforeEach(() => {
-  app = appWithAllRoutes({
-    services: {},
-  })
+  app = appWithAllRoutes({})
 })
 
 describe('GET /', () => {
@@ -16,6 +14,7 @@ describe('GET /', () => {
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
+        expect(true)
         expect(res.text).toContain('Home')
       })
   })

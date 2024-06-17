@@ -3,6 +3,8 @@ import express from 'express'
 import path from 'path'
 import createError from 'http-errors'
 
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
@@ -21,7 +23,7 @@ import config from './config'
 
 import routes from './routes'
 import type { Services } from './services'
-import populateCurrentUrl from './middleware/populateCurrentUrl'
+import populateCurrentPageLocation from './middleware/populateCurrentPageLocation'
 import populateDefinitions from './middleware/populateDefinitions'
 import asyncMiddleware from './middleware/asyncMiddleware'
 import getFrontendComponents from './middleware/getFrontendComponents'
@@ -45,11 +47,13 @@ export default function createApp(services: Services): express.Application {
   app.use(authorisationMiddleware(config.authorisation.roles))
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
-  app.use(populateCurrentUrl())
   app.use(asyncMiddleware(populateDefinitions(services.reportingService)))
+  app.use(populateCurrentPageLocation())
   app.get('*', getFrontendComponents(services.hmppsComponentsService))
 
   app.use(routes(services))
+  app.use(cookieParser())
+  app.use(bodyParser.json())
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))

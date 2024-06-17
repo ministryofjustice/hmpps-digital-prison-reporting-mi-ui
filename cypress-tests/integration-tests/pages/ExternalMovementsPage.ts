@@ -6,5 +6,5 @@ export default class ExternalMovementsPage extends Page {
   }
 
   externalMovementsLastMonthCard = (): PageElement =>
-    cy.get('.card__link[href^="/reports/external-movements/last-month"]')
+    cy.get('.card__link[href^="/async-reports/external-movements/last-month/request"]')
 }

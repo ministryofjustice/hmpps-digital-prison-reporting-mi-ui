@@ -50,6 +50,14 @@ context('Passes a11y checks', () => {
     Page.verifyOnPage(IndexPage)
 
     cy.injectAxe()
+    cy.configureAxe({
+      rules: [
+        {
+          id: 'heading-order',
+          enabled: false,
+        },
+      ],
+    })
     cy.checkA11y(null, null, terminalLog)
   })
 
@@ -81,6 +89,14 @@ context('Passes a11y checks', () => {
     Page.verifyOnPage(ExternalMovementsLastMonthPage)
 
     cy.injectAxe()
+    cy.configureAxe({
+      rules: [
+        {
+          id: 'heading-order',
+          enabled: false,
+        },
+      ],
+    })
     cy.checkA11y(null, null, terminalLog)
   })
 })

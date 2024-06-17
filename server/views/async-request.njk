@@ -1,0 +1,9 @@
+{% extends "./partials/layout.njk" %}
+{% from "dpr/components/async-filters/view.njk" import dprAsyncFilters %}
+
+{% set mainClasses = "app-container govuk-body" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  {{ dprAsyncFilters( filters, sortBy, reportData, postEndpoint ) }}
+{% endblock %}

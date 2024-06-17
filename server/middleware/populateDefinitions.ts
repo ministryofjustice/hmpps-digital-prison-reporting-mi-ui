@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import ReportingService from '../services/reportingService'
+import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import { getDefinitionsPath } from '../utils/utils'
 import config from '../config'
 

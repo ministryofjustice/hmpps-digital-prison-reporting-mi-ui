@@ -39,7 +39,11 @@ export default function routes(router: Router, services: Services) {
           { text: 'Reports', href: `/reports${res.locals.pathSuffix}` },
         ],
         cards: {
-          items: CardUtils.variantDefinitionsToCards(reportDefinition, '/reports', getDefinitionsParameters(req.query)),
+          items: CardUtils.variantDefinitionsToCards(
+            reportDefinition,
+            '/async-reports',
+            getDefinitionsParameters(req.query),
+          ),
           variant: 1,
         },
       })
