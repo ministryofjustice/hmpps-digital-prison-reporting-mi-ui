@@ -4,6 +4,7 @@ import CardUtils from '@ministryofjustice/hmpps-digital-prison-reporting-fronten
 import addAsyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
 import AsyncCardGroupUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/async-card-group/utils'
 
+import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
@@ -34,16 +35,12 @@ export default function routes(services: Services): Router {
           res,
         })),
       },
-      cards: {
-        items: [
-          {
-            text: 'Reports',
-            href: `/reports${res.locals.pathSuffix}`,
-            description: 'View MI reports ',
-          },
-        ],
-        variant: 1,
-      },
+      reports: res.locals.definitions.flatMap((d: components['schemas']['ReportDefinitionSummary']) =>
+        d.variants.map(v => [
+          { text: d.name },
+          { html: `<a href="/async-reports/${d.id}/${v.id}/request${res.locals.pathSuffix}">${v.name}</a>` },
+        ]),
+      ),
     })
   })
 
