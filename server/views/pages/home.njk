@@ -1,5 +1,6 @@
 {% extends "../partials/layout.njk" %}
 {% from "dpr/components/async-card-group/view.njk" import dprAsyncCardGroup %}
+{% from "dpr/components/search/view.njk" import dprSearch %}
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
@@ -10,8 +11,16 @@
 
   {{ dprAsyncCardGroup(requestedReports.cardData, requestedReports.tableData) }}
 
+  <h2>Reports</h2>
+
   <div class="govuk-width-container">
-    {{ dprCardGroup(cards.items, cards.variant) }}
+    {{ dprSearch(
+      [
+        { text: 'Product' },
+        { text: 'Name' }
+      ],
+      reports
+    ) }}
   </div>
 
 {% endblock %}

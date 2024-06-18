@@ -8,18 +8,6 @@ beforeEach(() => {
   app = appWithAllRoutes({})
 })
 
-describe('GET /reports', () => {
-  it('should render reports page', () => {
-    return request(app)
-      .get('/reports')
-      .expect('Content-Type', /html/)
-      .expect(res => {
-        expect(res.text).toContain('Reports')
-        expect(res.text).toContain('External movements')
-      })
-  })
-})
-
 describe('GET /reports/external-movements/list', () => {
   it('should render External Movements report', () => {
     return request(app)
