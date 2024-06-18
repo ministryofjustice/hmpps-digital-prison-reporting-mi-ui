@@ -7,5 +7,7 @@ export default class IndexPage extends Page {
 
   headerUserName = (): PageElement => cy.get('[data-qa=header-user-name]')
 
-  reportsCard = (): PageElement => cy.get('a[href="/reports"]')
+  reportLinks = (): PageElement => cy.get('a[href^="/async-reports"]')
+
+  reportTable = (): PageElement => cy.get('.dpr-search-table')
 }

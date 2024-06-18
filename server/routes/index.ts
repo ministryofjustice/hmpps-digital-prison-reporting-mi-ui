@@ -1,6 +1,5 @@
 import { type RequestHandler, Router } from 'express'
 
-import CardUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/card-group/utils'
 import addAsyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
 import AsyncCardGroupUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/async-card-group/utils'
 
@@ -9,7 +8,6 @@ import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
 import config from '../config'
-import { getDefinitionsParameters } from '../utils/utils'
 
 interface ServiceActiveAgencies {
   app: string
@@ -41,21 +39,6 @@ export default function routes(services: Services): Router {
           { html: `<a href="/async-reports/${d.id}/${v.id}/request${res.locals.pathSuffix}">${v.name}</a>` },
         ]),
       ),
-    })
-  })
-
-  get('/reports', (req, res) => {
-    res.render('pages/card', {
-      title: 'Reports',
-      breadCrumbList: [{ text: 'Home', href: `/${res.locals.pathSuffix}` }],
-      cards: {
-        items: CardUtils.reportDefinitionsToCards(
-          res.locals.definitions,
-          '/reports',
-          getDefinitionsParameters(req.query),
-        ),
-        variant: 1,
-      },
     })
   })
 

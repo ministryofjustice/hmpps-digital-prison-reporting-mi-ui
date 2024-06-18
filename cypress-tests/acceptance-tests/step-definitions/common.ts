@@ -3,6 +3,7 @@ import Page from '../../common/pages/page'
 import AuthSignInPage from '../../common/pages/authSignIn'
 import IndexPage from '../../common/pages'
 import ListPage from '../pages/ListPage'
+import RequestPage from '../../common/pages/requestPage'
 
 When(/I navigate to the (.+) page/, (page: string) => {
   const lowercasePage = page.toLowerCase()
@@ -30,6 +31,10 @@ Then(/I (arrive on|am redirected to) the (.+) page/, (navigationType: string, pa
       new ListPage().checkOnPage()
       break
 
+    case 'request':
+      new RequestPage().checkOnPage()
+      break
+
     default:
   }
 })
@@ -48,13 +53,13 @@ Then(/^a breadcrumb link is shown for the (.+) page$/, (page: string) => {
       href = '/'
       break
 
-    case 'Variants':
-      href = `/reports/test-report`
+    case 'Request':
+      href = `/request`
       title = 'Test Report'
       break
 
     default:
   }
 
-  cy.get(`a.govuk-breadcrumbs__link[href^='${href}'`).contains(title)
+  cy.get(`a.govuk-breadcrumbs__link[href~='${href}'`).contains(title)
 })

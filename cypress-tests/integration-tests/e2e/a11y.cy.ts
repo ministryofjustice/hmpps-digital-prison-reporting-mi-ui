@@ -1,9 +1,7 @@
 import * as axe from 'axe-core'
 import IndexPage from '../../common/pages'
 import Page from '../../common/pages/page'
-import ReportsPage from '../../common/pages/ReportsPage'
-import ExternalMovementsPage from '../pages/ExternalMovementsPage'
-import ExternalMovementsLastMonthPage from '../pages/ExternalMovementsLastMonthPage'
+import RequestPage from '../../common/pages/requestPage'
 
 context('Passes a11y checks', () => {
   beforeEach(() => {
@@ -61,32 +59,10 @@ context('Passes a11y checks', () => {
     cy.checkA11y(null, null, terminalLog)
   })
 
-  it('Reports page', () => {
+  it('Report request', () => {
     cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
-    indexPage.reportsCard().click()
-    Page.verifyOnPage(ReportsPage)
-
-    cy.injectAxe()
-    cy.checkA11y(null, null, terminalLog)
-  })
-
-  it('Variants page', () => {
-    cy.signIn()
-    Page.verifyOnPage(IndexPage).reportsCard().click()
-    Page.verifyOnPage(ReportsPage).externalMovementsCard().click()
-    Page.verifyOnPage(ExternalMovementsPage)
-
-    cy.injectAxe()
-    cy.checkA11y(null, null, terminalLog)
-  })
-
-  it('Report list', () => {
-    cy.signIn()
-    Page.verifyOnPage(IndexPage).reportsCard().click()
-    Page.verifyOnPage(ReportsPage).externalMovementsCard().click()
-    Page.verifyOnPage(ExternalMovementsPage).externalMovementsLastMonthCard().click()
-    Page.verifyOnPage(ExternalMovementsLastMonthPage)
+    Page.verifyOnPage(IndexPage).reportLinks().first().click()
+    Page.verifyOnPage(RequestPage)
 
     cy.injectAxe()
     cy.configureAxe({
