@@ -1,6 +1,11 @@
 import { RequestHandler } from 'express'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 
+interface ReportMatch {
+  reportId: string
+  variantId: string
+}
+
 export default (): RequestHandler => {
   return (req, res, next) => {
     const currentUrl = req.originalUrl
@@ -12,18 +17,23 @@ export default (): RequestHandler => {
       res.locals.breadCrumbList.push({ text: 'Home', href: `/${res.locals.pathSuffix}` })
 
       if (currentUrl.includes('reports/') || currentUrl.includes('/reports/')) {
-        res.locals.breadCrumbList.push({ text: 'Reports', href: `/reports${res.locals.pathSuffix}` })
-
-        res.locals.definitions
-          .filter((definition: components['schemas']['ReportDefinitionSummary']) =>
-            currentUrl.includes(`/${definition.id}/`),
+        const asyncReportMatch = res.locals.definitions
+          .flatMap((definition: components['schemas']['ReportDefinitionSummary']) =>
+            definition.variants.map(variant => ({
+              reportId: definition.id,
+              variantId: variant.id,
+            })),
           )
-          .forEach((definition: components['schemas']['ReportDefinitionSummary']) => {
-            res.locals.breadCrumbList.push({
-              text: definition.name,
-              href: `/reports/${definition.id}${res.locals.pathSuffix}`,
-            })
+          .find((item: ReportMatch) =>
+            currentUrl.startsWith(`/async-reports/${item.reportId}/${item.variantId}/request/`),
+          )
+
+        if (asyncReportMatch) {
+          res.locals.breadCrumbList.push({
+            text: 'Request Report',
+            href: `/async-reports/${asyncReportMatch.reportId}/${asyncReportMatch.variantId}/request${res.locals.pathSuffix}`,
           })
+        }
       }
     }
 
