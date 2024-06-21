@@ -52,13 +52,6 @@ export default function routes(router: Router, services: Services) {
                   data: services.reportingService.getList(resourceName, token, reportQuery),
                   count: services.reportingService.getCount(resourceName, token, reportQuery),
                 }),
-                otherOptions: {
-                  breadCrumbList: [
-                    { text: 'Home', href: `/${res.locals.pathSuffix}` },
-                    { text: 'Reports', href: `/reports${res.locals.pathSuffix}` },
-                    { text: fullDefinition.name, href: `/reports/${fullDefinition.id}${res.locals.pathSuffix}` },
-                  ],
-                },
                 layoutTemplate: 'partials/layout.njk',
               })
               break

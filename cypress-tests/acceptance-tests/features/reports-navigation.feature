@@ -10,4 +10,3 @@ Feature: Reports navigation
   Scenario: A list page has a breadcrumb back to the home page
     When I click on a report link
     Then a breadcrumb link is shown for the Home page
-    And a breadcrumb link is shown for the request page
