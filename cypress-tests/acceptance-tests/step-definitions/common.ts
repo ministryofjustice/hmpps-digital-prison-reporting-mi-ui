@@ -45,21 +45,16 @@ Then(/the message "(.+)" is displayed/, (message: string) => {
 })
 
 Then(/^a breadcrumb link is shown for the (.+) page$/, (page: string) => {
-  let href = `/${page.toLowerCase()}`
-  let title = page
-
-  switch (page) {
-    case 'Home':
-      href = '/'
+  switch (page.toLowerCase()) {
+    case 'home':
+      cy.get(`a.govuk-breadcrumbs__link:not([href~="/"])`).contains('Home')
       break
 
-    case 'Request':
-      href = `/request`
-      title = 'Request Report'
+    case 'request':
+      cy.get(`a.govuk-breadcrumbs__link[href~="/request"]`).contains('Request Report')
       break
 
     default:
+      cy.get(`a.govuk-breadcrumbs__link[href~="/${page.toLowerCase()}"]`).contains(page)
   }
-
-  cy.get(`a.govuk-breadcrumbs__link[href~='${href}'`).contains(title)
 })
