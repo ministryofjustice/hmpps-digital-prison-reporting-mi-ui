@@ -10,7 +10,7 @@ When(/I navigate to the (.+) page/, (page: string) => {
 
   switch (lowercasePage) {
     case 'home':
-      cy.visit('/')
+      cy.visit('/?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest')
       break
     default:
       cy.visit(`/${lowercasePage}?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest`)
@@ -55,7 +55,7 @@ Then(/^a breadcrumb link is shown for the (.+) page$/, (page: string) => {
 
     case 'Request':
       href = `/request`
-      title = 'Test Report'
+      title = 'Request Report'
       break
 
     default:
