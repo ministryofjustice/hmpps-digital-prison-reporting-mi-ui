@@ -16,7 +16,16 @@ generic-service:
     modsecurity_audit_enabled: false
     modsecurity_snippet: |
       SecRuleEngine On
-      SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET OPTIONS"
+      # Limit permitted HTTP methods.
+      SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET POST OPTIONS"
+      # This grants access to the OpenSearch logs to delve into the cause of the blockage.
+      SecDefaultAction "phase:2,pass,log,tag:github_team=hmpps-digital-prison-reporting"
+      SecDefaultAction "phase:4,pass,log,tag:github_team=hmpps-digital-prison-reporting"
+      # This disables the Remote Command Execution: Windows Command Injection rule, since we do not use Windows and it was flagging a false positive. 
+      SecRuleRemoveById 932110
+      # Change default denial to be a 406 so that we can tell easily that it is modsecurity doing the blocking.
+      SecRuleUpdateActionById 949110 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
+      SecRuleUpdateActionById 959100 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
     annotations:
       nginx.ingress.kubernetes.io/proxy-read-timeout: "360"
       nginx.ingress.kubernetes.io/proxy-body-size: 100m
