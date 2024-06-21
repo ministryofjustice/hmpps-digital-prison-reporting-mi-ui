@@ -1,5 +1,6 @@
 import type { Express } from 'express'
 import request from 'supertest'
+import AsyncReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/async-reports-list/utils'
 import { appWithAllRoutes } from './testutils/appSetup'
 
 let app: Express
@@ -7,6 +8,8 @@ let app: Express
 beforeEach(() => {
   app = appWithAllRoutes({})
 })
+
+AsyncReportslistUtils.renderList = jest.fn()
 
 describe('GET /', () => {
   it('should render index page', () => {

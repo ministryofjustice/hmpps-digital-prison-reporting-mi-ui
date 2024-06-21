@@ -1,5 +1,5 @@
 {% extends "../partials/layout.njk" %}
-{% from "dpr/components/async-card-group/view.njk" import dprAsyncCardGroup %}
+{% from "dpr/components/async-reports-list/view.njk" import dprAsyncReportsList %}
 {% from "dpr/components/search/view.njk" import dprSearch %}
 
 {% set pageTitle = applicationName + " - " + title %}
@@ -9,7 +9,7 @@
 
   <h1>{{ title }}</h1>
 
-  {{ dprAsyncCardGroup(requestedReports.cardData, requestedReports.tableData) }}
+  {{ dprAsyncReportsList(requestedReports, viewedReports) }}
 
   <h2>Reports</h2>
 
