@@ -18,9 +18,11 @@ passport.deserializeUser((user, done) => {
 
 export type AuthenticationMiddleware = (tokenVerifier: TokenVerifier) => RequestHandler
 
+export const ignoreAuthPaths = ['/info', '/health', '/ping']
+
 const authenticationMiddleware: AuthenticationMiddleware = verifyToken => {
   return async (req, res, next) => {
-    if (req.isAuthenticated() && (await verifyToken(req))) {
+    if ((req.isAuthenticated() && (await verifyToken(req))) || ignoreAuthPaths.includes(req.originalUrl)) {
       return next()
     }
     req.session.returnTo = req.originalUrl
