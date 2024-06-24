@@ -3,12 +3,13 @@ import type { RequestHandler } from 'express'
 
 import logger from '../../logger'
 import asyncMiddleware from './asyncMiddleware'
-
-const ignoreAuthPaths = ['/', '/info']
+import { ignoreAuthPaths } from '../authentication/auth'
 
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
   return asyncMiddleware((req, res, next) => {
-    if (ignoreAuthPaths.includes(req.originalUrl)) {
+    const ignorePaths = [...ignoreAuthPaths, '/']
+
+    if (ignorePaths.includes(req.originalUrl)) {
       return next()
     }
 
