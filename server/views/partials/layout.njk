@@ -17,7 +17,7 @@
   {% endif %}
 {% endblock %}
 
-{% set pageTitle = applicationName + " - " + title %}
+{% set pageTitle = applicationName + " - " + (title | default('Reports')) %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
