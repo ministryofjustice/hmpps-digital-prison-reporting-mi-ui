@@ -1,7 +1,7 @@
 import { type RequestHandler, Router } from 'express'
 
 import addAsyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
-import AsyncCardGroupUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/async-card-group/utils'
+import AsyncReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/async-reports-list/utils'
 
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import asyncMiddleware from '../middleware/asyncMiddleware'
@@ -26,13 +26,12 @@ export default function routes(services: Services): Router {
   get('/', async (req, res) => {
     res.render('pages/home', {
       title: 'Home',
-      requestedReports: {
-        ...(await AsyncCardGroupUtils.renderAsyncReportsList({
-          asyncReportsStore: services.asyncReportsStore,
-          dataSources: services.reportingService,
-          res,
-        })),
-      },
+      ...(await AsyncReportslistUtils.renderList({
+        recentlyViewedStoreService: services.recentlyViewedStoreService,
+        asyncReportsStore: services.asyncReportsStore,
+        dataSources: services.reportingService,
+        res,
+      })),
       reports: res.locals.definitions.flatMap((d: components['schemas']['ReportDefinitionSummary']) =>
         d.variants.map(v => [
           { text: d.name },
@@ -58,7 +57,10 @@ export default function routes(services: Services): Router {
   addAsyncReportingRoutes({
     router,
     asyncReportsStore: services.asyncReportsStore,
+    recentlyViewedStoreService: services.recentlyViewedStoreService,
     dataSources: services.reportingService,
+    layoutPath: '../../../../../dist/server/views/partials/layout.njk',
+    templatePath: 'dpr/views/',
   })
 
   return router
