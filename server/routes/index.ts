@@ -31,6 +31,7 @@ export default function routes(services: Services): Router {
         asyncReportsStore: services.asyncReportsStore,
         dataSources: services.reportingService,
         res,
+        maxRows: 6,
       })),
       reports: res.locals.definitions.flatMap((d: components['schemas']['ReportDefinitionSummary']) =>
         d.variants.map(v => [
