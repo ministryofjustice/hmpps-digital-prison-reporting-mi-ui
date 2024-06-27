@@ -186,6 +186,7 @@ const reportingClient: jest.Mocked<ReportingClient> = {
   getAsyncReport: jest.fn(),
   getAsyncReportStatus: jest.fn(),
   getAsyncCount: jest.fn(),
+  cancelAsyncRequest: jest.fn(),
 }
 
 const asyncReportsStore = {
