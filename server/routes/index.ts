@@ -1,4 +1,4 @@
-import { type RequestHandler, Router, Response, Request } from 'express'
+import { type RequestHandler, Router } from 'express'
 
 import addAsyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
 import addBookmarkingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/bookmarks'
