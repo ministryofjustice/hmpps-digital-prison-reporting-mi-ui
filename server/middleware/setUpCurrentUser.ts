@@ -8,9 +8,10 @@ export default function setUpCurrentUser({
   userService,
   asyncReportsStore,
   recentlyViewedStoreService,
+  bookmarkService,
 }: Services): Router {
   const router = Router({ mergeParams: true })
   router.use(auth.authenticationMiddleware(tokenVerifier))
-  router.use(populateCurrentUser(userService, asyncReportsStore, recentlyViewedStoreService))
+  router.use(populateCurrentUser(userService, asyncReportsStore, recentlyViewedStoreService, bookmarkService))
   return router
 }

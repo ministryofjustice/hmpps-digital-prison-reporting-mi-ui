@@ -26,7 +26,7 @@ describe('GET /reports/external-movements/list', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
-          '?selectedPage=2&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;columns=prisonNumber,firstName,lastName,date,time,from,to,direction,type,reason&amp;filters.direction=in',
+          '?selectedPage=2&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;columns=prisonNumber&amp;columns=firstName&amp;columns=lastName&amp;columns=date&amp;columns=time&amp;columns=from&amp;columns=to&amp;columns=direction&amp;columns=type&amp;columns=reason&amp;filters.direction=in',
         )
       })
   })
@@ -37,7 +37,7 @@ describe('GET /reports/external-movements/list', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
-          '?selectedPage=1&pageSize=20&sortColumn=prisonNumber&sortedAsc=false&columns=prisonNumber,firstName,lastName,date,time,from,to,direction,type,reason&filters.direction=in',
+          '?selectedPage=1&pageSize=20&sortColumn=prisonNumber&sortedAsc=false&columns=prisonNumber&columns=firstName&columns=lastName&columns=date&columns=time&columns=from&columns=to&columns=direction&columns=type&columns=reason&filters.direction=in',
         )
       })
   })
@@ -48,7 +48,7 @@ describe('GET /reports/external-movements/list', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain(
-          '?selectedPage=1&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;columns=prisonNumber,firstName,lastName,date,time,from,to,direction,type,reason&amp;filters.direction=~clear~&amp;filters.type=jaunt"',
+          '?selectedPage=1&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;columns=prisonNumber&amp;columns=firstName&amp;columns=lastName&amp;columns=date&amp;columns=time&amp;columns=from&amp;columns=to&amp;columns=direction&amp;columns=type&amp;columns=reason&amp;filters.direction=~clear~&amp;filters.type=jaunt"',
         )
       })
   })
