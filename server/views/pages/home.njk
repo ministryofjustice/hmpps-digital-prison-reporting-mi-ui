@@ -1,26 +1,38 @@
 {% extends "../partials/layout.njk" %}
-{% from "dpr/components/async-reports-list/view.njk" import dprAsyncReportsList %}
-{% from "dpr/components/search/view.njk" import dprSearch %}
+{% from "dpr/components/table-card-group/view.njk" import dprTableCardGroup %}
+{% from "dpr/components/reports-list/view.njk" import dprReportsList %}
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block content %}
 
-  <h1>{{ title }}</h1>
+  <h1 class="govuk-heading-l">{{ title }}</h1>
 
-  {{ dprAsyncReportsList(requestedReports, viewedReports) }}
+  {{ dprTableCardGroup(
+      requestedReports.head,
+      requestedReports.cardData, 
+      requestedReports.tableData,
+      requestedReports.total
+    )}}
+
+  {{ dprTableCardGroup(
+      viewedReports.head, 
+      viewedReports.cardData, 
+      viewedReports.tableData,
+      viewedReports.total
+  ) }}
+
+  {{ dprTableCardGroup(
+      bookmarks.head,
+      bookmarks.cardData, 
+      bookmarks.tableData,
+      bookmarks.total
+    )}}
 
   <h2>Reports</h2>
-
   <div class="govuk-width-container">
-    {{ dprSearch(
-      [
-        { text: 'Product' },
-        { text: 'Name' }
-      ],
-      reports
-    ) }}
+    {{ dprReportsList(reports.head, reports.rows) }}
   </div>
 
 {% endblock %}

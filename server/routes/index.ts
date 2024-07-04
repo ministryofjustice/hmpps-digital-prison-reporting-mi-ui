@@ -1,9 +1,13 @@
 import { type RequestHandler, Router } from 'express'
 
 import addAsyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
-import AsyncReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/async-reports-list/utils'
+import addBookmarkingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/bookmarks'
+import addRecentlyViewedRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/recentlyViewed'
+import AsyncReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/asyncReportsUtils'
+import RecentlyViewedCardGroupUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/recentlyViewedUtils'
+import BookmarklistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/bookmarkListUtils'
+import ReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/reports-list/utils'
 
-import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
@@ -24,21 +28,21 @@ export default function routes(services: Services): Router {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
   get('/', async (req, res) => {
+    const utilsParams = { services, res }
+    const requestedReportsData = await AsyncReportslistUtils.renderAsyncReportsList({ ...utilsParams, maxRows: 6 })
+    const recentlyViewedData = await RecentlyViewedCardGroupUtils.renderRecentlyViewedList({
+      ...utilsParams,
+      maxRows: 6,
+    })
+    const bookmarksData = await BookmarklistUtils.renderBookmarkList({ ...utilsParams, maxRows: 6 })
+    const reportsData = ReportslistUtils.mapReportsList(res, services)
+
     res.render('pages/home', {
       title: 'Home',
-      ...(await AsyncReportslistUtils.renderList({
-        recentlyViewedStoreService: services.recentlyViewedStoreService,
-        asyncReportsStore: services.asyncReportsStore,
-        dataSources: services.reportingService,
-        res,
-        maxRows: 6,
-      })),
-      reports: res.locals.definitions.flatMap((d: components['schemas']['ReportDefinitionSummary']) =>
-        d.variants.map(v => [
-          { text: d.name },
-          { html: `<a href="/async-reports/${d.id}/${v.id}/request${res.locals.pathSuffix}">${v.name}</a>` },
-        ]),
-      ),
+      requestedReports: requestedReportsData,
+      viewedReports: recentlyViewedData,
+      bookmarks: bookmarksData,
+      reports: reportsData,
     })
   })
 
@@ -54,15 +58,17 @@ export default function routes(services: Services): Router {
     res.end(JSON.stringify(applicationInfo))
   })
 
-  addReportingRoutes(router, services)
-  addAsyncReportingRoutes({
+  const libRouteParams = {
     router,
-    asyncReportsStore: services.asyncReportsStore,
-    recentlyViewedStoreService: services.recentlyViewedStoreService,
-    dataSources: services.reportingService,
+    services,
     layoutPath: '../../../../../dist/server/views/partials/layout.njk',
     templatePath: 'dpr/views/',
-  })
+  }
+
+  addReportingRoutes(router, services)
+  addAsyncReportingRoutes(libRouteParams)
+  addRecentlyViewedRoutes(libRouteParams)
+  addBookmarkingRoutes(libRouteParams)
 
   return router
 }
