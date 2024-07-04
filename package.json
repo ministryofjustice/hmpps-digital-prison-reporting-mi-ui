@@ -125,7 +125,7 @@
     "redis": "^4.6.11",
     "superagent": "^9.0.1",
     "url-value-parser": "^2.2.0",
-    "uuid": "^9.0.0"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.0.5",
@@ -151,7 +151,7 @@
     "@types/querystringify": "^2.0.2",
     "@types/superagent": "^8.1.7",
     "@types/supertest": "^6.0.2",
-    "@types/uuid": "^9.0.7",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.62.0",
     "audit-ci": "^6.6.1",
@@ -186,7 +186,7 @@
     "sass": "^1.77.4",
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.5",
-    "typescript": "^5.4"
+    "typescript": "^5.5"
   },
   "overrides": {
     "semver": "^7.5.3",
