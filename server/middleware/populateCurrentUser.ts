@@ -22,10 +22,9 @@ export default function populateCurrentUser(
         }
       }
       res.locals.user = { ...req.session.userDetails, ...res.locals.user }
-      asyncReportsStore.init(res.locals.user.name)
-      recentlyViewedStoreService.init(res.locals.user.name)
-      recentlyViewedStoreService.init(res.locals.user.name)
-      bookmarkService.init(res.locals.user.name)
+      await asyncReportsStore.init(res.locals.user.uuid)
+      await recentlyViewedStoreService.init(res.locals.user.uuid)
+      await bookmarkService.init(res.locals.user.uuid)
       next()
     } catch (error) {
       logger.error(error, `Failed to retrieve user for : ${res.locals.user && res.locals.user.username}`)

@@ -34,7 +34,7 @@ export default function routes(services: Services): Router {
       ...utilsParams,
       maxRows: 6,
     })
-    const bookmarksData = await BookmarklistUtils.renderBookmarkList({ ...utilsParams, maxRows: 6 })
+    const bookmarksData = await BookmarklistUtils.renderBookmarkList({ ...utilsParams, maxRows: 6, req })
     const reportsData = ReportslistUtils.mapReportsList(res, services)
 
     res.render('pages/home', {
