@@ -1,6 +1,7 @@
 {% extends "../partials/layout.njk" %}
 {% from "dpr/components/table-card-group/view.njk" import dprTableCardGroup %}
 {% from "dpr/components/reports-list/view.njk" import dprReportsList %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
@@ -9,26 +10,58 @@
 
   <h1 class="govuk-heading-l">{{ title }}</h1>
 
+  {% set requestedReportsHtml %}
   {{ dprTableCardGroup(
       requestedReports.head,
       requestedReports.cardData, 
       requestedReports.tableData,
       requestedReports.total
     )}}
+  {% endset -%}
 
+  {% set recentlyViewedHtml %}
   {{ dprTableCardGroup(
       viewedReports.head, 
       viewedReports.cardData, 
       viewedReports.tableData,
       viewedReports.total
   ) }}
+  {% endset -%}
 
+  {% set bookmarksHtml %}
   {{ dprTableCardGroup(
       bookmarks.head,
       bookmarks.cardData, 
       bookmarks.tableData,
       bookmarks.total
     )}}
+  {% endset -%}
+
+  {{ govukTabs({
+      items: [
+        {
+          label: "Requested Reports (" + requestedReports.total.amount + ")",
+          id: "requested-reports-tab",
+          panel: {
+            html: requestedReportsHtml
+          }
+        },
+        {
+          label: "Recently Viewed (" + viewedReports.total.amount + ")",
+          id: "recently-viewed-tab",
+          panel: {
+            html: recentlyViewedHtml
+          }
+        },
+        {
+          label: "My Bookmarks (" + bookmarks.total.amount + ")",
+          id: "my-bookmarks-tab",
+          panel: {
+            html: bookmarksHtml
+          }
+        }
+      ]
+    }) }}
 
   <h2>Reports</h2>
   <div class="govuk-width-container">
