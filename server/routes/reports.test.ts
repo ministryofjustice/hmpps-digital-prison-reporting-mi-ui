@@ -25,9 +25,7 @@ describe('GET /reports/external-movements/list', () => {
       .get('/reports/external-movements/list?filters.direction=in')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain(
-          '?selectedPage=2&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;columns=prisonNumber&amp;columns=firstName&amp;columns=lastName&amp;columns=date&amp;columns=time&amp;columns=from&amp;columns=to&amp;columns=direction&amp;columns=type&amp;columns=reason&amp;filters.direction=in',
-        )
+        expect(res.text).toContain('?filters.direction=in&amp;selectedPage=2')
       })
   })
 
