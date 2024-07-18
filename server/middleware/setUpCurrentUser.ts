@@ -11,6 +11,12 @@ export default function setUpCurrentUser({
   bookmarkService,
 }: Services): Router {
   const router = Router({ mergeParams: true })
+
+  router.get('/roleError', (req, res) => {
+    res.status(401)
+    return res.render('roleError')
+  })
+
   router.use(auth.authenticationMiddleware(tokenVerifier))
   router.use(populateCurrentUser(userService, asyncReportsStore, recentlyViewedStoreService, bookmarkService))
   return router
