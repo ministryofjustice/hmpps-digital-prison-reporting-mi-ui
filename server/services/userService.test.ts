@@ -20,8 +20,8 @@ describe('User service', () => {
     })
     it('Retrieves and formats user name', async () => {
       hmppsManageUsersClient.getUser = jest.fn().mockResolvedValue({ name: 'john smith' } as User)
+      hmppsManageUsersClient.getUserRoles = jest.fn().mockResolvedValue(['PRISONS_REPORTING_USER'])
       userClient.getActiveCaseload = jest.fn().mockResolvedValue('AAA')
-      userService.decodeJWT = jest.fn().mockResolvedValue({ authorities: ['ROLE_PRISONS_REPORTING_USER'] })
 
       const result = await userService.getUser(token)
 

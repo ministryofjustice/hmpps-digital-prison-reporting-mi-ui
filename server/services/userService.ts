@@ -16,24 +16,19 @@ export default class UserService {
   ) {}
 
   userIsUnathorisedByRole(roles: string[]) {
-    const validRole = 'ROLE_PRISONS_REPORTING_USER'
+    const validRole = 'PRISONS_REPORTING_USER'
     return !roles.includes(validRole)
-  }
-
-  decodeJWT(token: string) {
-    const arrayToken = token.split('.')
-    return JSON.parse(atob(arrayToken[1]))
   }
 
   async getUser(token: string): Promise<UserDetails> {
     const user = await this.hmppsManageUsersClient.getUser(token)
-    const tokenPayload = this.decodeJWT(token)
+    const roles = await this.hmppsManageUsersClient.getUserRoles(token)
     const activeCaseLoadId = await this.userClient.getActiveCaseload(token)
     return {
       ...user,
       displayName: convertToTitleCase(user.name),
       activeCaseLoadId,
-      roles: tokenPayload.authorities,
+      roles,
     }
   }
 }
