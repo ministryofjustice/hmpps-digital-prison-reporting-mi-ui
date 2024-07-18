@@ -17,18 +17,21 @@ export default function populateCurrentUser(
         const userDetails = res.locals.user && (await userService.getUser(res.locals.user.token))
         if (userDetails) {
           req.session.userDetails = userDetails
+          await asyncReportsStore.init(res.locals.user.uuid)
+          await recentlyViewedStoreService.init(res.locals.user.uuid)
+          await bookmarkService.init(res.locals.user.uuid)
         } else {
           logger.info('No user details retrieved')
         }
       }
       res.locals.user = { ...req.session.userDetails, ...res.locals.user }
-      await asyncReportsStore.init(res.locals.user.uuid)
-      await recentlyViewedStoreService.init(res.locals.user.uuid)
-      await bookmarkService.init(res.locals.user.uuid)
-      next()
+      if (userService.userIsUnathorisedByRole(res.locals.user.roles)) {
+        return res.redirect('/roleError')
+      }
+      return next()
     } catch (error) {
       logger.error(error, `Failed to retrieve user for : ${res.locals.user && res.locals.user.username}`)
-      next(error)
+      return next(error)
     }
   }
 }
