@@ -33,5 +33,13 @@ describe('User service', () => {
 
       await expect(userService.getUser(token)).rejects.toEqual(new Error('some error'))
     })
+
+    it('validates the user roles', () => {
+      const result1 = userService.userIsUnathorisedByRole(['PRISONS_REPORTING_USER'])
+      expect(result1).toBeFalsy()
+
+      const result2 = userService.userIsUnathorisedByRole(['PRISONS_REPORTIN_AAA'])
+      expect(result2).toBeTruthy()
+    })
   })
 })
