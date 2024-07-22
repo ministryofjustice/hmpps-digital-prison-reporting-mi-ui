@@ -25,7 +25,7 @@ export default function populateCurrentUser(
         }
       }
       res.locals.user = { ...req.session.userDetails, ...res.locals.user }
-      if (userService.userIsUnathorisedByRole(res.locals.user.roles)) {
+      if (req.session.userDetails && userService.userIsUnathorisedByRole(res.locals.user.roles)) {
         return res.redirect('/roleError')
       }
       return next()
