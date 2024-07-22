@@ -6,6 +6,7 @@ export interface UserDetails {
   name: string
   displayName: string
   activeCaseLoadId?: string
+  roles: string[]
 }
 
 export default class UserService {
@@ -14,13 +15,23 @@ export default class UserService {
     private readonly userClient: UserClient,
   ) {}
 
+  userIsUnathorisedByRole(roles: string[]) {
+    const validRole = 'PRISONS_REPORTING_USER'
+    return !roles.includes(validRole)
+  }
+
   async getUser(token: string): Promise<UserDetails> {
     const user = await this.hmppsManageUsersClient.getUser(token)
-    const activeCaseLoadId = await this.userClient.getActiveCaseload(token)
+    const roles = await this.hmppsManageUsersClient.getUserRoles(token)
+    let activeCaseLoadId
+    if (!this.userIsUnathorisedByRole(roles)) {
+      activeCaseLoadId = await this.userClient.getActiveCaseload(token)
+    }
     return {
       ...user,
       displayName: convertToTitleCase(user.name),
       activeCaseLoadId,
+      roles,
     }
   }
 }
