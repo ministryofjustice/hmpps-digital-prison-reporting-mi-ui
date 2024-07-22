@@ -1,6 +1,7 @@
 import { convertToTitleCase } from '../utils/utils'
 import type HmppsManageUsersClient from '../data/hmppsManageUsersClient'
 import UserClient from '../data/userClient'
+import config from '../config'
 
 export interface UserDetails {
   name: string
@@ -16,8 +17,10 @@ export default class UserService {
   ) {}
 
   userIsUnathorisedByRole(roles: string[]) {
-    const validRole = 'PRISONS_REPORTING_USER'
-    return !roles.includes(validRole)
+    const authorisedRoles = config.authorisation.roles
+    return (
+      authorisedRoles && authorisedRoles.length > 0 && !roles.some((role: string) => authorisedRoles.includes(role))
+    )
   }
 
   async getUser(token: string): Promise<UserDetails> {

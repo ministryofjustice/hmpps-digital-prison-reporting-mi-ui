@@ -19,7 +19,6 @@ import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
 import siteMaintenanceRedirect from './middleware/siteMaintenanceRedirect'
-import config from './config'
 
 import routes from './routes'
 import type { Services } from './services'
