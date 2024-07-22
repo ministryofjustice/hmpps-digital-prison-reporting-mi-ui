@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
-import authorisationMiddleware from './middleware/authorisationMiddleware'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
 import setUpAuthentication from './middleware/setUpAuthentication'
@@ -19,7 +18,6 @@ import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
 import siteMaintenanceRedirect from './middleware/siteMaintenanceRedirect'
-import config from './config'
 
 import routes from './routes'
 import type { Services } from './services'
@@ -44,7 +42,6 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpStaticResources())
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
-  app.use(authorisationMiddleware(config.authorisation.roles))
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(asyncMiddleware(populateDefinitions(services.reportingService)))
