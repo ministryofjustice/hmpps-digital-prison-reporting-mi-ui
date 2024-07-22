@@ -25,6 +25,9 @@ export default function populateCurrentUser(
         }
       }
       res.locals.user = { ...req.session.userDetails, ...res.locals.user }
+      if (req.session.userDetails && userService.userIsUnathorisedByRole(res.locals.user.roles)) {
+        return res.redirect('/roleError')
+      }
       return next()
     } catch (error) {
       logger.error(error, `Failed to retrieve user for : ${res.locals.user && res.locals.user.username}`)
