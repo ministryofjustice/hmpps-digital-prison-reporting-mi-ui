@@ -23,7 +23,10 @@ export default class UserService {
   async getUser(token: string): Promise<UserDetails> {
     const user = await this.hmppsManageUsersClient.getUser(token)
     const roles = await this.hmppsManageUsersClient.getUserRoles(token)
-    const activeCaseLoadId = await this.userClient.getActiveCaseload(token)
+    let activeCaseLoadId
+    if (!this.userIsUnathorisedByRole(roles)) {
+      activeCaseLoadId = await this.userClient.getActiveCaseload(token)
+    }
     return {
       ...user,
       displayName: convertToTitleCase(user.name),
