@@ -17,10 +17,8 @@ export default class UserService {
   ) {}
 
   userIsUnathorisedByRole(roles: string[]) {
-    const authorisedRoles = config.authorisation.roles
-    return (
-      authorisedRoles && authorisedRoles.length > 0 && !roles.some((role: string) => authorisedRoles.includes(role))
-    )
+    const authorisedRoles = config.authorisation.roles.length ? config.authorisation.roles : ['PRISONS_REPORTING_USER']
+    return !roles.some((role: string) => authorisedRoles.includes(role))
   }
 
   async getUser(token: string): Promise<UserDetails> {
