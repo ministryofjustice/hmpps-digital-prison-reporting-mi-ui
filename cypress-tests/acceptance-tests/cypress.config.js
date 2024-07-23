@@ -27,12 +27,12 @@ module.exports = defineConfig({
       )
       return config
     },
-    baseUrl: 'http://localhost:3007/',
+    baseUrl: 'https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk/',
     supportFile: 'cypress-tests/acceptance-tests/support/index.ts',
   },
   env: {
-    USERNAME: 'RDOWTHWAITE_GEN',
-    PASSWORD: 'Heidiaa892865gov',
+    USERNAME: 'Populated from CYPRESS_USERNAME env var',
+    PASSWORD: 'Populated from CYPRESS_PASSWORD env var',
     SIGN_IN_URL: 'sign-in-dev.hmpps.service.justice.gov.uk',
     API_BASE_URL: 'https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk',
   },
