@@ -1,3 +1,4 @@
+import jwtDecode from 'jwt-decode'
 import { convertToTitleCase } from '../utils/utils'
 import type HmppsManageUsersClient from '../data/hmppsManageUsersClient'
 import UserClient from '../data/userClient'
@@ -16,16 +17,18 @@ export default class UserService {
     private readonly userClient: UserClient,
   ) {}
 
-  userIsUnathorisedByRole(roles: string[]) {
-    const authorisedRoles = config.authorisation.roles.length ? config.authorisation.roles : ['PRISONS_REPORTING_USER']
+  userIsUnauthorisedByRole(roles: string[]) {
+    const authorisedRoles = config.authorisation.roles.length
+      ? config.authorisation.roles
+      : ['ROLE_PRISONS_REPORTING_USER']
     return !roles.some((role: string) => authorisedRoles.includes(role))
   }
 
   async getUser(token: string): Promise<UserDetails> {
     const user = await this.hmppsManageUsersClient.getUser(token)
-    const roles = await this.hmppsManageUsersClient.getUserRoles(token)
+    const { authorities: roles = [] } = jwtDecode(token) as { authorities?: string[] }
     let activeCaseLoadId
-    if (!this.userIsUnathorisedByRole(roles)) {
+    if (!this.userIsUnauthorisedByRole(roles)) {
       activeCaseLoadId = await this.userClient.getActiveCaseload(token)
     }
     return {
