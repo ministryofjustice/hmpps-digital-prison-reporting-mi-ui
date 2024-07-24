@@ -2,6 +2,9 @@
 {% from "dpr/components/table-card-group/view.njk" import dprTableCardGroup %}
 {% from "dpr/components/reports-list/view.njk" import dprReportsList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "dpr/components/async-request-list/view.njk" import dprAsyncRequestList %}
+{% from "dpr/components/recently-viewed-list/view.njk" import dprRecentlyViewedList %}
+{% from "dpr/components/reports-list/view.njk" import dprReportsList %}
 
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
@@ -11,20 +14,24 @@
   <h1 class="govuk-heading-l">{{ title }}</h1>
 
   {% set requestedReportsHtml %}
-  {{ dprTableCardGroup(
+  {{ dprAsyncRequestList(
       requestedReports.head,
       requestedReports.cardData, 
       requestedReports.tableData,
-      requestedReports.total
+      requestedReports.total,
+      requestedReports.meta,
+      requestedReports.csrfToken
     )}}
   {% endset -%}
 
   {% set recentlyViewedHtml %}
-  {{ dprTableCardGroup(
+  {{ dprRecentlyViewedList(
       viewedReports.head, 
       viewedReports.cardData, 
       viewedReports.tableData,
-      viewedReports.total
+      viewedReports.total,
+      viewedReports.meta,
+      requestedReports.csrfToken
   ) }}
   {% endset -%}
 
