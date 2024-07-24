@@ -49,7 +49,7 @@ export default function routes(services: Services): Router {
       description: config.maintenanceMode,
     })
   })
-  /// //////
+
   get('/info', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(applicationInfo))
