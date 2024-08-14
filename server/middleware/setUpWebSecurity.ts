@@ -26,6 +26,11 @@ export default function setUpWebSecurity(): Router {
     (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
     'fonts.googleapis.com',
   ]
+  scriptSrc.push(
+    "'self'",
+    (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
+    'https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js',
+  )
   const imgSrc = ["'self'", 'data:']
   const fontSrc = ["'self'", 'fonts.gstatic.com']
   const formAction = [`'self' ${config.apis.hmppsAuth.externalUrl} ${config.digitalPrisonServiceUrl}`]
