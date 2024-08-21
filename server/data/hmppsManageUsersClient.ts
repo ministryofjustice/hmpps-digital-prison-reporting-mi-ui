@@ -5,6 +5,7 @@ import RestClient from './restClient'
 export interface User {
   name: string
   activeCaseLoadId: string
+  uuid: string
 }
 
 export interface UserRole {

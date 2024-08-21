@@ -17,9 +17,9 @@ export default function populateCurrentUser(
         const userDetails = res.locals.user && (await userService.getUser(res.locals.user.token))
         if (userDetails) {
           req.session.userDetails = userDetails
-          await asyncReportsStore.init(res.locals.user.uuid)
-          await recentlyViewedStoreService.init(res.locals.user.uuid)
-          await bookmarkService.init(res.locals.user.uuid)
+          await asyncReportsStore.init(req.session.userDetails.uuid)
+          await recentlyViewedStoreService.init(req.session.userDetails.uuid)
+          await bookmarkService.init(req.session.userDetails.uuid)
         } else {
           logger.info('No user details retrieved')
         }
