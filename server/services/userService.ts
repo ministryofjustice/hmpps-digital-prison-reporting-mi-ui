@@ -9,6 +9,7 @@ export interface UserDetails {
   displayName: string
   activeCaseLoadId?: string
   roles: string[]
+  uuid: string
 }
 
 export default class UserService {
