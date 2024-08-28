@@ -47,7 +47,7 @@ Then(/the message "(.+)" is displayed/, (message: string) => {
 Then(/^a breadcrumb link is shown for the (.+) page$/, (page: string) => {
   switch (page.toLowerCase()) {
     case 'home':
-      cy.get(`a.govuk-breadcrumbs__link:not([href~="/"])`).contains('Home')
+      cy.get(`a.govuk-breadcrumbs__link:not([href~="/"])`).contains('Digital Prison Reporting')
       break
 
     case 'request':
