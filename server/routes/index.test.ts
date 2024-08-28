@@ -23,7 +23,7 @@ describe('GET /', () => {
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('Home')
+        expect(res.text).toContain('Digital Prison Reporting')
       })
   })
 })

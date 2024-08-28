@@ -35,7 +35,7 @@ export default function routes(services: Services): Router {
     const reportsData = ReportslistUtils.mapReportsList(res, services)
 
     res.render('pages/home', {
-      title: 'Home',
+      title: 'Digital Prison Reporting',
       requestedReports: requestedReportsData,
       viewedReports: recentlyViewedData,
       bookmarks: bookmarksData,
