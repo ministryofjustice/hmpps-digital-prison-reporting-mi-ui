@@ -17,14 +17,17 @@ export default function populateCurrentUser(
         const userDetails = res.locals.user && (await userService.getUser(res.locals.user.token))
         if (userDetails) {
           req.session.userDetails = userDetails
-          await asyncReportsStore.init(req.session.userDetails.uuid)
-          await recentlyViewedStoreService.init(req.session.userDetails.uuid)
-          await bookmarkService.init(req.session.userDetails.uuid)
         } else {
           logger.info('No user details retrieved')
         }
       }
       res.locals.user = { ...req.session.userDetails, ...res.locals.user }
+
+      // Initialise userConfig
+      await asyncReportsStore.init(res.locals.user.uuid)
+      await recentlyViewedStoreService.init(res.locals.user.uuid)
+      await bookmarkService.init(res.locals.user.uuid)
+
       if (req.session.userDetails && userService.userIsUnauthorisedByRole(res.locals.user.roles)) {
         return res.redirect('/roleError')
       }

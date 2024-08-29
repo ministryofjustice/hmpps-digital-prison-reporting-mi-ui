@@ -14,7 +14,7 @@ export default (): RequestHandler => {
     res.locals.breadCrumbList = []
 
     if (currentUrl !== '/') {
-      res.locals.breadCrumbList.push({ text: 'Home', href: `/${res.locals.pathSuffix}` })
+      res.locals.breadCrumbList.push({ text: 'Digital Prison Reporting', href: `/${res.locals.pathSuffix}` })
 
       if (currentUrl.includes('reports/') || currentUrl.includes('/reports/')) {
         const asyncReportMatch = res.locals.definitions
