@@ -1,19 +1,21 @@
 import { RequestHandler } from 'express'
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
+import type { ParsedQs } from 'qs'
 import { getDefinitionsPath } from '../utils/utils'
 import config from '../config'
 
+const deriveDefinitionsPath = (query: ParsedQs): string | null => {
+  const definitionsPath = getDefinitionsPath(query)
+  if (definitionsPath && config.definitionPathsEnabled) {
+    return definitionsPath
+  }
+  return null
+}
+
 export default (service: ReportingService): RequestHandler => {
   return (req, res, next) => {
-    let definitionsPath = getDefinitionsPath(req.query)
-    res.locals.pathSuffix = ''
-
-    if (definitionsPath && !config.definitionPathsEnabled) {
-      req.query.dataProductDefinitionsPath = null
-      definitionsPath = null
-    } else if (definitionsPath) {
-      res.locals.pathSuffix = `?dataProductDefinitionsPath=${definitionsPath}`
-    }
+    const definitionsPath = deriveDefinitionsPath(req.query)
+    res.locals.pathSuffix = definitionsPath ? `?dataProductDefinitionsPath=${definitionsPath}` : ''
 
     if (res.locals.user.token && service) {
       return service
