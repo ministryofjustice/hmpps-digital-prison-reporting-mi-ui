@@ -15,6 +15,7 @@ generic-service:
     REPORTING_API_URL: 'http://hmpps-digital-prison-reporting-mi-preprod.hmpps-digital-prison-reporting-mi-preprod.svc.cluster.local'
     TOKEN_VERIFICATION_ENABLED: true
     AUTHORISED_ROLES: ROLE_PRISONS_REPORTING_USER
+    DEFINITION_PATHS_ENABLED: false
     DPS_COMPONENT_API_URL: 'https://frontend-components-preprod.hmpps.service.justice.gov.uk'
     DPS_URL: 'https://dps-preprod.prison.service.justice.gov.uk'
 

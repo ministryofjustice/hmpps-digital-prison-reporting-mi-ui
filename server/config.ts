@@ -105,7 +105,7 @@ export default {
     roles: getAuthorisedRoles(),
   },
   maintenanceMode: get('MAINTENANCE_MODE', ''),
-  definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', true, requiredInProduction)),
+  definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', 'true', requiredInProduction) === 'true'),
   digitalPrisonServiceUrl: get('DPS_URL', 'http://localhost:3000', requiredInProduction),
   activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
 }
