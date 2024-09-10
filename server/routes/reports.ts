@@ -36,7 +36,7 @@ export default function routes(router: Router, services: Services) {
       const { token } = res.locals.user
       services.reportingService
         .getDefinition(token, req.params.report, req.params.variant, getDefinitionsPath(req.query))
-        .then(fullDefinition => {
+        .then((fullDefinition: components['schemas']['SingleVariantReportDefinition']) => {
           const { resourceName } = fullDefinition.variant
 
           switch (fullDefinition.variant.specification.template) {

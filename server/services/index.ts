@@ -2,11 +2,14 @@ import AsyncReportStoreService from '@ministryofjustice/hmpps-digital-prison-rep
 import RecentlyViewedStoreService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/recentlyViewedService'
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import BookmarkService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/bookmarkService'
+import { Services as dprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/Services'
+import DashboardService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/dashboardService'
+import MetricService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/metricsService'
 import { dataAccess } from '../data'
 import UserService from './userService'
 import HmppsComponentsService from './hmppsComponentsService'
 
-export const services = () => {
+export const services = (): Services => {
   const { reportingClient, userClient, hmppsManageUsersClient, userDataStore } = dataAccess()
 
   const userService = new UserService(hmppsManageUsersClient, userClient)
@@ -16,6 +19,10 @@ export const services = () => {
   const recentlyViewedStoreService = new RecentlyViewedStoreService(userDataStore)
   const bookmarkService = new BookmarkService(userDataStore)
 
+  // TODO: Plumb in real data clients.
+  const metricService = new MetricService(null)
+  const dashboardService = new DashboardService(null)
+
   return {
     userService,
     reportingService,
@@ -23,9 +30,14 @@ export const services = () => {
     asyncReportsStore,
     recentlyViewedStoreService,
     bookmarkService,
+    metricService,
+    dashboardService,
   }
 }
 
-export type Services = ReturnType<typeof services>
+export type Services = dprServices & {
+  hmppsComponentsService: HmppsComponentsService
+  userService: UserService
+}
 
 export { UserService }
