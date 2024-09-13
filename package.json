@@ -183,7 +183,7 @@
     "nock": "^13.3.8",
     "node-html-parser": "^6.1.12",
     "nodemon": "^3.0.2",
-    "openapi-typescript": "^6.5.4",
+    "openapi-typescript": "^7.4.0",
     "prettier": "^2.8.7",
     "prettier-plugin-jinja-template": "^0.5.0",
     "sass": "^1.77.8",
