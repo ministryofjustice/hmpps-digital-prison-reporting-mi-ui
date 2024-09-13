@@ -111,7 +111,7 @@
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
     "dayjs": "^1.11.12",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "express-prom-bundle": "^7.0.0",
     "express-session": "^1.17.3",
     "govuk-frontend": "^5.4.0",
