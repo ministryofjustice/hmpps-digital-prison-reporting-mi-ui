@@ -36,12 +36,14 @@
   {% endset -%}
 
   {% set bookmarksHtml %}
-  {{ dprTableCardGroup(
+  <div id="dpr-bookmarks-list">
+    {{ dprTableCardGroup(
       bookmarks.head,
       bookmarks.cardData, 
       bookmarks.tableData,
       bookmarks.total
     )}}
+  </div>
   {% endset -%}
 
   {{ govukTabs({
