@@ -10,7 +10,8 @@ import UserService from './userService'
 import HmppsComponentsService from './hmppsComponentsService'
 
 export const services = (): Services => {
-  const { reportingClient, userClient, hmppsManageUsersClient, userDataStore } = dataAccess()
+  const { reportingClient, userClient, hmppsManageUsersClient, userDataStore, dashboardClient, metricsClient } =
+    dataAccess()
 
   const userService = new UserService(hmppsManageUsersClient, userClient)
   const reportingService = new ReportingService(reportingClient)
@@ -18,10 +19,8 @@ export const services = (): Services => {
   const asyncReportsStore = new AsyncReportStoreService(userDataStore)
   const recentlyViewedStoreService = new RecentlyViewedStoreService(userDataStore)
   const bookmarkService = new BookmarkService(userDataStore)
-
-  // TODO: Plumb in real data clients.
-  const metricService = new MetricService(null)
-  const dashboardService = new DashboardService(null)
+  const metricService = new MetricService(metricsClient)
+  const dashboardService = new DashboardService(dashboardClient)
 
   return {
     userService,
@@ -38,6 +37,8 @@ export const services = (): Services => {
 export type Services = dprServices & {
   hmppsComponentsService: HmppsComponentsService
   userService: UserService
+  metricService: MetricService
+  dashboardService: DashboardService
 }
 
 export { UserService }
