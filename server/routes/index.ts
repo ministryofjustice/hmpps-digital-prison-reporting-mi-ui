@@ -33,7 +33,7 @@ export default function routes(services: Services): Router {
     const requestedReportsData = await AsyncRequestlistUtils.renderList({ ...utilsParams, maxRows: 6 })
     const recentlyViewedData = await RecentlyViewedUtils.renderRecentlyViewedList({ ...utilsParams, maxRows: 6 })
     const bookmarksData = await BookmarklistUtils.renderBookmarkList({ ...utilsParams, maxRows: 6, req })
-    const reportsData = ReportslistUtils.mapReportsList(res, services)
+    const reportsData = await ReportslistUtils.mapReportsList(res, services)
 
     res.render('pages/home', {
       title: 'Digital Prison Reporting',
