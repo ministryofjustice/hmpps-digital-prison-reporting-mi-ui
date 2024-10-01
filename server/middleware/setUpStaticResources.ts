@@ -40,6 +40,18 @@ export default function setUpStaticResources(): Router {
     router.use('/assets/images/icons', express.static(path.join(process.cwd(), dir), cacheControl))
   })
 
+  router.use(
+    '/assets/ext/chart.js',
+    express.static(path.join(process.cwd(), '/node_modules/chart.js/dist/chart.umd.js')),
+  )
+
+  router.use(
+    '/assets/ext/chartjs-datalabels.js',
+    express.static(
+      path.join(process.cwd(), '/node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
+    ),
+  )
+
   otherStaticResources.forEach(r => {
     router.use(r.path, express.static(path.join(process.cwd(), r.location), cacheControl))
   })
