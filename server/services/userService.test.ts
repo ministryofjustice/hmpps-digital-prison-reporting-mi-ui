@@ -41,5 +41,10 @@ describe('User service', () => {
       const result2 = userService.userIsUnauthorisedByRole(['PRISONS_REPORTIN_AAA'])
       expect(result2).toBeTruthy()
     })
+
+    it('does not fail when the user has no roles', () => {
+      const result1 = userService.userIsUnauthorisedByRole(null)
+      expect(result1).toBeTruthy()
+    })
   })
 })

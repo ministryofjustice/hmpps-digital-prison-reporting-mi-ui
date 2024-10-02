@@ -22,6 +22,11 @@ export default class UserService {
     const authorisedRoles = config.authorisation.roles.length
       ? config.authorisation.roles
       : ['ROLE_PRISONS_REPORTING_USER']
+
+    if (!roles) {
+      return true
+    }
+
     return !roles.some((role: string) => authorisedRoles.includes(role))
   }
 
