@@ -46,10 +46,21 @@ export default function setUpStaticResources(): Router {
   )
 
   router.use(
+    '/assets/ext/chart.umd.js.map',
+    express.static(path.join(process.cwd(), '/node_modules/chart.js/dist/chart.umd.js.map')),
+  )
+
+  router.use(
     '/assets/ext/chartjs-datalabels.js',
     express.static(
       path.join(process.cwd(), '/node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js'),
     ),
+  )
+
+  router.use('/assets/ext/day.js', express.static(path.join(process.cwd(), '/node_modules/dayjs/dayjs.min.js')))
+  router.use(
+    '/assets/ext/dayjs/plugin/customParseFormat.js',
+    express.static(path.join(process.cwd(), '/node_modules/dayjs/plugin/customParseFormat.js')),
   )
 
   otherStaticResources.forEach(r => {
