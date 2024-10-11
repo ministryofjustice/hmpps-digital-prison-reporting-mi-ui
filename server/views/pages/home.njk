@@ -2,6 +2,7 @@
 {% from "dpr/components/table-card-group/view.njk" import dprTableCardGroup %}
 {% from "dpr/components/reports-list/view.njk" import dprReportsList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "dpr/components/async-request-list/view.njk" import dprAsyncRequestList %}
 {% from "dpr/components/recently-viewed-list/view.njk" import dprRecentlyViewedList %}
 {% from "dpr/components/reports-list/view.njk" import dprReportsList %}
@@ -9,9 +10,15 @@
 {% set pageTitle = applicationName + " - " + title %}
 {% set mainClasses = "app-container govuk-body" %}
 
-{% block content %}
-
-  <h1 class="govuk-heading-l">{{ title }}</h1>
+{% block main %}
+<div class="dpr-home-wrapper">
+  <div class="dpr-heading-wrapper">
+    <div class="govuk-width-container">
+      <h1 class="govuk-heading-l govuk-!-margin-bottom-3">{{ title }}</h1>
+      <p class="govuk-body">Find and view reports</p>
+      <a href='#reports-catalogue' class='govuk-body govuk-link govuk-link--no-visited-state'>Reports Catalogue</a>
+    </div>
+  </div>
 
   {% set requestedReportsHtml %}
   {{ dprAsyncRequestList(
@@ -46,35 +53,54 @@
   </div>
   {% endset -%}
 
-  {{ govukTabs({
-      items: [
-        {
-          label: "Requested Reports (" + requestedReports.total.amount + ")",
-          id: "requested-reports-tab",
-          panel: {
-            html: requestedReportsHtml
+  <div id="homepage-widget" class="dpr-reports-widget-wrapper">
+    <div class="govuk-width-container">
+      <h2 class="govuk-heading-l">My Reports<h2>
+      {{ govukTabs({
+        items: [
+          {
+            label: "Requested Reports (" + requestedReports.total.amount + ")",
+            id: "requested-reports-tab",
+            panel: {
+              html: requestedReportsHtml
+            }
+          },
+          {
+            label: "Recently Viewed (" + viewedReports.total.amount + ")",
+            id: "recently-viewed-tab",
+            panel: {
+              html: recentlyViewedHtml
+            }
+          },
+          {
+            label: "My Bookmarks (" + bookmarks.total.amount + ")",
+            id: "my-bookmarks-tab",
+            panel: {
+              html: bookmarksHtml
+            }
           }
-        },
-        {
-          label: "Recently Viewed (" + viewedReports.total.amount + ")",
-          id: "recently-viewed-tab",
-          panel: {
-            html: recentlyViewedHtml
-          }
-        },
-        {
-          label: "My Bookmarks (" + bookmarks.total.amount + ")",
-          id: "my-bookmarks-tab",
-          panel: {
-            html: bookmarksHtml
-          }
-        }
-      ]
-    }) }}
-
-  <h2>Reports</h2>
-  <div class="govuk-width-container">
-    {{ dprReportsList(reports.head, reports.rows) }}
+        ]
+      }) }}
+    </div>
   </div>
+  
 
+  <div id="reports-catalogue" class="dpr-reports-wrapper">
+    <div class="govuk-width-container">
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Report Catalogue</h2>
+
+      {% set howToUseHtml %}
+        <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. You can request to view a report by clicking the link in the `Name` column</p>
+        <p class="govuk-body">If you regularly visit a report you can bookmark it for quick access. Clicking the bookmark icon next to the report will add it to your bookmarks. All your bookmarks will appear in the <a href="#homepage-widget" class="govuk-link govuk-link--no-visited-state">My Bookmarks</a> section on the homepage</p>
+      {% endset %}
+
+      {{ govukDetails({
+        summaryText: "How to use",
+        html: howToUseHtml
+      }) }}
+
+      {{ dprReportsList(reports.head, reports.rows) }}
+    </div>
+  <div>
+</div>
 {% endblock %}

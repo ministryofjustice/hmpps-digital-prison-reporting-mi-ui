@@ -2,3 +2,22 @@
   min-height: 600px;
   padding-top: 0;
 }
+
+.dpr-heading-wrapper {
+  // background-color: rgba(86, 148, 202, .2);
+  padding: govuk-spacing(7);
+}
+
+.dpr-reports-wrapper {
+  padding: govuk-spacing(7);
+}
+
+.dpr-reports-widget-wrapper { 
+  padding: govuk-spacing(7);
+// background-color: rgba(86, 148, 202, .2);
+  background-color: govuk-colour("light-grey");
+
+  .govuk-tabs__panel {
+    background-color: white;
+  }
+}
