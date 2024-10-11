@@ -4,8 +4,11 @@
 }
 
 .dpr-heading-wrapper {
-  // background-color: rgba(86, 148, 202, .2);
+  background-color: rgba(86, 148, 202, .2);
   padding: govuk-spacing(7);
+  p {
+    font-weight: 700
+  }
 }
 
 .dpr-reports-wrapper {
@@ -14,8 +17,7 @@
 
 .dpr-reports-widget-wrapper { 
   padding: govuk-spacing(7);
-// background-color: rgba(86, 148, 202, .2);
-  background-color: govuk-colour("light-grey");
+  background-color: rgba(243, 242, 241, 0.4);
 
   .govuk-tabs__panel {
     background-color: white;

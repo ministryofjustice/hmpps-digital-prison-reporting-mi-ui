@@ -14,7 +14,7 @@
 <div class="dpr-home-wrapper">
   <div class="dpr-heading-wrapper">
     <div class="govuk-width-container">
-      <h1 class="govuk-heading-l govuk-!-margin-bottom-3">{{ title }}</h1>
+      <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ title }}</h1>
       <p class="govuk-body">Find and view reports</p>
       <a href='#reports-catalogue' class='govuk-body govuk-link govuk-link--no-visited-state'>Reports Catalogue</a>
     </div>
@@ -55,25 +55,25 @@
 
   <div id="homepage-widget" class="dpr-reports-widget-wrapper">
     <div class="govuk-width-container">
-      <h2 class="govuk-heading-l">My Reports<h2>
+      <h2 class="govuk-heading-m">My Reports<h2>
       {{ govukTabs({
         items: [
           {
-            label: "Requested Reports (" + requestedReports.total.amount + ")",
+            label: "Requested (" + requestedReports.total.amount + ")",
             id: "requested-reports-tab",
             panel: {
               html: requestedReportsHtml
             }
           },
           {
-            label: "Recently Viewed (" + viewedReports.total.amount + ")",
+            label: "Viewed (" + viewedReports.total.amount + ")",
             id: "recently-viewed-tab",
             panel: {
               html: recentlyViewedHtml
             }
           },
           {
-            label: "My Bookmarks (" + bookmarks.total.amount + ")",
+            label: "Bookmarks (" + bookmarks.total.amount + ")",
             id: "my-bookmarks-tab",
             panel: {
               html: bookmarksHtml
@@ -90,7 +90,13 @@
       <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Report Catalogue</h2>
 
       {% set howToUseHtml %}
-        <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. You can request to view a report by clicking the link in the `Name` column</p>
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Filtering the cataloge</h3>
+        <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. The cataloge will show listings that match your filter by name, description, type and product</p>
+        
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Viewing a report</h3>
+        <p class="govuk-body">Click on the name of the report to start a request to view a report</p>
+
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Bookmarking a report</h3>
         <p class="govuk-body">If you regularly visit a report you can bookmark it for quick access. Clicking the bookmark icon next to the report will add it to your bookmarks. All your bookmarks will appear in the <a href="#homepage-widget" class="govuk-link govuk-link--no-visited-state">My Bookmarks</a> section on the homepage</p>
       {% endset %}
 
