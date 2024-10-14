@@ -11,7 +11,7 @@
 {% set mainClasses = "app-container govuk-body" %}
 
 {% block main %}
-<div class="dpr-home-wrapper">
+<main class="dpr-home-wrapper app-container govuk-body">
   <div class="dpr-heading-wrapper">
     <div class="govuk-width-container">
       <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ title }}</h1>
@@ -105,5 +105,5 @@
       {{ dprReportsList(reports.head, reports.rows) }}
     </div>
   <div>
-</div>
+</main>
 {% endblock %}
