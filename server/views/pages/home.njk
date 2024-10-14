@@ -8,10 +8,9 @@
 {% from "dpr/components/user-list-content/view.njk" import dprUserList %}
 
 {% set pageTitle = applicationName + " - " + title %}
-{% set mainClasses = "app-container govuk-body" %}
 
 {% block main %}
-<main class="dpr-home-wrapper app-container govuk-body">
+<main class="dpr-home-wrapper app-container govuk-body" id="main-content">
   <div class="dpr-heading-wrapper">
     <div class="govuk-width-container">
       <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ title }}</h1>
