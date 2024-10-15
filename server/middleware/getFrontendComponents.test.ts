@@ -69,4 +69,21 @@ describe('getFrontendComponents', () => {
     expect(logger.error).toHaveBeenCalledWith(error, 'Failed to retrieve front end components')
     expect(next).toHaveBeenCalled()
   })
+
+  it('does not fail when no user is set', async () => {
+    const emptyRes = createMock<Response>({
+      locals: {
+        user: {
+          token: null,
+        },
+      },
+    })
+
+    const req = createMock<Request>({})
+
+    await getFrontendComponents(hmppsComponentsService)(req, emptyRes, next)
+
+    expect(hmppsComponentsService.getComponents).toBeCalledTimes(0)
+    expect(next).toHaveBeenCalled()
+  })
 })
