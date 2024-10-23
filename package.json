@@ -188,7 +188,7 @@
     "openapi-typescript": "^7.4.0",
     "prettier": "^2.8.7",
     "prettier-plugin-jinja-template": "^0.5.0",
-    "sass": "^1.77.8",
+    "sass": "^1.80.3",
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.5",
     "typescript": "^5.5"
