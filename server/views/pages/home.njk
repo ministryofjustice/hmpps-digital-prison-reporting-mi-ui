@@ -17,12 +17,18 @@
     </div>
   </div>
 
-  {{ dprUserReports({
-    requestedReports: requestedReports,
-    viewedReports: viewedReports,
-    bookmarks: bookmarks
-  })}}
+  <div id="homepage-widget" class="dpr-reports-widget-wrapper">
+    <div class="govuk-width-container">
+      <h2 class="govuk-heading-m">My Reports<h2>
+        {{ dprUserReports({
+          requestedReports: requestedReports,
+          viewedReports: viewedReports,
+          bookmarks: bookmarks
+        })}}
+    </div>
+  </div>
   
+
   <div id="reports-catalogue" class="dpr-reports-wrapper">
     <div class="govuk-width-container">
       <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Report Catalogue</h2>
