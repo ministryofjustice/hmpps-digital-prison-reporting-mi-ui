@@ -2,10 +2,8 @@
 {% from "dpr/components/reports-list/view.njk" import dprReportsList %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "dpr/components/async-request-list/view.njk" import dprAsyncRequestList %}
-{% from "dpr/components/recently-viewed-list/view.njk" import dprRecentlyViewedList %}
 {% from "dpr/components/reports-list/view.njk" import dprReportsList %}
-{% from "dpr/components/user-list-content/view.njk" import dprUserList %}
+{% from "dpr/components/user-reports/view.njk" import dprUserReports %}
 
 {% set pageTitle = applicationName + " - " + title %}
 
@@ -19,68 +17,12 @@
     </div>
   </div>
 
-  {% set requestedReportsHtml %}
-    {{ dprAsyncRequestList({
-      head: requestedReports.head,
-      tableData: requestedReports.tableData,
-      total: requestedReports.total,
-      meta: requestedReports.meta,
-      csrfToken: requestedReports.csrfToken
-    })}}
-  {% endset -%}
-
-  {% set recentlyViewedHtml %}
-    {{ dprRecentlyViewedList({
-      head: viewedReports.head,
-      tableData: viewedReports.tableData,
-      total: viewedReports.total,
-      meta: viewedReports.meta,
-      csrfToken: viewedReports.csrfToken
-    }) }}
-  {% endset -%}
-
-  {% set bookmarksHtml %}
-  <div id="dpr-bookmarks-list">
-    {{ dprUserList({
-      head: bookmarks.head,
-      tableData: bookmarks.tableData,
-      total: bookmarks.total
-    }) }}
-  </div>
-  {% endset -%}
-
-  <div id="homepage-widget" class="dpr-reports-widget-wrapper">
-    <div class="govuk-width-container">
-      <h2 class="govuk-heading-m">My Reports<h2>
-      {{ govukTabs({
-        items: [
-          {
-            label: "Requested (" + requestedReports.total.amount + ")",
-            id: "requested-reports-tab",
-            panel: {
-              html: requestedReportsHtml
-            }
-          },
-          {
-            label: "Viewed (" + viewedReports.total.amount + ")",
-            id: "recently-viewed-tab",
-            panel: {
-              html: recentlyViewedHtml
-            }
-          },
-          {
-            label: "Bookmarks (" + bookmarks.total.amount + ")",
-            id: "my-bookmarks-tab",
-            panel: {
-              html: bookmarksHtml
-            }
-          }
-        ]
-      }) }}
-    </div>
-  </div>
+  {{ dprUserReports({
+    requestedReports: requestedReports,
+    viewedReports: viewedReports,
+    bookmarks: bookmarks
+  })}}
   
-
   <div id="reports-catalogue" class="dpr-reports-wrapper">
     <div class="govuk-width-container">
       <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Report Catalogue</h2>

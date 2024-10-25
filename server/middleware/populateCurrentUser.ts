@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import AsyncReportStoreService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/requestedReportsService'
+import RequestedReportService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/requestedReportService'
 import RecentlyViewedStoreService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/recentlyViewedService'
 import BookmarkService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/bookmarkService'
 import logger from '../../logger'
@@ -7,7 +7,7 @@ import UserService from '../services/userService'
 
 export default function populateCurrentUser(
   userService: UserService,
-  asyncReportsStore: AsyncReportStoreService,
+  requestedReportService: RequestedReportService,
   recentlyViewedStoreService: RecentlyViewedStoreService,
   bookmarkService: BookmarkService,
 ): RequestHandler {
@@ -24,7 +24,7 @@ export default function populateCurrentUser(
       res.locals.user = { ...req.session.userDetails, ...res.locals.user }
 
       // Initialise userConfig
-      await asyncReportsStore.init(res.locals.user.uuid)
+      await requestedReportService.init(res.locals.user.uuid)
       await recentlyViewedStoreService.init(res.locals.user.uuid)
       await bookmarkService.init(res.locals.user.uuid)
 

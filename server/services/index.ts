@@ -1,4 +1,4 @@
-import AsyncReportStoreService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/requestedReportsService'
+import RequestedReportService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/requestedReportService'
 import RecentlyViewedStoreService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/recentlyViewedService'
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import BookmarkService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/bookmarkService'
@@ -16,8 +16,8 @@ export const services = (): Services => {
   const userService = new UserService(hmppsManageUsersClient, userClient)
   const reportingService = new ReportingService(reportingClient)
   const hmppsComponentsService = new HmppsComponentsService()
-  const asyncReportsStore = new AsyncReportStoreService(userDataStore)
-  const recentlyViewedStoreService = new RecentlyViewedStoreService(userDataStore)
+  const requestedReportService = new RequestedReportService(userDataStore)
+  const recentlyViewedService = new RecentlyViewedStoreService(userDataStore)
   const bookmarkService = new BookmarkService(userDataStore)
   const metricService = new MetricService(metricsClient)
   const dashboardService = new DashboardService(dashboardClient)
@@ -26,8 +26,8 @@ export const services = (): Services => {
     userService,
     reportingService,
     hmppsComponentsService,
-    asyncReportsStore,
-    recentlyViewedStoreService,
+    requestedReportService,
+    recentlyViewedService,
     bookmarkService,
     metricService,
     dashboardService,

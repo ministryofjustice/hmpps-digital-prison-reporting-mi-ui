@@ -1,8 +1,7 @@
 import type { Express } from 'express'
 import request from 'supertest'
-import AsyncReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/async-request-list/utils'
-import RecentlyViewedCardGroupUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/recently-viewed-list/utils'
-import BookmarklistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/bookmarkListUtils'
+import UserListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
+import BookmarklistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports-bookmarks-list/utils'
 import ReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/reports-list/utils'
 import { appWithAllRoutes } from './testutils/appSetup'
 
@@ -12,8 +11,7 @@ beforeEach(() => {
   app = appWithAllRoutes({})
 })
 
-AsyncReportslistUtils.renderList = jest.fn()
-RecentlyViewedCardGroupUtils.renderRecentlyViewedList = jest.fn()
+UserListUtils.renderList = jest.fn()
 BookmarklistUtils.renderBookmarkList = jest.fn()
 ReportslistUtils.mapReportsList = jest.fn()
 
