@@ -13,13 +13,13 @@
     <div class="govuk-width-container">
       <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ title }}</h1>
       <p class="govuk-body">Find and view reports</p>
-      <a href='#reports-catalogue' class='govuk-body govuk-link govuk-link--no-visited-state'>Reports Catalogue</a>
+      <a href='#reports-catalogue' class='govuk-body govuk-link govuk-link--no-visited-state'>Reports catalogue</a>
     </div>
   </div>
 
   <div id="homepage-widget" class="dpr-reports-widget-wrapper">
     <div class="govuk-width-container">
-      <h2 class="govuk-heading-m">My Reports<h2>
+      <h2 class="govuk-heading-m">My reports<h2>
         {{ dprUserReports({
           requestedReports: requestedReports,
           viewedReports: viewedReports,
@@ -31,11 +31,11 @@
 
   <div id="reports-catalogue" class="dpr-reports-wrapper">
     <div class="govuk-width-container">
-      <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Report Catalogue</h2>
+      <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Report catalogue</h2>
 
       {% set howToUseHtml %}
-        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Filtering the cataloge</h3>
-        <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. The cataloge will show listings that match your filter by name, description, type and product</p>
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Filtering the catalogue</h3>
+        <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. The catalogue will show listings that match your filter by name, description, type and product</p>
         
         <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Viewing a report</h3>
         <p class="govuk-body">Click on the name of the report to start a request to view a report</p>
