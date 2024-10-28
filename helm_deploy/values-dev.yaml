@@ -5,6 +5,7 @@ generic-service:
 
   ingress:
     host: digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk
+    modsecurity_enabled: false
 
   env:
     INGRESS_URL: 'https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk'
