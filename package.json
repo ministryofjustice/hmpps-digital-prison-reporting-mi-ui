@@ -145,7 +145,7 @@
     "@types/express-session": "^1.17.10",
     "@types/http-errors": "^2.0.4",
     "@types/jest": "^29.5.13",
-    "@types/jsonwebtoken": "^9.0.5",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.7.7",
     "@types/nunjucks": "^3.2.3",
     "@types/nunjucks-date": "^0.0.10",
