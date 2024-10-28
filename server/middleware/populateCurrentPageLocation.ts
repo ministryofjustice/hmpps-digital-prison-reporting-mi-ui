@@ -30,7 +30,7 @@ export default (): RequestHandler => {
 
         if (asyncReportMatch) {
           res.locals.breadCrumbList.push({
-            text: 'Request Report',
+            text: 'Request report',
             href: `/async-reports/${asyncReportMatch.reportId}/${asyncReportMatch.variantId}/request${res.locals.pathSuffix}`,
           })
         }

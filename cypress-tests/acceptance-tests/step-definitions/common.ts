@@ -51,7 +51,7 @@ Then(/^a breadcrumb link is shown for the (.+) page$/, (page: string) => {
       break
 
     case 'request':
-      cy.get(`a.govuk-breadcrumbs__link[href~="/request"]`).contains('Request Report')
+      cy.get(`a.govuk-breadcrumbs__link[href~="/request"]`).contains('Request report')
       break
 
     default:

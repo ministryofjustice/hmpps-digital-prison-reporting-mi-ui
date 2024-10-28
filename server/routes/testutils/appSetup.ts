@@ -190,7 +190,7 @@ const reportingClient: jest.Mocked<ReportingClient> = {
   getAsyncSummaryReport: jest.fn(),
 }
 
-const asyncReportsStore = {
+const requestedReportService = {
   getAllReports: jest.fn().mockResolvedValue(Promise.resolve([])),
 }
 
@@ -208,7 +208,7 @@ export function appWithAllRoutes({
   const servicesWithMissingMocked: Services = {
     ...services,
     reportingService: services.reportingService ?? new ReportingService(reportingClient),
-    asyncReportsStore: services.asyncReportsStore ?? asyncReportsStore,
+    requestedReportService: services.requestedReportService ?? requestedReportService,
   } as Services
 
   return appSetup(servicesWithMissingMocked, production, userSupplier)
