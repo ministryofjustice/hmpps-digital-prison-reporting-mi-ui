@@ -150,7 +150,7 @@
     "@types/nunjucks": "^3.2.3",
     "@types/nunjucks-date": "^0.0.10",
     "@types/parseurl": "^1.3.3",
-    "@types/passport": "^1.0.12",
+    "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.4.12",
     "@types/qs": "^6.9.16",
     "@types/querystringify": "^2.0.2",
