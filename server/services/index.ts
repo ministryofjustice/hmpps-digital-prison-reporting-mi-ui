@@ -2,6 +2,7 @@ import RequestedReportService from '@ministryofjustice/hmpps-digital-prison-repo
 import RecentlyViewedStoreService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/recentlyViewedService'
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import BookmarkService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/bookmarkService'
+import DownloadPermissionService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/downloadPermissionService'
 import { Services as dprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/Services'
 import DashboardService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/dashboardService'
 import MetricService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/metricsService'
@@ -21,6 +22,7 @@ export const services = (): Services => {
   const bookmarkService = new BookmarkService(userDataStore)
   const metricService = new MetricService(metricsClient)
   const dashboardService = new DashboardService(dashboardClient)
+  const downloadPermissionService = new DownloadPermissionService(userDataStore)
 
   return {
     userService,
@@ -31,6 +33,7 @@ export const services = (): Services => {
     bookmarkService,
     metricService,
     dashboardService,
+    downloadPermissionService,
   }
 }
 
