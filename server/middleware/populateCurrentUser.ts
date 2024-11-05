@@ -1,20 +1,13 @@
 import { RequestHandler } from 'express'
-import RequestedReportService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/requestedReportService'
-import RecentlyViewedStoreService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/recentlyViewedService'
-import BookmarkService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/bookmarkService'
+import { initUserStoreServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/StoreServiceUtils'
 import logger from '../../logger'
-import UserService from '../services/userService'
+import { Services } from '../services'
 
-export default function populateCurrentUser(
-  userService: UserService,
-  requestedReportService: RequestedReportService,
-  recentlyViewedStoreService: RecentlyViewedStoreService,
-  bookmarkService: BookmarkService,
-): RequestHandler {
+export default function populateCurrentUser(services: Services): RequestHandler {
   return async (req, res, next) => {
     try {
       if (!req.session.userDetails) {
-        const userDetails = res.locals.user && (await userService.getUser(res.locals.user.token))
+        const userDetails = res.locals.user && (await services.userService.getUser(res.locals.user.token))
         if (userDetails) {
           req.session.userDetails = userDetails
         } else {
@@ -23,12 +16,9 @@ export default function populateCurrentUser(
       }
       res.locals.user = { ...req.session.userDetails, ...res.locals.user }
 
-      // Initialise userConfig
-      await requestedReportService.init(res.locals.user.uuid)
-      await recentlyViewedStoreService.init(res.locals.user.uuid)
-      await bookmarkService.init(res.locals.user.uuid)
+      await initUserStoreServices(res.locals.user.uuid, services)
 
-      if (req.session.userDetails && userService.userIsUnauthorisedByRole(res.locals.user.roles)) {
+      if (req.session.userDetails && services.userService.userIsUnauthorisedByRole(res.locals.user.roles)) {
         return res.redirect('/roleError')
       }
       return next()
