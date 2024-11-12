@@ -1,5 +1,4 @@
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
-import DownloadPermissionService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/downloadPermissionService'
 import { Services as dprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/Services'
 import DashboardService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/dashboardService'
 import MetricService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/metricsService'
@@ -17,7 +16,6 @@ export const services = (): Services => {
   const hmppsComponentsService = new HmppsComponentsService()
   const metricService = new MetricService(metricsClient)
   const dashboardService = new DashboardService(dashboardClient)
-  const downloadPermissionService = new DownloadPermissionService(userDataStore)
   const userStoreServices = createUserStoreServices(userDataStore)
 
   return {
@@ -26,7 +24,6 @@ export const services = (): Services => {
     hmppsComponentsService,
     metricService,
     dashboardService,
-    downloadPermissionService,
     ...userStoreServices,
   }
 }
