@@ -9,14 +9,16 @@ export default (requestedReportService: RequestedReportService): RequestHandler 
       const { selectedPage } = req.query
       const requestReportData = await requestedReportService.getReportByExecutionId(executionId, userId)
 
-      const { reportName, variantName } = requestReportData
+      if (requestReportData) {
+        const { reportName, variantName } = requestReportData
 
-      res.locals.appInsightsCustomData = {
-        username,
-        activeCaseLoadId,
-        product: reportName,
-        reportName: variantName,
-        page: selectedPage ? Number(selectedPage) : null,
+        res.locals.appInsightsCustomData = {
+          username,
+          activeCaseLoadId,
+          product: reportName,
+          reportName: variantName,
+          page: selectedPage ? Number(selectedPage) : null,
+        }
       }
     }
 
