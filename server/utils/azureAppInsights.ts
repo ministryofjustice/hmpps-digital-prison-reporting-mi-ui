@@ -33,6 +33,7 @@ export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
     defaultClient.context.tags['ai.cloud.role'] = name
     defaultClient.context.tags['ai.application.ver'] = version()
     defaultClient.addTelemetryProcessor(addUserDataToRequests)
+    defaultClient.addTelemetryProcessor(addReportDataToRequests)
     return defaultClient
   }
   return null
@@ -49,6 +50,25 @@ export function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObject
         username,
         activeCaseLoadId,
         ...properties,
+      }
+    }
+  }
+  return true
+}
+
+export function addReportDataToRequests(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {
+  const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
+  if (isRequest) {
+    const currentReport: CurrentReport = contextObjects?.['http.ServerRequest']?.res?.locals?.currentReport
+    if (currentReport) {
+      const { reportName, variantName, selectedPage } = currentReport
+      const { properties } = envelope.data.baseData
+      // eslint-disable-next-line no-param-reassign
+      envelope.data.baseData.properties = {
+        ...properties,
+        product: reportName,
+        reportName: variantName,
+        page: selectedPage,
       }
     }
   }
