@@ -32,43 +32,22 @@ export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
     defaultClient.context.tags['ai.cloud.role'] = name
     defaultClient.context.tags['ai.application.ver'] = version()
-    defaultClient.addTelemetryProcessor(addUserDataToRequests)
-    defaultClient.addTelemetryProcessor(addReportDataToRequests)
+    defaultClient.addTelemetryProcessor(addCustomDataToRequests)
     return defaultClient
   }
   return null
 }
 
-export function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {
+export function addCustomDataToRequests(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {
   const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
   if (isRequest) {
-    const { username, activeCaseLoadId } = contextObjects?.['http.ServerRequest']?.res?.locals?.user || {}
-    if (username) {
-      const { properties } = envelope.data.baseData
-      // eslint-disable-next-line no-param-reassign
-      envelope.data.baseData.properties = {
-        username,
-        activeCaseLoadId,
-        ...properties,
-      }
-    }
-  }
-  return true
-}
-
-export function addReportDataToRequests(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {
-  const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
-  if (isRequest) {
-    const currentReport: CurrentReport = contextObjects?.['http.ServerRequest']?.res?.locals?.currentReport
-    if (currentReport) {
-      const { reportName, variantName, selectedPage } = currentReport
+    const customData = contextObjects?.['http.ServerRequest']?.res?.locals?.locals.appInsightsCustomData
+    if (customData) {
       const { properties } = envelope.data.baseData
       // eslint-disable-next-line no-param-reassign
       envelope.data.baseData.properties = {
         ...properties,
-        product: reportName,
-        reportName: variantName,
-        page: selectedPage,
+        ...customData,
       }
     }
   }

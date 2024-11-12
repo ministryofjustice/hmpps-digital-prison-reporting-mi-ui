@@ -1,6 +1,11 @@
 import { RequestHandler } from 'express'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 
+interface ReportMatch {
+  reportId: string
+  variantId: string
+}
+
 export default (): RequestHandler => {
   return (req, res, next) => {
     const currentUrl = req.originalUrl
@@ -16,12 +21,10 @@ export default (): RequestHandler => {
           .flatMap((definition: components['schemas']['ReportDefinitionSummary']) =>
             definition.variants.map(variant => ({
               reportId: definition.id,
-              reportName: definition.name,
               variantId: variant.id,
-              variantName: variant.name,
             })),
           )
-          .find((item: CurrentReport) =>
+          .find((item: ReportMatch) =>
             currentUrl.startsWith(`/async-reports/${item.reportId}/${item.variantId}/request/`),
           )
 
@@ -30,11 +33,6 @@ export default (): RequestHandler => {
             text: 'Request report',
             href: `/async-reports/${asyncReportMatch.reportId}/${asyncReportMatch.variantId}/request${res.locals.pathSuffix}`,
           })
-
-          res.locals.currentReport = {
-            ...asyncReportMatch,
-            selectedPage: req.query.selectedPage ? Number(req.query.selectedPage) : null,
-          }
         }
       }
     }
