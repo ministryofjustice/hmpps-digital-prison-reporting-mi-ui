@@ -23,7 +23,7 @@ import routes from './routes'
 import type { Services } from './services'
 import populateCurrentPageLocation from './middleware/populateCurrentPageLocation'
 import populateDefinitions from './middleware/populateDefinitions'
-import populateAppInsightsCustomData from './middleware/populateAppInsightsCustomData'
+import populateRequestedReports from './middleware/populateRequestedReports'
 import asyncMiddleware from './middleware/asyncMiddleware'
 import getFrontendComponents from './middleware/getFrontendComponents'
 
@@ -46,7 +46,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(asyncMiddleware(populateDefinitions(services.reportingService)))
-  app.use(asyncMiddleware(populateAppInsightsCustomData(services.requestedReportService)))
+  app.use(asyncMiddleware(populateRequestedReports(services)))
   app.use(populateCurrentPageLocation())
   app.get('*', getFrontendComponents(services.hmppsComponentsService))
 
