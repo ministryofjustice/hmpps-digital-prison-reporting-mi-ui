@@ -59,6 +59,5 @@ export default function routes(services: Services): Router {
   addBookmarkingRoutes(libRouteParams)
   addDownloadRoutes(libRouteParams)
 
-  //
   return router
 }
