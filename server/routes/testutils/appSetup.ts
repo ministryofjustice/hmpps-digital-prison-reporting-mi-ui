@@ -69,6 +69,7 @@ const reportingClient: jest.Mocked<ReportingClient> = {
     },
   ]),
   getCount: jest.fn().mockResolvedValue(789),
+  getAsyncInteractiveCount: jest.fn().mockResolvedValue(789),
   getDefinitions: jest.fn().mockResolvedValue([
     {
       id: 'external-movements',
