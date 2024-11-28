@@ -104,7 +104,10 @@ export default {
   authorisation: {
     roles: getAuthorisedRoles(),
   },
-  maintenanceMode: get('MAINTENANCE_MODE', ''),
+  maintenanceMode: {
+    enabled: Boolean(get('MAINTENANCE_MODE_ENABLED', 'false', requiredInProduction).toLowerCase() === 'true'),
+    message: get('MAINTENANCE_MODE_MESSAGE', '').toLowerCase(),
+  },
   definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', 'true', requiredInProduction) === 'true'),
   digitalPrisonServiceUrl: get('DPS_URL', 'http://localhost:3000', requiredInProduction),
   activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
