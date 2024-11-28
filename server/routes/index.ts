@@ -35,10 +35,14 @@ export default function routes(services: Services): Router {
   })
 
   get('/maintenance', (req, res) => {
-    res.render('pages/maintenance', {
-      title: 'Site Maintenance',
-      description: config.maintenanceMode,
-    })
+    if (config.maintenanceMode.enabled) {
+      res.render('pages/maintenance', {
+        title: 'Site Maintenance',
+        description: config.maintenanceMode.message,
+      })
+    } else {
+      res.redirect('/')
+    }
   })
 
   get('/info', (req, res) => {
