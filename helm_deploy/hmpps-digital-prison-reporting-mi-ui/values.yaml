@@ -48,6 +48,8 @@ generic-service:
     APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
     DEFINITION_PATHS_ENABLED: "false"
     ACTIVE_ESTABLISHMENTS: "EXI,BNI,LYI,EEI"
+    MAINTENANCE_MODE_ENABLED: "false"
+    MAINTENANCE_MODE_MESSAGE: ""
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
