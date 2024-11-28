@@ -106,7 +106,7 @@ export default {
   },
   maintenanceMode: {
     enabled: Boolean(get('MAINTENANCE_MODE_ENABLED', 'false', requiredInProduction).toLowerCase() === 'true'),
-    message: get('MAINTENANCE_MODE_MESSAGE', '').toLowerCase(),
+    message: get('MAINTENANCE_MODE_MESSAGE', ''),
   },
   definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', 'true', requiredInProduction) === 'true'),
   digitalPrisonServiceUrl: get('DPS_URL', 'http://localhost:3000', requiredInProduction),
