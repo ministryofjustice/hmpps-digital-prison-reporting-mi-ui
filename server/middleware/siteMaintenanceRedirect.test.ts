@@ -24,7 +24,7 @@ describe('siteMaintenanceRedirect', () => {
   })
 
   it('should not redirect to the maintenance screen', async () => {
-    delete config.default.maintenanceMode
+    config.default.maintenanceMode.enabled = false
     const req = createReqWithOriginalURl('/reports')
     const res = createRes()
 
@@ -34,7 +34,10 @@ describe('siteMaintenanceRedirect', () => {
   })
 
   it('should redirect to the maintenance screen', async () => {
-    config.default.maintenanceMode = 'This is a custom message'
+    config.default.maintenanceMode = {
+      enabled: true,
+      message: 'This is a custom message',
+    }
     const req = createReqWithOriginalURl('/reports')
     const res = createRes()
 

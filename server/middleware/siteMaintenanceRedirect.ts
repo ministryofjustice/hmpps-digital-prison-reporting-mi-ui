@@ -13,7 +13,7 @@ export const pathFragmentsToNotRedirect = [
 
 export default function siteMaintenanceRedirect(): RequestHandler {
   return (req, res, next) => {
-    const inMaintenanceMode = config.maintenanceMode
+    const inMaintenanceMode = config.maintenanceMode.enabled
     const doNotRedirect = pathFragmentsToNotRedirect.some(f => req.path.includes(f))
 
     if (inMaintenanceMode && !doNotRedirect) {

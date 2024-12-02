@@ -150,12 +150,17 @@ CYPRESS_API_BASE_URL=# The base URL of the environment's API (defaults to 'https
 
 ## Maintenance Mode
 
-Putting the application into maintenance mode will disable app functionality by redirecting all users to a maintenance screen on all routes. To enable maintenance mode add the following env variable to the K8s config with a string value describing the nature of the maintenance work being applied.
+Putting the application into maintenance mode will disable app functionality by redirecting all users to a maintenance screen on all routes. To enable maintenance mode add the following env variables to the K8s config:
+
+- **MAINTENANCE_MODE_ENABLED**: Should contain a boolean value indicating whether maintenance mode should be enabled.
+- **MAINTENANCE_MODE_MESSAGE**: Should contain a string value describing the nature of the maintenance work being applied.
 
 ```
 ...
 env:
-- name: MAINTENANCE_MODE
+- name: MAINTENANCE_MODE_ENABLED
+  value: FALSE
+- name: MAINTENANCE_MODE_MESSAGE
   value: "We are performing scheduled maintenance"
 ...
 ```
