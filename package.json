@@ -31,7 +31,7 @@
     "acceptance-test": "cypress run --config-file cypress-tests/acceptance-tests/cypress.config.js"
   },
   "engines": {
-    "node": "^20",
+    "node": "^20.17.0",
     "npm": "^10"
   },
   "jest": {
