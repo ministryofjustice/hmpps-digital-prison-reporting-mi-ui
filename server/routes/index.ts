@@ -1,6 +1,7 @@
 import { type RequestHandler, Router } from 'express'
 
 import addAsyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
+import addSyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/syncReports'
 import addBookmarkingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/bookmarks'
 import addDownloadRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/download'
 import addRecentlyViewedRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/recentlyViewed'
@@ -62,6 +63,7 @@ export default function routes(services: Services): Router {
   addRecentlyViewedRoutes(libRouteParams)
   addBookmarkingRoutes(libRouteParams)
   addDownloadRoutes(libRouteParams)
+  addSyncReportingRoutes(libRouteParams)
 
   return router
 }
