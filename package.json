@@ -133,7 +133,7 @@
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^21.0.3",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.3",
-    "@golevelup/ts-jest": "^0.5.6",
+    "@golevelup/ts-jest": "^0.6.1",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.8",
     "@types/compression": "^1.7.5",
