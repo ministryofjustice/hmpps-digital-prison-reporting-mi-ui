@@ -14,7 +14,6 @@ generic-service:
     TOKEN_VERIFICATION_API_URL: 'https://token-verification-api-dev.prison.service.justice.gov.uk'
     REPORTING_API_URL: 'http://hmpps-digital-prison-reporting-mi-dev.hmpps-digital-prison-reporting-mi-dev.svc.cluster.local'
     TOKEN_VERIFICATION_ENABLED: true
-    AUTHORISED_ROLES: ROLE_PRISONS_REPORTING_USER
     DEFINITION_PATHS_ENABLED: true
     DPS_COMPONENT_API_URL: 'https://frontend-components-dev.hmpps.service.justice.gov.uk'
     DPS_URL: 'https://dps-dev.prison.service.justice.gov.uk'

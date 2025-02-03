@@ -18,9 +18,6 @@ export default function populateCurrentUser(services: Services): RequestHandler 
 
       await initUserStoreServices(res.locals.user.uuid, services)
 
-      if (req.session.userDetails && services.userService.userIsUnauthorisedByRole(res.locals.user.roles)) {
-        return res.redirect('/roleError')
-      }
       return next()
     } catch (error) {
       logger.error(error, `Failed to retrieve user for : ${res.locals.user && res.locals.user.username}`)

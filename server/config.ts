@@ -29,16 +29,6 @@ export interface ApiConfig {
   agent: AgentConfig
 }
 
-function getAuthorisedRoles() {
-  const envVarRoles = get('AUTHORISED_ROLES', '', requiredInProduction)
-
-  if (envVarRoles.length !== 0) {
-    return envVarRoles.split(',')
-  }
-
-  return []
-}
-
 const apiCommonConfig = {
   timeout: {
     response: Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000)),
@@ -101,9 +91,6 @@ export default {
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
-  authorisation: {
-    roles: getAuthorisedRoles(),
-  },
   maintenanceMode: {
     enabled: Boolean(get('MAINTENANCE_MODE_ENABLED', 'false', requiredInProduction).toLowerCase() === 'true'),
     message: get('MAINTENANCE_MODE_MESSAGE', ''),

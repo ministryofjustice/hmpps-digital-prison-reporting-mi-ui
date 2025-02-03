@@ -22,21 +22,21 @@ const stubUser = (name: string) =>
     },
   })
 
-const stubUserRoles = () =>
+const stubUserEmail = () =>
   stubFor({
     request: {
       method: 'GET',
-      urlPattern: '/users/me/roles',
+      urlPattern: '/users/me/email',
     },
     response: {
       status: 200,
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
-      jsonBody: [{ roleCode: 'ROLE_PRISONS_REPORTING_USER' }],
+      jsonBody: [{ email: 'test@user.com' }],
     },
   })
 
 export default {
-  stubAuthUser: (name = 'john smith'): Promise<[Response, Response]> => Promise.all([stubUser(name), stubUserRoles()]),
+  stubAuthUser: (name = 'john smith'): Promise<[Response, Response]> => Promise.all([stubUser(name), stubUserEmail()]),
 }
