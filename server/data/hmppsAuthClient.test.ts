@@ -32,16 +32,4 @@ describe('hmppsAuthClient', () => {
       expect(output).toEqual(response)
     })
   })
-
-  describe('getUserRoles', () => {
-    it('should return data from api', async () => {
-      fakeHmppsAuthApi
-        .get('/api/user/me/roles')
-        .matchHeader('authorization', `Bearer ${token.access_token}`)
-        .reply(200, [{ roleCode: 'role1' }, { roleCode: 'role2' }])
-
-      const output = await hmppsAuthClient.getUserRoles(token.access_token)
-      expect(output).toEqual(['role1', 'role2'])
-    })
-  })
 })
