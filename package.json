@@ -131,7 +131,7 @@
     "uuid": "^11.0.5"
   },
   "devDependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "^21.0.3",
+    "@badeball/cypress-cucumber-preprocessor": "^22.0.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.4",
     "@golevelup/ts-jest": "^0.6.1",
     "@types/bunyan": "^1.8.11",
