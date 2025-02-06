@@ -30,7 +30,7 @@ jobs:
         with:
           find: '"@ministryofjustice\/hmpps-digital-prison-reporting-frontend": "^\d+\.\d+\.\d+",'
           replace: '"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^${{ steps.get-version.outputs.current_version }}",'
-          include: build.gradle.kts
+          include: package.json
           regex: true
 
       - name: Commit version bump
