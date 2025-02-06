@@ -152,7 +152,7 @@
     "@types/parseurl": "^1.3.3",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.4.12",
-    "@types/qs": "^6.9.17",
+    "@types/qs": "^6.9.18",
     "@types/querystringify": "^2.0.2",
     "@types/superagent": "^8.1.9",
     "@types/supertest": "^6.0.2",
