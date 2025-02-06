@@ -28,7 +28,7 @@ jobs:
       - name: Find and replace library version
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: '"@ministryofjustice\/hmpps-digital-prison-reporting-frontend": "^\d+\.\d+\.\d+",'
+          find: '"@ministryofjustice\/hmpps-digital-prison-reporting-frontend": "\^\d+\.\d+\.\d+",'
           replace: '"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^${{ steps.get-version.outputs.current_version }}",'
           include: package.json
           regex: true
