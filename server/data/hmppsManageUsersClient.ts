@@ -12,6 +12,12 @@ export interface UserRole {
   roleCode: string
 }
 
+export interface UserEmail {
+  username: string
+  email: string
+  verified: boolean
+}
+
 export default class HmppsManageUsersClient {
   private static restClient(token: string): RestClient {
     return new RestClient('HMPPS Manage User Client', config.apis.manageUsers, token)
@@ -22,9 +28,8 @@ export default class HmppsManageUsersClient {
     return HmppsManageUsersClient.restClient(token).get({ path: '/users/me' }) as Promise<User>
   }
 
-  getUserRoles(token: string): Promise<string[]> {
-    return HmppsManageUsersClient.restClient(token)
-      .get({ path: '/users/me/roles' })
-      .then(roles => (<UserRole[]>roles).map(role => role.roleCode))
+  getUserEmail(token: string): Promise<UserEmail> {
+    logger.info(`Getting current user details: calling HMPPS Auth`)
+    return HmppsManageUsersClient.restClient(token).get({ path: '/users/me/email' }) as Promise<UserEmail>
   }
 }

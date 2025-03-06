@@ -7,11 +7,6 @@ import type { Services } from '../services'
 export default function setUpCurrentUser(services: Services): Router {
   const router = Router({ mergeParams: true })
 
-  router.get('/roleError', (req, res) => {
-    res.status(401)
-    return res.render('roleError')
-  })
-
   router.use(auth.authenticationMiddleware(tokenVerifier))
   router.use(populateCurrentUser(services))
   return router

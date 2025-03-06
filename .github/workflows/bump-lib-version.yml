@@ -1,0 +1,50 @@
+name: Bump library version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Get version
+        id: get-version
+        run: |
+          CURRENT_VERSION=$(npm view @ministryofjustice/hmpps-digital-prison-reporting-frontend version)
+          echo "Current version: $CURRENT_VERSION"
+          echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Find and replace library version
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: '"@ministryofjustice\/hmpps-digital-prison-reporting-frontend": "\^\d+\.\d+\.\d+",'
+          replace: '"@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^${{ steps.get-version.outputs.current_version }}",'
+          include: package.json
+          regex: true
+
+      - name: Update package lock
+        run: npm install
+
+      - name: Commit version bump
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Bump library version to ${{ steps.get-version.outputs.current_version }}
+          create_branch: true
+          branch: feature/bump-lib-to-v${{ steps.get-version.outputs.current_version }}
+          tagging_message: Lib-v${{ steps.get-version.outputs.current_version }}
+
+      - name: Create pull request
+        run: gh pr create -B main -H 'feature/bump-lib-to-v${{ steps.get-version.outputs.current_version }}' --title 'Bump library version to ${{ steps.get-version.outputs.current_version }}' --body ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
