@@ -45,9 +45,7 @@ describe('GET /reports/external-movements/list', () => {
       .get('/reports/external-movements/list?filters.direction=in&filters.type=jaunt')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain(
-          '?selectedPage=1&amp;pageSize=20&amp;sortColumn=prisonNumber&amp;sortedAsc=true&amp;columns=prisonNumber&amp;columns=firstName&amp;columns=lastName&amp;columns=date&amp;columns=time&amp;columns=from&amp;columns=to&amp;columns=direction&amp;columns=type&amp;columns=reason&amp;filters.direction=~clear~&amp;filters.type=jaunt"',
-        )
+        expect(res.text).toContain('[&quot;filters.direction&quot;]')
       })
   })
 })
