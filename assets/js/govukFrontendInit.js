@@ -1,2 +1,3 @@
-import { initAll } from '/assets/govuk/all.js'
+import { initAll } from '../../../../../../../assets/govuk/govuk-frontend.min.js'
+
 initAll()
