@@ -37,15 +37,17 @@
 {% block bodyEnd %}
   {# Run JavaScript at end of the
   <body>, to avoid blocking the initial render. #}
-  <script type="module" src="/assets/ext/day.js"></script>
-  <script type="module" src="/assets/ext/dayjs/plugin/customParseFormat.js"></script>
-  <script type="module" src="/assets/ext/chart.js"></script>
-  <script type="module" src="/assets/ext/chartjs-datalabels.js"></script>
-  <script type="module" src="/assets/govuk/all.js"></script>
+
+  {# GOVUK #}
+  <script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
   <script type="module" src="/assets/govukFrontendInit.js"></script>
+
+  {# MOJ #}
   <script src="/assets/moj/all.js"></script>
   <script type="module" src="/assets/mojFrontendInit.js"></script>
-  <script type="module" src="/assets/dpr/js/all.mjs"></script>
+  
+  {# DPR #}
+  <script type="module" src="/assets/dpr/all.js"></script>
   <script type="module" src="/assets/dprFrontendInit.js"></script>
 {% endblock %}
 
