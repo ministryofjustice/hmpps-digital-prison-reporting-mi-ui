@@ -14,6 +14,7 @@ export default function setUpHealthChecks(): Router {
     })
   })
 
+  // @ts-expect-error Return
   router.get('/ping', (req, res) =>
     res.send({
       status: 'UP',

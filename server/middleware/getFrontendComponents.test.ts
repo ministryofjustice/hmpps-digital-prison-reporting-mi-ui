@@ -1,5 +1,4 @@
 import type { DeepMocked } from '@golevelup/ts-jest'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { createMock } from '@golevelup/ts-jest'
 import type { Request, Response } from 'express'
 
