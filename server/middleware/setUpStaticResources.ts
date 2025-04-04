@@ -12,17 +12,6 @@ export default function setUpStaticResources(): Router {
   //  Static Resources Configuration
   const cacheControl = { maxAge: config.staticResourceCacheDuration }
 
-  /** Add a static asset route */
-  function staticRoute(assetUrl: string, assetPath: string): void {
-    router.use(
-      assetUrl,
-      express.static(path.join(process.cwd(), assetPath), {
-        maxAge: config.staticResourceCacheDuration,
-        redirect: false,
-      }),
-    )
-  }
-
   Array.of(
     '/dist/assets',
     '/dist/assets/stylesheets',
@@ -36,9 +25,6 @@ export default function setUpStaticResources(): Router {
   ).forEach(dir => {
     router.use('/assets', express.static(path.join(process.cwd(), dir), cacheControl))
   })
-
-  staticRoute('/moj/assets', '/node_modules/@ministryofjustice/frontend/moj/assets')
-  staticRoute('/assets/dpr', '/node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/assets')
 
   Array.of('/node_modules/govuk_frontend_toolkit/images').forEach(dir => {
     router.use('/assets/images/icons', express.static(path.join(process.cwd(), dir), cacheControl))

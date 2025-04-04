@@ -1,10 +1,12 @@
 /* eslint-disable no-param-reassign */
 import nunjucks from 'nunjucks'
 import express from 'express'
+import fs from 'fs'
 import * as pathModule from 'path'
 import setUpNunjucksFilters from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters'
 import { initialiseName } from './utils'
 import applicationVersion from '../applicationVersion'
+import logger from '../../logger'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -13,6 +15,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Digital Prison Reporting MI UI'
+  let assetManifest: Record<string, string> = {}
 
   // Cachebusting version string
   if (production) {
@@ -24,6 +27,13 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
       res.locals.version = Date.now().toString()
       return next()
     })
+  }
+
+  try {
+    const assetMetadataPath = path.resolve(__dirname, '../../assets/manifest.json')
+    assetManifest = JSON.parse(fs.readFileSync(assetMetadataPath, 'utf8'))
+  } catch (e) {
+    logger.error('Could not read asset manifest file', e)
   }
 
   const njkEnv = nunjucks.configure(
@@ -43,6 +53,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   )
 
   njkEnv.addFilter('initialiseName', initialiseName)
+  njkEnv.addFilter('assetMap', (url: string) => assetManifest[url] || url)
 
   setUpNunjucksFilters(njkEnv)
 }

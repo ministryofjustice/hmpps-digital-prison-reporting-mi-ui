@@ -32,7 +32,7 @@ const buildAssets = buildConfig => {
   return esbuild.build({
     entryPoints: buildConfig.assets.entryPoints,
     outdir: buildConfig.assets.outDir,
-    entryNames: '[ext]/app.[hash]',
+    entryNames: '[ext]/[name].[hash]',
     minify: buildConfig.isProduction,
     sourcemap: !buildConfig.isProduction,
     platform: 'browser',
@@ -50,13 +50,7 @@ const buildAssets = buildConfig => {
       }),
       sassPlugin({
         quietDeps: true,
-        loadPaths: [
-          process.cwd(),
-          path.join(process.cwd(), 'node_modules'),
-          path.join(process.cwd(), 'node_modules/govuk-frontend/dist'),
-          path.join(process.cwd(), 'node_modules/@ministryofjustice/frontend'),
-          path.join(process.cwd(), 'node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend'),
-        ],
+        loadPaths: [process.cwd(), path.join(process.cwd(), 'node_modules')],
       }),
       typecheckPlugin(),
     ],

@@ -1,5 +1,4 @@
 const { copy } = require('esbuild-plugin-copy')
-const { typecheckPlugin } = require('@jgoz/esbuild-plugin-typecheck')
 const esbuild = require('esbuild')
 const glob = require('glob')
 
@@ -17,7 +16,6 @@ const buildApp = buildConfig => {
     target: 'node20',
     format: 'cjs',
     plugins: [
-      typecheckPlugin(),
       copy({
         resolveFrom: 'cwd',
         assets: buildConfig.app.copy,

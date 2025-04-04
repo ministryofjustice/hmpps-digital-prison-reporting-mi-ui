@@ -3,7 +3,7 @@
 {% from "dpr/components/card-group/view.njk" import dprCardGroup %}
 
 {% block head %}
-  <link href="/assets/css/app.css?{{ version }}" rel="stylesheet"/>
+  <link href="{{ '/assets/css/application.css' | assetMap }}" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   {% if feComponents.jsIncludes %}
@@ -40,19 +40,19 @@
   {# Run JavaScript at end of the
   <body>, to avoid blocking the initial render. #}
 
-  <script type="module" src="/assets/js/app.js"></script>
+  <script type="module" src="{{ '/assets/js/index.js' | assetMap }}"></script>
 
   {# GOVUK #}
-  <script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
-  <script type="module" src="/assets/govukFrontendInit.js"></script>
+  {# <script type="module" src="/assets/govuk/govuk-frontend.min.js"></script>
+  <script type="module" src="/assets/js/govukFrontendInit.js"></script> #}
 
   {# MOJ #}
-  <script src="/assets/moj/all.js"></script>
-  <script type="module" src="/assets/mojFrontendInit.js"></script>
+  {# <script src="/assets/moj/all.js"></script>
+  <script type="module" src="/assets/js/mojFrontendInit.js"></script> #}
   
   {# DPR #}
-  <script type="module" src="/assets/dpr/all.js"></script>
-  <script type="module" src="/assets/dprFrontendInit.js"></script>
+  {# <script type="module" src="/assets/dpr/all.js"></script>
+  <script type="module" src="/assets/js/dprFrontendInit.js"></script> #}
 {% endblock %}
 
 {% block footer %}
