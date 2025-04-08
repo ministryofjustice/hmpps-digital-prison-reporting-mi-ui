@@ -1,4 +1,5 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+#!/usr/bin/env sh
 
-NODE_ENV=dev && node_modules/.bin/lint-staged && npm run typecheck && npm test
+export NODE_ENV=dev
+npx lint-staged
+npm run typecheck

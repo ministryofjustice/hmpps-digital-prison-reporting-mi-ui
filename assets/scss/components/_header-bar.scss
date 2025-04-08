@@ -5,9 +5,11 @@
   &__container {
     @include govuk-responsive-padding(3, 'bottom');
     @include govuk-width-container;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    & {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 
   &__logo {
@@ -25,8 +27,10 @@
     &__organisation-name {
       @include govuk-responsive-margin(2, 'right');
       @include govuk-font($size: 24, $weight: 'bold');
-      display: flex;
-      align-items: center;
+      & {
+        display: flex;
+        align-items: center;
+      }
     }
 
     &__service-name {
@@ -64,8 +68,9 @@
 
     &__sub-text {
       @include govuk-font(16);
-      display: none;
-
+      & {
+       display: none;
+      }
       @include govuk-media-query($from: tablet) {
         display: block;
       }
@@ -87,8 +92,10 @@
 
     &__item {
       @include govuk-font(19);
-      margin-bottom: govuk-spacing(1);
-      text-align: right;
+      & {
+        margin-bottom: govuk-spacing(1);
+        text-align: right;
+      }
 
       @include govuk-media-query($from: tablet) {
         @include govuk-responsive-margin(4, 'right');
@@ -120,14 +127,14 @@
 }
 
 .location-bar {
-  @include govuk-width-container;
-  @include govuk-responsive-margin(3, 'bottom');
-  @include govuk-responsive-padding(3, 'top');
-  @include govuk-responsive-padding(3, 'bottom');
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   border-bottom: 1px solid $govuk-border-colour;
+  @include govuk-width-container;
+  @include govuk-responsive-margin(3, 'bottom');
+  @include govuk-responsive-padding(3, 'top');
+  @include govuk-responsive-padding(3, 'bottom');
 
   &__location {
     @include govuk-font($size: 19, $weight: 'bold');
