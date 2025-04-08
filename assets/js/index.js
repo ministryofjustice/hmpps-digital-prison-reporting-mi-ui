@@ -4,4 +4,4 @@ import * as dprFrontend from '@ministryofjustice/hmpps-digital-prison-reporting-
 
 govukFrontend.initAll()
 mojFrontend.initAll()
-dprFrontend.default()
+dprFrontend.initAll()
