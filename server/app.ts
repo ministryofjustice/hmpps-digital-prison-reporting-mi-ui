@@ -47,7 +47,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(asyncMiddleware(populateDefinitions(services.reportingService)))
-  app.use(asyncMiddleware(populateRequestedReports(services)))
+  app.use(populateRequestedReports(services))
   app.use(populateCurrentPageLocation())
   app.get('*', getFrontendComponents(services.hmppsComponentsService))
 

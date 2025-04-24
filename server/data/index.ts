@@ -8,9 +8,9 @@ import { initialiseAppInsights, buildAppInsightsClient } from '../utils/azureApp
 initialiseAppInsights()
 buildAppInsightsClient()
 
-import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
-import DashboardClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dashboardClient'
-import UserDataStore from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/userDataStore'
+import thing from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportDataStore'
+import initDprReportingClients from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dprReportingClient'
+
 import HmppsAuthClient from './hmppsAuthClient'
 import config from '../config'
 import UserClient from './userClient'
@@ -20,10 +20,8 @@ import { createRedisClient } from './redisClient'
 export const dataAccess = () => ({
   hmppsAuthClient: new HmppsAuthClient(),
   hmppsManageUsersClient: new HmppsManageUsersClient(),
-  reportingClient: new ReportingClient(config.apis.reporting),
-  dashboardClient: new DashboardClient(config.apis.reporting),
   userClient: new UserClient(config.apis.reporting),
-  userDataStore: new UserDataStore(createRedisClient()),
+  ...initDprReportingClients(config.apis.reporting, createRedisClient(), 'userConfig:'),
 })
 
 export { HmppsAuthClient }
