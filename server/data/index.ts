@@ -8,7 +8,6 @@ import { initialiseAppInsights, buildAppInsightsClient } from '../utils/azureApp
 initialiseAppInsights()
 buildAppInsightsClient()
 
-import thing from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportDataStore'
 import initDprReportingClients from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/dprReportingClient'
 
 import HmppsAuthClient from './hmppsAuthClient'
