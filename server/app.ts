@@ -5,6 +5,8 @@ import createError from 'http-errors'
 
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
+import dprPopulateRequestedReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateRequestedReports'
+import dprPopulateDefinitions from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateDefinitions'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import { metricsMiddleware } from './monitoring/metricsApp'
@@ -22,10 +24,8 @@ import siteMaintenanceRedirect from './middleware/siteMaintenanceRedirect'
 import routes from './routes'
 import type { Services } from './services'
 import populateCurrentPageLocation from './middleware/populateCurrentPageLocation'
-import populateDefinitions from './middleware/populateDefinitions'
-import populateRequestedReports from './middleware/populateRequestedReports'
-import asyncMiddleware from './middleware/asyncMiddleware'
 import getFrontendComponents from './middleware/getFrontendComponents'
+import config from './config'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -46,8 +46,8 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpAuthentication())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
-  app.use(asyncMiddleware(populateDefinitions(services.reportingService)))
-  app.use(asyncMiddleware(populateRequestedReports(services)))
+  app.use(dprPopulateRequestedReports(services))
+  app.use(dprPopulateDefinitions(services, config))
   app.use(populateCurrentPageLocation())
   app.get('*', getFrontendComponents(services.hmppsComponentsService))
 

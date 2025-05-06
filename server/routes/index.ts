@@ -1,12 +1,8 @@
 import { type RequestHandler, Router } from 'express'
 
-import addAsyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/asyncReports'
-import addSyncReportingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/syncReports'
-import addBookmarkingRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/bookmarks'
-import addDownloadRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/download'
-import addRecentlyViewedRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/recentlyViewed'
+import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/DprEmbeddedReports'
+import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
 import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
-import ReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/reports-list/utils'
 
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
@@ -28,10 +24,13 @@ export default function routes(services: Services): Router {
   const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
 
   get('/', async (req, res) => {
+    const catalogue = await CatalogueUtils.init({ res, services })
+    const userReportsLists = await UserReportsListUtils.init({ res, req, services })
+
     res.render('pages/home', {
       title: 'Digital Prison Reporting',
-      ...(await UserReportsListUtils.initLists({ res, req, services })),
-      reports: await ReportslistUtils.mapReportsList(res, services),
+      userReportsLists,
+      catalogue,
     })
   })
 
@@ -51,19 +50,13 @@ export default function routes(services: Services): Router {
     res.end(JSON.stringify(applicationInfo))
   })
 
-  const libRouteParams = {
+  addReportingRoutes(router, services)
+
+  DprEmbeddedAsyncReports({
     router,
     services,
     layoutPath: '../../../../../dist/server/views/partials/layout.njk',
-    templatePath: 'dpr/views/',
-  }
-
-  addReportingRoutes(router, services)
-  addAsyncReportingRoutes(libRouteParams)
-  addRecentlyViewedRoutes(libRouteParams)
-  addBookmarkingRoutes(libRouteParams)
-  addDownloadRoutes(libRouteParams)
-  addSyncReportingRoutes(libRouteParams)
+  })
 
   return router
 }
