@@ -5,8 +5,7 @@ import createError from 'http-errors'
 
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
-import dprPopulateRequestedReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateRequestedReports'
-import dprPopulateDefinitions from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/populateDefinitions'
+import setUpDprResources from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import { metricsMiddleware } from './monitoring/metricsApp'
@@ -46,8 +45,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpAuthentication())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
-  app.use(dprPopulateRequestedReports(services))
-  app.use(dprPopulateDefinitions(services, config))
+  app.use(setUpDprResources(services, config.dpr))
   app.use(populateCurrentPageLocation())
   app.get('*', getFrontendComponents(services.hmppsComponentsService))
 

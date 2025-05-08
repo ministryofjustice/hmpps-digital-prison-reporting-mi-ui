@@ -98,5 +98,7 @@ export default {
   definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', 'true', requiredInProduction) === 'true'),
   digitalPrisonServiceUrl: get('DPS_URL', 'http://localhost:3000', requiredInProduction),
   activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
-  dprDataProductDefinitionPath: 'definitions/prisons/dps/activities',
+  dpr: {
+    routePrefix: get('DPR_ROUTE_PREFIX', 'dpr'),
+  },
 }
