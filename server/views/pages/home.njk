@@ -2,7 +2,7 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
-{% from "dpr/components/reports-list/view.njk" import dprReportsList %}
+{% from "dpr/components/_catalogue/catalogue/view.njk" import dprCatalogue %}
 {% from "dpr/components/user-reports/view.njk" import dprUserReports %}
 
 {% set pageTitle = applicationName + " - " + title %}
@@ -12,44 +12,21 @@
   <div class="dpr-heading-wrapper">
     <div class="govuk-width-container">
       <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ title }}</h1>
-      <a href='#reports-catalogue' class='govuk-body govuk-link govuk-link--no-visited-state'>Reports catalogue</a>
+      <a href='#reports-catalogue-section' class='govuk-body govuk-link govuk-link--no-visited-state'>Reports catalogue</a>
     </div>
   </div>
 
   <div id="homepage-widget" class="dpr-reports-widget-wrapper">
     <div class="govuk-width-container">
       <h2 class="govuk-heading-m">My reports<h2>
-        {{ dprUserReports({
-          requestedReports: requestedReports,
-          viewedReports: viewedReports,
-          bookmarks: bookmarks
-        })}}
+        {{ dprUserReports(userReportsLists)}}
     </div>
   </div>
   
 
-  <div id="reports-catalogue" class="dpr-reports-wrapper">
-    <div class="govuk-width-container">
-      <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Report catalogue</h2>
-
-      {% set howToUseHtml %}
-        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Filtering the catalogue</h3>
-        <p class="govuk-body">Filter the report catalogue by typing in the filter input box below. The catalogue will show listings that match your filter by name, description, type and product.</p>
-        
-        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Viewing a report</h3>
-        <p class="govuk-body">Select the name of the report to start a request to view a report.</p>
-
-        <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Bookmarking search criteria</h3>
-        <p class="govuk-body">If you regularly search for specific criteria, you can bookmark this search for quick access. Selecting the bookmark icon will add this search to your bookmarks. All your bookmarks will appear in the <a href="#homepage-widget" class="govuk-link govuk-link--no-visited-state">Bookmarks</a> section on the homepage.</p>
-      {% endset %}
-
-      {{ govukDetails({
-        summaryText: "How to use",
-        html: howToUseHtml
-      }) }}
-
-      {{ dprReportsList(reports.head, reports.rows) }}
-    </div>
+  <div id="reports-catalogue-section" class="govuk-width-container govuk-!-padding-top-7">
+    <h2 class="govuk-heading-l govuk-!-margin-bottom-2">Report catalogue</h2>
+    {{ dprCatalogue(catalogue) }}
   <div>
 </main>
 {% endblock %}
