@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
+import localsHelper from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/localsHelper'
 
 interface ReportMatch {
   reportId: string
@@ -14,7 +15,13 @@ export default (): RequestHandler => {
     res.locals.breadCrumbList = []
 
     if (currentUrl !== '/') {
-      res.locals.breadCrumbList.push({ text: 'Digital Prison Reporting', href: `/${res.locals.pathSuffix}` })
+      const { pathSuffix, dpdPathFromQuery } = localsHelper.getValues(res)
+      const href = dpdPathFromQuery ? `/${pathSuffix}` : '/'
+
+      res.locals.breadCrumbList.push({
+        text: 'Digital Prison Reporting',
+        href,
+      })
 
       if (currentUrl.includes('reports/') || currentUrl.includes('/reports/')) {
         const asyncReportMatch = res.locals.definitions
