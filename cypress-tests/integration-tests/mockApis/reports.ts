@@ -72,7 +72,7 @@ const stubDefinitions = () =>
   stubFor({
     request: {
       method: 'GET',
-      urlPattern: '/reports/definitions\\?renderMethod=HTML&.+',
+      urlPattern: '/reports/definitions\\?renderMethod=HTML',
     },
     response: {
       status: 200,

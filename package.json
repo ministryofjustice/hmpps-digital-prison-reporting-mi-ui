@@ -93,7 +93,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^3.3.1",
-    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.1.26",
+    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.3.0",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.2",
     "@badeball/cypress-cucumber-preprocessor": "^21.0.3",
@@ -186,7 +186,7 @@
     "sass": "^1.83.4",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
-    "typescript": "^5.7"
+    "typescript": "^5.8.3"
   },
   "overrides": {
     "semver": "^7.5.3",

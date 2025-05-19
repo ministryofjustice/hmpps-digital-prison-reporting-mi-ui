@@ -1,8 +1,8 @@
 import type { Express } from 'express'
 import request from 'supertest'
-import UserListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
 import BookmarklistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/bookmarks/utils'
-import ReportslistUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/reports-list/utils'
+import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
+import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
 import { appWithAllRoutes } from './testutils/appSetup'
 
 let app: Express
@@ -11,9 +11,10 @@ beforeEach(() => {
   app = appWithAllRoutes({})
 })
 
-UserListUtils.renderList = jest.fn()
+UserReportsListUtils.renderList = jest.fn()
 BookmarklistUtils.renderBookmarkList = jest.fn()
-ReportslistUtils.mapReportsList = jest.fn()
+CatalogueUtils.init = jest.fn()
+UserReportsListUtils.init = jest.fn()
 
 describe('GET /', () => {
   it('should render index page', () => {
