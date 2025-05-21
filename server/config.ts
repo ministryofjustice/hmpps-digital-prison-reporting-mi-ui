@@ -41,6 +41,11 @@ const apiCommonConfig = {
   systemClientSecret: get('SYSTEM_CLIENT_SECRET', 'clientsecret', requiredInProduction),
 }
 
+const automaticBookmarkConfig = {
+  caseloads: {},
+  staffIds: <string[]>[],
+}
+
 export default {
   production,
   https: production,
@@ -100,5 +105,6 @@ export default {
   activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
   dpr: {
     routePrefix: get('DPR_ROUTE_PREFIX', 'dpr'),
+    automaticBookmarkConfig,
   },
 }
