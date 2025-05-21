@@ -94,7 +94,7 @@
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^21.0.3",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.4",
-    "@ministryofjustice/frontend": "^3.3.1",
+    "@ministryofjustice/frontend": "^5.1.3",
     "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^4.4.0",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.2",
