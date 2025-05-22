@@ -43,7 +43,6 @@ const apiCommonConfig = {
 
 const automaticBookmarkConfig = {
   caseloads: {},
-  staffIds: <string[]>[],
 }
 
 export default {
