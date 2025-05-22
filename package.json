@@ -132,7 +132,7 @@
     "@golevelup/ts-jest": "^0.6.1",
     "@jgoz/esbuild-plugin-typecheck": "^4.0.3",
     "@ministryofjustice/eslint-config-hmpps": "^0.0.1-beta.2",
-    "@tsconfig/node22": "^22.0.0",
+    "@tsconfig/node22": "^22.0.2",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.8",
     "@types/compression": "^1.7.5",
