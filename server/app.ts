@@ -25,6 +25,7 @@ import type { Services } from './services'
 import populateCurrentPageLocation from './middleware/populateCurrentPageLocation'
 import getFrontendComponents from './middleware/getFrontendComponents'
 import config from './config'
+import setUpBookmarks from './middleware/setUpBookmarks'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -45,6 +46,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpAuthentication())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
+  app.use(setUpBookmarks(services))
   app.use(setUpDprResources(services, config.dpr))
   app.use(populateCurrentPageLocation())
   app.get('*', getFrontendComponents(services.hmppsComponentsService))

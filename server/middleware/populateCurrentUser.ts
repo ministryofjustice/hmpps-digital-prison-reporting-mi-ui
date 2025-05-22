@@ -9,6 +9,7 @@ export default function populateCurrentUser(services: Services): RequestHandler 
         const userDetails = res.locals.user && (await services.userService.getUser(res.locals.user.token))
         if (userDetails) {
           req.session.userDetails = userDetails
+          req.session.userInitialised = true
         } else {
           logger.info('No user details retrieved')
         }
