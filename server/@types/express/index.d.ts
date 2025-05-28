@@ -8,6 +8,8 @@ declare module 'express-session' {
     returnTo: string
     nowInMinutes: number
     userDetails: UserDetails
+    userInitialised: boolean
+    bookmarksInitialised: boolean
   }
 }
 
