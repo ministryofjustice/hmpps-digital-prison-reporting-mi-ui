@@ -56,6 +56,19 @@ const automaticBookmarkConfig = {
       { reportId: 'klekjOAAAyY5a9ABUf8AISgXYiw', variantId: '168360.RS' },
       { reportId: 'FntM0gDB4AoA09gQAADHiKAAACJIAGc1', variantId: '167273.RS' },
     ],
+    LEI: [
+      { reportId: 'klefM94AAo2mXAsA_d0AISgWcQA', variantId: '140363.RS' },
+      { reportId: 'FgOVB12wiAIA4WsAAHAbaV8RACJIABRd', variantId: '170509.RS' },
+      { reportId: 'klmMGlYACRbiS7oA7.8AISgWcQA', variantId: '156265.RS' },
+      { reportId: 'klZlXN0ADArqDoIA0f8AISgXYiw', variantId: '157660.RS' },
+      { reportId: 'ok3fdNEAB7CFEmsAIT2D8K7BttM', variantId: '167273.RS' },
+      { reportId: 'ok6qhnsABuK1cdQAR4WD8K7BT6k', variantId: '168720.RS' },
+      { reportId: 'klXDSxkAAQbuAOMA6f8AISgXYiw', variantId: '157447.RS' },
+      { reportId: 'Fs3G41xU4AgAi10AAHALtl8QACJIABRd', variantId: '170110.RS' },
+      { reportId: 'klcQzv4ACdMcH4kBPs8AISgWcQA', variantId: '165912.RS' },
+      { reportId: 'klekjOAAAyY5a9ABUf8AISgXYiw', variantId: '168360.RS' },
+      { reportId: 'FntM0gDB4AoA09gQAADHiKAAACJIAGc1', variantId: '167273.RS' },
+    ],
   },
 }
 
