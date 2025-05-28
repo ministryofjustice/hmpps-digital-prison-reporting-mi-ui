@@ -1,5 +1,3 @@
-import { report } from 'process'
-
 const production = process.env.NODE_ENV === 'production'
 
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
@@ -45,7 +43,7 @@ const apiCommonConfig = {
 
 const automaticBookmarkConfig = {
   caseloads: {
-    KMI: [
+    WCI: [
       { reportId: 'klefM94AAo2mXAsA_d0AISgWcQA', variantId: '140363.RS' },
       { reportId: 'FgOVB12wiAIA4WsAAHAbaV8RACJIABRd', variantId: '170509.RS' },
       { reportId: 'klmMGlYACRbiS7oA7.8AISgWcQA', variantId: '156265.RS' },
