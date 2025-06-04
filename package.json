@@ -173,7 +173,7 @@
     "jest-html-reporter": "^3.10.1",
     "jest-junit": "^16.0.0",
     "jsonwebtoken": "^9.0.1",
-    "lint-staged": "^15.3.0",
+    "lint-staged": "^16.1.0",
     "mocha-junit-reporter": "^2.2.1",
     "nock": "^14.0.4",
     "node-html-parser": "^6.1.12",
