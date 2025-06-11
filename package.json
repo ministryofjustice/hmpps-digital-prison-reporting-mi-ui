@@ -164,7 +164,7 @@
     "jsonwebtoken": "^9.0.1",
     "lint-staged": "^16.1.0",
     "mocha-junit-reporter": "^2.2.1",
-    "nock": "^14.0.4",
+    "nock": "^14.0.5",
     "node-html-parser": "^6.1.12",
     "openapi-typescript": "^7.5.2",
     "prettier": "^3.5.3",
