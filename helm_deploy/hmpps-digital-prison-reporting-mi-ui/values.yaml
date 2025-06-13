@@ -47,7 +47,7 @@ generic-service:
     REDIS_TLS_ENABLED: "true"
     APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
     DEFINITION_PATHS_ENABLED: "false"
-    ACTIVE_ESTABLISHMENTS: "EXI,BNI,LYI,EEI,VEI"
+    ACTIVE_ESTABLISHMENTS: "EXI,BNI,LYI,EEI,VEI,CWI"
     MAINTENANCE_MODE_ENABLED: "false"
     MAINTENANCE_MODE_MESSAGE: ""
 
