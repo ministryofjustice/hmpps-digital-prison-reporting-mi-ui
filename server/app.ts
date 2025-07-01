@@ -49,7 +49,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpBookmarks(services))
   app.use(setUpDprResources(services, config.dpr))
   app.use(populateCurrentPageLocation())
-  app.get('*', getFrontendComponents(services.hmppsComponentsService))
+  app.get('/{*any}', getFrontendComponents(services.hmppsComponentsService))
 
   app.use(routes(services))
   app.use(cookieParser())
