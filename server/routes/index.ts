@@ -56,7 +56,6 @@ export default function routes(services: Services): Router {
     router,
     services,
     layoutPath: '../../../../../dist/server/views/partials/layout.njk',
-    config: config.dpr,
   })
 
   return router
