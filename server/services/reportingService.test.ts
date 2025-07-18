@@ -43,6 +43,7 @@ describe('Reporting service', () => {
           id: 'test-report',
           name: 'Test report',
           variants: [],
+          authorised: false,
         },
       ]
       reportingClient.getDefinitions.mockResolvedValue(expectedResponse)
