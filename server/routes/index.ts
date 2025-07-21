@@ -55,8 +55,7 @@ export default function routes(services: Services): Router {
   addReportingRoutes(router, services)
   const cwd = process.cwd()
   if (!fs.existsSync(cwd)) {
-    console.error(`cwd given does not exist or was not valid`)
-    exit(1)
+    throw Error(`cwd given does not exist or was not valid`)
   }
 
   DprEmbeddedAsyncReports({
