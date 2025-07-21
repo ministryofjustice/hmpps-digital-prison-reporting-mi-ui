@@ -4,7 +4,7 @@ import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-rep
 import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
 import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
 
-import process, { exit } from 'process'
+import process from 'process'
 import fs from 'fs'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
