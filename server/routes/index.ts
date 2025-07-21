@@ -4,6 +4,8 @@ import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-rep
 import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
 import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
 
+import process from 'process'
+import fs from 'fs'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
@@ -51,11 +53,15 @@ export default function routes(services: Services): Router {
   })
 
   addReportingRoutes(router, services)
+  const cwd = process.cwd()
+  if (!fs.existsSync(cwd)) {
+    throw Error(`cwd given does not exist or was not valid`)
+  }
 
   DprEmbeddedAsyncReports({
     router,
     services,
-    layoutPath: '../../../../../../../../dist/server/views/partials/layout.njk',
+    layoutPath: `${cwd}/dist/server/views/partials/layout.njk`,
   })
 
   return router
