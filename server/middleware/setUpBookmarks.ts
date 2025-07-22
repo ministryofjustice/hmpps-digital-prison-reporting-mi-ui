@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import BookmarkUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/bookmarkUtils'
+import BookmarkUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/journeys/my-reports/bookmarks/utils'
 import logger from '../../logger'
 import { Services } from '../services'
 import config from '../config'
