@@ -1,6 +1,6 @@
 import { type RequestHandler, Router } from 'express'
 
-import DprEmbeddedAsyncReports from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes/DprEmbeddedReports'
+import dprPlatformRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes'
 import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
 import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/user-reports/utils'
 
@@ -58,11 +58,13 @@ export default function routes(services: Services): Router {
     throw Error(`cwd given does not exist or was not valid`)
   }
 
-  DprEmbeddedAsyncReports({
-    router,
-    services,
-    layoutPath: `${cwd}/dist/server/views/partials/layout.njk`,
-  })
+  router.use(
+    '/',
+    dprPlatformRoutes({
+      services,
+      layoutPath: `${cwd}/dist/server/views/partials/layout.njk`,
+    }),
+  )
 
   return router
 }
