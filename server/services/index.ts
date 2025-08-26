@@ -6,11 +6,11 @@ import UserService from './userService'
 import HmppsComponentsService from './hmppsComponentsService'
 
 export const services = (): Services => {
-  const { reportingClient, userClient, hmppsManageUsersClient, reportDataStore, dashboardClient } = dataAccess()
+  const { userClient, hmppsManageUsersClient, ...dprClients } = dataAccess()
 
   const userService = new UserService(hmppsManageUsersClient, userClient)
   const hmppsComponentsService = new HmppsComponentsService()
-  const dprServices = createDprServices({ reportingClient, dashboardClient, reportDataStore })
+  const dprServices = createDprServices(dprClients)
 
   return {
     userService,
