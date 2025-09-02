@@ -7,7 +7,7 @@ import config from '../config'
 export default function getFrontendComponents(hmppsComponentsService: HmppsComponentsService): RequestHandler {
   return async (req, res, next) => {
     try {
-      if (res.locals.user.token) {
+      if (res.locals.user) {
         const { header, footer } = await hmppsComponentsService.getComponents(
           ['header', 'footer'],
           res.locals.user.token,
