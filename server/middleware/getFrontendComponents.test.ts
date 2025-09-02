@@ -71,11 +71,7 @@ describe('getFrontendComponents', () => {
 
   it('does not fail when no user is set', async () => {
     const emptyRes = createMock<Response>({
-      locals: {
-        user: {
-          token: null,
-        },
-      },
+      locals: {},
     })
 
     const req = createMock<Request>({})
