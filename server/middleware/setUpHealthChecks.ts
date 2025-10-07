@@ -5,7 +5,7 @@ import healthcheck from '../services/healthCheck'
 export default function setUpHealthChecks(): Router {
   const router = express.Router()
 
-  router.get('/health', (req, res, next) => {
+  router.get('/health', (_req, res, next) => {
     healthcheck(result => {
       if (!result.healthy) {
         res.status(503)
@@ -14,8 +14,7 @@ export default function setUpHealthChecks(): Router {
     })
   })
 
-  // @ts-expect-error Return
-  router.get('/ping', (req, res) =>
+  router.get('/ping', (_req, res) =>
     res.send({
       status: 'UP',
     }),
