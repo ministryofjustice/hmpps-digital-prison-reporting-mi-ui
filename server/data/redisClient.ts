@@ -11,7 +11,6 @@ export const createRedisClient = (): RedisClient => {
     socket: {
       host: config.redis.host,
       port: config.redis.port,
-      tls: config.redis.tls_enabled,
       reconnectStrategy: (attempts: number) => {
         // Exponential back off: 20ms, 40ms, 80ms..., capped to retry every 30 seconds
         const nextDelay = Math.min(2 ** attempts * 20, 30000)
