@@ -52,7 +52,6 @@ const buildAssets = buildConfig => {
         quietDeps: true,
         loadPaths: [process.cwd(), path.join(process.cwd(), 'node_modules')],
       }),
-      typecheckPlugin(),
     ],
   })
 }
