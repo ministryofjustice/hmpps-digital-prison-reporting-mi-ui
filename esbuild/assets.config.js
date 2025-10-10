@@ -4,7 +4,7 @@ const { copy } = require('esbuild-plugin-copy')
 const { sassPlugin } = require('esbuild-sass-plugin')
 const { clean } = require('esbuild-plugin-clean')
 const manifestPlugin = require('esbuild-plugin-manifest')
-const { typecheckPlugin } = require('@jgoz/esbuild-plugin-typecheck')
+
 const esbuild = require('esbuild')
 const { glob } = require('glob')
 
