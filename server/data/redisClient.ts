@@ -9,6 +9,7 @@ export const createRedisClient = (): RedisClient => {
   const client = createClient({
     password: config.redis.password,
     socket: {
+      tls: config.redis.tls_enabled,
       host: config.redis.host,
       port: config.redis.port,
       reconnectStrategy: (attempts: number) => {
