@@ -1,4 +1,4 @@
-import { createClient } from 'redis'
+import { createClient, RedisClientOptions } from 'redis'
 
 import logger from '../../logger'
 import config from '../config'
@@ -6,10 +6,9 @@ import config from '../config'
 export type RedisClient = ReturnType<typeof createClient>
 
 export const createRedisClient = (): RedisClient => {
-  const client = createClient({
+  const commonConfig: RedisClientOptions = {
     password: config.redis.password,
     socket: {
-      tls: config.redis.tls_enabled,
       host: config.redis.host,
       port: config.redis.port,
       reconnectStrategy: (attempts: number) => {
@@ -19,7 +18,24 @@ export const createRedisClient = (): RedisClient => {
         return nextDelay
       },
     },
-  })
+  }
+  const client = createClient(
+    process.env.NODE_ENV === 'development'
+      ? {
+          ...commonConfig,
+          socket: {
+            ...commonConfig.socket,
+            tls: false,
+          },
+        }
+      : {
+          ...commonConfig,
+          socket: {
+            ...commonConfig.socket,
+            tls: true,
+          },
+        },
+  )
 
   client.on('error', (e: Error) => logger.error('Redis client error', e))
 
