@@ -69,6 +69,9 @@ generic-service:
       SYSTEM_CLIENT_SECRET: "system_client_secret"
     hmpps-digital-prison-reporting-mi-ui:
       APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
+    hmpps-digital-prison-reporting-mi-ui-sentry:
+      SENTRY_DSN: "SENTRY_DSN"
+      SENTRY_LOADER_SCRIPT_ID: "SENTRY_LOADER_SCRIPT_ID"
 
   allowlist:
     hmp-parc-1: 217.161.76.162/32

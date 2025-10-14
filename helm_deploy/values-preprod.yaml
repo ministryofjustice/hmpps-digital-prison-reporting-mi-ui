@@ -8,6 +8,7 @@ generic-service:
     host: digital-prison-reporting-mi-ui-preprod.hmpps.service.justice.gov.uk
 
   env:
+    ENVIRONMENT_NAME: "preprod"
     INGRESS_URL: 'https://digital-prison-reporting-mi-ui-preprod.hmpps.service.justice.gov.uk'
     HMPPS_AUTH_URL: 'https://sign-in-preprod.hmpps.service.justice.gov.uk/auth'
     HMPPS_MANAGE_USERS_URL: 'https://manage-users-api-preprod.hmpps.service.justice.gov.uk'
