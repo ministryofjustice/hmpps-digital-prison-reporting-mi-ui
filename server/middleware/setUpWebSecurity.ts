@@ -22,13 +22,15 @@ export default function setUpWebSecurity(): Router {
   // page by an attacker.
   const scriptSrc = ["'self'", (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`]
   const styleSrc = [
-    "'self'",
+    "'self' https://browser.sentry-cdn.com https://js.sentry-cdn.com",
     (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
     'fonts.googleapis.com',
   ]
   const imgSrc = ["'self'", 'data:']
   const fontSrc = ["'self'", 'fonts.gstatic.com']
   const formAction = [`'self' ${config.apis.hmppsAuth.externalUrl} ${config.digitalPrisonServiceUrl}`]
+  const connectSrc = ["'self' https://*.sentry.io"]
+  const workerSrc = ["'self' blob:"]
 
   if (config.apis.frontendComponents.url) {
     scriptSrc.push(config.apis.frontendComponents.url)
@@ -53,6 +55,8 @@ export default function setUpWebSecurity(): Router {
           fontSrc,
           imgSrc,
           formAction,
+          connectSrc,
+          workerSrc,
         },
       },
       crossOriginEmbedderPolicy: true,
