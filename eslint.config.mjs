@@ -1,5 +1,24 @@
 import hmppsConfig from '@ministryofjustice/eslint-config-hmpps'
 
-export default hmppsConfig({
+/**
+ * Eslint linter config object
+ * @typedef { import('eslint').Linter.Config } LinterConfig
+ */
+
+const defaultConfig = hmppsConfig({
   extraIgnorePaths: ['cypress-tests/**'],
 })
+
+/**
+ * @type {LinterConfig}
+ */
+const config = [
+  ...defaultConfig,
+  {
+    rules: {
+      'import/no-named-as-default': 0,
+    },
+  },
+]
+
+export default config
