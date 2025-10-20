@@ -260,7 +260,6 @@ workflows:
           helm_timeout: 5m
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_test
-          env: 'test'
           requires:
             - deploy_test
           context:
@@ -288,7 +287,6 @@ workflows:
           helm_timeout: 5m
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_preprod
-          env: 'preprod'
           requires:
             - deploy_preprod
           context:
@@ -318,7 +316,6 @@ workflows:
           helm_timeout: 5m
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_prod
-          env: 'prod'
           requires:
             - deploy_prod
           context:
