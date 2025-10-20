@@ -140,5 +140,6 @@ export default {
     tracesSampleRate: Number(get('SENTRY_TRACES_SAMPLE_RATE', 0.05)),
     replaySampleRate: Number(get('SENTRY_REPLAY_SAMPLE_RATE', 0.0)),
     replayOnErrorSampleRate: Number(get('SENTRY_REPLAY_ON_ERROR_SAMPLE_RATE', 0.1)),
+    RELEASE_GIT_SHA: process.env.RELEASE_GIT_SHA,
   },
 }

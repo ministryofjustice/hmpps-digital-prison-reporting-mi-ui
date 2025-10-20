@@ -40,6 +40,7 @@ jobs:
             - node_modules
             - ~/.cache
       - run:
+          name: Build and upload new sourcemaps linked to git ref
           command: |
             export GIT_REF="$CIRCLE_SHA1"
             npm run build
@@ -59,6 +60,36 @@ jobs:
             - build
             - dist
             - .cache/Cypress
+
+  update_sentry_git_ref_secret:
+    executor:
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
+    steps:
+      - run:
+          name: Install kubectl and update sentry git ref secret
+          command: |
+            export GIT_REF="$CIRCLE_SHA1"
+
+            # Install kubectl
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
+            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl.sha256"
+            check=$(echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check)
+            if [[ "$check" != "kubectl: OK" ]]; then
+              exit 1
+            fi
+            sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+            # Update the sentry secret to have the git ref in
+            echo -n ${KUBE_ENV_CACERT} | base64 -d > ./ca.crt
+            kubectl config set-cluster ${KUBE_ENV_NAME} --certificate-authority=./ca.crt --server=${KUBE_ENV_API}
+            kubectl config set-credentials circleci --token=$(echo -n ${KUBE_ENV_TOKEN} | base64 -d)
+            kubectl config set-context ${KUBE_ENV_NAME} --cluster=${KUBE_ENV_NAME} --user=circleci --namespace=${KUBE_ENV_NAMESPACE}
+            kubectl config use-context ${KUBE_ENV_NAME}
+            kubectl --namespace=${KUBE_ENV_NAMESPACE} get pods
+            kubectl -n $KUBE_ENV_NAMESPACE get secrets/hmpps-digital-prison-reporting-mi-ui-sentry -o json | jq '.data["RELEASE_GIT_SHA"]="'$(echo -n ${GIT_REF} | base64 -w 0)'"' | kubectl apply -f -
+            rm kubectl  kubectl.sha256 /usr/local/bin/kubectl
+            rm -rf ~/.kube .kube
 
   unit_test:
     executor:
@@ -196,6 +227,13 @@ workflows:
             - integration_test
             - remember-version-for-dev
           helm_timeout: 5m
+      - update_sentry_git_ref_secret:
+          name: update_sentry_git_ref_secret_dev
+          requires:
+            - deploy_dev
+          context:
+            - hmpps-common-vars
+            - hmpps-digital-prison-reporting-mi-dev
       - acceptance_test:
           requires:
             - deploy_dev
@@ -220,6 +258,14 @@ workflows:
           requires:
             - remember-version-for-test
           helm_timeout: 5m
+      - update_sentry_git_ref_secret:
+          name: name: update_sentry_git_ref_secret_test
+          env: 'test'
+          requires:
+            - deploy_test
+          context:
+            - hmpps-common-vars
+            - hmpps-digital-prison-reporting-mi-test
       - request-preprod-approval:
           type: approval
           requires:
@@ -240,6 +286,14 @@ workflows:
           requires:
             - remember-version-for-preprod
           helm_timeout: 5m
+      - update_sentry_git_ref_secret:
+          name: update_sentry_git_ref_secret_preprod
+          env: 'preprod'
+          requires:
+            - deploy_preprod
+          context:
+            - hmpps-common-vars
+            - hmpps-digital-prison-reporting-mi-preprod
       - request-prod-approval:
           type: approval
           requires:
@@ -262,6 +316,14 @@ workflows:
           requires:
             - remember-version-for-prod
           helm_timeout: 5m
+      - update_sentry_git_ref_secret:
+          name: update_sentry_git_ref_secret_prod
+          env: 'prod'
+          requires:
+            - deploy_prod
+          context:
+            - hmpps-common-vars
+            - hmpps-digital-prison-reporting-mi-prod
 
   security:
     triggers:

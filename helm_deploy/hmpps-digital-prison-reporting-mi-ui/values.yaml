@@ -72,6 +72,7 @@ generic-service:
     hmpps-digital-prison-reporting-mi-ui-sentry:
       SENTRY_DSN: "SENTRY_DSN"
       SENTRY_LOADER_SCRIPT_ID: "SENTRY_LOADER_SCRIPT_ID"
+      RELEASE_GIT_SHA: "RELEASE_GIT_SHA"
 
   allowlist:
     hmp-parc-1: 217.161.76.162/32
