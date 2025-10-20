@@ -259,7 +259,7 @@ workflows:
             - remember-version-for-test
           helm_timeout: 5m
       - update_sentry_git_ref_secret:
-          name: name: update_sentry_git_ref_secret_test
+          name: update_sentry_git_ref_secret_test
           env: 'test'
           requires:
             - deploy_test
