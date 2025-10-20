@@ -76,6 +76,7 @@ export default {
   production,
   https: production,
   staticResourceCacheDuration: '1h',
+  environmentName: get('ENVIRONMENT_NAME', 'local'),
   redis: {
     host: get('REDIS_HOST', '127.0.0.1', requiredInProduction),
     port: parseInt(process.env.REDIS_PORT, 10) || 6379,
@@ -132,5 +133,13 @@ export default {
   dpr: {
     routePrefix: get('DPR_ROUTE_PREFIX', 'dpr'),
     automaticBookmarkConfig,
+  },
+  sentry: {
+    dsn: process.env.SENTRY_DSN,
+    loaderScriptId: process.env.SENTRY_LOADER_SCRIPT_ID,
+    tracesSampleRate: Number(get('SENTRY_TRACES_SAMPLE_RATE', 0.05)),
+    replaySampleRate: Number(get('SENTRY_REPLAY_SAMPLE_RATE', 0.0)),
+    replayOnErrorSampleRate: Number(get('SENTRY_REPLAY_ON_ERROR_SAMPLE_RATE', 0.1)),
+    RELEASE_GIT_SHA: process.env.RELEASE_GIT_SHA,
   },
 }

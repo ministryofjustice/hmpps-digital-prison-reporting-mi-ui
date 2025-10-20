@@ -8,6 +8,7 @@ generic-service:
     modsecurity_enabled: false
 
   env:
+    ENVIRONMENT_NAME: "development"
     INGRESS_URL: 'https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk'
     HMPPS_AUTH_URL: 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth'
     HMPPS_MANAGE_USERS_URL: 'https://manage-users-api-dev.hmpps.service.justice.gov.uk'
