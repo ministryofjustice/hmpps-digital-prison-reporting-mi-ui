@@ -88,7 +88,7 @@ jobs:
             kubectl config use-context ${KUBE_ENV_NAME}
             kubectl --namespace=${KUBE_ENV_NAMESPACE} get pods
             kubectl -n $KUBE_ENV_NAMESPACE get secrets/hmpps-digital-prison-reporting-mi-ui-sentry -o json | jq '.data["RELEASE_GIT_SHA"]="'$(echo -n ${GIT_REF} | base64 -w 0)'"' | kubectl apply -f -
-            rm kubectl  kubectl.sha256 /usr/local/bin/kubectl
+            rm -f kubectl  kubectl.sha256 /usr/local/bin/kubectl
             rm -rf ~/.kube .kube
 
   unit_test:
