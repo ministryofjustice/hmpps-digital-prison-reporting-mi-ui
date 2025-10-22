@@ -95,6 +95,10 @@ export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
     defaultClient.context.tags['ai.cloud.role'] = name
     defaultClient.context.tags['ai.application.ver'] = version()
+    defaultClient.addTelemetryProcessor(({ data }) => {
+      const { url } = data.baseData!
+      return !url?.endsWith('/health') && !url?.endsWith('/ping') && !url?.endsWith('/metrics')
+    })
     defaultClient.addTelemetryProcessor(addCustomDataToRequests)
     return defaultClient
   }
