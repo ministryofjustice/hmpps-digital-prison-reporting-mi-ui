@@ -30,6 +30,7 @@ import populateCurrentPageLocation from './middleware/populateCurrentPageLocatio
 import getFrontendComponents from './middleware/getFrontendComponents'
 import config from './config'
 import setUpBookmarks from './middleware/setUpBookmarks'
+import { appInsightsMiddleware } from './utils/azureAppInsights'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -39,6 +40,7 @@ export default function createApp(services: Services): express.Application {
   app.set('port', process.env.PORT || 3000)
 
   app.use(sentryMiddleware())
+  app.use(appInsightsMiddleware())
 
   // @ts-expect-error Return type defined for promBundle() is inconsistent with Express middleware type definitions
   app.use(metricsMiddleware)

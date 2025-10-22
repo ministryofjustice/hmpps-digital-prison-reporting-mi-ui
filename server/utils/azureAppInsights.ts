@@ -1,10 +1,21 @@
-import { setup, defaultClient, TelemetryClient, DistributedTracingModes, Contracts } from 'applicationinsights'
+/* eslint no-param-reassign: 0 */
+
+import {
+  setup,
+  defaultClient,
+  TelemetryClient,
+  DistributedTracingModes,
+  Contracts,
+  getCorrelationContext,
+} from 'applicationinsights'
 import { EnvelopeTelemetry } from 'applicationinsights/out/Declarations/Contracts'
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import {
   RecentlyViewedReport,
   RequestedReport,
 } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/UserReports'
+import { RequestHandler, Request } from 'express'
+import { v4 } from 'uuid'
 import applicationVersion from '../applicationVersion'
 import Dict = NodeJS.Dict
 
@@ -25,7 +36,19 @@ export type ContextObject = {
   [name: string]: any
 }
 
-const getCustomData = (params: Dict<string>, query: Dict<string>, body: Dict<string>, locals: Dict<any>) => {
+type CustomData = {
+  username: string
+  activeCaseLoadId: string
+  product?: string
+  reportName?: string
+  page?: number | string
+}
+const getCustomData = (
+  params: Dict<string>,
+  query: Request['query'],
+  body: Dict<string>,
+  locals: Dict<any>,
+): CustomData | object => {
   if (locals.user) {
     const { username, activeCaseLoadId } = locals.user
     const selectedPage = query ? query.selectedPage : null
@@ -75,7 +98,7 @@ const getCustomData = (params: Dict<string>, query: Dict<string>, body: Dict<str
       activeCaseLoadId,
       product: reportName,
       reportName: variantName,
-      page: selectedPage ? Number(selectedPage) : null,
+      page: selectedPage ? Number(selectedPage) : '',
     }
   }
 
@@ -91,6 +114,68 @@ export function initialiseAppInsights(): void {
   }
 }
 
+export function appInsightsMiddleware(): RequestHandler {
+  return (req, res, next) => {
+    res.prependOnceListener('finish', () => {
+      const context = getCorrelationContext()
+      if (context) {
+        if (req.route) {
+          context.customProperties.setProperty('operationName', `${req.method} ${req.route?.path}`)
+          context.customProperties.setProperty('operationId', v4())
+        }
+        const customData = getCustomData(req.params, req.query, req.body, res.locals)
+        Object.entries(customData).forEach(([k, v]) => context.customProperties.setProperty(k, String(v)))
+      }
+    })
+    next()
+  }
+}
+
+function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: Record<string, unknown> | undefined) {
+  const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
+  if (isRequest) {
+    const { username, activeCaseLoad } =
+      (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.user || {}
+    if (username) {
+      const properties = envelope.data.baseData?.properties
+      envelope.data.baseData ??= {}
+      envelope.data.baseData.properties = {
+        username,
+        activeCaseLoadId: activeCaseLoad?.caseLoadId,
+        ...properties,
+      }
+    }
+  }
+  return true
+}
+
+const addQueryDataToRequests = ({ tags, data }: EnvelopeTelemetry, contextObjects: { [name: string]: any }) => {
+  const customProperties = contextObjects?.correlationContext?.customProperties
+  const operationNameOverride = customProperties?.getProperty('operationName')
+  const usernameOverride = customProperties?.getProperty('username')
+  const activeCaseLoadIdOverride = customProperties?.getProperty('activeCaseLoadId')
+  const productOverride = customProperties?.getProperty('product')
+  const reportNameOverride = customProperties?.getProperty('reportName')
+  const pageOverride = customProperties?.getProperty('page')
+  if (operationNameOverride && tags) {
+    tags['ai.operation.name'] = operationNameOverride
+    tags['ai.operation.username'] = usernameOverride
+    tags['ai.operation.activecaseloadid'] = activeCaseLoadIdOverride
+    tags['ai.operation.product'] = productOverride
+    tags['ai.operation.report_name'] = reportNameOverride
+    tags['ai.operation.page'] = pageOverride
+    if (data?.baseData) {
+      data.baseData.name = operationNameOverride
+      data.baseData.username = usernameOverride
+      data.baseData.activecaseloadid = activeCaseLoadIdOverride
+      data.baseData.product = productOverride
+      data.baseData.report_name = reportNameOverride
+      data.baseData.page = pageOverride
+    }
+  }
+  return true
+}
+
 export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
     defaultClient.context.tags['ai.cloud.role'] = name
@@ -99,29 +184,9 @@ export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
       const { url } = data.baseData!
       return !url?.endsWith('/health') && !url?.endsWith('/ping') && !url?.endsWith('/metrics')
     })
-    defaultClient.addTelemetryProcessor(addCustomDataToRequests)
+    defaultClient.addTelemetryProcessor(addUserDataToRequests)
+    defaultClient.addTelemetryProcessor(addQueryDataToRequests)
     return defaultClient
   }
   return null
-}
-
-export function addCustomDataToRequests(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {
-  const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
-  if (isRequest) {
-    const customData = getCustomData(
-      contextObjects?.['http.ServerRequest'].params,
-      contextObjects?.['http.ServerRequest'].query,
-      contextObjects?.['http.ServerRequest'].body,
-      contextObjects?.['http.ServerResponse'].locals,
-    )
-    if (customData) {
-      const { properties } = envelope.data.baseData
-      // eslint-disable-next-line no-param-reassign
-      envelope.data.baseData.properties = {
-        ...properties,
-        ...customData,
-      }
-    }
-  }
-  return true
 }
