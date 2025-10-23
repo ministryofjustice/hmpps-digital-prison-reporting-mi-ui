@@ -120,7 +120,7 @@ export function appInsightsMiddleware(): RequestHandler {
       const context = getCorrelationContext()
       if (context) {
         if (req.route) {
-          context.customProperties.setProperty('operationName', `${req.method} ${req.route?.path.replace(',', '|')}`)
+          context.customProperties.setProperty('operationName', `${req.method} ${req.route?.path?.replace(',', '|')}`)
           context.customProperties.setProperty('operationId', v4())
         }
         const customData = getCustomData(req.params, req.query, req.body, res.locals)
