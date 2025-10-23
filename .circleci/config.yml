@@ -40,11 +40,10 @@ jobs:
             - node_modules
             - ~/.cache
       - run:
-          name: Build and upload new sourcemaps linked to git ref
+          name: Build
           command: |
             export GIT_REF="$CIRCLE_SHA1"
             npm run build
-            npm run sentry:sourcemaps -- -r $GIT_REF
             DATE=$(date '+%Y-%m-%d')
             export BUILD_NUMBER=${DATE}.${CIRCLE_BUILD_NUM}
             npm run record-build-info
