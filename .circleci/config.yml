@@ -200,6 +200,7 @@ workflows:
       - hmpps/build_docker:
           name: build_docker
           additional_docker_tag: 'Build.${CIRCLE_SHA1}'
+          additional_docker_build_args: --secret id=sentry,env=SENTRY_AUTH_TOKEN
           filters:
             branches:
               only:
