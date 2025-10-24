@@ -18,4 +18,4 @@ generic-service:
     DPS_URL: 'https://dps.prison.service.justice.gov.uk'
 
 generic-prometheus-alerts:
-  alertSeverity: digital-prison-reporting-prod
+  alertSeverity: dpr-alerts-prod-alert
