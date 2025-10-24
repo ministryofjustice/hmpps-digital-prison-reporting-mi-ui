@@ -45,7 +45,7 @@ RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
 RUN npm prune --no-audit --omit=dev
 RUN apt-get update && apt-get install -y ca-certificates
 
-RUN --mount=type=secret,id=sentry SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry) npm run sentry:sourcemaps -- -r ${GIT_REF}
+RUN --mount=type=secret,id=sentry if [[ "$SENTRY_AUTH_TOKEN" != "" ]]; then SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry) npm run sentry:sourcemaps -- -r ${GIT_REF} --auth-token=$SENTRY_AUTH_TOKEN; fi
 
 # Stage: copy production assets and dependencies
 FROM base
