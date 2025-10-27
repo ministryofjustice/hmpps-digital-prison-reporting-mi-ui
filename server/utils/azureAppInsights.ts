@@ -114,13 +114,30 @@ export function initialiseAppInsights(): void {
   }
 }
 
+const getStringifiedPath = (req: Request) => {
+  if (req?.route?.path instanceof Array) {
+    return req.route?.path.join('|')
+  }
+  // instanceof doesnt work on Strings
+  if (typeof req?.route?.path === 'string') {
+    return req.route.path
+  }
+  // Just in case it's something else weird
+  return JSON.stringify(req?.route?.path)
+}
+
 export function appInsightsMiddleware(): RequestHandler {
   return (req, res, next) => {
     res.prependOnceListener('finish', () => {
       const context = getCorrelationContext()
       if (context) {
         if (req.route) {
-          context.customProperties.setProperty('operationName', `${req.method} ${req.route?.path?.replace(',', '|')}`)
+          // This can be either a string or an array usually
+          const path = getStringifiedPath(req)
+          context.customProperties.setProperty(
+            'operationName',
+            `${req.method} ${path?.replace(',', '|').replace('=', '$eq')}`,
+          )
           context.customProperties.setProperty('operationId', v4())
         }
         const customData = getCustomData(req.params, req.query, req.body, res.locals)
