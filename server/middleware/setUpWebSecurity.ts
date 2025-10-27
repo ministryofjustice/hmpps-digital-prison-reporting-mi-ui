@@ -33,7 +33,7 @@ export default function setUpWebSecurity(): Router {
   const fontSrc = ["'self'", 'fonts.gstatic.com']
   const formAction = [`'self' ${config.apis.hmppsAuth.externalUrl} ${config.digitalPrisonServiceUrl}`]
   const connectSrc = [
-    "'self' https://*.sentry.io https://northeurope-0.in.applicationinsights.azure.com https://js.monitor.azure.com",
+    "'self' https://*.sentry.io https://browser.sentry-cdn.com https://northeurope-0.in.applicationinsights.azure.com https://js.monitor.azure.com",
   ]
   const workerSrc = ["'self' blob:"]
 
