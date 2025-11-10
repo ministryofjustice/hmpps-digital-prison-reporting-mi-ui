@@ -42,7 +42,7 @@
     <script nonce="{{ cspNonce }}">
       window.sentryOnLoad = function() {
         Sentry.init({
-          release: "hmpps-digital-prison-reporting-mi-ui@{{ version }}",
+          release: "{{ sentry.release }}",
           environment: "{{ sentry.environment }}",
           tracesSampleRate: {{ sentry.tracesSampleRate }},
           replaysSessionSampleRate: {{ sentry.replaySampleRate }},

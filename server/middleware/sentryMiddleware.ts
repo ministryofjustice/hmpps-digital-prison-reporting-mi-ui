@@ -6,6 +6,7 @@ export default function sentryMiddleware(): RequestHandler {
   return (_req, res, next) => {
     res.locals.sentry = {
       ...config.sentry,
+      ...(config.sentry.RELEASE_GIT_SHA && { release: config.sentry.RELEASE_GIT_SHA }),
       environment: config.environmentName,
     }
     return next()
