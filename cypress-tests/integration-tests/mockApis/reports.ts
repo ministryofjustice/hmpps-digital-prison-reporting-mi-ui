@@ -97,6 +97,33 @@ const stubDefinitions = () =>
     },
   })
 
+const stubDefinitionExternalMovements = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/reports/definitions/external-movements',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body:
+        '  {\n' +
+        '    "id": "external-movements",\n' +
+        '    "name": "External Movements",\n' +
+        '    "description": "Reports about prisoner external movements",\n' +
+        '    "variants": [\n' +
+        '      {\n' +
+        '        "id": "last-month",\n' +
+        '        "name": "Last month",\n' +
+        '        "description": "All movements in the past month"\n' +
+        '      }\n' +
+        '    ]\n' +
+        '  }',
+    },
+  })
+
 const stubDefinition = () =>
   stubFor({
     request: {
@@ -228,10 +255,27 @@ const stubUserCaseload = () =>
     },
   })
 
+const stubProductCollections = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/reports/productCollections',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: '[]',
+    },
+  })
+
 export default {
   stubExternalMovementsCount,
   stubExternalMovements,
   stubDefinitions,
   stubDefinition,
   stubUserCaseload,
+  stubProductCollections,
+  stubDefinitionExternalMovements,
 }
