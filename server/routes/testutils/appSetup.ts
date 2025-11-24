@@ -5,7 +5,6 @@ import path from 'path'
 
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
-import RestClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/restClient'
 import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
 import errorHandler from '../../errorHandler'
