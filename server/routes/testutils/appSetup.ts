@@ -5,6 +5,7 @@ import path from 'path'
 
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
+import RestClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/restClient'
 import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
 import errorHandler from '../../errorHandler'
@@ -51,8 +52,9 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
 }
 
 const reportingClient: jest.Mocked<ReportingClient> = {
-  getFieldValues: undefined,
-  getListWithWarnings: undefined,
+  getFieldValues: jest.fn(),
+  getListWithWarnings: jest.fn(),
+  getDefinitionSummary: jest.fn(),
   restClient: undefined,
   getList: jest.fn().mockResolvedValue([
     {

@@ -166,7 +166,10 @@ function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: Reco
   return true
 }
 
-const addQueryDataToRequests = ({ tags, data }: EnvelopeTelemetry, contextObjects: { [name: string]: any }) => {
+const addQueryDataToRequests = (
+  { tags, data }: EnvelopeTelemetry,
+  contextObjects: { [name: string]: any } | undefined,
+) => {
   const customProperties = contextObjects?.correlationContext?.customProperties
   const operationNameOverride = customProperties?.getProperty('operationName')
   const usernameOverride = customProperties?.getProperty('username')
@@ -193,7 +196,7 @@ const addQueryDataToRequests = ({ tags, data }: EnvelopeTelemetry, contextObject
   return true
 }
 
-export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
+export function buildAppInsightsClient(name = defaultName()): TelemetryClient | null {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
     defaultClient.context.tags['ai.cloud.role'] = name
     defaultClient.context.tags['ai.application.ver'] = version()

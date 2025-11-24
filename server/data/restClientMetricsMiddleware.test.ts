@@ -38,7 +38,7 @@ describe('restClientMetricsMiddleware', () => {
       const requestHistogramLabelsSpy = jest.spyOn(requestHistogram, 'labels').mockReturnValue(requestHistogram)
       const requestHistogramStartSpy = jest.spyOn(requestHistogram, 'observe')
 
-      let code: number
+      let code: number = 500
 
       await superagent
         .get('https://httpbin.org/')

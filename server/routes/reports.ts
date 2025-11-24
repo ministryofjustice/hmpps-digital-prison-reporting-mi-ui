@@ -13,7 +13,7 @@ export default function routes(router: Router, services: Services) {
   const getReportDefinition = (
     definitions: Array<components['schemas']['ReportDefinitionSummary']>,
     reportName: string,
-  ): components['schemas']['ReportDefinitionSummary'] => {
+  ): components['schemas']['ReportDefinitionSummary'] | null => {
     const reportDefinition = definitions.find(
       (d: components['schemas']['ReportDefinitionSummary']) => d.id === reportName,
     )
@@ -35,11 +35,12 @@ export default function routes(router: Router, services: Services) {
     } else {
       const { token } = res.locals.user
       services.reportingService
-        .getDefinition(token, req.params.report, req.params.variant, getDefinitionsPath(req.query))
+        .getDefinition(token, req.params.report, req.params.variant, getDefinitionsPath(req.query) || undefined)
         .then((fullDefinition: components['schemas']['SingleVariantReportDefinition']) => {
           const { resourceName } = fullDefinition.variant
+          const template = fullDefinition.variant.specification?.template
 
-          switch (fullDefinition.variant.specification.template) {
+          switch (template) {
             case 'list':
               ReportListUtils.renderListWithData({
                 title: fullDefinition.variant.name,
@@ -57,7 +58,7 @@ export default function routes(router: Router, services: Services) {
               break
 
             default:
-              next(createError(500, `Unrecognised template: ${fullDefinition.variant.specification.template}`))
+              next(createError(500, `Unrecognised template: ${template}`))
           }
         })
     }

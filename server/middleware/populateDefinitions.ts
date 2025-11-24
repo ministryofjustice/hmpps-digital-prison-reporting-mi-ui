@@ -4,12 +4,12 @@ import type { ParsedQs } from 'qs'
 import { getDefinitionsPath } from '../utils/utils'
 import config from '../config'
 
-const deriveDefinitionsPath = (query: ParsedQs): string | null => {
+const deriveDefinitionsPath = (query: ParsedQs): string | undefined => {
   const definitionsPath = getDefinitionsPath(query)
   if (definitionsPath && config.definitionPathsEnabled) {
     return definitionsPath
   }
-  return null
+  return undefined
 }
 
 export default (service: ReportingService): RequestHandler => {
