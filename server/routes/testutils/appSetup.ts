@@ -51,8 +51,9 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
 }
 
 const reportingClient: jest.Mocked<ReportingClient> = {
-  getFieldValues: undefined,
-  getListWithWarnings: undefined,
+  getFieldValues: jest.fn(),
+  getListWithWarnings: jest.fn(),
+  getDefinitionSummary: jest.fn(),
   restClient: undefined,
   getList: jest.fn().mockResolvedValue([
     {
@@ -196,6 +197,10 @@ const requestedReportService = {
   getAllReports: jest.fn().mockResolvedValue(Promise.resolve([])),
 }
 
+const downloadPermissionService = {
+  enabled: true,
+}
+
 export function appWithAllRoutes({
   production = false,
   services = {},
@@ -209,6 +214,7 @@ export function appWithAllRoutes({
 
   const servicesWithMissingMocked: Services = {
     ...services,
+    downloadPermissionService: services.downloadPermissionService ?? downloadPermissionService,
     reportingService: services.reportingService ?? new ReportingService(reportingClient),
     requestedReportService: services.requestedReportService ?? requestedReportService,
   } as Services

@@ -1,4 +1,4 @@
-import superagent from 'superagent'
+import superagent, { ResponseError } from 'superagent'
 import Agent, { HttpsAgent } from 'agentkeepalive'
 import { Readable } from 'stream'
 
@@ -9,7 +9,7 @@ import type { UnsanitisedError } from '../sanitisedError'
 import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
 
 interface GetRequest {
-  path?: string
+  path?: string | null
   query?: object
   headers?: Record<string, string>
   responseType?: string
@@ -17,7 +17,7 @@ interface GetRequest {
 }
 
 interface PostRequest {
-  path?: string
+  path?: string | null
   headers?: Record<string, string>
   responseType?: string
   data?: Record<string, unknown>
@@ -25,7 +25,7 @@ interface PostRequest {
 }
 
 interface StreamRequest {
-  path?: string
+  path?: string | null
   headers?: Record<string, string>
   errorLogger?: (e: UnsanitisedError) => void
 }
@@ -68,7 +68,7 @@ export default class RestClient {
 
       return raw ? result : result.body
     } catch (error) {
-      const sanitisedError = sanitiseError(error)
+      const sanitisedError = sanitiseError(<ResponseError>error)
       logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'GET'`)
       throw sanitisedError
     }
@@ -99,7 +99,7 @@ export default class RestClient {
 
       return raw ? result : result.body
     } catch (error) {
-      const sanitisedError = sanitiseError(error)
+      const sanitisedError = sanitiseError(<ResponseError>error)
       logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: 'POST'`)
       throw sanitisedError
     }

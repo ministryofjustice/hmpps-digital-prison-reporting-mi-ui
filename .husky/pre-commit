@@ -2,4 +2,4 @@
 
 export NODE_ENV=dev
 npx lint-staged
-# npm run typecheck
+npm run typecheck

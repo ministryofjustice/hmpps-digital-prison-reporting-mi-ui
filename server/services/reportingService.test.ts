@@ -1,7 +1,8 @@
 import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
 import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
-import ReportingService from './reportingService'
+import ReportQuery from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/ReportQuery'
 import Dict = NodeJS.Dict
+import ReportingService from './reportingService'
 
 jest.mock('@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient')
 
@@ -9,8 +10,15 @@ describe('Reporting service', () => {
   let reportingClient: jest.Mocked<ReportingClient>
   let reportingService: ReportingService
 
+  const mockConfig = {
+    url: '',
+    agent: {
+      timeout: 0,
+    },
+  }
+
   beforeEach(() => {
-    reportingClient = new ReportingClient(null) as jest.Mocked<ReportingClient>
+    reportingClient = new ReportingClient(mockConfig) as jest.Mocked<ReportingClient>
     reportingService = new ReportingService(reportingClient)
   })
 
@@ -19,7 +27,7 @@ describe('Reporting service', () => {
       const expectedCount = 456
       reportingClient.getCount.mockResolvedValue(expectedCount)
 
-      const result = await reportingService.getCount(null, null, null)
+      const result = await reportingService.getCount('resource', 'token', {} as unknown as ReportQuery)
 
       expect(result).toEqual(expectedCount)
     })
@@ -30,7 +38,7 @@ describe('Reporting service', () => {
       const expectedResponse: Array<Dict<string>> = [{ test: 'true' }]
       reportingClient.getList.mockResolvedValue(expectedResponse)
 
-      const result = await reportingService.getList(null, null, null)
+      const result = await reportingService.getList('resource', 'token', {} as unknown as ReportQuery)
 
       expect(result).toEqual(expectedResponse)
     })
@@ -48,7 +56,7 @@ describe('Reporting service', () => {
       ]
       reportingClient.getDefinitions.mockResolvedValue(expectedResponse)
 
-      const result = await reportingService.getDefinitions(null)
+      const result = await reportingService.getDefinitions('null')
 
       expect(result).toEqual(expectedResponse)
     })
