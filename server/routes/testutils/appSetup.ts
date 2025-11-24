@@ -198,6 +198,10 @@ const requestedReportService = {
   getAllReports: jest.fn().mockResolvedValue(Promise.resolve([])),
 }
 
+const downloadPermissionService = {
+  enabled: true,
+}
+
 export function appWithAllRoutes({
   production = false,
   services = {},
@@ -211,6 +215,7 @@ export function appWithAllRoutes({
 
   const servicesWithMissingMocked: Services = {
     ...services,
+    downloadPermissionService: services.downloadPermissionService ?? downloadPermissionService,
     reportingService: services.reportingService ?? new ReportingService(reportingClient),
     requestedReportService: services.requestedReportService ?? requestedReportService,
   } as Services
