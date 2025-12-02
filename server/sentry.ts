@@ -7,5 +7,6 @@ if (config.sentry.dsn) {
     dsn: config.sentry.dsn,
     environment: config.environmentName,
     tracesSampleRate: config.sentry.tracesSampleRate,
+    integrations: [Sentry.httpIntegration({ spans: false })],
   })
 }

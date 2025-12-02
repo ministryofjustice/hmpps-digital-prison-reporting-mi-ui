@@ -185,12 +185,12 @@ const addQueryDataToRequests = (
     tags['ai.operation.report_name'] = reportNameOverride
     tags['ai.operation.page'] = pageOverride
     if (data?.baseData) {
-      data.baseData.name = operationNameOverride
-      data.baseData.username = usernameOverride
-      data.baseData.activecaseloadid = activeCaseLoadIdOverride
-      data.baseData.product = productOverride
-      data.baseData.report_name = reportNameOverride
-      data.baseData.page = pageOverride
+      data.baseData.properties.name = operationNameOverride
+      data.baseData.properties.username = usernameOverride
+      data.baseData.properties.activeCaseloadId = activeCaseLoadIdOverride
+      data.baseData.properties.product = productOverride
+      data.baseData.properties.report_name = reportNameOverride
+      data.baseData.properties.page = pageOverride
     }
   }
   return true
