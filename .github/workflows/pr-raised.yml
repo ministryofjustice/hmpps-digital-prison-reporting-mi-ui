@@ -22,8 +22,10 @@ jobs:
           check-latest: true
           node-version: 22.4.x
 
+      - name: Update npm to v11
+        run: npm install npm@11 -g
       - run: npm run setup --no-audit
-
+        name: Install dependencies
       - name: Add linting fixes
         run: npm run lint:fix
 

@@ -19,6 +19,9 @@ jobs:
           check-latest: true
           node-version: "lts/*"
 
+      - name: Update npm to v11
+        run: npm install npm@11 -g
+
       - name: Get version
         id: get-version
         run: |
