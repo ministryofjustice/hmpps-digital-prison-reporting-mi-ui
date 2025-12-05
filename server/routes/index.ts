@@ -1,4 +1,4 @@
-import { type RequestHandler, Router } from 'express'
+import { Router } from 'express'
 
 import dprPlatformRoutes from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/routes'
 import CatalogueUtils from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/components/_catalogue/catalogue/utils'
@@ -6,24 +6,13 @@ import UserReportsListUtils from '@ministryofjustice/hmpps-digital-prison-report
 
 import process from 'process'
 import fs from 'fs'
-import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
-import config from '../config'
-
-interface ServiceActiveAgencies {
-  app: string
-  activeAgencies: string[]
-}
-
-const applicationInfo: ServiceActiveAgencies = {
-  app: 'Digital Prison Reporting',
-  activeAgencies: config.activeEstablishments,
-}
+import { routerGet } from './routerGet'
 
 export default function routes(services: Services): Router {
   const router = Router()
-  const get = (path: string | string[], handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
+  const get = routerGet(router)
 
   get('/', async (req, res) => {
     const catalogue = await CatalogueUtils.init({ res, services })
@@ -34,22 +23,6 @@ export default function routes(services: Services): Router {
       userReportsLists,
       catalogue,
     })
-  })
-
-  get('/maintenance', (req, res) => {
-    if (config.maintenanceMode.enabled) {
-      res.render('pages/maintenance', {
-        title: 'Site Maintenance',
-        description: config.maintenanceMode.message,
-      })
-    } else {
-      res.redirect('/')
-    }
-  })
-
-  get('/info', (req, res) => {
-    res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(applicationInfo))
   })
 
   addReportingRoutes(router, services)
