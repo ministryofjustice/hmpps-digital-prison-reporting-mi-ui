@@ -31,6 +31,7 @@ import getFrontendComponents from './middleware/getFrontendComponents'
 import config from './config'
 import setUpBookmarks from './middleware/setUpBookmarks'
 import { appInsightsMiddleware } from './utils/azureAppInsights'
+import { unauthorisedRoutes } from './routes/unauthorisedRoutes'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -55,6 +56,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpAuthentication())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
+  app.use(unauthorisedRoutes())
   app.use(setUpBookmarks(services))
   app.use(setUpDprResources(services, config.dpr))
   app.use(populateCurrentPageLocation())
@@ -64,7 +66,7 @@ export default function createApp(services: Services): express.Application {
   app.use(cookieParser())
   app.use(bodyParser.json())
 
-  app.use((req, res, next) => next(createError(404, 'Not found')))
+  app.use((_req, _res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))
 
   return app
