@@ -23,7 +23,8 @@
     "int-test-ui": "cypress open",
     "clean": "rm -rf dist build node_modules stylesheets",
     "acceptance-test": "cypress run --config-file cypress-tests/acceptance-tests/cypress.config.js",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org ministryofjustice --project digital-prison-reporting-mi-ui ./dist ./node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend && sentry-cli sourcemaps upload --org ministryofjustice --project digital-prison-reporting-mi-ui ./dist ./node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org ministryofjustice --project digital-prison-reporting-mi-ui ./dist ./node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend && sentry-cli sourcemaps upload --org ministryofjustice --project digital-prison-reporting-mi-ui ./dist ./node_modules/@ministryofjustice/hmpps-digital-prison-reporting-frontend",
+    "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "engines": {
     "node": "^22",
@@ -122,6 +123,7 @@
     "@golevelup/ts-jest": "^0.6.1",
     "@jgoz/esbuild-plugin-typecheck": "^4.0.3",
     "@ministryofjustice/eslint-config-hmpps": "^0.0.1-beta.2",
+    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
     "@tsconfig/node22": "^22.0.2",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.8",
