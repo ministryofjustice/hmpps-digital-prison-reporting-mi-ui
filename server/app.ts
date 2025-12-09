@@ -2,6 +2,7 @@ import express from 'express'
 
 import path from 'path'
 import createError from 'http-errors'
+import process from 'process'
 
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
@@ -34,6 +35,8 @@ import { appInsightsMiddleware } from './utils/azureAppInsights'
 import { unauthorisedRoutes } from './routes/unauthorisedRoutes'
 
 export default function createApp(services: Services): express.Application {
+  const cwd = process.cwd()
+  const layoutPath = `${cwd}/dist/server/views/partials/layout.njk`
   const app = express()
 
   app.set('json spaces', 2)
@@ -58,10 +61,10 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCurrentUser(services))
   app.use(unauthorisedRoutes())
   app.use(setUpBookmarks(services))
-  app.use(setUpDprResources(services, config.dpr))
+  app.use(setUpDprResources(services, layoutPath, config.dpr))
   app.use(populateCurrentPageLocation())
   app.use(getFrontendComponents(services.hmppsComponentsService))
-  app.use(routes(services))
+  app.use(routes(services, layoutPath))
   if (config.sentry.dsn) Sentry.setupExpressErrorHandler(app)
   app.use(cookieParser())
   app.use(bodyParser.json())

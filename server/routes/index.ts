@@ -10,7 +10,7 @@ import type { Services } from '../services'
 import addReportingRoutes from './reports'
 import { routerGet } from './routerGet'
 
-export default function routes(services: Services): Router {
+export default function routes(services: Services, layoutPath: string): Router {
   const router = Router()
   const get = routerGet(router)
 
@@ -35,7 +35,7 @@ export default function routes(services: Services): Router {
     '/',
     dprPlatformRoutes({
       services,
-      layoutPath: `${cwd}/dist/server/views/partials/layout.njk`,
+      layoutPath,
     }),
   )
 
