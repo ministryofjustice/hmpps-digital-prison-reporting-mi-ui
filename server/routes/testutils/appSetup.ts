@@ -2,6 +2,7 @@ import express, { Express } from 'express'
 import cookieSession from 'cookie-session'
 import createError from 'http-errors'
 import path from 'path'
+import process from 'process'
 
 import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
 import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
@@ -28,6 +29,8 @@ export const user = {
 export const flashProvider = jest.fn()
 
 function appSetup(services: Services, production: boolean, userSupplier: () => Express.User): Express {
+  const cwd = process.cwd()
+  const layoutPath = `${cwd}/dist/server/views/partials/layout.njk`
   const app = express()
 
   app.set('view engine', 'njk')
@@ -45,7 +48,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
   app.use(asyncMiddleware(populateDefinitions(services.reportingService)))
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use(routes(services))
+  app.use(routes(services, layoutPath))
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(production))
 
@@ -53,7 +56,6 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
 }
 
 const reportingClient: jest.Mocked<ReportingClient> = {
-  getFieldValues: jest.fn(),
   getListWithWarnings: jest.fn(),
   getDefinitionSummary: jest.fn(),
   restClient: undefined,
