@@ -4,9 +4,10 @@ import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-repor
 import { dataAccess } from '../data'
 import UserService from './userService'
 import HmppsComponentsService from './hmppsComponentsService'
+import { FeatureFlagService } from './featureFlagService'
 
 export const services = (): Services => {
-  const { userClient, hmppsManageUsersClient, ...dprClients } = dataAccess()
+  const { userClient, hmppsManageUsersClient, featureFlagService, ...dprClients } = dataAccess()
 
   const userService = new UserService(hmppsManageUsersClient, userClient)
   const hmppsComponentsService = new HmppsComponentsService()
@@ -23,6 +24,7 @@ export const services = (): Services => {
   return {
     userService,
     hmppsComponentsService,
+    featureFlagService,
     ...dprServices,
   }
 }
@@ -30,6 +32,7 @@ export const services = (): Services => {
 export type Services = dprServicesType & {
   hmppsComponentsService: HmppsComponentsService
   userService: UserService
+  featureFlagService: FeatureFlagService
 }
 
 export { UserService }

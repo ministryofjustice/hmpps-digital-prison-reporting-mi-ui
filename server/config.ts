@@ -1,3 +1,5 @@
+import { FeatureFlagConfig } from './services/featureFlagService'
+
 const production = process.env.NODE_ENV === 'production'
 
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
@@ -142,4 +144,9 @@ export default {
     replayOnErrorSampleRate: Number(get('SENTRY_REPLAY_ON_ERROR_SAMPLE_RATE', 0.1)),
     RELEASE_GIT_SHA: process.env.RELEASE_GIT_SHA,
   },
+  featureFlagConfig: {
+    namespace: get('FLIPT_NAMESPACE', null, requiredInProduction),
+    token: get('FLIPT_API_TOKEN', null, requiredInProduction),
+    url: get('FLIPT_URL', 'http://localhost:9090/featureFlags', requiredInProduction),
+  } as FeatureFlagConfig,
 }

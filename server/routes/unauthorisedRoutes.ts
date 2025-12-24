@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { routerGet } from './routerGet'
 import config from '../config'
+import { FeatureFlagService } from '../services/featureFlagService'
 
 interface ServiceActiveAgencies {
   app: string
@@ -12,7 +13,7 @@ const applicationInfo: ServiceActiveAgencies = {
   activeAgencies: config.activeEstablishments,
 }
 
-export const unauthorisedRoutes = () => {
+export const unauthorisedRoutes = (featureFlagService: FeatureFlagService) => {
   const router = Router()
   const get = routerGet(router)
 
@@ -27,9 +28,21 @@ export const unauthorisedRoutes = () => {
     }
   })
 
-  get('/info', (_req, res) => {
+  get('/info', async (_req, res) => {
+    const info = {
+      ...applicationInfo,
+    }
+    const activePrionsEvaluation = featureFlagService.enabled
+      ? await featureFlagService.evaluateFlag('activeEstablishments', 'VARIANT_FLAG_TYPE')
+      : undefined
+    if (activePrionsEvaluation) {
+      const activePrisons = JSON.parse(activePrionsEvaluation.variantAttachment) as string[]
+      if (activePrisons && activePrisons.length > info.activeAgencies.length) {
+        info.activeAgencies = activePrisons
+      }
+    }
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(applicationInfo))
+    res.end(JSON.stringify(info))
   })
 
   return router

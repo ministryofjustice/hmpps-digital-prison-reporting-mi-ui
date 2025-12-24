@@ -14,6 +14,7 @@ import { Services } from '../../services'
 import populateDefinitions from '../../middleware/populateDefinitions'
 import asyncMiddleware from '../../middleware/asyncMiddleware'
 import { unauthorisedRoutes } from '../unauthorisedRoutes'
+import { FeatureFlagService } from '../../services/featureFlagService'
 
 export const user = {
   firstName: 'first',
@@ -44,7 +45,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
     res.locals.user = { ...req.user }
     next()
   })
-  app.use(unauthorisedRoutes())
+  app.use(unauthorisedRoutes(services.featureFlagService))
   app.use(asyncMiddleware(populateDefinitions(services.reportingService)))
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
@@ -54,6 +55,8 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
 
   return app
 }
+
+const featureFlagService = new FeatureFlagService()
 
 const reportingClient: jest.Mocked<ReportingClient> = {
   getListWithWarnings: jest.fn(),
@@ -221,6 +224,7 @@ export function appWithAllRoutes({
     downloadPermissionService: services.downloadPermissionService ?? downloadPermissionService,
     reportingService: services.reportingService ?? new ReportingService(reportingClient),
     requestedReportService: services.requestedReportService ?? requestedReportService,
+    featureFlagService: services.featureFlagService ?? featureFlagService,
   } as Services
 
   return appSetup(servicesWithMissingMocked, production, userSupplier)

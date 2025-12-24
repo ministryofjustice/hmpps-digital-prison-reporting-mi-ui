@@ -14,12 +14,14 @@ import config from '../config'
 import UserClient from './userClient'
 import HmppsManageUsersClient from './hmppsManageUsersClient'
 import { createRedisClient } from './redisClient'
+import { FeatureFlagService } from '../services/featureFlagService'
 
 export const dataAccess = () => ({
   hmppsAuthClient: new HmppsAuthClient(),
   hmppsManageUsersClient: new HmppsManageUsersClient(),
   userClient: new UserClient(config.apis.reporting),
   ...initDprReportingClients(config.apis.reporting, createRedisClient(), 'userConfig:'),
+  featureFlagService: new FeatureFlagService(config.featureFlagConfig),
 })
 
 export { HmppsAuthClient }
