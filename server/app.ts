@@ -59,7 +59,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpAuthentication())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
-  app.use(unauthorisedRoutes())
+  app.use(unauthorisedRoutes(services.featureFlagService))
   app.use(setUpBookmarks(services))
   app.use(setUpDprResources(services, layoutPath, config.dpr))
   app.use(populateCurrentPageLocation())
