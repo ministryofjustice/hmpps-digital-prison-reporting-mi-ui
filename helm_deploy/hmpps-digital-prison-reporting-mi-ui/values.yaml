@@ -74,9 +74,9 @@ generic-service:
       SENTRY_LOADER_SCRIPT_ID: "SENTRY_LOADER_SCRIPT_ID"
       RELEASE_GIT_SHA: "RELEASE_GIT_SHA"
     flipt:
-      API_KEY: "FLIPT_API_KEY"
-      NAMESPACE: "FLIPT_NAMESPACE"
-      URL: "FLIPT_URL"
+      FLIPT_API_KEY: "API_KEY"
+      FLIPT_NAMESPACE: "NAMESPACE"
+      FLIPT_URL: "URL"
 
   allowlist:
     hmp-parc-1: 217.161.76.162/32
