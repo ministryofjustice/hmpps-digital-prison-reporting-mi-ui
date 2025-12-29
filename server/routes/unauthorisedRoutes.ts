@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { captureException } from '@sentry/node'
 import { routerGet } from './routerGet'
 import config from '../config'
 import { FeatureFlagService } from '../services/featureFlagService'
@@ -33,7 +34,9 @@ export const unauthorisedRoutes = (featureFlagService: FeatureFlagService) => {
       ...applicationInfo,
     }
     const activePrionsEvaluation = featureFlagService.enabled
-      ? await featureFlagService.evaluateFlag('activeEstablishments', 'VARIANT_FLAG_TYPE')
+      ? await featureFlagService.evaluateFlag('activeEstablishments', 'VARIANT_FLAG_TYPE').catch(e => {
+          captureException(e)
+        })
       : undefined
     if (activePrionsEvaluation) {
       const activePrisons = JSON.parse(activePrionsEvaluation.variantAttachment) as string[]
