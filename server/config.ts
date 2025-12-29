@@ -146,7 +146,7 @@ export default {
   },
   featureFlagConfig: {
     namespace: get('FLIPT_NAMESPACE', null, requiredInProduction),
-    token: get('FLIPT_API_TOKEN', null, requiredInProduction),
+    token: get('FLIPT_API_KEY', null, requiredInProduction),
     url: get('FLIPT_URL', 'http://localhost:9090/featureFlags', requiredInProduction),
   } as FeatureFlagConfig,
 }
