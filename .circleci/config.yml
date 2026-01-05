@@ -106,7 +106,7 @@ jobs:
     executor:
       name: hmpps/node_redis
       node_tag: << pipeline.parameters.node-version >>
-      redis_tag: "7.0"
+      redis_tag: '7.0'
     steps:
       - checkout
       - attach_workspace:
@@ -144,7 +144,7 @@ jobs:
     executor:
       name: hmpps/node_redis
       node_tag: << pipeline.parameters.node-version >>
-      redis_tag: "7.0"
+      redis_tag: '7.0'
     circleci_ip_ranges: true
     steps:
       - checkout
@@ -175,7 +175,7 @@ jobs:
     steps:
       - mem/remember:
           env_var: APP_VERSION
-          value: "Build.${CIRCLE_SHA1}"
+          value: 'Build.${CIRCLE_SHA1}'
 
 workflows:
   version: 2
@@ -195,7 +195,7 @@ workflows:
           name: helm_lint
       - hmpps/build_docker:
           name: build_docker
-          additional_docker_tag: "Build.${CIRCLE_SHA1}"
+          additional_docker_tag: 'Build.${CIRCLE_SHA1}'
           additional_docker_build_args: --secret id=sentry,env=SENTRY_AUTH_TOKEN
           filters:
             branches:
@@ -207,7 +207,7 @@ workflows:
             - build_docker
       - hmpps/deploy_env:
           name: deploy_dev
-          env: "dev"
+          env: 'dev'
           jira_update: true
           release_name: PROJECT_NAME_ENV_NAME
           context:
@@ -245,7 +245,7 @@ workflows:
             - request-test-approval
       - hmpps/deploy_env:
           name: deploy_test
-          env: "test"
+          env: 'test'
           jira_update: true
           release_name: PROJECT_NAME_ENV_NAME
           context:
@@ -271,7 +271,7 @@ workflows:
             - request-preprod-approval
       - hmpps/deploy_env:
           name: deploy_preprod
-          env: "preprod"
+          env: 'preprod'
           jira_update: true
           jira_env_type: staging
           release_name: PROJECT_NAME_ENV_NAME
@@ -298,7 +298,7 @@ workflows:
             - request-prod-approval
       - hmpps/deploy_env:
           name: deploy_prod
-          env: "prod"
+          env: 'prod'
           jira_update: true
           jira_env_type: production
           slack_notification: true
