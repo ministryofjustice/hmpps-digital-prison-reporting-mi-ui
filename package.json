@@ -92,7 +92,7 @@
     "@sentry/node": "^10.27.0",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.2",
-    "body-parser": "^2.2.0",
+    "body-parser": "^2.2.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
     "chokidar": "^3.6.0",
