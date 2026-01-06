@@ -87,7 +87,7 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.5",
     "@flipt-io/flipt": "1.5.0",
     "@ministryofjustice/frontend": "^6.0.0",
-    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "4.23.2",
+    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "4.24.0",
     "@sentry/cli": "^2.56.1",
     "@sentry/node": "^10.27.0",
     "agentkeepalive": "^4.6.0",
