@@ -1,7 +1,6 @@
 import { Services as dprServicesType } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/Services'
 import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/CreateDprServices'
 
-import { FeatureFlagService as LibFeatureFlagService } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/featureFlagService'
 import { dataAccess } from '../data'
 import UserService from './userService'
 import HmppsComponentsService from './hmppsComponentsService'
