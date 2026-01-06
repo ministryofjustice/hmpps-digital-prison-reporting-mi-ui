@@ -22,7 +22,7 @@ type FlagTypeEvaluationResponseMap = {
       : never
 }
 
-export class FeatureFlagService {
+export class AppFeatureFlagService {
   restClient: FliptClient | undefined
 
   namespace: string | undefined

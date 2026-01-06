@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import nunjucks from 'nunjucks'
+import nunjucks, { Environment } from 'nunjucks'
 import express from 'express'
 import fs from 'fs'
 import * as pathModule from 'path'
@@ -10,7 +10,7 @@ import logger from '../../logger'
 
 const production = process.env.NODE_ENV === 'production'
 
-export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): void {
+export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): Environment {
   app.set('view engine', 'njk')
 
   app.locals.asset_path = '/assets/'
@@ -56,4 +56,5 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
   njkEnv.addFilter('assetMap', (url: string) => assetManifest[url] || url)
 
   setUpNunjucksFilters(njkEnv)
+  return njkEnv
 }

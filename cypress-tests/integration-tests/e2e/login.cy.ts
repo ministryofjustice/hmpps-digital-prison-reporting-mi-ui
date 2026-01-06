@@ -69,4 +69,14 @@ context('SignIn', () => {
 
     indexPage.headerUserName().contains('B. Brown')
   })
+
+  it('Should cause an error message to be displayed signing in with invalid credentials', () => {
+    cy.visit(`/?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest`)
+    const page = Page.verifyOnPage(AuthSignInPage)
+    page.usernameInput().type('Invalid user')
+    page.passwordInput().type('Invalid password')
+    page.signInButton().click()
+    Page.verifyOnPage(AuthSignInPage)
+    cy.contains('Enter a valid username and password')
+  })
 })
