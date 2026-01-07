@@ -19,12 +19,7 @@ export const services = (): Services => {
     missingReports: true,
     saveDefaults: true,
   }
-  const dprServices = createDprServices(
-    {
-      ...dprClients,
-    },
-    serviceConfig,
-  )
+  const dprServices = createDprServices(dprClients, serviceConfig)
 
   return {
     userService,
