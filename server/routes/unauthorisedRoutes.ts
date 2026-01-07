@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { captureException } from '@sentry/node'
 import { routerGet } from './routerGet'
 import config from '../config'
-import { FeatureFlagService } from '../services/featureFlagService'
+import { AppFeatureFlagService } from '../services/featureFlagService'
 
 interface ServiceActiveAgencies {
   app: string
@@ -14,7 +14,7 @@ const applicationInfo: ServiceActiveAgencies = {
   activeAgencies: config.activeEstablishments,
 }
 
-export const unauthorisedRoutes = (featureFlagService: FeatureFlagService) => {
+export const unauthorisedRoutes = (featureFlagService: AppFeatureFlagService) => {
   const router = Router()
   const get = routerGet(router)
 
