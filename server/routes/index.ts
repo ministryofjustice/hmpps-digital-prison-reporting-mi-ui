@@ -39,7 +39,7 @@ export default function routes(services: Services, layoutPath: string): Router {
     }),
   )
 
-  router.use('/accessibility-statement', async (req, res) => {
+  router.use('/accessibility-statement', (req, res) => {
     res.render('pages/accessibility-statement')
   })
 
