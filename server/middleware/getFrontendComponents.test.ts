@@ -78,7 +78,7 @@ describe('getFrontendComponents', () => {
 
     await getFrontendComponents(hmppsComponentsService)(req, emptyRes, next)
 
-    expect(hmppsComponentsService.getComponents).toBeCalledTimes(0)
+    expect(hmppsComponentsService.getComponents).toHaveBeenCalledTimes(0)
     expect(next).toHaveBeenCalled()
   })
 })
