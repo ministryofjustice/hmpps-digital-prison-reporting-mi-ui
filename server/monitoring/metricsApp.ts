@@ -21,7 +21,6 @@ function metricsPort(): number {
 function createMetricsApp(): express.Application {
   const metricsApp = express()
 
-  // @ts-expect-error Return
   metricsApp.use(metricsMiddleware.metricsMiddleware)
   metricsApp.set('port', metricsPort())
   return metricsApp

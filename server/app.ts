@@ -5,7 +5,6 @@ import createError from 'http-errors'
 import process from 'process'
 
 import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
 import setUpDprResources from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
 import * as Sentry from '@sentry/node'
 import nunjucksSetup from './utils/nunjucksSetup'
@@ -44,10 +43,11 @@ export default function createApp(services: Services): express.Application {
   app.set('port', process.env.PORT || 3000)
   app.set('query parser', 'extended')
 
+  app.use(express.json())
+
   app.use(sentryMiddleware())
   app.use(appInsightsMiddleware())
 
-  // @ts-expect-error Return type defined for promBundle() is inconsistent with Express middleware type definitions
   app.use(metricsMiddleware)
   app.use(setUpHealthChecks())
   app.use(setUpWebSecurity())
@@ -67,7 +67,6 @@ export default function createApp(services: Services): express.Application {
   app.use(routes(services, layoutPath))
   if (config.sentry.dsn) Sentry.setupExpressErrorHandler(app)
   app.use(cookieParser())
-  app.use(bodyParser.json())
 
   app.use((_req, _res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))
