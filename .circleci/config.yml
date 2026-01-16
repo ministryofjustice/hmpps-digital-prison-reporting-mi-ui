@@ -197,10 +197,6 @@ workflows:
           name: build_docker
           additional_docker_tag: 'Build.${CIRCLE_SHA1}'
           additional_docker_build_args: --secret id=sentry,env=SENTRY_AUTH_TOKEN
-          filters:
-            branches:
-              only:
-                - main
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -213,10 +209,6 @@ workflows:
           context:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-dev
-          filters:
-            branches:
-              only:
-                - main
           requires:
             - helm_lint
             - unit_test
