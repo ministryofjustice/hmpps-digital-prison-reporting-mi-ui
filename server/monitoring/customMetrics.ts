@@ -151,4 +151,3 @@ export const applicationErrorsCounter = new promClient.Counter({
   help: 'Total number of application errors',
   labelNames: ['type', 'statusCode'],
 })
-

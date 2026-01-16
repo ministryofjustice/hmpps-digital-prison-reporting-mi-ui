@@ -30,4 +30,3 @@ export {
   // Error metrics
   applicationErrorsCounter,
 } from './customMetrics'
-
