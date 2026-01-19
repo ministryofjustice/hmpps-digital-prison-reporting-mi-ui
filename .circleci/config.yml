@@ -208,7 +208,7 @@ workflows:
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_dev
           requires:
-            - deploy_dev
+            - remember-version-for-dev
           context:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-dev
