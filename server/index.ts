@@ -3,6 +3,9 @@ import { createMetricsApp } from './monitoring/metricsApp'
 import createApp from './app'
 import { services } from './services'
 
+// Import custom metrics to ensure they're registered with prom-client
+import './monitoring/customMetrics'
+
 promClient.collectDefaultMetrics()
 
 const app = createApp(services())

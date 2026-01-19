@@ -40,6 +40,12 @@ generic-service:
     httpGet:
       path: /ping
 
+  custommetrics:
+    enabled: true
+    scrapeInterval: 15s
+    metricsPath: /metrics
+    metricsPort: 3001
+
   # Environment variables to load into the deployment
   env:
     NODE_ENV: "production"
@@ -82,9 +88,9 @@ generic-service:
     hmp-parc-1: 217.161.76.162/32
     hmp-parc-2: 217.161.76.154/32
     groups:
-      - internal
-      - prisons
-      - private_prisons
+    - internal
+    - prisons
+    - private_prisons
 
 generic-prometheus-alerts:
   targetApplication: hmpps-digital-prison-reporting-mi-ui
