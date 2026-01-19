@@ -151,3 +151,149 @@ export const applicationErrorsCounter = new promClient.Counter({
   help: 'Total number of application errors',
   labelNames: ['type', 'statusCode'],
 })
+
+// ============================================================================
+// Async Report Metrics
+// ============================================================================
+
+/**
+ * Counter for async report requests
+ * Labels: reportId, variantId, status ('requested', 'completed', 'failed', 'cancelled')
+ */
+export const asyncReportRequestsCounter = new promClient.Counter({
+  name: 'dpr_ui_async_report_requests_total',
+  help: 'Total number of async report requests',
+  labelNames: ['reportId', 'variantId', 'status'],
+})
+
+/**
+ * Gauge for currently running async reports
+ */
+export const asyncReportsInProgressGauge = new promClient.Gauge({
+  name: 'dpr_ui_async_reports_in_progress',
+  help: 'Number of async reports currently in progress',
+})
+
+/**
+ * Histogram for async report completion time
+ * Labels: reportId, variantId
+ */
+export const asyncReportDurationHistogram = new promClient.Histogram({
+  name: 'dpr_ui_async_report_duration_seconds',
+  help: 'Time taken for async reports to complete',
+  buckets: [5, 10, 30, 60, 120, 300, 600, 1800],
+  labelNames: ['reportId', 'variantId'],
+})
+
+// ============================================================================
+// Establishment/Caseload Metrics
+// ============================================================================
+
+/**
+ * Counter for report views by establishment
+ * Labels: establishmentId, reportId
+ */
+export const reportViewsByEstablishmentCounter = new promClient.Counter({
+  name: 'dpr_ui_report_views_by_establishment_total',
+  help: 'Total report views by establishment/caseload',
+  labelNames: ['establishmentId', 'reportId'],
+})
+
+/**
+ * Gauge for active users by establishment
+ * Labels: establishmentId
+ */
+export const activeUsersByEstablishmentGauge = new promClient.Gauge({
+  name: 'dpr_ui_active_users_by_establishment',
+  help: 'Number of active users by establishment',
+  labelNames: ['establishmentId'],
+})
+
+// ============================================================================
+// API Backend Metrics
+// ============================================================================
+
+/**
+ * Counter for API calls by service
+ * Labels: service (e.g., 'reporting-api', 'hmpps-auth', 'manage-users'), status
+ */
+export const apiCallsByServiceCounter = new promClient.Counter({
+  name: 'dpr_ui_api_calls_by_service_total',
+  help: 'Total API calls by backend service',
+  labelNames: ['service', 'status'],
+})
+
+/**
+ * Histogram for API response times by service
+ * Labels: service, endpoint
+ */
+export const apiResponseTimeHistogram = new promClient.Histogram({
+  name: 'dpr_ui_api_response_time_seconds',
+  help: 'API response times by service',
+  buckets: [0.1, 0.25, 0.5, 1, 2, 5, 10],
+  labelNames: ['service', 'endpoint'],
+})
+
+// ============================================================================
+// Report Catalog Metrics
+// ============================================================================
+
+/**
+ * Gauge for total number of available reports
+ */
+export const availableReportsGauge = new promClient.Gauge({
+  name: 'dpr_ui_available_reports',
+  help: 'Number of reports available in the catalog',
+})
+
+/**
+ * Counter for catalog/home page views
+ */
+export const catalogViewsCounter = new promClient.Counter({
+  name: 'dpr_ui_catalog_views_total',
+  help: 'Total number of catalog/home page views',
+})
+
+/**
+ * Counter for report searches
+ * Labels: hasResults ('true', 'false')
+ */
+export const reportSearchCounter = new promClient.Counter({
+  name: 'dpr_ui_report_searches_total',
+  help: 'Total number of report searches',
+  labelNames: ['hasResults'],
+})
+
+// ============================================================================
+// Frontend Components Metrics
+// ============================================================================
+
+/**
+ * Counter for frontend component load events
+ * Labels: component ('header', 'footer'), status ('success', 'failure')
+ */
+export const frontendComponentLoadCounter = new promClient.Counter({
+  name: 'dpr_ui_frontend_component_loads_total',
+  help: 'Total frontend component load attempts',
+  labelNames: ['component', 'status'],
+})
+
+// ============================================================================
+// Maintenance Mode Metrics
+// ============================================================================
+
+/**
+ * Gauge for maintenance mode status (1 = enabled, 0 = disabled)
+ */
+export const maintenanceModeGauge = new promClient.Gauge({
+  name: 'dpr_ui_maintenance_mode_enabled',
+  help: 'Whether maintenance mode is enabled (1) or disabled (0)',
+})
+
+/**
+ * Counter for requests blocked by maintenance mode
+ */
+export const maintenanceModeBlockedCounter = new promClient.Counter({
+  name: 'dpr_ui_maintenance_mode_blocked_total',
+  help: 'Total requests blocked by maintenance mode',
+})

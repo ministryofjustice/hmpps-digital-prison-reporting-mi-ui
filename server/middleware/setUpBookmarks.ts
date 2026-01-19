@@ -3,6 +3,7 @@ import BookmarkUtils from '@ministryofjustice/hmpps-digital-prison-reporting-fro
 import logger from '../../logger'
 import { Services } from '../services'
 import config from '../config'
+import { bookmarkActionsCounter, sessionEventsCounter } from '../monitoring/customMetrics'
 
 export default function setUpBookmarks(services: Services): RequestHandler {
   return async (req, res, next) => {
@@ -19,6 +20,11 @@ export default function setUpBookmarks(services: Services): RequestHandler {
           services,
           automaticBookmarkConfig.caseloads,
         )
+
+        // Record bookmark auto-initialization
+        bookmarkActionsCounter.labels('auto_init').inc()
+        // Record new session with bookmarks initialized
+        sessionEventsCounter.labels('created').inc()
       }
       req.session.bookmarksInitialised = true
       return next()

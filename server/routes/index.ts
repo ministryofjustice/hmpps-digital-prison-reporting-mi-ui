@@ -9,6 +9,7 @@ import fs from 'fs'
 import type { Services } from '../services'
 import addReportingRoutes from './reports'
 import { routerGet } from './routerGet'
+import { catalogViewsCounter, availableReportsGauge } from '../monitoring/customMetrics'
 
 export default function routes(services: Services, layoutPath: string): Router {
   const router = Router()
@@ -17,6 +18,14 @@ export default function routes(services: Services, layoutPath: string): Router {
   get('/', async (req, res) => {
     const catalogue = await CatalogueUtils.init({ res, services })
     const userReportsLists = await UserReportsListUtils.init({ res, services })
+
+    // Record catalog view
+    catalogViewsCounter.inc()
+
+    // Update available reports gauge from definitions
+    if (res.locals.definitions) {
+      availableReportsGauge.set(res.locals.definitions.length)
+    }
 
     res.render('pages/home', {
       title: 'Digital Prison Reporting',

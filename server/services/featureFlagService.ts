@@ -7,6 +7,7 @@ import {
   VariantEvaluationResponse,
 } from '@flipt-io/flipt'
 import { Application } from 'express'
+import { featureFlagEvaluationsCounter } from '../monitoring/customMetrics'
 
 export interface FeatureFlagConfig {
   namespace: string
@@ -95,5 +96,10 @@ export const isBooleanFlagEnabled = (flagName: string, app: Application): boolea
   if (flag && flag.type !== 'BOOLEAN_FLAG_TYPE') {
     throw Error('Tried to validate whether a non-boolean flag was enabled')
   }
-  return !flag || flag.enabled
+  const isEnabled = !flag || flag.enabled
+
+  // Record feature flag evaluation
+  featureFlagEvaluationsCounter.labels(flagName, isEnabled ? 'enabled' : 'disabled').inc()
+
+  return isEnabled
 }

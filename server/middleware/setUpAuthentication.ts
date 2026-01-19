@@ -5,6 +5,7 @@ import flash from 'connect-flash'
 import * as Sentry from '@sentry/node'
 import config from '../config'
 import auth from '../authentication/auth'
+import { authEventsCounter, sessionEventsCounter } from '../monitoring/customMetrics'
 
 const router = express.Router()
 
@@ -17,6 +18,7 @@ export default function setUpAuth(): Router {
 
   router.get('/autherror', (req, res) => {
     res.status(401)
+    authEventsCounter.labels('login_failure').inc()
     return res.render('autherror')
   })
 
@@ -34,6 +36,8 @@ export default function setUpAuth(): Router {
 
   router.use('/sign-out', (req, res, next) => {
     if (req.user) {
+      authEventsCounter.labels('logout').inc()
+      sessionEventsCounter.labels('destroyed').inc()
       req.logout(err => {
         if (err) return next(err)
         return req.session.destroy(() => res.redirect(authSignOutUrl))
