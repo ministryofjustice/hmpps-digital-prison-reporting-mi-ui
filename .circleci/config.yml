@@ -205,6 +205,13 @@ workflows:
           name: remember-version-for-dev
           requires:
             - build_docker
+      - update_sentry_git_ref_secret:
+          name: update_sentry_git_ref_secret_dev
+          requires:
+            - remember-version-for-dev
+          context:
+            - hmpps-common-vars
+            - hmpps-digital-prison-reporting-mi-dev
       - hmpps/deploy_env:
           name: deploy_dev
           env: 'dev'
@@ -222,14 +229,8 @@ workflows:
             - unit_test
             - integration_test
             - remember-version-for-dev
+            - update_sentry_git_ref_secret_dev
           helm_timeout: 5m
-      - update_sentry_git_ref_secret:
-          name: update_sentry_git_ref_secret_dev
-          requires:
-            - deploy_dev
-          context:
-            - hmpps-common-vars
-            - hmpps-digital-prison-reporting-mi-dev
       - acceptance_test:
           requires:
             - deploy_dev
@@ -243,6 +244,13 @@ workflows:
           name: remember-version-for-test
           requires:
             - request-test-approval
+      - update_sentry_git_ref_secret:
+          name: update_sentry_git_ref_secret_test
+          requires:
+            - remember-version-for-test
+          context:
+            - hmpps-common-vars
+            - hmpps-digital-prison-reporting-mi-test
       - hmpps/deploy_env:
           name: deploy_test
           env: 'test'
@@ -252,15 +260,8 @@ workflows:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-test
           requires:
-            - remember-version-for-test
+            - update_sentry_git_ref_secret_test
           helm_timeout: 5m
-      - update_sentry_git_ref_secret:
-          name: update_sentry_git_ref_secret_test
-          requires:
-            - deploy_test
-          context:
-            - hmpps-common-vars
-            - hmpps-digital-prison-reporting-mi-test
       - request-preprod-approval:
           type: approval
           requires:
@@ -269,6 +270,13 @@ workflows:
           name: remember-version-for-preprod
           requires:
             - request-preprod-approval
+      - update_sentry_git_ref_secret:
+          name: update_sentry_git_ref_secret_preprod
+          requires:
+            - remember-version-for-preprod
+          context:
+            - hmpps-common-vars
+            - hmpps-digital-prison-reporting-mi-preprod
       - hmpps/deploy_env:
           name: deploy_preprod
           env: 'preprod'
@@ -279,15 +287,8 @@ workflows:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-preprod
           requires:
-            - remember-version-for-preprod
+            - update_sentry_git_ref_secret_preprod
           helm_timeout: 5m
-      - update_sentry_git_ref_secret:
-          name: update_sentry_git_ref_secret_preprod
-          requires:
-            - deploy_preprod
-          context:
-            - hmpps-common-vars
-            - hmpps-digital-prison-reporting-mi-preprod
       - request-prod-approval:
           type: approval
           requires:
@@ -296,6 +297,13 @@ workflows:
           name: remember-version-for-prod
           requires:
             - request-prod-approval
+      - update_sentry_git_ref_secret:
+          name: update_sentry_git_ref_secret_prod
+          requires:
+            - remember-version-for-prod
+          context:
+            - hmpps-common-vars
+            - hmpps-digital-prison-reporting-mi-prod
       - hmpps/deploy_env:
           name: deploy_prod
           env: 'prod'
@@ -308,12 +316,5 @@ workflows:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-prod
           requires:
-            - remember-version-for-prod
+            - update_sentry_git_ref_secret_prod
           helm_timeout: 5m
-      - update_sentry_git_ref_secret:
-          name: update_sentry_git_ref_secret_prod
-          requires:
-            - deploy_prod
-          context:
-            - hmpps-common-vars
-            - hmpps-digital-prison-reporting-mi-prod
