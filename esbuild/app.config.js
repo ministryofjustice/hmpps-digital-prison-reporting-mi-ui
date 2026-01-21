@@ -11,6 +11,7 @@ const buildApp = buildConfig => {
     entryPoints: glob.sync(buildConfig.app.entryPoints),
     outdir: buildConfig.app.outDir,
     bundle: false,
+    minify: buildConfig.isProduction,
     sourcemap: true,
     platform: 'node',
     target: 'node20',
