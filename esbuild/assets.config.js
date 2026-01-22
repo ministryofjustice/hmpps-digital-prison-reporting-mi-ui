@@ -34,7 +34,7 @@ const buildAssets = buildConfig => {
     outdir: buildConfig.assets.outDir,
     entryNames: '[ext]/[name].[hash]',
     minify: buildConfig.isProduction,
-    sourcemap: !buildConfig.isProduction,
+    sourcemap: true,
     platform: 'browser',
     target: 'es2020',
     external: ['/assets/*'],
