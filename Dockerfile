@@ -31,6 +31,7 @@ RUN apt-get update && \
         apt-get install -y make python g++
 
 COPY package*.json ./
+COPY .allowed-scripts.mjs ./
 RUN CYPRESS_INSTALL_BINARY=0 npm run setup --no-audit
 ENV NODE_ENV='production'
 
@@ -44,6 +45,8 @@ RUN npm run record-build-info
 RUN apt-get update && apt-get install -y ca-certificates
 
 ENV RELEASE_GIT_SHA=${GIT_REF}
+RUN echo $RELEASE_GIT_SHA
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN echo $SENTRY_AUTH_TOKEN
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN npm run sentry:login && npm run sentry:sourcemaps
 RUN npm prune --no-audit --omit=dev
 # Stage: copy production assets and dependencies
