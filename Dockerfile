@@ -3,7 +3,6 @@ FROM node:24.12-bullseye-slim as base
 
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=not-available
-
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
 ENV TZ=Europe/London
@@ -38,15 +37,15 @@ ENV NODE_ENV='production'
 COPY . .
 RUN npm run build
 
-RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
-        export GIT_REF=${GIT_REF} && \
-        npm run record-build-info
+ENV BUILD_NUMBER=${BUILD_NUMBER}
+ENV GIT_REF=${GIT_REF}
+RUN npm run record-build-info
 
-RUN npm prune --no-audit --omit=dev
 RUN apt-get update && apt-get install -y ca-certificates
 
-RUN --mount=type=secret,id=sentry if [[ "$SENTRY_AUTH_TOKEN" != "" ]]; then SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry) npm run sentry:sourcemaps -- -r ${GIT_REF} --auth-token=$SENTRY_AUTH_TOKEN; fi
-
+ENV RELEASE_GIT_SHA=${GIT_REF}
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN npm run sentry:login && npm run sentry:sourcemaps
+RUN npm prune --no-audit --omit=dev
 # Stage: copy production assets and dependencies
 FROM base
 
