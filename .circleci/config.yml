@@ -196,15 +196,15 @@ workflows:
       - hmpps/build_docker:
           name: build_docker
           additional_docker_tag: "Build.${CIRCLE_SHA1}"
-          additional_docker_build_args: --secret id=SENTRY_AUTH_TOKEN --build-arg GIT_REF=${CIRCLE_SHA1} --progress=plain --no-cache
-      - remember-app-version:
-          name: remember-version-for-dev
-          requires:
-            - build_docker
+          additional_docker_build_args: --secret id=SENTRY_AUTH_TOKEN --build-arg GIT_REF=${CIRCLE_SHA1} --progress=plain
           filters:
             branches:
               only:
                 - main
+      - remember-app-version:
+          name: remember-version-for-dev
+          requires:
+            - build_docker
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_dev
           requires:
