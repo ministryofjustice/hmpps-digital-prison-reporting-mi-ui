@@ -102,7 +102,7 @@
     "dayjs": "^1.11.19",
     "express": "^5.2.1",
     "express-prom-bundle": "^8.0.0",
-    "express-session": "^1.18.2",
+    "express-session": "^1.19.0",
     "glob": "^13.0.0",
     "govuk-frontend": "^5.13.0",
     "helmet": "^8.0.0",
