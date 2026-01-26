@@ -198,6 +198,7 @@ const reportingClient: jest.Mocked<ReportingClient> = {
   cancelAsyncRequest: jest.fn(),
   getAsyncSummaryReport: jest.fn(),
   logInfo: jest.fn(),
+  downloadAsyncReport: jest.fn(),
 }
 
 const requestedReportService = {

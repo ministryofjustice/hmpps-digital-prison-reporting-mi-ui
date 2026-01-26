@@ -10,7 +10,7 @@ import logger from '../../logger'
 
 const production = process.env.NODE_ENV === 'production'
 
-export default function nunjucksSetup(app: express.Express, path: pathModule.PlatformPath): Environment {
+export default function nunjucksSetup(app: express.Express, path: typeof pathModule): Environment {
   app.set('view engine', 'njk')
 
   app.locals.asset_path = '/assets/'
