@@ -201,7 +201,6 @@ workflows:
             branches:
               only:
                 - main
-                - DPR2-2212_fix-kops
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -225,7 +224,6 @@ workflows:
             branches:
               only:
                 - main
-                - DPR2-2212_fix-kops
           requires:
             - helm_lint
             - unit_test
