@@ -89,7 +89,7 @@
   "dependencies": {
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
     "@flipt-io/flipt-client-js": "0.4.0",
-    "@ministryofjustice/frontend": "^6.0.0",
+    "@ministryofjustice/frontend": "^8.0.0",
     "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "5.1.0",
     "@sentry/cli": "^3.1.0",
     "@sentry/node": "^10.38.0",
