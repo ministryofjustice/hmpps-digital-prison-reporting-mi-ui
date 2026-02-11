@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import DprUser from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/DprUser'
+import { DprUser } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dprUser'
 import logger from '../../logger'
 import { Services } from '../services'
 

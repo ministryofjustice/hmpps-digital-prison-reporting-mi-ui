@@ -5,7 +5,7 @@ import createError from 'http-errors'
 import process from 'process'
 
 import cookieParser from 'cookie-parser'
-import setUpDprResources from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/middleware/setUpDprResources'
+import { setupResources } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/setUpDprResources'
 import * as Sentry from '@sentry/node'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
@@ -29,7 +29,6 @@ import type { Services } from './services'
 import populateCurrentPageLocation from './middleware/populateCurrentPageLocation'
 import getFrontendComponents from './middleware/getFrontendComponents'
 import config from './config'
-import setUpBookmarks from './middleware/setUpBookmarks'
 import { appInsightsMiddleware } from './utils/azureAppInsights'
 import { unauthorisedRoutes } from './routes/unauthorisedRoutes'
 
@@ -60,8 +59,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(unauthorisedRoutes(services.appFeatureFlagService))
-  app.use(setUpBookmarks(services))
-  app.use(setUpDprResources(services, layoutPath, env, config.dpr))
+  app.use(setupResources(services, layoutPath, env, config.dpr))
   app.use(populateCurrentPageLocation())
   app.use(getFrontendComponents(services.hmppsComponentsService))
   app.use(routes(services, layoutPath))

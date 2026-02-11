@@ -4,8 +4,6 @@ import createError from 'http-errors'
 import path from 'path'
 import process from 'process'
 
-import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
-import ReportingClient from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/data/reportingClient'
 import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
 import errorHandler from '../../errorHandler'
@@ -41,7 +39,27 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
   app.use((req, res, next) => {
     req.user = userSupplier()
     req.flash = flashProvider
-    res.locals = {}
+    res.locals = {
+      bookmarkingEnabled: true,
+      collectionsEnabled: true,
+      csrfToken: '',
+      definitions: [],
+      definitionsPath: '',
+      downloadingEnabled: true,
+      dpdPathFromConfig: true,
+      dpdPathFromQuery: true,
+      dprUser: {
+        ...req.user,
+        id: 'dprUser',
+      },
+      featureFlags: {
+        flags: {},
+        lastUpdated: 0
+      },
+      nestedBaseUrl: '',
+      requestMissingEnabled: true,
+      saveDefaultsEnabled: true,
+    }
     res.locals.user = { ...req.user }
     next()
   })
@@ -57,149 +75,6 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
 }
 
 const featureFlagService = new AppFeatureFlagService()
-
-const reportingClient: jest.Mocked<ReportingClient> = {
-  getListWithWarnings: jest.fn(),
-  getDefinitionSummary: jest.fn(),
-  restClient: undefined,
-  getList: jest.fn().mockResolvedValue([
-    {
-      prisonNumber: 'N9980PJ',
-      firstName: 'Roger',
-      lastName: 'Rogerson',
-      date: '2023-01-31',
-      time: '03:01',
-      from: 'Cardiff',
-      to: 'Kirkham',
-      direction: 'In',
-      type: 'Admission',
-      reason: 'Unconvicted Remand',
-    },
-  ]),
-  getCount: jest.fn().mockResolvedValue(789),
-  getAsyncInteractiveCount: jest.fn().mockResolvedValue(789),
-  getDefinitions: jest.fn().mockResolvedValue([
-    {
-      id: 'external-movements',
-      name: 'External movements',
-      variants: [
-        {
-          id: 'list',
-          name: 'List',
-        },
-      ],
-    },
-  ]),
-  getDefinition: jest.fn().mockResolvedValue({
-    id: 'external-movements',
-    name: 'External movements',
-    variant: {
-      id: 'list',
-      name: 'List',
-      resourceName: '/resource/location',
-      specification: {
-        template: 'list',
-        fields: [
-          {
-            name: 'prisonNumber',
-            display: 'Prison Number',
-            sortable: true,
-            defaultsort: true,
-            type: 'string',
-            visible: true,
-          },
-          {
-            name: 'firstName',
-            display: 'First Name',
-            sortable: true,
-            defaultsort: false,
-            type: 'string',
-            visible: true,
-          },
-          {
-            name: 'lastName',
-            display: 'Last Name',
-            sortable: true,
-            defaultsort: false,
-            type: 'string',
-            visible: true,
-          },
-          {
-            name: 'date',
-            display: 'Date',
-            sortable: true,
-            defaultsort: false,
-            type: 'date',
-            visible: true,
-          },
-          {
-            name: 'time',
-            display: 'Time',
-            sortable: true,
-            defaultsort: false,
-            type: 'string',
-            visible: true,
-          },
-          {
-            name: 'from',
-            display: 'From',
-            sortable: true,
-            defaultsort: false,
-            type: 'string',
-            visible: true,
-          },
-          {
-            name: 'to',
-            display: 'To',
-            sortable: true,
-            defaultsort: false,
-            type: 'string',
-            visible: true,
-          },
-          {
-            name: 'direction',
-            display: 'Direction',
-            sortable: true,
-            defaultsort: false,
-            type: 'string',
-            visible: true,
-            filter: {
-              type: 'Radio',
-              staticOptions: [
-                { name: 'in', displayName: 'In' },
-                { name: 'out', displayName: 'Out' },
-              ],
-            },
-          },
-          {
-            name: 'type',
-            display: 'Type',
-            sortable: true,
-            defaultsort: false,
-            type: 'string',
-            visible: true,
-          },
-          {
-            name: 'reason',
-            display: 'Reason',
-            sortable: true,
-            defaultsort: false,
-            type: 'string',
-            visible: true,
-          },
-        ],
-      },
-    },
-  }),
-  requestAsyncReport: jest.fn(),
-  getAsyncReport: jest.fn(),
-  getAsyncReportStatus: jest.fn(),
-  getAsyncCount: jest.fn(),
-  cancelAsyncRequest: jest.fn(),
-  getAsyncSummaryReport: jest.fn(),
-  logInfo: jest.fn(),
-  downloadAsyncReport: jest.fn(),
-}
 
 const requestedReportService = {
   getAllReports: jest.fn().mockResolvedValue(Promise.resolve([])),
@@ -223,7 +98,6 @@ export function appWithAllRoutes({
   const servicesWithMissingMocked: Services = {
     ...services,
     downloadPermissionService: services.downloadPermissionService ?? downloadPermissionService,
-    reportingService: services.reportingService ?? new ReportingService(reportingClient),
     requestedReportService: services.requestedReportService ?? requestedReportService,
     appFeatureFlagService: services.featureFlagService ?? featureFlagService,
   } as Services

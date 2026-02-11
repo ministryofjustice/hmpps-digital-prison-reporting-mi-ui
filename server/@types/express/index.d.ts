@@ -1,3 +1,4 @@
+import { ExtraLocals } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/extraLocals'
 import { UserDetails } from '../../services/userService'
 
 export default {}
@@ -15,6 +16,8 @@ declare module 'express-session' {
 
 export declare global {
   namespace Express {
+
+    interface Locals extends ExtraLocals { }
     interface User {
       username: string
       token: string

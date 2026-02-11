@@ -1,5 +1,5 @@
-import { Services as dprServicesType } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/Services'
-import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/utils/CreateDprServices'
+import { dprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/createDprServices'
+import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/createDprServices'
 
 import { dataAccess } from '../data'
 import UserService from './userService'
@@ -29,7 +29,7 @@ export const services = (): Services => {
   }
 }
 
-export type Services = dprServicesType & {
+export type Services = dprServices & {
   hmppsComponentsService: HmppsComponentsService
   userService: UserService
   appFeatureFlagService: AppFeatureFlagService

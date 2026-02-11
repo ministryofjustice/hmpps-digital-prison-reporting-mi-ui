@@ -33,46 +33,6 @@
     "node": "^22 || ^24",
     "npm": ">=10 <12"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": [
-        "ts-jest"
-      ]
-    },
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "server/**/*.{ts,js,jsx,mjs}",
-      "!server/(authentication|middleware|monitoring)/**/*.{ts,js,jsx,mjs}",
-      "!server/app.ts",
-      "!server/data/(rest|redis)Client.ts"
-    ],
-    "testMatch": [
-      "<rootDir>/(server|job)/**/?(*.)(cy|test).{ts,js,jsx,mjs}"
-    ],
-    "testEnvironment": "node",
-    "reporters": [
-      "default",
-      [
-        "jest-junit",
-        {
-          "outputDirectory": "test_results/jest/"
-        }
-      ],
-      [
-        "./node_modules/jest-html-reporter",
-        {
-          "outputPath": "test_results/unit-test-reports.html"
-        }
-      ]
-    ],
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "node",
-      "ts"
-    ]
-  },
   "lint-staged": {
     "*.{ts,js,css}": [
       "prettier --write",
@@ -86,7 +46,7 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
     "@flipt-io/flipt": "1.5.0",
     "@ministryofjustice/frontend": "^6.0.0",
-    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "4.30.0",
+    "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "4.31.0",
     "@sentry/cli": "^3.1.0",
     "@sentry/node": "^10.38.0",
     "agentkeepalive": "^4.6.0",
@@ -130,7 +90,7 @@
     "@types/connect-flash": "0.0.40",
     "@types/cookie-parser": "^1.4.10",
     "@types/cookie-session": "^2.0.49",
-    "@types/csurf": "^1.11.3",
+    "@types/express": "^5.0.6",
     "@types/express-session": "^1.18.2",
     "@types/fs-extra": "^11.0.4",
     "@types/http-errors": "^2.0.5",
