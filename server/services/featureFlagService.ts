@@ -1,12 +1,9 @@
 import {
-  BooleanEvaluationResponse,
-  EvaluationRequest,
-  FlagType,
   FliptClient,
-  ListFlagsResponse,
-  VariantEvaluationResponse,
-} from '@flipt-io/flipt'
-import { Application } from 'express'
+  type ClientOptions,
+  type BooleanEvaluationResponse,
+  type VariantEvaluationResponse,
+} from '@flipt-io/flipt-client-js/node'
 
 export interface FeatureFlagConfig {
   namespace: string
@@ -14,54 +11,65 @@ export interface FeatureFlagConfig {
   url: string
 }
 
+type FlagType = 'BOOLEAN_FLAG_TYPE' | 'VARIANT_FLAG_TYPE'
+
 type FlagTypeEvaluationResponseMap = {
-  [K in FlagType]: K extends 'BOOLEAN_FLAG_TYPE'
-    ? BooleanEvaluationResponse
-    : K extends 'VARIANT_FLAG_TYPE'
-      ? VariantEvaluationResponse
-      : never
+  BOOLEAN_FLAG_TYPE: BooleanEvaluationResponse
+  VARIANT_FLAG_TYPE: VariantEvaluationResponse
 }
 
 export class AppFeatureFlagService {
-  restClient: FliptClient | undefined
+  private readonly clientConfig: ClientOptions | undefined
 
-  namespace: string | undefined
+  private clientPromise: Promise<FliptClient> | undefined
 
   enabled: boolean = false
 
   constructor(config: FeatureFlagConfig | Record<string, unknown> = {}) {
     const { namespace, token, url } = config && (config as FeatureFlagConfig)
-    if (Object.keys(config).length !== 3 || !namespace || !token || !url) {
+
+    if (!namespace || !token || !url) {
       return
     }
-    this.restClient = new FliptClient({
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
+
+    this.clientConfig = {
       url,
-    })
+      namespace,
+      authentication: {
+        clientToken: token,
+      },
+    }
     this.enabled = true
-    this.namespace = namespace
   }
 
-  async getFlags(): Promise<ListFlagsResponse> {
-    if (!this.restClient || !this.namespace) {
-      return {
-        flags: [],
-        nextPageToken: '',
-        totalCount: 0,
-      }
+  private async getClient(): Promise<FliptClient | undefined> {
+    if (!this.clientConfig) {
+      return undefined
     }
-    return this.restClient.flags.listFlags(this.namespace)
+
+    if (!this.clientPromise) {
+      this.clientPromise = FliptClient.init(this.clientConfig).catch((error: unknown) => {
+        this.clientPromise = undefined
+        throw error
+      })
+    }
+
+    return this.clientPromise
+  }
+
+  async refresh() {
+    const client = await this.getClient()
+    await client?.refresh()
   }
 
   async evaluateFlag(flagKey: string, flagType: 'BOOLEAN_FLAG_TYPE'): Promise<BooleanEvaluationResponse>
 
   async evaluateFlag(flagKey: string, flagType: 'VARIANT_FLAG_TYPE'): Promise<VariantEvaluationResponse>
 
-  async evaluateFlag(flagKey: string, flagType: FlagType): Promise<FlagTypeEvaluationResponseMap[FlagType]> {
-    if (!this.restClient) {
+  async evaluateFlag<T extends FlagType>(flagKey: string, flagType: T): Promise<FlagTypeEvaluationResponseMap[T]> {
+    const client = await this.getClient().catch((): undefined => undefined)
+
+    if (!client) {
       return {
         enabled: false,
         flagKey: '',
@@ -69,31 +77,24 @@ export class AppFeatureFlagService {
         requestDurationMillis: 0,
         segmentKeys: [],
         timestamp: '',
-      } satisfies BooleanEvaluationResponse
+      } satisfies BooleanEvaluationResponse as FlagTypeEvaluationResponseMap[T]
     }
-    const evaluationConfig = {
+
+    const evaluationRequest = {
       flagKey,
-      namespaceKey: this.namespace,
       entityId: '',
       context: {},
-    } satisfies EvaluationRequest
+    }
+
     switch (flagType) {
       case 'BOOLEAN_FLAG_TYPE': {
-        return this.restClient.evaluation.boolean(evaluationConfig)
+        return client.evaluateBoolean(evaluationRequest) as FlagTypeEvaluationResponseMap[T]
       }
       case 'VARIANT_FLAG_TYPE': {
-        return this.restClient.evaluation.variant(evaluationConfig)
+        return client.evaluateVariant(evaluationRequest) as FlagTypeEvaluationResponseMap[T]
       }
       default:
         throw Error('Invalid feature flag type provided')
     }
   }
-}
-
-export const isBooleanFlagEnabled = (flagName: string, app: Application): boolean => {
-  const flag = app.locals.featureFlags?.flags?.[flagName]
-  if (flag && flag.type !== 'BOOLEAN_FLAG_TYPE') {
-    throw Error('Tried to validate whether a non-boolean flag was enabled')
-  }
-  return !flag || flag.enabled
 }
