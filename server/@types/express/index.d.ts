@@ -16,8 +16,8 @@ declare module 'express-session' {
 
 export declare global {
   namespace Express {
-
-    interface Locals extends ExtraLocals { }
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    interface Locals extends ExtraLocals {}
     interface User {
       username: string
       token: string

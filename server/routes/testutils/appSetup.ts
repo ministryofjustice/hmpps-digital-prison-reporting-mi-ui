@@ -54,7 +54,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
       },
       featureFlags: {
         flags: {},
-        lastUpdated: 0
+        lastUpdated: 0,
       },
       nestedBaseUrl: '',
       requestMissingEnabled: true,

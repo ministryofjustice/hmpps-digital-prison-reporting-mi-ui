@@ -4,6 +4,7 @@ import RestClient from './restClient'
 
 export default class UserClient {
   restClient: RestClient
+
   config: ApiConfig
 
   constructor(config: ApiConfig) {

@@ -1,5 +1,7 @@
-import { dprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/createDprServices'
-import { createDprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/createDprServices'
+import {
+  type dprServices,
+  createDprServices,
+} from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/createDprServices'
 
 import { dataAccess } from '../data'
 import UserService from './userService'

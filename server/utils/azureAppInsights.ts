@@ -56,15 +56,11 @@ const getCustomData = (
     let requestReportData
 
     if (locals.requestedReports) {
-      requestReportData = locals.requestedReports.find(
-        (r) => r.executionId === executionId || r.tableId === tableId,
-      )
+      requestReportData = locals.requestedReports.find(r => r.executionId === executionId || r.tableId === tableId)
     }
 
     if (!requestReportData && locals.recentlyViewedReports) {
-      requestReportData = locals.recentlyViewedReports.find(
-        (r) => r.executionId === executionId || r.tableId === tableId,
-      )
+      requestReportData = locals.recentlyViewedReports.find(r => r.executionId === executionId || r.tableId === tableId)
     }
 
     if (requestReportData) {
