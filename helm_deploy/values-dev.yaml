@@ -19,7 +19,6 @@ generic-service:
     DPS_COMPONENT_API_URL: 'https://frontend-components-dev.hmpps.service.justice.gov.uk'
     DPS_URL: 'https://dps-dev.prison.service.justice.gov.uk'
     ACTIVE_ESTABLISHMENTS: '***'
-    STREAMING_DOWNLOAD_ENABLED: 'true'
 
   allowlist:
     groups:
