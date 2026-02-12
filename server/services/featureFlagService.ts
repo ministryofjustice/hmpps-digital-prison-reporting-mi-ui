@@ -48,7 +48,7 @@ export class AppFeatureFlagService {
     }
 
     if (!this.clientPromise) {
-      this.clientPromise = FliptClient.init(this.clientConfig).catch(error => {
+      this.clientPromise = FliptClient.init(this.clientConfig).catch((error: unknown) => {
         this.clientPromise = undefined
         throw error
       })
