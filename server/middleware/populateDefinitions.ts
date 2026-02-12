@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import ReportingService from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/services/reportingService'
+import type { dprServices } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/createDprServices'
 import type { ParsedQs } from 'qs'
 import { getDefinitionsPath } from '../utils/utils'
 import config from '../config'
@@ -12,7 +12,7 @@ const deriveDefinitionsPath = (query: ParsedQs): string | undefined => {
   return undefined
 }
 
-export default (service: ReportingService): RequestHandler => {
+export default (service: dprServices['reportingService']): RequestHandler => {
   return (req, res, next) => {
     const definitionsPath = deriveDefinitionsPath(req.query)
     res.locals.pathSuffix = definitionsPath ? `?dataProductDefinitionsPath=${definitionsPath}` : ''

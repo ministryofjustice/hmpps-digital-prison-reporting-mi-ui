@@ -9,12 +9,8 @@ import {
   getCorrelationContext,
 } from 'applicationinsights'
 import { EnvelopeTelemetry } from 'applicationinsights/out/Declarations/Contracts'
-import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/api'
-import {
-  RecentlyViewedReport,
-  RequestedReport,
-} from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/types/UserReports'
-import { RequestHandler, Request } from 'express'
+import { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/api'
+import { RequestHandler, Request, Response } from 'express'
 import { v4 } from 'uuid'
 import applicationVersion from '../applicationVersion'
 import Dict = NodeJS.Dict
@@ -47,7 +43,7 @@ const getCustomData = (
   params: Dict<string>,
   query: Request['query'],
   body: Dict<string>,
-  locals: Dict<any>,
+  locals: Response['locals'],
 ): CustomData | object => {
   if (locals.user) {
     const { username, activeCaseLoadId } = locals.user
@@ -60,15 +56,11 @@ const getCustomData = (
     let requestReportData
 
     if (locals.requestedReports) {
-      requestReportData = locals.requestedReports.find(
-        (r: RequestedReport) => r.executionId === executionId || r.tableId === tableId,
-      )
+      requestReportData = locals.requestedReports.find(r => r.executionId === executionId || r.tableId === tableId)
     }
 
     if (!requestReportData && locals.recentlyViewedReports) {
-      requestReportData = locals.recentlyViewedReports.find(
-        (r: RecentlyViewedReport) => r.executionId === executionId || r.tableId === tableId,
-      )
+      requestReportData = locals.recentlyViewedReports.find(r => r.executionId === executionId || r.tableId === tableId)
     }
 
     if (requestReportData) {

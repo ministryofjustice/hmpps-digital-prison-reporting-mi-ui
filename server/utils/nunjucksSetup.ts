@@ -3,7 +3,6 @@ import nunjucks, { Environment } from 'nunjucks'
 import express from 'express'
 import fs from 'fs'
 import * as pathModule from 'path'
-import setUpNunjucksFilters from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/dpr/setUpNunjucksFilters'
 import { initialiseName } from './utils'
 import applicationVersion from '../applicationVersion'
 import logger from '../../logger'
@@ -55,6 +54,5 @@ export default function nunjucksSetup(app: express.Express, path: typeof pathMod
   njkEnv.addFilter('initialiseName', initialiseName)
   njkEnv.addFilter('assetMap', (url: string) => assetManifest[url] || url)
 
-  setUpNunjucksFilters(njkEnv)
   return njkEnv
 }

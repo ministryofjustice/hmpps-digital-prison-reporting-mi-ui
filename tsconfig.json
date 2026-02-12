@@ -3,9 +3,6 @@
   "compileOnSave": true,
   "compilerOptions": {
     "outDir": "./dist",
-    "target": "es2024",
-    "module": "commonjs",
-    "moduleResolution": "node",
     "sourceMap": true,
     "skipLibCheck": true,
     "noEmit": false,
