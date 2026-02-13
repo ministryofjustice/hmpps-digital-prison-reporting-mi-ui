@@ -159,7 +159,7 @@
     "cypress-axe": "^1.6.0",
     "cypress-multi-reporters": "^2.0.4",
     "dotenv": "^17.2.3",
-    "esbuild": "^0.27.2",
+    "esbuild": "^0.27.3",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-manifest": "^1.0.5",
