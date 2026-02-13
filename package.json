@@ -97,7 +97,7 @@
     "applicationinsights": "^2.9.2",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
-    "chokidar": "^3.6.0",
+    "chokidar": "^5.0.0",
     "compression": "^1.8.1",
     "connect-flash": "^0.1.1",
     "connect-redis": "^7.1.0",
