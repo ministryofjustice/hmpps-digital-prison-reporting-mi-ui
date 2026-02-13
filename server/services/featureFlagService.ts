@@ -4,6 +4,7 @@ import {
   type BooleanEvaluationResponse,
   type VariantEvaluationResponse,
 } from '@flipt-io/flipt-client-js/node'
+import { randomUUID } from 'node:crypto'
 
 export interface FeatureFlagConfig {
   namespace: string
@@ -82,7 +83,7 @@ export class AppFeatureFlagService {
 
     const evaluationRequest = {
       flagKey,
-      entityId: '',
+      entityId: randomUUID(),
       context: {},
     }
 
