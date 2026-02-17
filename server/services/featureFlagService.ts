@@ -10,6 +10,7 @@ export interface FeatureFlagConfig {
   namespace: string
   token: string
   url: string
+  updateInterval?: number
 }
 
 type FlagType = 'BOOLEAN_FLAG_TYPE' | 'VARIANT_FLAG_TYPE'
@@ -33,12 +34,15 @@ export class AppFeatureFlagService {
       return
     }
 
+    const updateInterval = typeof config.updateInterval === 'number' && config.updateInterval || 120
+
     this.clientConfig = {
       url,
       namespace,
       authentication: {
         clientToken: token,
       },
+      updateInterval,
     }
     this.enabled = true
   }
