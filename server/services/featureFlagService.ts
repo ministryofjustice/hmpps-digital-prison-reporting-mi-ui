@@ -34,7 +34,7 @@ export class AppFeatureFlagService {
       return
     }
 
-    const updateInterval = typeof config.updateInterval === 'number' && config.updateInterval || 120
+    const updateInterval = (typeof config.updateInterval === 'number' && config.updateInterval) || 120
 
     this.clientConfig = {
       url,
