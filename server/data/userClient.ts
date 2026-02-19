@@ -20,6 +20,7 @@ export default class UserClient {
     return this.restClient
       .get({
         path: `/user/caseload/active`,
+        token,
       })
       .then(response => (<Array<string>>response)[0])
   }
