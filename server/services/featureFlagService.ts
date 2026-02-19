@@ -1,80 +1,67 @@
 import {
+  BooleanEvaluationResponse,
+  EvaluationRequest,
+  FlagType,
   FliptClient,
-  type ClientOptions,
-  type BooleanEvaluationResponse,
-  type VariantEvaluationResponse,
-} from '@flipt-io/flipt-client-js/node'
-import { randomUUID } from 'node:crypto'
+  ListFlagsResponse,
+  VariantEvaluationResponse,
+} from '@flipt-io/flipt'
+import { Application } from 'express'
 
 export interface FeatureFlagConfig {
   namespace: string
   token: string
   url: string
-  updateInterval?: number
 }
 
-type FlagType = 'BOOLEAN_FLAG_TYPE' | 'VARIANT_FLAG_TYPE'
-
 type FlagTypeEvaluationResponseMap = {
-  BOOLEAN_FLAG_TYPE: BooleanEvaluationResponse
-  VARIANT_FLAG_TYPE: VariantEvaluationResponse
+  [K in FlagType]: K extends 'BOOLEAN_FLAG_TYPE'
+    ? BooleanEvaluationResponse
+    : K extends 'VARIANT_FLAG_TYPE'
+      ? VariantEvaluationResponse
+      : never
 }
 
 export class AppFeatureFlagService {
-  private readonly clientConfig: ClientOptions | undefined
+  restClient: FliptClient | undefined
 
-  private clientPromise: Promise<FliptClient> | undefined
+  namespace: string | undefined
 
   enabled: boolean = false
 
   constructor(config: FeatureFlagConfig | Record<string, unknown> = {}) {
     const { namespace, token, url } = config && (config as FeatureFlagConfig)
-
-    if (!namespace || !token || !url) {
+    if (Object.keys(config).length !== 3 || !namespace || !token || !url) {
       return
     }
-
-    const updateInterval = (typeof config.updateInterval === 'number' && config.updateInterval) || 120
-
-    this.clientConfig = {
-      url,
-      namespace,
-      authentication: {
-        clientToken: token,
+    this.restClient = new FliptClient({
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
-      updateInterval,
-    }
+      url,
+    })
     this.enabled = true
+    this.namespace = namespace
   }
 
-  private async getClient(): Promise<FliptClient | undefined> {
-    if (!this.clientConfig) {
-      return undefined
+  async getFlags(): Promise<ListFlagsResponse> {
+    if (!this.restClient || !this.namespace) {
+      return {
+        flags: [],
+        nextPageToken: '',
+        totalCount: 0,
+      }
     }
-
-    if (!this.clientPromise) {
-      this.clientPromise = FliptClient.init(this.clientConfig).catch((error: unknown) => {
-        this.clientPromise = undefined
-        throw error
-      })
-    }
-
-    return this.clientPromise
-  }
-
-  async refresh() {
-    const client = await this.getClient()
-    await client?.refresh()
+    return this.restClient.flags.listFlags(this.namespace)
   }
 
   async evaluateFlag(flagKey: string, flagType: 'BOOLEAN_FLAG_TYPE'): Promise<BooleanEvaluationResponse>
 
   async evaluateFlag(flagKey: string, flagType: 'VARIANT_FLAG_TYPE'): Promise<VariantEvaluationResponse>
 
-  async evaluateFlag<T extends FlagType>(flagKey: string, flagType: T): Promise<FlagTypeEvaluationResponseMap[T]> {
-    const client = await this.getClient().catch((): undefined => undefined)
-
-    if (!client) {
+  async evaluateFlag(flagKey: string, flagType: FlagType): Promise<FlagTypeEvaluationResponseMap[FlagType]> {
+    if (!this.restClient) {
       return {
         enabled: false,
         flagKey: '',
@@ -82,24 +69,31 @@ export class AppFeatureFlagService {
         requestDurationMillis: 0,
         segmentKeys: [],
         timestamp: '',
-      } satisfies BooleanEvaluationResponse as FlagTypeEvaluationResponseMap[T]
+      } satisfies BooleanEvaluationResponse
     }
-
-    const evaluationRequest = {
+    const evaluationConfig = {
       flagKey,
-      entityId: randomUUID(),
+      namespaceKey: this.namespace,
+      entityId: '',
       context: {},
-    }
-
+    } satisfies EvaluationRequest
     switch (flagType) {
       case 'BOOLEAN_FLAG_TYPE': {
-        return client.evaluateBoolean(evaluationRequest) as FlagTypeEvaluationResponseMap[T]
+        return this.restClient.evaluation.boolean(evaluationConfig)
       }
       case 'VARIANT_FLAG_TYPE': {
-        return client.evaluateVariant(evaluationRequest) as FlagTypeEvaluationResponseMap[T]
+        return this.restClient.evaluation.variant(evaluationConfig)
       }
       default:
         throw Error('Invalid feature flag type provided')
     }
   }
+}
+
+export const isBooleanFlagEnabled = (flagName: string, app: Application): boolean => {
+  const flag = app.locals.featureFlags?.flags?.[flagName]
+  if (flag && flag.type !== 'BOOLEAN_FLAG_TYPE') {
+    throw Error('Tried to validate whether a non-boolean flag was enabled')
+  }
+  return !flag || flag.enabled
 }
