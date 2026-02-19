@@ -50,7 +50,14 @@ export default class RestClient {
     return this.config.timeout
   }
 
-  async get({ path = null, query = {}, headers = {}, responseType = '', raw = false, token }: GetRequest): Promise<unknown> {
+  async get({
+    path = null,
+    query = {},
+    headers = {},
+    responseType = '',
+    raw = false,
+    token,
+  }: GetRequest): Promise<unknown> {
     logger.info(`Get using user credentials: calling ${this.name}: ${this.config.url}${path} ${JSON.stringify(query)}`)
     try {
       const result = await superagent
