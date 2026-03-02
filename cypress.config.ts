@@ -12,10 +12,6 @@ export default defineConfig({
   fixturesFolder: 'cypress-tests/integration-tests/fixtures',
   screenshotsFolder: 'cypress-tests/integration-tests/screenshots',
   videosFolder: 'cypress-tests/integration-tests/videos',
-  reporter: 'cypress-multi-reporters',
-  reporterOptions: {
-    configFile: 'reporter-config.json',
-  },
   taskTimeout: 60000,
   video: true,
   e2e: {

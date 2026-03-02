@@ -6,7 +6,6 @@ module.exports = defineConfig({
   fixturesFolder: 'cypress-tests/acceptance-tests/fixtures',
   screenshotsFolder: 'cypress-tests/acceptance-tests/screenshots',
   videosFolder: 'cypress-tests/acceptance-tests/videos',
-  reporter: 'cypress-multi-reporters',
   reporterOptions: {
     configFile: 'reporter-config.json',
   },
