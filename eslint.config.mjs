@@ -6,7 +6,7 @@ import hmppsConfig from '@ministryofjustice/eslint-config-hmpps'
  */
 
 const defaultConfig = hmppsConfig({
-  extraIgnorePaths: ['cypress-tests/**'],
+  extraIgnorePaths: ['cypress-tests/**', 'assets'],
 })
 
 /**
