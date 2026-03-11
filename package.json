@@ -162,7 +162,7 @@
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-manifest": "^1.0.5",
-    "esbuild-sass-plugin": "^3.6.0",
+    "esbuild-sass-plugin": "^3.7.0",
     "glob": "^13.0.6",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
