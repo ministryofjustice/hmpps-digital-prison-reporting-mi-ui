@@ -158,7 +158,7 @@
     "cypress": "^15.12.0",
     "cypress-axe": "^1.6.0",
     "dotenv": "^17.3.1",
-    "esbuild": "^0.27.3",
+    "esbuild": "^0.27.4",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
     "esbuild-plugin-manifest": "^1.0.5",
