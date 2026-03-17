@@ -103,7 +103,7 @@
     "connect-redis": "^9.0.0",
     "cookie-parser": "^1.4.7",
     "csrf-sync": "^4.2.1",
-    "dayjs": "^1.11.19",
+    "dayjs": "^1.11.20",
     "express": "^5.2.1",
     "express-prom-bundle": "^8.0.0",
     "express-session": "^1.19.0",
