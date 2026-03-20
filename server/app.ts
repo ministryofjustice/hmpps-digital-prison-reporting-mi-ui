@@ -31,7 +31,6 @@ import getFrontendComponents from './middleware/getFrontendComponents'
 import config from './config'
 import { appInsightsMiddleware } from './utils/azureAppInsights'
 import { unauthorisedRoutes } from './routes/unauthorisedRoutes'
-import setUpSystemToken from './middleware/setUpSystemToken'
 
 export default function createApp(services: Services): express.Application {
   const cwd = process.cwd()
@@ -59,7 +58,6 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpAuthentication())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
-  app.use(setUpSystemToken(services))
   app.use(unauthorisedRoutes(services.appFeatureFlagService))
   app.use(setupResources(services, layoutPath, env, config.dpr))
   app.use(populateCurrentPageLocation())
