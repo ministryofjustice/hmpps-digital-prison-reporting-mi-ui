@@ -39,8 +39,8 @@ const apiCommonConfig = {
   agent: new AgentConfig(Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000))),
   apiClientId: get('API_CLIENT_ID', 'clientid', requiredInProduction),
   apiClientSecret: get('API_CLIENT_SECRET', 'clientsecret', requiredInProduction),
-  systemClientId: get('API_CLIENT_CREDENTIALS_ID', 'clientid', requiredInProduction),
-  systemClientSecret: get('API_CLIENT_CREDENTIALS_SECRET', 'clientsecret', requiredInProduction),
+  systemClientId: get('SYSTEM_CLIENT_ID', 'clientid', requiredInProduction),
+  systemClientSecret: get('SYSTEM_CLIENT_SECRET', 'clientsecret', requiredInProduction),
 }
 
 const automaticBookmarkConfig = {
@@ -93,7 +93,6 @@ export default {
     hmppsAuth: {
       url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
       externalUrl: get('HMPPS_AUTH_EXTERNAL_URL', get('HMPPS_AUTH_URL', 'http://localhost:9090/auth')),
-      tokenUri: get('TOKEN_URI', '/oauth/token'),
       ...apiCommonConfig,
     },
     manageUsers: {
@@ -145,7 +144,6 @@ export default {
     replayOnErrorSampleRate: Number(get('SENTRY_REPLAY_ON_ERROR_SAMPLE_RATE', 0.1)),
     RELEASE_GIT_SHA: process.env.RELEASE_GIT_SHA,
   },
-  systemTokenEnabled: get('SYSTEM_TOKEN_ENABLED', 'false') === 'true',
   featureFlagConfig: {
     namespace: get('FLIPT_NAMESPACE', null, requiredInProduction),
     token: get('FLIPT_API_KEY', null, requiredInProduction),

@@ -7,11 +7,9 @@ import { dataAccess } from '../data'
 import UserService from './userService'
 import HmppsComponentsService from './hmppsComponentsService'
 import { AppFeatureFlagService } from './featureFlagService'
-import SystemTokenService from './systemTokenService'
-import config from '../config'
 
 export const services = (): Services => {
-  const { userClient, hmppsAuthClient, hmppsManageUsersClient, appFeatureFlagService, ...dprClients } = dataAccess()
+  const { userClient, hmppsManageUsersClient, appFeatureFlagService, ...dprClients } = dataAccess()
 
   const userService = new UserService(hmppsManageUsersClient, userClient)
   const hmppsComponentsService = new HmppsComponentsService()
@@ -26,13 +24,10 @@ export const services = (): Services => {
   }
   const dprServices = createDprServices(dprClients, serviceConfig)
 
-  const systemTokenService = new SystemTokenService(hmppsAuthClient, config.systemTokenEnabled)
-
   return {
     userService,
     hmppsComponentsService,
     appFeatureFlagService,
-    systemTokenService,
     ...dprServices,
   }
 }
@@ -41,7 +36,6 @@ export type Services = dprServices & {
   hmppsComponentsService: HmppsComponentsService
   userService: UserService
   appFeatureFlagService: AppFeatureFlagService
-  systemTokenService: SystemTokenService
 }
 
 export { UserService }
