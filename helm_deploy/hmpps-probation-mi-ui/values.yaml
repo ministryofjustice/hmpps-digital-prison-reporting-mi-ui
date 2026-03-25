@@ -52,8 +52,8 @@ generic-service:
     ui-session-secret:
       SESSION_SECRET: "session_secret"
     hmpps-auth:
-      API_CLIENT_ID: "api_client_id"
-      API_CLIENT_SECRET: "api_client_secret"
+      API_CLIENT_ID: "system_client_id"
+      API_CLIENT_SECRET: "system_client_secret"
       SYSTEM_CLIENT_ID: "system_client_id"
       SYSTEM_CLIENT_SECRET: "system_client_secret"
     hmpps-probation-mi-ui:
@@ -69,4 +69,3 @@ generic-service:
 
 generic-prometheus-alerts:
   targetApplication: hmpps-probation-mi-ui
-
