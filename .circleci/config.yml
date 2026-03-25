@@ -190,7 +190,7 @@ jobs:
           name: Package and push hmpps-probation-mi-ui chart to GHCR
           command: |
             CHART_VERSION="0.1.${CIRCLE_BUILD_NUM}"
-            helm registry login ghcr.io -u "${CIRCLE_PROJECT_USERNAME}" -p "${GITHUB_TOKEN}"
+            echo "${GITHUB_TOKEN}" | helm registry login ghcr.io -u "${CIRCLE_PROJECT_USERNAME}" --password-stdin
             helm dependency update helm_deploy/hmpps-probation-mi-ui
             helm package helm_deploy/hmpps-probation-mi-ui --version "${CHART_VERSION}" --app-version "Build.${CIRCLE_SHA1}"
             helm push "hmpps-probation-mi-ui-${CHART_VERSION}.tgz" oci://ghcr.io/ministryofjustice/helm-charts
@@ -286,6 +286,7 @@ workflows:
             - unit_test
             - integration_test
             - remember-version-for-probation-dev
+            - helm_package_and_push_probation
           helm_timeout: 5m
       - acceptance_test:
           requires:
