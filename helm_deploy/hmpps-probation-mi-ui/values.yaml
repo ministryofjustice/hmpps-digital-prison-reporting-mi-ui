@@ -1,0 +1,72 @@
+generic-service:
+  nameOverride: hmpps-probation-mi-ui
+
+  replicaCount: 4
+
+  image:
+    repository: quay.io/hmpps/hmpps-digital-prison-reporting-mi-ui
+    tag: app_version # override at deployment time
+    port: 3000
+
+  ingress:
+    enabled: true
+    host: app-hostname.local # override per environment
+    tlsSecretName: hmpps-probation-mi-cert
+    modsecurity_enabled: true
+    modsecurity_audit_enabled: false
+    modsecurity_snippet: |
+      SecRuleEngine On
+      SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET POST OPTIONS"
+      SecDefaultAction "phase:2,pass,log,tag:github_team=hmpps-digital-prison-reporting"
+      SecDefaultAction "phase:4,pass,log,tag:github_team=hmpps-digital-prison-reporting"
+      SecRuleRemoveById 932110
+      SecRuleUpdateActionById 949110 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
+      SecRuleUpdateActionById 959100 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "360"
+      nginx.ingress.kubernetes.io/proxy-body-size: 100m
+      nginx.ingress.kubernetes.io/server-snippet: |
+        client_max_body_size 100m;
+
+  livenessProbe:
+    httpGet:
+      path: /ping
+
+  readinessProbe:
+    httpGet:
+      path: /ping
+
+  env:
+    NODE_ENV: "production"
+    TOKEN_VERIFICATION_ENABLED: "true"
+    REDIS_TLS_ENABLED: "true"
+    APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+    DEFINITION_PATHS_ENABLED: "false"
+    MAINTENANCE_MODE_ENABLED: "false"
+    MAINTENANCE_MODE_MESSAGE: ""
+
+  namespace_secrets:
+    hmpps-probation-mi-ui-ec-cluster-output:
+      REDIS_HOST: "primary_endpoint_address"
+      REDIS_AUTH_TOKEN: "auth_token"
+    ui-session-secret:
+      SESSION_SECRET: "session_secret"
+    hmpps-auth:
+      API_CLIENT_ID: "api_client_id"
+      API_CLIENT_SECRET: "api_client_secret"
+      SYSTEM_CLIENT_ID: "system_client_id"
+      SYSTEM_CLIENT_SECRET: "system_client_secret"
+    hmpps-probation-mi-ui:
+      APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
+    flipt:
+      FLIPT_API_KEY: "API_KEY"
+      FLIPT_NAMESPACE: "NAMESPACE"
+      FLIPT_URL: "URL"
+
+  allowlist:
+    groups:
+      - internal
+
+generic-prometheus-alerts:
+  targetApplication: hmpps-probation-mi-ui
+
