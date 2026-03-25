@@ -175,26 +175,26 @@ jobs:
     steps:
       - mem/remember:
           env_var: APP_VERSION
-          value: 'Build.${CIRCLE_SHA1}'
+          value: "Build.${CIRCLE_SHA1}"
 
-  helm_package_and_push_probation:
-    executor:
-      name: hmpps/node
-      tag: << pipeline.parameters.node-version >>
-    steps:
-      - checkout
-      - run:
-          name: Install Helm
-          command: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-      - run:
-          name: Package and push hmpps-probation-mi-ui chart to GHCR
-          command: |
-            CHART_VERSION="0.1.${CIRCLE_BUILD_NUM}"
-            echo "${GITHUB_TOKEN}" | helm registry login ghcr.io -u "${CIRCLE_PROJECT_USERNAME}" --password-stdin
-            helm dependency update helm_deploy/hmpps-probation-mi-ui
-            helm package helm_deploy/hmpps-probation-mi-ui --version "${CHART_VERSION}" --app-version "Build.${CIRCLE_SHA1}"
-            helm push "hmpps-probation-mi-ui-${CHART_VERSION}.tgz" oci://ghcr.io/ministryofjustice/helm-charts
-            helm registry logout ghcr.io
+  # helm_package_and_push_probation:
+  #   executor:
+  #     name: hmpps/node
+  #     tag: << pipeline.parameters.node-version >>
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install Helm
+  #         command: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  #     - run:
+  #         name: Package and push hmpps-probation-mi-ui chart to GHCR
+  #         command: |
+  #           CHART_VERSION="0.1.${CIRCLE_BUILD_NUM}"
+  #           helm registry login ghcr.io -u "${CIRCLE_PROJECT_USERNAME}" -p "${GITHUB_TOKEN}"
+  #           helm dependency update helm_deploy/hmpps-probation-mi-ui
+  #           helm package helm_deploy/hmpps-probation-mi-ui --version "${CHART_VERSION}" --app-version "Build.${CIRCLE_SHA1}"
+  #           helm push "hmpps-probation-mi-ui-${CHART_VERSION}.tgz" oci://ghcr.io/ministryofjustice/helm-charts
+  #           helm registry logout ghcr.io
 
 workflows:
   version: 2
@@ -224,6 +224,7 @@ workflows:
             branches:
               only:
                 - main
+                - PDHD-118
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -247,6 +248,7 @@ workflows:
             branches:
               only:
                 - main
+                - PDHD-118
           requires:
             - helm_lint
             - unit_test
@@ -258,21 +260,19 @@ workflows:
           name: remember-version-for-probation-dev
           requires:
             - build_docker
-      - helm_package_and_push_probation:
-          requires:
-            - build_docker
-          context:
-            - hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
+      # - helm_package_and_push_probation:
+      #     requires:
+      #       - build_docker
+      #     context:
+      #       - hmpps-common-vars
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
       - hmpps/deploy_env:
           name: deploy_probation_dev
           env: 'probation-dev'
-          chart_name: hmpps-probation-mi-ui
           release_name: hmpps-probation-mi-ui-dev
-          k8s_deployment_name: hmpps-probation-mi-ui
           jira_update: true
           context:
             - hmpps-common-vars
@@ -281,13 +281,12 @@ workflows:
             branches:
               only:
                 - main
+                - PDHD-118
           requires:
             - helm_lint_probation
             - unit_test
             - integration_test
             - remember-version-for-probation-dev
-            - helm_package_and_push_probation
-
           helm_timeout: 5m
       - acceptance_test:
           requires:
