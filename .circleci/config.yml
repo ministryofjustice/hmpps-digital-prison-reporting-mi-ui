@@ -273,6 +273,7 @@ workflows:
           name: deploy_probation_dev
           env: 'probation-dev'
           release_name: hmpps-probation-mi-ui-dev
+          chart_name: hmpps-probation-mi-ui
           jira_update: true
           context:
             - hmpps-common-vars
