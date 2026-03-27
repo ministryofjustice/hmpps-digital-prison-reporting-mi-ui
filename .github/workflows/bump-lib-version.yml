@@ -33,14 +33,6 @@ jobs:
         run: npm install
 
       - name: Commit version bump
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Bump library version to ${{ steps.get-version.outputs.current_version }}
-          create_branch: true
-          branch: feature/bump-lib-to-v${{ steps.get-version.outputs.current_version }}
-          tagging_message: Lib-v${{ steps.get-version.outputs.current_version }}
-
-      - name: Commit version bump
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
