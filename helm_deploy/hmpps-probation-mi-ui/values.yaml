@@ -1,5 +1,5 @@
 generic-service:
-  nameOverride: hmpps-digital-prison-reporting-mi-ui
+  nameOverride: hmpps-probation-mi-ui
 
   replicaCount: 4
 
@@ -11,23 +11,17 @@ generic-service:
   ingress:
     enabled: true
     host: app-hostname.local # override per environment
-    tlsSecretName: hmpps-digital-prison-reporting-mi-cert
+    tlsSecretName: hmpps-probation-mi-cert
     modsecurity_enabled: true
     modsecurity_audit_enabled: false
     modsecurity_snippet: |
       SecRuleEngine On
-      # Limit permitted HTTP methods.
       SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET POST OPTIONS"
-      # This grants access to the OpenSearch logs to delve into the cause of the blockage.
       SecDefaultAction "phase:2,pass,log,tag:github_team=hmpps-digital-prison-reporting"
       SecDefaultAction "phase:4,pass,log,tag:github_team=hmpps-digital-prison-reporting"
-      # This disables the Remote Command Execution: Windows Command Injection rule, since we do not use Windows and it was flagging a false positive. 
       SecRuleRemoveById 932110
-      # Change default denial to be a 406 so that we can tell easily that it is modsecurity doing the blocking.
       SecRuleUpdateActionById 949110 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
       SecRuleUpdateActionById 959100 "t:none,deny,status:406,logdata:%{SERVER_NAME}"
-      # Increase anomaly threshold from 5 originally as due to recent ModSec upgrade the rules are stricter with more false positives 
-      SecAction "id:900110,phase:1,nolog,pass,t:none,setvar:tx.inbound_anomaly_score_threshold=50"
     annotations:
       nginx.ingress.kubernetes.io/proxy-read-timeout: "360"
       nginx.ingress.kubernetes.io/proxy-body-size: 100m
@@ -42,7 +36,6 @@ generic-service:
     httpGet:
       path: /ping
 
-  # Environment variables to load into the deployment
   env:
     NODE_ENV: "production"
     TOKEN_VERIFICATION_ENABLED: "true"
@@ -52,42 +45,28 @@ generic-service:
     ACTIVE_ESTABLISHMENTS: "EXI,BNI,LYI,EEI,VEI,CWI,WCI,AYI,BLI,GNI,PDI,SPI,GMI,HCI,BRI,CDI,CLI,CKI,EYI,FDI,HPI,HBI,LWI,LTI,MSI,NWI,RCI,EHI,MTI,WII,WLI,BFI,LCI,LII,MHI,NSI,NMI,ONI,RNI,SKI,WTI,BMI,BSI,FSI,HEI,SFI,SHI,SUI,SNI,AGI,DWI,ESI,FHI,NHI,SDI,BCI,HII,LPI,RSI,TCI,GTI,WRI,FKI,UPI,SWI,BWI,CFI,PRI,UKI,BAI,FYI,LEI,FMI,DTI,DMI,HHI,KVI,HDI,HLI,HMI,LHI,MDI,WEI,GHI,LNI,FNI,IWI,BXI,HOI,ISI,PVI,WWI,WSI,HVI,KMI,LFI,PNI,WMI,LLI,LGI,MRI,WDI,WHI,WNI,WYI,STI,DHI,EWI,SLI,ACI,ASI,BZI,DNI,DGI,FWI,FBI,FEI,MKI,NLI,OWI,PFI,PBI,TSI,RHI"
     MAINTENANCE_MODE_ENABLED: "false"
     MAINTENANCE_MODE_MESSAGE: ""
-    SYSTEM_TOKEN_ENABLED: "false"
-
-  # Pre-existing kubernetes secrets to load as environment variables in the deployment.
-  # namespace_secrets:
-  #   [name of kubernetes secret]:
-  #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
 
   namespace_secrets:
-    hmpps-digital-prison-reporting-mi-ui-ec-cluster-output:
+    hmpps-probation-mi-ui-ec-cluster-output:
       REDIS_HOST: "primary_endpoint_address"
       REDIS_AUTH_TOKEN: "auth_token"
     ui-session-secret:
       SESSION_SECRET: "session_secret"
     hmpps-auth:
-      API_CLIENT_ID: "api_client_id"
-      API_CLIENT_SECRET: "api_client_secret"
+      API_CLIENT_ID: "system_client_id"
+      API_CLIENT_SECRET: "system_client_secret"
       SYSTEM_CLIENT_ID: "system_client_id"
       SYSTEM_CLIENT_SECRET: "system_client_secret"
-    hmpps-digital-prison-reporting-mi-ui:
+    hmpps-probation-mi-ui:
       APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
-    hmpps-digital-prison-reporting-mi-ui-sentry:
-      SENTRY_DSN: "SENTRY_DSN"
-      SENTRY_LOADER_SCRIPT_ID: "SENTRY_LOADER_SCRIPT_ID"
-      RELEASE_GIT_SHA: "RELEASE_GIT_SHA"
     flipt:
       FLIPT_API_KEY: "API_KEY"
       FLIPT_NAMESPACE: "NAMESPACE"
       FLIPT_URL: "URL"
 
   allowlist:
-    hmp-parc-1: 217.161.76.162/32
-    hmp-parc-2: 217.161.76.154/32
     groups:
       - internal
-      - prisons
-      - private_prisons
 
 generic-prometheus-alerts:
-  targetApplication: hmpps-digital-prison-reporting-mi-ui
+  targetApplication: hmpps-probation-mi-ui

@@ -1,0 +1,30 @@
+# Per environment values which override defaults in hmpps-probation-mi-ui/values.yaml
+
+generic-service:
+  replicaCount: 2
+
+  ingress:
+    host: hmpps-probation-mi-ui-dev.hmpps.service.justice.gov.uk
+    modsecurity_enabled: false
+
+  env:
+    ENVIRONMENT_NAME: "development"
+    INGRESS_URL: 'https://hmpps-probation-mi-ui-dev.hmpps.service.justice.gov.uk'
+    HMPPS_AUTH_URL: 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth'
+    HMPPS_MANAGE_USERS_URL: 'https://manage-users-api-dev.hmpps.service.justice.gov.uk'
+    TOKEN_VERIFICATION_API_URL: 'https://token-verification-api-dev.prison.service.justice.gov.uk'
+    REPORTING_API_URL: 'https://probation-reporting-api-dev.hmpps.service.justice.gov.uk' # TODO: replace with actual probation reporting API endpoint
+    TOKEN_VERIFICATION_ENABLED: true
+    DEFINITION_PATHS_ENABLED: true
+    DPS_COMPONENT_API_URL: 'https://frontend-components-dev.hmpps.service.justice.gov.uk'
+    DPS_URL: 'https://dps-dev.prison.service.justice.gov.uk'
+    ACTIVE_ESTABLISHMENTS: '***'
+
+  allowlist:
+    groups:
+      - circleci
+      - internal
+
+generic-prometheus-alerts:
+  alertSeverity: digital-prison-reporting-dev
+
