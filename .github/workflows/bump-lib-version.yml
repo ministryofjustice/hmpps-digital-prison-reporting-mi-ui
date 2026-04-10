@@ -32,7 +32,7 @@ jobs:
 
       - name: Find and replace library version
         run: >-
-          perl -pi -e 's|"\@ministryofjustice\/hmpps-digital-prison-reporting-frontend": "\d+\.\d+\.\d+.,|"\@ministryofjustice/hmpps-digital-prison-reporting-frontend": "5.8.5",|' package.json
+          perl -pi -e 's|"\@ministryofjustice\/hmpps-digital-prison-reporting-frontend": "\d+\.\d+\.\d+.,|"\@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^${{ steps.get-version.outputs.current_version }}",|' package.json
 
       - name: Update package lock
         run: npm install
