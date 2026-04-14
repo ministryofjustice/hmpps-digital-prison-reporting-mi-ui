@@ -15,29 +15,25 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 24.x
+
+      - name: SLSA - supply chain attack mitigation
+        uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020
+        with:
+          security-patch-package-exclusion: "@ministryofjustice/hmpps-digital-prison-reporting-frontend"
 
       - run: npm run setup --no-audit
 
       - name: Add linting fixes
-        run: npm run lint:fix
-
-      - name: Commit linting fixes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Linting fixes
+        run: npm run lint
 
       - name: Calculate test coverage
         run: |
           npm run test > logs.txt
-          grep '% Stmts' logs.txt -A2 > message.txt
-
-      - name: PR comment
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          comment_tag: coverage
-          filePath: message.txt
+          gh pr comment ${{ github.event.pull_request.number }} --body "$(grep '% Stmts' logs.txt -A2)"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
