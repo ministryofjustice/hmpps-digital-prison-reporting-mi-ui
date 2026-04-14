@@ -59,6 +59,17 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
       nestedBaseUrl: '',
       requestMissingEnabled: true,
       saveDefaultsEnabled: true,
+      dprPaths: {
+        bookmarkActionEndpoint: '',
+        downloadActionEndpoint: '',
+        productCollectionEndpoint: '',
+        bookmarkListPath: '',
+        requestedListPath: '',
+        recentlyViewedListPath: '',
+        reportsCatalogue: '',
+        userReportsList: '',
+        dprHomepage: '',
+      },
     }
     res.locals.user = { ...req.user }
     next()
