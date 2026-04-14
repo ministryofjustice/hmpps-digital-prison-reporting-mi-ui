@@ -18,6 +18,7 @@ generic-service:
     DEFINITION_PATHS_ENABLED: false
     DPS_COMPONENT_API_URL: 'https://frontend-components-preprod.hmpps.service.justice.gov.uk'
     DPS_URL: 'https://dps-preprod.prison.service.justice.gov.uk'
+    SYSTEM_TOKEN_ENABLED: "true"
 
 generic-prometheus-alerts:
   alertSeverity: dpr-alerts-preprod-alert
