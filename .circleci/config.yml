@@ -220,11 +220,11 @@ workflows:
           name: build_docker
           additional_docker_tag: 'Build.${CIRCLE_SHA1}'
           additional_docker_build_args: --secret id=SENTRY_AUTH_TOKEN --build-arg GIT_REF=${CIRCLE_SHA1} --progress=plain
-          filters:
-            branches:
-              only:
-                - main
-                - PDHD-118
+#          filters:
+#            branches:
+#              only:
+#                - main
+#                - PDHD-118
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -244,11 +244,11 @@ workflows:
           context:
             - hmpps-common-vars
             - hmpps-digital-prison-reporting-mi-dev
-          filters:
-            branches:
-              only:
-                - main
-                - PDHD-118
+#          filters:
+#            branches:
+#              only:
+#                - main
+#                - PDHD-118
           requires:
             - helm_lint
             - unit_test
