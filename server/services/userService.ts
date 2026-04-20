@@ -19,17 +19,19 @@ export default class UserService {
   ) {}
 
   async getUser(token: string): Promise<UserDetails> {
-    const user = await this.hmppsManageUsersClient.getUser(token)
-    const { email } = await this.hmppsManageUsersClient.getUserEmail(token)
+    const [user, userEmailResponse, caseloads] = await Promise.all([
+      this.hmppsManageUsersClient.getUser(token),
+      this.hmppsManageUsersClient.getUserEmail(token),
+      this.hmppsManageUsersClient.getCaseloads(token),
+    ])
     const { authorities: roles = [] } = jwtDecode(token) as { authorities?: string[] }
-    const activeCaseLoadId = await this.userClient.getActiveCaseload(token)
 
     return {
       ...user,
       displayName: convertToTitleCase(user.name),
-      activeCaseLoadId,
+      activeCaseLoadId: caseloads.activeCaseload,
       roles,
-      email,
+      email: userEmailResponse.email,
     }
   }
 }

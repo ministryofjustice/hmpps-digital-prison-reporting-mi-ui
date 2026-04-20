@@ -18,6 +18,18 @@ export interface UserEmail {
   verified: boolean
 }
 
+export interface CaseloadResponse {
+  username: string
+  active: boolean
+  accountType: string
+  activeCaseload: string
+  caseloads: {
+    id: string
+    name: string
+    function: string
+  }[]
+}
+
 export default class HmppsManageUsersClient {
   private static restClient(token: string): RestClient {
     return new RestClient('HMPPS Manage User Client', config.apis.manageUsers, token)
@@ -31,5 +43,10 @@ export default class HmppsManageUsersClient {
   getUserEmail(token: string): Promise<UserEmail> {
     logger.info(`Getting current user details: calling HMPPS Auth`)
     return HmppsManageUsersClient.restClient(token).get({ path: '/users/me/email' }) as Promise<UserEmail>
+  }
+
+  getCaseloads(token: string): Promise<CaseloadResponse> {
+    logger.info(`Getting caseloads: calling HMPPS Auth`)
+    return HmppsManageUsersClient.restClient(token).get({ path: '/users/me/caseloads' }) as Promise<CaseloadResponse>
   }
 }
