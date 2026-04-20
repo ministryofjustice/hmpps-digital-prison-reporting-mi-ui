@@ -11,7 +11,7 @@ export default function populateSystemToken(services: Services): RequestHandler 
         logger.info(`systemToken: disabled`)
       } else if (res.locals.user) {
         const { user } = res.locals
-        const dprUser = res.locals
+        const { dprUser } = res.locals
         const systemToken = res.locals.user && (await systemTokenService.getSystemToken(user.username))
         if (systemToken) {
           res.locals.systemToken = systemToken
