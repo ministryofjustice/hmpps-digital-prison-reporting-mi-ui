@@ -3,7 +3,7 @@ import HmppsManageUsersClient, { User, UserEmail } from '../data/hmppsManageUser
 import UserClient from '../data/userClient'
 
 jest.mock('../data/hmppsAuthClient')
-jest.mock('jwt-decode', () => () => ({ authorities: ['ROLE_PRISONS_REPORTING_USER'] }))
+jest.mock('jwt-decode', () => ({ jwtDecode: () => ({ authorities: ['ROLE_PRISONS_REPORTING_USER'] }) }))
 
 const token = 'some token'
 

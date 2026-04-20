@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import { convertToTitleCase } from '../utils/utils'
 import type HmppsManageUsersClient from '../data/hmppsManageUsersClient'
 import UserClient from '../data/userClient'
