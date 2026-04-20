@@ -1,5 +1,5 @@
 import UserService from './userService'
-import HmppsManageUsersClient, { User, UserEmail } from '../data/hmppsManageUsersClient'
+import HmppsManageUsersClient, { CaseloadResponse, User, UserEmail } from '../data/hmppsManageUsersClient'
 import UserClient from '../data/userClient'
 
 jest.mock('../data/hmppsAuthClient')
@@ -21,13 +21,16 @@ describe('User service', () => {
     })
     it('Retrieves and formats user name', async () => {
       hmppsManageUsersClient.getUser = jest.fn().mockResolvedValue({ name: 'john smith' } as User)
-      hmppsManageUsersClient.getUserEmail = jest.fn().mockResolvedValue({ username: 'johnSmith' } as UserEmail)
-      userClient.getActiveCaseload = jest.fn().mockResolvedValue('AAA')
+      hmppsManageUsersClient.getUserEmail = jest
+        .fn()
+        .mockResolvedValue({ username: 'johnSmith', email: 'johnsmith23904823492387@justice.gov.uk' } as UserEmail)
+      hmppsManageUsersClient.getCaseloads = jest.fn().mockResolvedValue({ activeCaseload: 'KMI' } as CaseloadResponse)
 
       const result = await userService.getUser(token)
 
       expect(result.displayName).toEqual('John Smith')
-      expect(result.activeCaseLoadId).toEqual('AAA')
+      expect(result.email).toEqual('johnsmith23904823492387@justice.gov.uk')
+      expect(result.activeCaseLoadId).toEqual('KMI')
     })
     it('Propagates error', async () => {
       hmppsManageUsersClient.getUser.mockRejectedValue(new Error('some error'))
