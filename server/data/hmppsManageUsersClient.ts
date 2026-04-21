@@ -3,9 +3,14 @@ import config from '../config'
 import RestClient from './restClient'
 
 export interface User {
+  username: string
+  active: boolean
   name: string
-  activeCaseLoadId: string
+  authSource: 'nomis' | 'none' | 'delius'
+  userId: string
   uuid: string
+  staffId?: number
+  activeCaseLoadId?: string
 }
 
 export interface UserRole {

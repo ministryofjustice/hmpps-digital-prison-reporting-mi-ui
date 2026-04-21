@@ -1,7 +1,6 @@
 import { jwtDecode } from 'jwt-decode'
 import { convertToTitleCase } from '../utils/utils'
 import type HmppsManageUsersClient from '../data/hmppsManageUsersClient'
-import UserClient from '../data/userClient'
 
 export interface UserDetails {
   name: string
@@ -13,25 +12,28 @@ export interface UserDetails {
 }
 
 export default class UserService {
-  constructor(
-    private readonly hmppsManageUsersClient: HmppsManageUsersClient,
-    private readonly userClient: UserClient,
-  ) {}
+  constructor(private readonly hmppsManageUsersClient: HmppsManageUsersClient) {}
 
   async getUser(token: string): Promise<UserDetails> {
-    const [user, userEmailResponse, caseloads] = await Promise.all([
+    const [user, userEmail] = await Promise.all([
       this.hmppsManageUsersClient.getUser(token),
       this.hmppsManageUsersClient.getUserEmail(token),
-      this.hmppsManageUsersClient.getCaseloads(token),
     ])
+
     const { authorities: roles = [] } = jwtDecode(token) as { authorities?: string[] }
 
-    return {
+    const userObj = {
       ...user,
       displayName: convertToTitleCase(user.name),
-      activeCaseLoadId: caseloads.activeCaseload,
       roles,
-      email: userEmailResponse.email,
+      email: userEmail.email,
     }
+
+    if (user.authSource === 'nomis') {
+      const caseloads = await this.hmppsManageUsersClient.getCaseloads(token)
+      userObj.activeCaseLoadId = caseloads.activeCaseload
+    }
+
+    return userObj
   }
 }

@@ -1,6 +1,5 @@
 import UserService from './userService'
 import HmppsManageUsersClient, { CaseloadResponse, User, UserEmail } from '../data/hmppsManageUsersClient'
-import UserClient from '../data/userClient'
 
 jest.mock('../data/hmppsAuthClient')
 jest.mock('jwt-decode', () => ({ jwtDecode: () => ({ authorities: ['ROLE_PRISONS_REPORTING_USER'] }) }))
@@ -11,13 +10,12 @@ describe('User service', () => {
   const hmppsManageUsersClient: jest.Mocked<HmppsManageUsersClient> = jest.createMockFromModule(
     '../data/hmppsManageUsersClient',
   )
-  const userClient: jest.Mocked<UserClient> = jest.createMockFromModule('../data/userClient')
   let userService: UserService
 
   describe('getUser', () => {
     beforeEach(() => {
       jest.resetAllMocks()
-      userService = new UserService(hmppsManageUsersClient, userClient)
+      userService = new UserService(hmppsManageUsersClient)
     })
     it('Retrieves and formats user name', async () => {
       hmppsManageUsersClient.getUser = jest.fn().mockResolvedValue({ name: 'john smith' } as User)
