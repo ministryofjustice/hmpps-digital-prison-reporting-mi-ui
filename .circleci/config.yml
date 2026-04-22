@@ -224,7 +224,7 @@ workflows:
             branches:
               only:
                 - main
-        
+                - PDHD-118
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -248,7 +248,7 @@ workflows:
             branches:
               only:
                 - main
-
+                - PDHD-118
           requires:
             - helm_lint
             - unit_test
@@ -282,7 +282,7 @@ workflows:
             branches:
               only:
                 - main
-                
+                - PDHD-118
           requires:
             - helm_lint_probation
             - unit_test
