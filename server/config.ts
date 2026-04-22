@@ -93,6 +93,7 @@ export default {
     hmppsAuth: {
       url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
       externalUrl: get('HMPPS_AUTH_EXTERNAL_URL', get('HMPPS_AUTH_URL', 'http://localhost:9090/auth')),
+      tokenUri: get('TOKEN_URI', '/oauth/token'),
       ...apiCommonConfig,
     },
     manageUsers: {
@@ -134,6 +135,7 @@ export default {
   activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
   dpr: {
     routePrefix: get('DPR_ROUTE_PREFIX', 'dpr'),
+    dataProductDefinitionsPath: get('DATA_PRODUCT_DEFINITIONS_PATH', ''),
     automaticBookmarkConfig,
   },
   sentry: {
@@ -144,6 +146,7 @@ export default {
     replayOnErrorSampleRate: Number(get('SENTRY_REPLAY_ON_ERROR_SAMPLE_RATE', 0.1)),
     RELEASE_GIT_SHA: process.env.RELEASE_GIT_SHA,
   },
+  systemTokenEnabled: get('SYSTEM_TOKEN_ENABLED', 'false') === 'true',
   featureFlagConfig: {
     namespace: get('FLIPT_NAMESPACE', null, requiredInProduction),
     token: get('FLIPT_API_KEY', null, requiredInProduction),

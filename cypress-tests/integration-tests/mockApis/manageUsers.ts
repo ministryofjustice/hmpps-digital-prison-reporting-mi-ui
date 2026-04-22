@@ -37,6 +37,34 @@ const stubUserEmail = () =>
     },
   })
 
+const stubUserCaseloads = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/users/me/caseloads',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      jsonBody: {
+        username: 'USER1',
+        active: true,
+        accountType: 'GENERAL',
+        activeCaseload: 'KMI',
+        caseloads: [
+          {
+            id: 'KMI',
+            name: 'KMI',
+            function: 'SOMEFUNC',
+          },
+        ],
+      },
+    },
+  })
+
 export default {
-  stubAuthUser: (name = 'john smith'): Promise<[Response, Response]> => Promise.all([stubUser(name), stubUserEmail()]),
+  stubAuthUser: (name = 'john smith'): Promise<[Response, Response, Response]> =>
+    Promise.all([stubUser(name), stubUserEmail(), stubUserCaseloads()]),
 }
