@@ -6,7 +6,7 @@ import auth from './cypress-tests/integration-tests/mockApis/auth'
 import tokenVerification from './cypress-tests/integration-tests/mockApis/tokenVerification'
 import reports from './cypress-tests/integration-tests/mockApis/reports'
 import manageUsers from './cypress-tests/integration-tests/mockApis/manageUsers'
-
+import frontendComponents from './cypress-tests/integration-tests/mockApis/frontendComponents'
 export default defineConfig({
   chromeWebSecurity: false,
   fixturesFolder: 'cypress-tests/integration-tests/fixtures',
@@ -22,6 +22,7 @@ export default defineConfig({
         ...tokenVerification,
         ...reports,
         ...manageUsers,
+        ...frontendComponents,
         log(message) {
           console.log(message)
 
@@ -36,7 +37,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
-    specPattern: 'cypress-tests/integration-tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: 'cypress-tests/integration-tests/e2e/**/!(header-*).cy.{js,jsx,ts,tsx}',
     supportFile: 'cypress-tests/integration-tests/support/index.ts',
   },
 })

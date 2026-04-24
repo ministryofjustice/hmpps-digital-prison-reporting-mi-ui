@@ -123,6 +123,7 @@ export default {
         'https://frontend-components-dev.hmpps.service.justice.gov.uk',
         requiredInProduction,
       ),
+      apiPath: get('FRONTEND_COMPONENTS_API_PATH', '/components')
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
