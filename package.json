@@ -126,7 +126,7 @@
     "@golevelup/ts-jest": "^3.0.0",
     "@jgoz/esbuild-plugin-typecheck": "^4.0.4",
     "@ministryofjustice/eslint-config-hmpps": "1.0.3",
-    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
+    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.4",
     "@tsconfig/node24": "24.0.4",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.8",
