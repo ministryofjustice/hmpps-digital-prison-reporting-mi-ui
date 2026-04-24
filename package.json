@@ -22,13 +22,13 @@
     "test": "jest",
     "test:ci": "jest --runInBand",
     "security_audit": "npx audit-ci --config audit-ci.json",
-    "int-test": "cypress run",
-    "int-test-ui": "cypress open",
+    "int-test:common": "cypress run",
+    "int-test:common-ui": "cypress open",
     "int-test:prison-header": "cypress run --config specPattern=cypress-tests/integration-tests/e2e/header-prison.cy.ts",
     "int-test:prison-header-ui": "cypress open --config specPattern=cypress-tests/integration-tests/e2e/header-prison.cy.ts",
     "int-test:probation-header": "cypress run --config specPattern=cypress-tests/integration-tests/e2e/header-probation.cy.ts,baseUrl=http://localhost:3009",
     "int-test:probation-header-ui": "cypress open --config specPattern=cypress-tests/integration-tests/e2e/header-probation.cy.ts,baseUrl=http://localhost:3009",
-    "int-test:all": "npm run int-test:prison-header && npm run int-test:probation-header && npm run int-test",
+    "int-test": "npm run int-test:prison-header && npm run int-test:probation-header && npm run int-test:common",
     "clean": "rm -rf dist build node_modules stylesheets",
     "acceptance-test": "cypress run --config-file cypress-tests/acceptance-tests/cypress.config.js",
     "acceptance-test-ui": "cypress open --config-file cypress-tests/acceptance-tests/cypress.config.js",
@@ -127,7 +127,7 @@
     "redis": "^5.11.0",
     "superagent": "^10.3.0",
     "url-value-parser": "^2.2.0",
-    "uuid": "^11.0.5"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@golevelup/ts-jest": "^3.0.0",
