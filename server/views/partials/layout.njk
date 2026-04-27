@@ -26,6 +26,8 @@
 {% block header %}
   {% if feComponents.header %}
     {{ feComponents.header | safe }}
+  {% elif isProbationService %}
+    {% include "./header-probation.njk" %}
   {% else %}
     {% include "./header.njk" %}
   {% endif %}

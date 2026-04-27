@@ -15,6 +15,10 @@ export default defineConfig({
   taskTimeout: 60000,
   video: true,
   e2e: {
+    env: {
+      prisonBaseUrl: 'http://localhost:3007',
+      probationBaseUrl: 'http://localhost:3005',
+    },
     setupNodeEvents(on) {
       on('task', {
         reset: resetStubs,
@@ -37,7 +41,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
-    specPattern: 'cypress-tests/integration-tests/e2e/**/!(header-*).cy.{js,jsx,ts,tsx}',
+    specPattern: 'cypress-tests/integration-tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'cypress-tests/integration-tests/support/index.ts',
   },
 })

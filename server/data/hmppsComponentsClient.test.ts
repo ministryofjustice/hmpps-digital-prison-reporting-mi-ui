@@ -19,7 +19,7 @@ describe('hmppsComponentsClient', () => {
     nock.cleanAll()
   })
 
-  describe('getComponents - default pds', () => {
+  describe('getComponents', () => {
     it('should return data from api', async () => {
       const response: { data: { footer: Component; header: Component } } = {
         data: {
@@ -43,29 +43,6 @@ describe('hmppsComponentsClient', () => {
 
       const output = await hmppsComponentsClient.getComponents(['header', 'footer'])
       expect(output).toEqual(response)
-    })
-  })
-  describe('getComponents — PDS path', () => {
-    it('uses configured apiPath when set', async () => {
-      const original = config.apis.frontendComponents.apiPath
-      config.apis.frontendComponents.apiPath = '/api/components'
-
-      const response: { data: { footer: Component; header: Component } } = {
-        data: {
-          footer: { css: [], html: '<footer></footer>', javascript: [] },
-          header: { css: [], html: '<header></header>', javascript: [] },
-        },
-      }
-
-      fakeComponentsApi
-        .get('/api/components?component=header&component=footer')
-        .matchHeader('x-user-token', token)
-        .reply(200, response)
-
-      const output = await hmppsComponentsClient.getComponents(['header', 'footer'])
-      expect(output).toEqual(response)
-
-      config.apis.frontendComponents.apiPath = original
     })
   })
 })

@@ -15,6 +15,7 @@ context('Passes a11y checks', () => {
     cy.task('stubDefinitions')
     cy.task('stubDefinition')
     cy.task('stubUserCaseload')
+    cy.task('stubPrisonComponents')
   })
 
   function terminalLog(violations: axe.Result[]) {

@@ -148,6 +148,8 @@ export default {
     RELEASE_GIT_SHA: process.env.RELEASE_GIT_SHA,
   },
   systemTokenEnabled: get('SYSTEM_TOKEN_ENABLED', 'false') === 'true',
+  /** Probation MI uses PDS components (`/api/components`); prison uses DPS (`/components`). */
+  isProbationService: get('FRONTEND_COMPONENTS_API_PATH', '/components') === '/api/components',
   featureFlagConfig: {
     namespace: get('FLIPT_NAMESPACE', null, requiredInProduction),
     token: get('FLIPT_API_KEY', null, requiredInProduction),

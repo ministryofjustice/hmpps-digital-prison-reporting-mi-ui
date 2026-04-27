@@ -5,7 +5,7 @@
  *   - App started with: npm run start-feature:dev  (uses feature.env — prison config)
  *   - Wiremock running on port 9091:  docker compose -f docker-compose-test.yml up -d
  *
- * Run individually: npm run int-test:prison-header
+ * Covered by the full integration suite: npm run int-test (or int-test:ui)
  */
 
 import Page from '../../common/pages/page'
@@ -13,6 +13,7 @@ import IndexPage from '../../common/pages'
 
 context('Prison deployment — DPS header', () => {
   beforeEach(() => {
+    Cypress.config('baseUrl', Cypress.env('prisonBaseUrl') as string)
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
@@ -28,6 +29,8 @@ context('Prison deployment — DPS header', () => {
     Page.verifyOnPage(IndexPage)
 
     cy.get('[data-qa="dps-header"]').should('exist')
+    cy.get('[data-qa="dps-header"]').should('have.class', 'hmpps-header')
+    cy.get('[data-qa="dps-header"]').invoke('text').should('not.include', 'Probation Digital Services')
   })
 
   it('does not show the PDS probation header', () => {

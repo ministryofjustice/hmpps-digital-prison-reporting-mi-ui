@@ -6,6 +6,7 @@ import * as pathModule from 'path'
 import { initialiseName } from './utils'
 import applicationVersion from '../applicationVersion'
 import logger from '../../logger'
+import config from '../config'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -14,6 +15,8 @@ export default function nunjucksSetup(app: express.Express, path: typeof pathMod
 
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Digital Prison Reporting MI UI'
+  app.locals.isProbationService = config.isProbationService
+  app.locals.environmentName = config.environmentName
   let assetManifest: Record<string, string> = {}
 
   // Cachebusting version string
