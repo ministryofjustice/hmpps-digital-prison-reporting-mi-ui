@@ -13,7 +13,7 @@ import config from '../config'
 export const services = (): Services => {
   const { userClient, hmppsAuthClient, hmppsManageUsersClient, appFeatureFlagService, ...dprClients } = dataAccess()
 
-  const userService = new UserService(hmppsManageUsersClient, userClient)
+  const userService = new UserService(hmppsManageUsersClient)
   const hmppsComponentsService = new HmppsComponentsService()
 
   const serviceConfig = {

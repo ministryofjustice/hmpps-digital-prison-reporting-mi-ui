@@ -135,6 +135,7 @@ export default {
   activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
   dpr: {
     routePrefix: get('DPR_ROUTE_PREFIX', 'dpr'),
+    dataProductDefinitionsPath: get('DATA_PRODUCT_DEFINITIONS_PATH', ''),
     automaticBookmarkConfig,
   },
   sentry: {
