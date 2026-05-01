@@ -21,7 +21,7 @@ jobs:
       - name: SLSA - supply chain attack mitigation
         uses: ministryofjustice/devsecops-actions/sca/slsa@8c77d3a65a46d1d4b5416eafae5b84371ecd797d
         with:
-          security-patch-package-exclusion: "@ministryofjustice/hmpps-digital-prison-reporting-frontend"
+          security-patch-package-exclusion: '@ministryofjustice/hmpps-digital-prison-reporting-frontend'
 
       - name: Get version
         id: get-version
@@ -31,8 +31,8 @@ jobs:
           echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Find and replace library version
-        run: >-
-          perl -pi -e 's|"\@ministryofjustice\/hmpps-digital-prison-reporting-frontend": "\d+\.\d+\.\d+.,|"\@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^${{ steps.get-version.outputs.current_version }}",|' package.json
+        run: |
+          perl -pi -e "s|\"@ministryofjustice/hmpps-digital-prison-reporting-frontend\": \"[^\"]+\"|\"@ministryofjustice/hmpps-digital-prison-reporting-frontend\": \"^${{ steps.get-version.outputs.current_version }}\"|" package.json
 
       - name: Update package lock
         run: npm install
