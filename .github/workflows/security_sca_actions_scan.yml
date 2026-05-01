@@ -27,3 +27,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           renovate: 'false'
+          trufflehog-config-file: '.github/trufflehog-config.yml'
