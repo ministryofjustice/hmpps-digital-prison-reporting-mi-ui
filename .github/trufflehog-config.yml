@@ -1,3 +1,0 @@
-# Exclude specific paths
-exclude_paths:
-  - 'hmps-auth-secret.yaml' # contains placeholder secrets
