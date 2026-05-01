@@ -30,12 +30,8 @@ jobs:
           echo "Current version: $CURRENT_VERSION"
           echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Find and replace library version
-        run: |
-          perl -pi -e "s|\"@ministryofjustice/hmpps-digital-prison-reporting-frontend\": \"[^\"]+\"|\"@ministryofjustice/hmpps-digital-prison-reporting-frontend\": \"^${{ steps.get-version.outputs.current_version }}\"|" package.json
-
-      - name: Update package lock
-        run: npm install
+      - name: Bump dependency version
+        run: npm install @ministryofjustice/hmpps-digital-prison-reporting-frontend@^${{ steps.get-version.outputs.current_version }} --save
 
       - name: Commit version bump
         run: |
