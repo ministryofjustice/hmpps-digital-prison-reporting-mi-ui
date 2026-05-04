@@ -353,7 +353,6 @@ workflows:
             branches:
               only:
                 - main
-                - PDHD-118
           requires:
             - helm_lint_probation_test
             - remember-version-for-probation-test
