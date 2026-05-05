@@ -16,7 +16,7 @@ export default class HmppsComponentsClient {
   async getComponents<T extends Array<AvailableComponent>>(components: T): Promise<Record<T[number], Component>> {
     return this.restClient.get({
       headers: { 'x-user-token': this.userToken },
-      path: (config.apis.frontendComponents.apiPath as string),
+      path: config.apis.frontendComponents.apiPath as string,
       query: {
         component: components,
       },

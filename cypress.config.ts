@@ -7,6 +7,7 @@ import tokenVerification from './cypress-tests/integration-tests/mockApis/tokenV
 import reports from './cypress-tests/integration-tests/mockApis/reports'
 import manageUsers from './cypress-tests/integration-tests/mockApis/manageUsers'
 import frontendComponents from './cypress-tests/integration-tests/mockApis/frontendComponents'
+
 export default defineConfig({
   chromeWebSecurity: false,
   fixturesFolder: 'cypress-tests/integration-tests/fixtures',
