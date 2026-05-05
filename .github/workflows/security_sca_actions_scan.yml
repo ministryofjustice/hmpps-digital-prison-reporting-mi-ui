@@ -30,8 +30,7 @@ jobs:
           renovate: 'false'
       - name: SCA slack notification
         uses: ministryofjustice/hmpps-github-shared-actions/.github/actions/slack_codescan_notification@fddc5f11d6a8ce9b82a06fe76268835bfd99bcd4 # v1
-        if: (failure() || steps.sca-scan.outcome == 'failure')
-        # && github.event_name == 'schedule' && github.ref == 'refs/heads/main'
+        if: (failure() || steps.sca-scan.outcome == 'failure') && github.event_name == 'schedule' && github.ref == 'refs/heads/main'
         with:
           title: 'Software Composition Analysis Actions Scan'
           warningOnly: false
