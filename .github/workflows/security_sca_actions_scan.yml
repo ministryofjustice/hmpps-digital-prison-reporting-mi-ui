@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Run SCA
-        uses: ministryofjustice/devsecops-actions/sca@9af7935ef39312305084f720326ffb0e6779b1d8 # v1.5.0
+        uses: ministryofjustice/devsecops-actions/sca@7dc13c20e2bf541b8a77fa1320a04983b18846f6 # v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           renovate: 'false'
