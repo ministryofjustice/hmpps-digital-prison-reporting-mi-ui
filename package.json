@@ -152,7 +152,7 @@
     "@types/supertest": "^7.2.0",
     "@types/uuid": "^11.0.0",
     "audit-ci": "^7.1.0",
-    "axe-core": "^4.11.3",
+    "axe-core": "^4.11.4",
     "concurrently": "^9.1.2",
     "cookie-session": "^2.1.1",
     "cypress": "^15.14.1",
