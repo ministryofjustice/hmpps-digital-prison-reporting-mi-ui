@@ -6,6 +6,7 @@ import auth from './cypress-tests/integration-tests/mockApis/auth'
 import tokenVerification from './cypress-tests/integration-tests/mockApis/tokenVerification'
 import reports from './cypress-tests/integration-tests/mockApis/reports'
 import manageUsers from './cypress-tests/integration-tests/mockApis/manageUsers'
+import frontendComponents from './cypress-tests/integration-tests/mockApis/frontendComponents'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -15,6 +16,10 @@ export default defineConfig({
   taskTimeout: 60000,
   video: true,
   e2e: {
+    env: {
+      prisonBaseUrl: 'http://localhost:3007',
+      probationBaseUrl: 'http://localhost:3005',
+    },
     setupNodeEvents(on) {
       on('task', {
         reset: resetStubs,
@@ -22,6 +27,7 @@ export default defineConfig({
         ...tokenVerification,
         ...reports,
         ...manageUsers,
+        ...frontendComponents,
         log(message) {
           console.log(message)
 
