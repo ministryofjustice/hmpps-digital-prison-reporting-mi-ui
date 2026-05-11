@@ -124,8 +124,12 @@ jobs:
           command: java -jar wiremock.jar --port 9091
           background: true
       - run:
-          name: Run the node app.
+          name: Run the node (prisons) app.
           command: npm run start-feature
+          background: true
+      - run:
+          name: Run the node (probation) app.
+          command: npm run start-feature:probation
           background: true
       - run:
           name: Wait for node app to start
