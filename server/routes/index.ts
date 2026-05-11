@@ -15,11 +15,11 @@ export default function routes(services: Services, layoutPath: string): Router {
 
   get('/', async (req, res) => {
     const catalogue = await initCatalogue({ res, services })
-    const userReportsLists = await initMyReports(req, res, services, { maxRows: 10 })
+    const myReportsList = await initMyReports(req, res, services, { maxRows: 10 })
 
     res.render('pages/home', {
       title: 'Digital Prison Reporting',
-      userReportsLists,
+      myReportsList,
       catalogue,
     })
   })
