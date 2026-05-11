@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import { initCatalogue } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/catalogueUtils'
-import { initUserReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/userReportsListUtils'
+import { initMyReports } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/myReportsListUtils'
 import { routes as dprPlatformRoutes } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/routes'
 
 import process from 'process'
@@ -13,9 +13,9 @@ export default function routes(services: Services, layoutPath: string): Router {
   const router = Router()
   const get = routerGet(router)
 
-  get('/', async (_req, res) => {
+  get('/', async (req, res) => {
     const catalogue = await initCatalogue({ res, services })
-    const userReportsLists = await initUserReports({ res, services })
+    const userReportsLists = await initMyReports(req, res, services, { maxRows: 10 })
 
     res.render('pages/home', {
       title: 'Digital Prison Reporting',
