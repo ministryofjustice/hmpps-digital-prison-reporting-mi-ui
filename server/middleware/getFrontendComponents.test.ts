@@ -57,7 +57,7 @@ describe('getFrontendComponents', () => {
     expect(next).toHaveBeenCalled()
   })
 
-  it('calls next with an error when the components service throws an error', async () => {
+  it('falls back to empty injected components when the components service throws', async () => {
     const error = new Error('SOME-ERROR')
     hmppsComponentsService.getComponents.mockRejectedValue(error)
 
@@ -66,6 +66,13 @@ describe('getFrontendComponents', () => {
     await getFrontendComponents(hmppsComponentsService)(req, res, next)
 
     expect(logger.error).toHaveBeenCalledWith(error, 'Failed to retrieve front end components')
+    expect(res.locals.feComponents).toEqual({
+      cssIncludes: [],
+      footer: '',
+      header: '',
+      jsIncludes: [],
+      dpsUrl: 'http://localhost:3000',
+    })
     expect(next).toHaveBeenCalled()
   })
 
