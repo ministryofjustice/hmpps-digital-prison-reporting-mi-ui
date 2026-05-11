@@ -233,6 +233,14 @@ workflows:
           name: helm_lint_probation_test
           chart_name: hmpps-probation-mi-ui
           env: probation-test
+      - hmpps/helm_lint:
+          name: helm_lint_probation_preprod
+          chart_name: hmpps-probation-mi-ui
+          env: probation-preprod
+      - hmpps/helm_lint:
+          name: helm_lint_probation_prod
+          chart_name: hmpps-probation-mi-ui
+          env: probation-prod
       - hmpps/build_docker:
           name: build_docker
           additional_docker_tag: 'Build.${CIRCLE_SHA1}'
@@ -292,7 +300,7 @@ workflows:
       - hmpps/deploy_env:
           name: deploy_probation_dev
           env: 'probation-dev'
-          release_name: hmpps-probation-mi-ui-dev
+          release_name: hmpps-probation-mi-ui
           chart_name: hmpps-probation-mi-ui
           jira_update: true
           context:
@@ -318,6 +326,10 @@ workflows:
           type: approval
           requires:
             - acceptance_test
+      - request-probation-test-approval:
+          type: approval
+          requires:
+            - acceptance_test
       - remember-app-version:
           name: remember-version-for-test
           requires:
@@ -325,7 +337,7 @@ workflows:
       - remember-app-version:
           name: remember-version-for-probation-test
           requires:
-            - request-test-approval
+            - request-probation-test-approval
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_test
           requires:
@@ -348,7 +360,7 @@ workflows:
           name: deploy_probation_test
           env: 'probation-test'
           jira_update: true
-          release_name: hmpps-probation-mi-ui-test
+          release_name: hmpps-probation-mi-ui
           chart_name: hmpps-probation-mi-ui
           context:
             - hmpps-common-vars
@@ -365,10 +377,22 @@ workflows:
           type: approval
           requires:
             - acceptance_test
+      - request-probation-preprod-approval:
+          type: approval
+          requires:
+            - acceptance_test
       - remember-app-version:
           name: remember-version-for-preprod
           requires:
             - request-preprod-approval
+      - remember-app-version:
+          name: remember-version-for-probation-preprod
+          requires:
+            - request-probation-preprod-approval
+          filters:
+            branches:
+              only:
+                - main
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_preprod
           requires:
@@ -388,14 +412,44 @@ workflows:
           requires:
             - update_sentry_git_ref_secret_preprod
           helm_timeout: 5m
+      - hmpps/deploy_env:
+          name: deploy_probation_preprod
+          env: 'probation-preprod'
+          jira_update: true
+          jira_env_type: staging
+          release_name: hmpps-probation-mi-ui
+          chart_name: hmpps-probation-mi-ui
+          context:
+            - hmpps-common-vars
+            - hmpps-probation-mi-ui-preprod
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - helm_lint_probation_preprod
+            - remember-version-for-probation-preprod
+          helm_timeout: 5m
       - request-prod-approval:
           type: approval
           requires:
             - deploy_preprod
+      - request-probation-prod-approval:
+          type: approval
+          requires:
+            - deploy_probation_preprod
       - remember-app-version:
           name: remember-version-for-prod
           requires:
             - request-prod-approval
+      - remember-app-version:
+          name: remember-version-for-probation-prod
+          requires:
+            - request-probation-prod-approval
+          filters:
+            branches:
+              only:
+                - main
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_prod
           requires:
@@ -416,4 +470,24 @@ workflows:
             - hmpps-digital-prison-reporting-mi-prod
           requires:
             - update_sentry_git_ref_secret_prod
+          helm_timeout: 5m
+      - hmpps/deploy_env:
+          name: deploy_probation_prod
+          env: 'probation-prod'
+          jira_update: true
+          jira_env_type: production
+          slack_notification: true
+          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
+          release_name: hmpps-probation-mi-ui
+          chart_name: hmpps-probation-mi-ui
+          context:
+            - hmpps-common-vars
+            - hmpps-probation-mi-ui-prod
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - helm_lint_probation_prod
+            - remember-version-for-probation-prod
           helm_timeout: 5m

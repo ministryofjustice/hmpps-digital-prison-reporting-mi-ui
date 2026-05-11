@@ -1,0 +1,31 @@
+# Per environment values which override defaults in hmpps-probation-mi-ui/values.yaml
+
+generic-service:
+  replicaCount: 2
+
+  ingress:
+    host: hmpps-probation-mi-ui-preprod.hmpps.service.justice.gov.uk
+    modsecurity_enabled: false
+
+  env:
+    ENVIRONMENT_NAME: "preprod"
+    INGRESS_URL: 'https://hmpps-probation-mi-ui-preprod.hmpps.service.justice.gov.uk'
+    HMPPS_AUTH_URL: 'https://sign-in-preprod.hmpps.service.justice.gov.uk/auth'
+    HMPPS_MANAGE_USERS_URL: 'https://manage-users-api-preprod.hmpps.service.justice.gov.uk'
+    TOKEN_VERIFICATION_API_URL: 'https://token-verification-api-preprod.prison.service.justice.gov.uk'
+    REPORTING_API_URL: 'https://hmpps-probation-mi-api-preprod.hmpps.service.justice.gov.uk'
+    TOKEN_VERIFICATION_ENABLED: true
+    DEFINITION_PATHS_ENABLED: true
+    DPS_COMPONENT_API_URL: 'https://frontend-components-preprod.hmpps.service.justice.gov.uk'
+    DPS_URL: 'https://dps-preprod.prison.service.justice.gov.uk'
+    ACTIVE_ESTABLISHMENTS: '***'
+    DATA_PRODUCT_DEFINITIONS_PATH: 'definitions/probation/orphanage'
+
+  allowlist:
+    groups:
+      - circleci
+      - internal
+
+generic-prometheus-alerts:
+  alertSeverity: digital-prison-reporting-preprod
+
