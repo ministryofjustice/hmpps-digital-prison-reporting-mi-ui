@@ -3,6 +3,14 @@ import helmet from 'helmet'
 import crypto from 'crypto'
 import config from '../config'
 
+function tryOrigin(url: string): string | undefined {
+  try {
+    return new URL(url).origin
+  } catch {
+    return undefined
+  }
+}
+
 export default function setUpWebSecurity(): Router {
   const router = express.Router()
 
@@ -22,20 +30,69 @@ export default function setUpWebSecurity(): Router {
   // page by an attacker.
   const scriptSrc = [
     "'self' https://browser.sentry-cdn.com https://js.sentry-cdn.com",
+    'https://js.monitor.azure.com',
+    'https://*.applicationinsights.azure.com',
     (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
   ]
+
+  // Nonces apply to <style> / <link rel="stylesheet">, not to HTML style="..." attributes.
+  // MoJ / PDS / HMPPS frontend components set inline style attributes (e.g. navigation menus).
+  // CSP3: allow those via style-src-attr while keeping stylesheet loads nonce-based on style-src.
   const styleSrc = [
-    "'self' https://browser.sentry-cdn.com https://js.sentry-cdn.com",
+    "'self'",
     (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`,
-    'fonts.googleapis.com',
+    'https://fonts.googleapis.com',
   ]
+  const styleSrcAttr = ["'unsafe-inline'"]
+
   const imgSrc = ["'self'", 'data:']
-  const fontSrc = ["'self'", 'fonts.gstatic.com']
+
+  const fontSrc = ["'self'", 'https://fonts.gstatic.com']
+
   const formAction = [`'self' ${config.apis.hmppsAuth.externalUrl} ${config.digitalPrisonServiceUrl}`]
-  const connectSrc = [
-    "'self' https://*.sentry.io https://browser.sentry-cdn.com https://northeurope-0.in.applicationinsights.azure.com https://js.monitor.azure.com",
-  ]
-  const workerSrc = ["'self' blob:"]
+
+  const frontendComponentsOrigin = config.apis.frontendComponents.url && tryOrigin(config.apis.frontendComponents.url)
+
+  const frameSrc = ["'self'"]
+  if (frontendComponentsOrigin) {
+    frameSrc.push(frontendComponentsOrigin)
+  }
+
+  const connectSrc = (() => {
+    const sources = [
+      "'self'",
+      'https://*.sentry.io',
+      'https://*.sentry-cdn.com',
+      'https://browser.sentry-cdn.com',
+      'https://northeurope-0.in.applicationinsights.azure.com',
+      'https://js.monitor.azure.com',
+      'https://*.applicationinsights.azure.com',
+    ]
+
+    if (frontendComponentsOrigin) {
+      sources.push(frontendComponentsOrigin)
+    }
+
+    const fliptOrigin = config.featureFlagConfig.url && tryOrigin(config.featureFlagConfig.url)
+    if (fliptOrigin) {
+      sources.push(fliptOrigin)
+    }
+
+    if (config.environmentName === 'local') {
+      sources.push('http://localhost:3000')
+      sources.push('http://localhost:3002')
+      sources.push('http://localhost:8100')
+      sources.push('http://localhost:9090')
+      sources.push('http://localhost:9091')
+    }
+
+    return sources
+  })()
+
+  const workerSrc = ["'self'", 'blob:']
+  if (frontendComponentsOrigin) {
+    workerSrc.push(frontendComponentsOrigin)
+  }
 
   if (config.apis.frontendComponents.url) {
     scriptSrc.push(config.apis.frontendComponents.url)
@@ -48,19 +105,15 @@ export default function setUpWebSecurity(): Router {
     helmet({
       contentSecurityPolicy: {
         directives: {
-          defaultSrc: ["'self'"],
-          // This nonce allows us to use scripts with the use of the `cspNonce` local, e.g (in a Nunjucks template):
-          // <script nonce="{{ cspNonce }}">
-          // or
-          // <link href="http://example.com/" rel="stylesheet" nonce="{{ cspNonce }}">
-          // This ensures only scripts we trust are loaded, and not anything injected into the
-          // page by an attacker.
+          defaultSrc: ["'self'", 'https://js.monitor.azure.com', 'https://*.applicationinsights.azure.com'],
           scriptSrc,
           styleSrc,
+          styleSrcAttr,
           fontSrc,
           imgSrc,
           formAction,
           connectSrc,
+          frameSrc,
           workerSrc,
         },
       },

@@ -16,8 +16,10 @@ declare module 'express-session' {
 
 export declare global {
   namespace Express {
-    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-    interface Locals extends ExtraLocals {}
+    interface Locals extends ExtraLocals {
+      /** When true, GOV.UK / MoJ initAll run only inside #main-content so API header/footer scripts own the banner. */
+      scopeMoJGovInitToMain?: boolean
+    }
     interface User {
       username: string
       token: string
