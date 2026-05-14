@@ -167,7 +167,7 @@
     "esbuild-sass-plugin": "^3.7.0",
     "glob": "^13.0.6",
     "husky": "^9.1.7",
-    "jest": "^30.3.0",
+    "jest": "^30.4.2",
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "jsonwebtoken": "^9.0.3",
