@@ -124,6 +124,11 @@ export default {
         requiredInProduction,
       ),
       apiPath: get('FRONTEND_COMPONENTS_API_PATH', '/components'),
+      timeout: {
+        response: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_RESPONSE', 10000))),
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
