@@ -31,6 +31,9 @@ jobs:
       - name: Add linting fixes
         run: npm run lint
 
+      - name: Check typescript build
+        run: npm run typecheck
+
       - name: Calculate test coverage
         run: |
           npm run test > logs.txt

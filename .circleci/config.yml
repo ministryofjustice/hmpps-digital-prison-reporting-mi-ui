@@ -135,6 +135,9 @@ jobs:
           name: Wait for node app to start
           command: sleep 5
       - run:
+          name: Check typescript build
+          command: npm run typecheck
+      - run:
           name: integration tests
           command: npm run int-test
       - store_test_results:
