@@ -5,6 +5,7 @@ import type HmppsManageUsersClient from '../data/hmppsManageUsersClient'
 export interface UserDetails {
   name: string
   displayName: string
+  authSource: string
   activeCaseLoadId?: string
   roles: string[]
   uuid: string

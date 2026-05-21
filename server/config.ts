@@ -1,6 +1,8 @@
 import { FeatureFlagConfig } from './services/featureFlagService'
 
 const production = process.env.NODE_ENV === 'production'
+export type AuthSource = 'nomis' | 'delius'
+const validAuthSources = ['nomis', 'delius']
 
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
   if (process.env[name]) {
@@ -13,6 +15,19 @@ function get<T>(name: string, fallback: T, options = { requireInProduction: fals
 }
 
 const requiredInProduction = { requireInProduction: true }
+
+const getRequiredAuthSources = (): AuthSource[] => {
+  const authSources = String(get('REQUIRED_AUTH_SOURCES', 'nomis', requiredInProduction))
+    .split(',')
+    .map(authSource => authSource.trim().toLowerCase())
+    .filter(Boolean)
+
+  if (authSources.some(authSource => !validAuthSources.includes(authSource))) {
+    throw new Error(`REQUIRED_AUTH_SOURCES must contain only: ${validAuthSources.join(', ')}`)
+  }
+
+  return authSources as AuthSource[]
+}
 
 export class AgentConfig {
   timeout: number
@@ -136,6 +151,7 @@ export default {
     enabled: Boolean(get('MAINTENANCE_MODE_ENABLED', 'false', requiredInProduction).toLowerCase() === 'true'),
     message: get('MAINTENANCE_MODE_MESSAGE', ''),
   },
+  requiredAuthSources: getRequiredAuthSources(),
   definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', 'true', requiredInProduction) === 'true'),
   digitalPrisonServiceUrl: get('DPS_URL', 'http://localhost:3000', requiredInProduction),
   activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
