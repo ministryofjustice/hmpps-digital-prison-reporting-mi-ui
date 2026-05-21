@@ -119,7 +119,8 @@ const stubDefinitionExternalMovements = () =>
         '        "name": "Last month",\n' +
         '        "description": "All movements in the past month"\n' +
         '      }\n' +
-        '    ]\n' +
+        '    ],\n' +
+        '    "authorised": true\n' +
         '  }',
     },
   })
