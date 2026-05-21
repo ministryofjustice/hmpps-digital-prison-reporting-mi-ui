@@ -58,9 +58,7 @@ context('Prison deployment — DPS header', () => {
     cy.signIn()
     Page.verifyOnPage(IndexPage)
 
-    cy.get('[data-qa="dps-header"] [data-qa="signOut"]')
-      .should('exist')
-      .and('have.attr', 'href', '/sign-out')
+    cy.get('[data-qa="dps-header"] [data-qa="signOut"]').should('exist').and('have.attr', 'href', '/sign-out')
   })
 
   it('shows the DPS footer injected from the prison component API', () => {

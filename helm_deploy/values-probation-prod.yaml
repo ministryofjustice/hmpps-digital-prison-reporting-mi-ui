@@ -27,4 +27,3 @@ generic-service:
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-reporting-prod
-
