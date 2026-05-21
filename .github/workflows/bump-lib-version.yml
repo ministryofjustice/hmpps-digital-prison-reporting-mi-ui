@@ -14,14 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
           node-version: 24.x
 
       - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@8c77d3a65a46d1d4b5416eafae5b84371ecd797d
+        uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
         with:
-          security-patch-package-exclusion: "@ministryofjustice/hmpps-digital-prison-reporting-frontend"
+          security-patch-package-exclusion: '@ministryofjustice/hmpps-digital-prison-reporting-frontend'
 
       - name: Get version
         id: get-version
@@ -30,12 +30,8 @@ jobs:
           echo "Current version: $CURRENT_VERSION"
           echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Find and replace library version
-        run: >-
-          perl -pi -e 's|"\@ministryofjustice\/hmpps-digital-prison-reporting-frontend": "\d+\.\d+\.\d+.,|"\@ministryofjustice/hmpps-digital-prison-reporting-frontend": "^${{ steps.get-version.outputs.current_version }}",|' package.json
-
-      - name: Update package lock
-        run: npm install
+      - name: Bump dependency version
+        run: npm install @ministryofjustice/hmpps-digital-prison-reporting-frontend@^${{ steps.get-version.outputs.current_version }} --save
 
       - name: Commit version bump
         run: |

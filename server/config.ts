@@ -123,6 +123,12 @@ export default {
         'https://frontend-components-dev.hmpps.service.justice.gov.uk',
         requiredInProduction,
       ),
+      apiPath: get('FRONTEND_COMPONENTS_API_PATH', '/components'),
+      timeout: {
+        response: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_RESPONSE', 10000))),
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
@@ -147,6 +153,8 @@ export default {
     RELEASE_GIT_SHA: process.env.RELEASE_GIT_SHA,
   },
   systemTokenEnabled: get('SYSTEM_TOKEN_ENABLED', 'false') === 'true',
+  /** Probation MI uses PDS components (`/api/components`); prison uses DPS (`/components`). */
+  isProbationService: get('FRONTEND_COMPONENTS_API_PATH', '/components') === '/api/components',
   featureFlagConfig: {
     namespace: get('FLIPT_NAMESPACE', null, requiredInProduction),
     token: get('FLIPT_API_KEY', null, requiredInProduction),

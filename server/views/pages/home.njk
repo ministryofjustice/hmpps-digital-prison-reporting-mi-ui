@@ -3,7 +3,7 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% from "dpr/components/_catalogue/catalogue/view.njk" import dprCatalogue %}
-{% from "dpr/components/user-reports/view.njk" import dprUserReports %}
+{% from "dpr/components/my-reports/view.njk" import dprMyReports %}
 
 {% set pageTitle = applicationName + " - " + title %}
 
@@ -19,10 +19,10 @@
   <div id="homepage-widget" class="dpr-reports-widget-wrapper">
     <div class="govuk-width-container">
       <h2 class="govuk-heading-m">My reports<h2>
-        {{ dprUserReports(userReportsLists)}}
+        {{ dprMyReports(myReportsList)}}
     </div>
   </div>
-  
+
   <div id="reports-catalogue-section" class="govuk-width-container govuk-!-padding-top-7">
     {{ dprCatalogue(catalogue) }}
   <div>

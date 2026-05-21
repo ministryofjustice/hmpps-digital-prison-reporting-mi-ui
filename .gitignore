@@ -146,3 +146,5 @@ dependency-check-*
 
 # Postgres driver
 /postgresql-*.jar
+
+.DS_Store
