@@ -69,6 +69,8 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
         reportsCatalogue: '',
         userReportsList: '',
         dprHomepage: '',
+        requestReportPath: '',
+        viewReportPath: '',
       },
     }
     res.locals.user = { ...req.user }
