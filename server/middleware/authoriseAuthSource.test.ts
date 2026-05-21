@@ -8,6 +8,7 @@ jest.mock('../../logger')
 
 describe('authoriseAuthSource', () => {
   const next = jest.fn()
+  const layoutPath = '/path/to/layout.njk'
 
   beforeEach(() => {
     jest.resetAllMocks()
@@ -32,7 +33,7 @@ describe('authoriseAuthSource', () => {
     const req = createMock<Request>({ originalUrl: '/' })
     const res = createResponse('nomis')
 
-    authoriseAuthSource()(req, res, next)
+    authoriseAuthSource(layoutPath)(req, res, next)
 
     expect(next).toHaveBeenCalled()
     expect(res.status).not.toHaveBeenCalled()
@@ -43,7 +44,7 @@ describe('authoriseAuthSource', () => {
     const req = createMock<Request>({ originalUrl: '/' })
     const res = createResponse('delius')
 
-    authoriseAuthSource()(req, res, next)
+    authoriseAuthSource(layoutPath)(req, res, next)
 
     expect(next).toHaveBeenCalled()
     expect(res.status).not.toHaveBeenCalled()
@@ -54,7 +55,7 @@ describe('authoriseAuthSource', () => {
     const req = createMock<Request>({ originalUrl: '/' })
     const res = createResponse('delius')
 
-    authoriseAuthSource()(req, res, next)
+    authoriseAuthSource(layoutPath)(req, res, next)
 
     expect(next).toHaveBeenCalled()
     expect(res.status).not.toHaveBeenCalled()
@@ -64,7 +65,7 @@ describe('authoriseAuthSource', () => {
     const req = createMock<Request>({ originalUrl: '/' })
     const res = createResponse('delius')
 
-    authoriseAuthSource()(req, res, next)
+    authoriseAuthSource(layoutPath)(req, res, next)
 
     expect(next).not.toHaveBeenCalled()
     expect(logger.warn).toHaveBeenCalledWith(
@@ -77,7 +78,9 @@ describe('authoriseAuthSource', () => {
       'User attempted to access service with the wrong auth source',
     )
     expect(res.status).toHaveBeenCalledWith(403)
-    expect(res.render).toHaveBeenCalledWith('autherror', {
+    expect(res.render).toHaveBeenCalledWith('dpr/routes/authError.njk', {
+      layoutPath,
+      digitalPrisonServicesUrl: 'http://localhost:3000',
       userAuthSource: 'delius',
       requiredAuthSources: ['nomis'],
     })
@@ -88,11 +91,13 @@ describe('authoriseAuthSource', () => {
     const req = createMock<Request>({ originalUrl: '/' })
     const res = createResponse('nomis')
 
-    authoriseAuthSource()(req, res, next)
+    authoriseAuthSource(layoutPath)(req, res, next)
 
     expect(next).not.toHaveBeenCalled()
     expect(res.status).toHaveBeenCalledWith(403)
-    expect(res.render).toHaveBeenCalledWith('autherror', {
+    expect(res.render).toHaveBeenCalledWith('dpr/routes/authError.njk', {
+      layoutPath,
+      digitalPrisonServicesUrl: 'http://localhost:3000',
       userAuthSource: 'nomis',
       requiredAuthSources: ['delius'],
     })
@@ -102,7 +107,7 @@ describe('authoriseAuthSource', () => {
     const req = createMock<Request>({ originalUrl: '/' })
     const res = createResponse('NOMIS')
 
-    authoriseAuthSource()(req, res, next)
+    authoriseAuthSource(layoutPath)(req, res, next)
 
     expect(next).toHaveBeenCalled()
     expect(res.status).not.toHaveBeenCalled()
@@ -112,7 +117,7 @@ describe('authoriseAuthSource', () => {
     const req = { originalUrl: '/health' } as Request
     const res = createResponse()
 
-    authoriseAuthSource()(req, res, next)
+    authoriseAuthSource(layoutPath)(req, res, next)
 
     expect(next).toHaveBeenCalled()
     expect(res.status).not.toHaveBeenCalled()

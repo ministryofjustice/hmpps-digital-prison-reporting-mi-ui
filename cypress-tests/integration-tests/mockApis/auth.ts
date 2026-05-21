@@ -3,8 +3,7 @@ import { Response } from 'superagent'
 
 import { stubFor, getMatchingRequests } from './wiremock'
 import tokenVerification from './tokenVerification'
-
-type AuthSource = 'nomis' | 'delius'
+import {AuthSource} from '../../../server/config'
 
 const createToken = (authSource: AuthSource = 'nomis') => {
   const payload = {

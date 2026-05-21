@@ -4,7 +4,7 @@ import logger from '../../logger'
 
 const normaliseAuthSource = (authSource: string | undefined): string | undefined => authSource?.toLowerCase()
 
-export default function authoriseAuthSource(): RequestHandler {
+export default function authoriseAuthSource(layoutPath: string): RequestHandler {
   return (req, res, next) => {
     const requiredAuthSources = config.requiredAuthSources.map(normaliseAuthSource)
     const userAuthSource = normaliseAuthSource(res.locals.user?.authSource ?? req.user?.authSource)
@@ -23,7 +23,9 @@ export default function authoriseAuthSource(): RequestHandler {
       'User attempted to access service with the wrong auth source',
     )
 
-    return res.status(403).render('autherror', {
+    return res.status(403).render('dpr/routes/authError.njk', {
+      layoutPath,
+      digitalPrisonServicesUrl: config.digitalPrisonServiceUrl,
       userAuthSource,
       requiredAuthSources,
     })

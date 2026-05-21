@@ -1,8 +1,8 @@
 import { FeatureFlagConfig } from './services/featureFlagService'
 
 const production = process.env.NODE_ENV === 'production'
-export type AuthSource = 'nomis' | 'delius'
-const validAuthSources = ['nomis', 'delius']
+const validAuthSources = ['nomis', 'delius', 'auth', 'none'] as const
+export type AuthSource = (typeof validAuthSources)[number]
 
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
   if (process.env[name]) {
