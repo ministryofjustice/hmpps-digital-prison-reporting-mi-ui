@@ -8,7 +8,7 @@ import auth from '../authentication/auth'
 
 const router = express.Router()
 
-export default function setUpAuth(): Router {
+export default function setUpAuth(layoutPath: string): Router {
   auth.init()
 
   router.use(passport.initialize())
@@ -17,7 +17,10 @@ export default function setUpAuth(): Router {
 
   router.get('/autherror', (req, res) => {
     res.status(401)
-    return res.render('autherror')
+    return res.render('dpr/routes/authError.njk', {
+      layoutPath,
+      digitalPrisonServicesUrl: config.digitalPrisonServiceUrl,
+    })
   })
 
   router.get('/sign-in', passport.authenticate('oauth2'))
