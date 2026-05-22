@@ -35,7 +35,8 @@ repos:
         files: (\.(ts)$|^package-lock\.json$)
         require_serial: true
         pass_filenames: false
-  - repo: builtin
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
