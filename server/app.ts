@@ -12,6 +12,7 @@ import errorHandler from './errorHandler'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
 import setUpAuthentication from './middleware/setUpAuthentication'
+import authoriseAuthSource from './middleware/authoriseAuthSource'
 import setUpCsrf from './middleware/setUpCsrf'
 import setUpCurrentUser from './middleware/setUpCurrentUser'
 import setUpHealthChecks from './middleware/setUpHealthChecks'
@@ -57,9 +58,10 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
   const env = nunjucksSetup(app, path)
-  app.use(setUpAuthentication())
+  app.use(setUpAuthentication(layoutPath))
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
+  app.use(authoriseAuthSource(layoutPath))
   app.use(setUpSystemToken(services))
   app.use(unauthorisedRoutes(services.appFeatureFlagService))
   app.use(setupResources(services, layoutPath, env, config.dpr))
