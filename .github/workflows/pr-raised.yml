@@ -29,7 +29,7 @@ jobs:
       - run: npm run setup --no-audit
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@c8813ba1bc76ebf779b911ad8ffccbf2e449cb48
         with:
           python-version: '3.x'
 
