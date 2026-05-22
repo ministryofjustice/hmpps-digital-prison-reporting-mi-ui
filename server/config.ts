@@ -22,7 +22,7 @@ const getRequiredAuthSources = (): AuthSource[] => {
     .map(authSource => authSource.trim().toLowerCase())
     .filter(Boolean)
 
-  if (authSources.some(authSource => !validAuthSources.includes(authSource))) {
+  if (authSources.some(authSource => !validAuthSources.includes(authSource as AuthSource))) {
     throw new Error(`REQUIRED_AUTH_SOURCES must contain only: ${validAuthSources.join(', ')}`)
   }
 

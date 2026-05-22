@@ -1,11 +1,12 @@
 import { jwtDecode } from 'jwt-decode'
 import { convertToTitleCase } from '../utils/utils'
 import type HmppsManageUsersClient from '../data/hmppsManageUsersClient'
+import { AuthSource } from '../config'
 
 export interface UserDetails {
   name: string
   displayName: string
-  authSource: string
+  authSource: AuthSource
   activeCaseLoadId?: string
   roles: string[]
   uuid: string
