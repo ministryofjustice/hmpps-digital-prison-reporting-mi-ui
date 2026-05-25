@@ -111,7 +111,7 @@
     "express-session": "^1.19.0",
     "glob": "^13.0.6",
     "govuk-frontend": "^5.14.0",
-    "helmet": "^8.0.0",
+    "helmet": "^8.2.0",
     "http-errors": "^2.0.1",
     "jwt-decode": "^4.0.0",
     "nocache": "^4.0.0",
