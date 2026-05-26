@@ -143,6 +143,7 @@ export default {
     routePrefix: get('DPR_ROUTE_PREFIX', 'dpr'),
     dataProductDefinitionsPath: get('DATA_PRODUCT_DEFINITIONS_PATH', ''),
     automaticBookmarkConfig,
+    checkDefinitionsInterval: 3600000, // 1 hour
   },
   sentry: {
     dsn: process.env.SENTRY_DSN,
