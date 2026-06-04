@@ -94,7 +94,7 @@
     "@ministryofjustice/frontend": "^8.0.1",
     "@ministryofjustice/hmpps-digital-prison-reporting-frontend": "6.5.0",
     "@sentry/cli": "^3.4.3",
-    "@sentry/node": "^10.53.1",
+    "@sentry/node": "^10.55.0",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.2",
     "bunyan": "^1.8.15",
