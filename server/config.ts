@@ -1,6 +1,8 @@
 import { FeatureFlagConfig } from './services/featureFlagService'
 
 const production = process.env.NODE_ENV === 'production'
+const validAuthSources = ['nomis', 'delius', 'auth', 'none'] as const
+export type AuthSource = (typeof validAuthSources)[number]
 
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
   if (process.env[name]) {
@@ -13,6 +15,19 @@ function get<T>(name: string, fallback: T, options = { requireInProduction: fals
 }
 
 const requiredInProduction = { requireInProduction: true }
+
+const getRequiredAuthSources = (): AuthSource[] => {
+  const authSources = String(get('REQUIRED_AUTH_SOURCES', 'nomis', requiredInProduction))
+    .split(',')
+    .map(authSource => authSource.trim().toLowerCase())
+    .filter(Boolean)
+
+  if (authSources.some(authSource => !validAuthSources.includes(authSource as AuthSource))) {
+    throw new Error(`REQUIRED_AUTH_SOURCES must contain only: ${validAuthSources.join(', ')}`)
+  }
+
+  return authSources as AuthSource[]
+}
 
 export class AgentConfig {
   timeout: number
@@ -93,6 +108,7 @@ export default {
     hmppsAuth: {
       url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
       externalUrl: get('HMPPS_AUTH_EXTERNAL_URL', get('HMPPS_AUTH_URL', 'http://localhost:9090/auth')),
+      tokenUri: get('TOKEN_URI', '/oauth/token'),
       ...apiCommonConfig,
     },
     manageUsers: {
@@ -122,6 +138,12 @@ export default {
         'https://frontend-components-dev.hmpps.service.justice.gov.uk',
         requiredInProduction,
       ),
+      apiPath: get('FRONTEND_COMPONENTS_API_PATH', '/components'),
+      timeout: {
+        response: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_RESPONSE', 10000))),
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
@@ -129,12 +151,15 @@ export default {
     enabled: Boolean(get('MAINTENANCE_MODE_ENABLED', 'false', requiredInProduction).toLowerCase() === 'true'),
     message: get('MAINTENANCE_MODE_MESSAGE', ''),
   },
+  requiredAuthSources: getRequiredAuthSources(),
   definitionPathsEnabled: Boolean(get('DEFINITION_PATHS_ENABLED', 'true', requiredInProduction) === 'true'),
   digitalPrisonServiceUrl: get('DPS_URL', 'http://localhost:3000', requiredInProduction),
   activeEstablishments: get('ACTIVE_ESTABLISHMENTS', '***', requiredInProduction).split(','),
   dpr: {
     routePrefix: get('DPR_ROUTE_PREFIX', 'dpr'),
+    dataProductDefinitionsPath: get('DATA_PRODUCT_DEFINITIONS_PATH', ''),
     automaticBookmarkConfig,
+    checkDefinitionsInterval: 3600000, // 1 hour
   },
   sentry: {
     dsn: process.env.SENTRY_DSN,
@@ -144,6 +169,9 @@ export default {
     replayOnErrorSampleRate: Number(get('SENTRY_REPLAY_ON_ERROR_SAMPLE_RATE', 0.1)),
     RELEASE_GIT_SHA: process.env.RELEASE_GIT_SHA,
   },
+  systemTokenEnabled: get('SYSTEM_TOKEN_ENABLED', 'false') === 'true',
+  /** Probation MI uses PDS components (`/api/components`); prison uses DPS (`/components`). */
+  isProbationService: get('FRONTEND_COMPONENTS_API_PATH', '/components') === '/api/components',
   featureFlagConfig: {
     namespace: get('FLIPT_NAMESPACE', null, requiredInProduction),
     token: get('FLIPT_API_KEY', null, requiredInProduction),

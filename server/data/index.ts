@@ -20,7 +20,7 @@ export const dataAccess = () => ({
   hmppsAuthClient: new HmppsAuthClient(),
   hmppsManageUsersClient: new HmppsManageUsersClient(),
   userClient: new UserClient(config.apis.reporting),
-  ...initDprReportingClients(config.apis.reporting, createRedisClient(), 'userConfig:'),
+  ...initDprReportingClients(config.apis.reporting, createRedisClient(), 'userConfig:', config.featureFlagConfig),
   appFeatureFlagService: new AppFeatureFlagService(config.featureFlagConfig),
 })
 

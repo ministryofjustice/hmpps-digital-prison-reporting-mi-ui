@@ -3,12 +3,13 @@ import { Response } from 'superagent'
 
 import { stubFor, getMatchingRequests } from './wiremock'
 import tokenVerification from './tokenVerification'
+import { AuthSource } from '../../../server/config'
 
-const createToken = () => {
+const createToken = (authSource: AuthSource = 'nomis') => {
   const payload = {
     user_name: 'USER1',
     scope: ['read'],
-    auth_source: 'nomis',
+    auth_source: authSource,
     authorities: ['ROLE_PRISONS_REPORTING_USER'],
     jti: '83b50a10-cca6-41db-985f-e87efb303ddb',
     client_id: 'clientid',
@@ -95,7 +96,7 @@ const manageDetails = () =>
     },
   })
 
-const token = () =>
+const token = (authSource: AuthSource = 'nomis') =>
   stubFor({
     request: {
       method: 'POST',
@@ -108,7 +109,7 @@ const token = () =>
         Location: 'http://localhost:3007/sign-in/callback?code=codexxxx&state=stateyyyy',
       },
       jsonBody: {
-        access_token: createToken(),
+        access_token: createToken(authSource),
         token_type: 'bearer',
         user_name: 'USER1',
         expires_in: 599,
@@ -121,6 +122,15 @@ const token = () =>
 export default {
   getSignInUrl,
   stubAuthPing: ping,
-  stubSignIn: (): Promise<[Response, Response, Response, Response, Response, Response]> =>
-    Promise.all([favicon(), redirect(), signOut(), manageDetails(), token(), tokenVerification.stubVerifyToken()]),
+  stubSignIn: (
+    authSource: AuthSource = 'nomis',
+  ): Promise<[Response, Response, Response, Response, Response, Response]> =>
+    Promise.all([
+      favicon(),
+      redirect(),
+      signOut(),
+      manageDetails(),
+      token(authSource),
+      tokenVerification.stubVerifyToken(),
+    ]),
 }

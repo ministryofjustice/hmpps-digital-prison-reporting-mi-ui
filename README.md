@@ -100,15 +100,15 @@ For local running, start a test db, redis, and wiremock instance by:
 
 `docker-compose -f docker-compose-test.yml up`
 
-Then run the server in test mode by:
+Then run the servers in test mode (prison and probation apps are on different ports from `feature.env` and `feature-probation.env`):
 
-`npm run start-feature` (or `npm run start-feature:dev` to run with nodemon)
+`npm run start-feature` and `npm run start-feature:probation` (or the `:dev` variants with nodemon)
 
-And then either, run tests in headless mode with:
+And then either run the full integration suite in headless mode:
 
 `npm run int-test`
 
-Or run tests with the cypress UI:
+Or open Cypress for the same suite:
 
 `npm run int-test-ui`
 
@@ -157,12 +157,17 @@ npm run acceptance-test
 They can be configured using the following environment variables:
 
 ```shell
-CYPRESS_USERNAME=# The HMPPS Auth user's username, for the relevant environment (e.g. SPEGG_GEN)
-CYPRESS_PASSWORD=# The HMPPS Auth user's password, for the relevant environment (e.g. Password1!)
+CYPRESS_USERNAME=# NOMIS (prisons) HMPPS Auth user for the relevant environment (e.g. SPEGG_GEN)
+CYPRESS_PASSWORD=# NOMIS (prisons) HMPPS Auth password
+CYPRESS_PROBATION_USERNAME=# DELIUS (probation) HMPPS Auth user
+CYPRESS_PROBATION_PASSWORD=# DELIUS (probation) HMPPS Auth password
 CYPRESS_BASE_URL=# The URL of the UI to test (defaults to 'https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk/')
 CYPRESS_SIGN_IN_URL=# The URL of the HMPPS Auth server (defaults to 'sign-in-dev.hmpps.service.justice.gov.uk')
 CYPRESS_API_BASE_URL=# The base URL of the environment's API (defaults to 'https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk')
+CYPRESS_PROBATION_BASE_URL=# Probation UI URL (defaults to 'https://hmpps-probation-mi-ui-dev.hmpps.service.justice.gov.uk/')
 ```
+
+Locally, add these to your `.env` file (Cypress maps `CYPRESS_*` shell vars to `Cypress.env()` keys automatically). In CircleCI they are stored in the `hmpps-digital-prison-reporting-mi-auth` project context.
 
 ## Maintenance Mode
 
@@ -179,4 +184,110 @@ env:
 - name: MAINTENANCE_MODE_MESSAGE
   value: "We are performing scheduled maintenance"
 ...
+```
+# Developer Onboarding (Fresh Clone)
+
+After cloning the repository, run the following commands to enable the local pre-commit hooks.
+
+---
+
+## Step 1 — Clone the Repository
+
+```bash
+git clone <repo-url>
+cd hmpps-digital-prison-reporting-mi-ui
+```
+
+---
+
+## Step 2 — Use the Correct Node Version
+
+Run:
+
+```bash
+nvm use
+```
+
+Verify the versions:
+
+```bash
+node -v
+npm -v
+```
+
+Expected:
+
+- Node `22.x` or `24.x`
+- npm `10.x` or `11.x`
+
+---
+
+## Step 3 — Install Dependencies
+
+Run:
+
+```bash
+npm install
+```
+
+or:
+
+```bash
+npm ci
+```
+
+---
+
+## Step 4 — Register the Git Pre-Commit Hook Locally
+
+Run:
+
+```bash
+npm run prepare
+```
+
+Expected output:
+
+```bash
+Initialising prek hooks on this repo
+prek installed at `.git/hooks/pre-commit` ✅
+```
+
+Hooks are now active locally.
+
+---
+
+## Step 5 — Verify the Setup
+
+Run:
+
+```bash
+prek run --all-files
+```
+
+This validates:
+
+- secret scanning (`gitleaks`)
+- lint checks
+- type checks
+- tests
+- JSON/YAML validation
+
+If all hooks pass, your local setup is complete.
+
+---
+
+# Quick Setup Summary
+
+```bash
+git clone <repo-url>
+cd hmpps-digital-prison-reporting-mi-ui
+
+nvm use
+
+npm install
+
+npm run prepare
+
+prek run --all-files
 ```

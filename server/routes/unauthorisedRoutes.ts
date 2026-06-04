@@ -32,6 +32,7 @@ export const unauthorisedRoutes = (featureFlagService: AppFeatureFlagService) =>
   get('/info', async (_req, res) => {
     const info = {
       ...applicationInfo,
+      featureFlags: {},
     }
     const activePrionsEvaluation = featureFlagService.enabled
       ? await featureFlagService.evaluateFlag('activeEstablishments', 'VARIANT_FLAG_TYPE').catch(e => {
@@ -44,6 +45,15 @@ export const unauthorisedRoutes = (featureFlagService: AppFeatureFlagService) =>
         info.activeAgencies = activePrisons
       }
     }
+
+    // Add feature flags to info for debugging
+    info.featureFlags = {
+      flags: _req.app.locals.featureFlags?.flags || {},
+      saveDefaultsEnabled: _req.app.locals.featureFlags?.flags?.saveDefaultsEnabled ?? true,
+      streamingDownloadEnabled: _req.app.locals.featureFlags?.flags?.streamingDownloadEnabled ?? true,
+      barChartsEnabled: _req.app.locals.featureFlags?.flags?.barChartsEnabled ?? true,
+    }
+
     res.setHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(info))
   })

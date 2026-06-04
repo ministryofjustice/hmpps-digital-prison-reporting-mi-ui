@@ -2,7 +2,14 @@ import { Response } from 'superagent'
 
 import { stubFor } from './wiremock'
 
-const stubUser = (name: string) =>
+type AuthSource = 'nomis' | 'delius'
+
+type StubAuthUserOptions = {
+  name?: string
+  authSource?: AuthSource
+}
+
+const stubUser = (name: string, authSource: AuthSource) =>
   stubFor({
     request: {
       method: 'GET',
@@ -18,6 +25,9 @@ const stubUser = (name: string) =>
         username: 'USER1',
         active: true,
         name,
+        authSource,
+        userId: 'USER1',
+        uuid: 'user-uuid',
       },
     },
   })
@@ -37,6 +47,37 @@ const stubUserEmail = () =>
     },
   })
 
+const stubUserCaseloads = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/users/me/caseloads',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      jsonBody: {
+        username: 'USER1',
+        active: true,
+        accountType: 'GENERAL',
+        activeCaseload: 'KMI',
+        caseloads: [
+          {
+            id: 'KMI',
+            name: 'KMI',
+            function: 'SOMEFUNC',
+          },
+        ],
+      },
+    },
+  })
+
 export default {
-  stubAuthUser: (name = 'john smith'): Promise<[Response, Response]> => Promise.all([stubUser(name), stubUserEmail()]),
+  stubAuthUser: (options: string | StubAuthUserOptions = 'john smith'): Promise<[Response, Response, Response]> => {
+    const name = typeof options === 'string' ? options : options.name || 'john smith'
+    const authSource = typeof options === 'string' ? 'nomis' : options.authSource || 'nomis'
+    return Promise.all([stubUser(name, authSource), stubUserEmail(), stubUserCaseloads()])
+  },
 }
