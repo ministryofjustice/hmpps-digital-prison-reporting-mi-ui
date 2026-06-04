@@ -157,12 +157,17 @@ npm run acceptance-test
 They can be configured using the following environment variables:
 
 ```shell
-CYPRESS_USERNAME=# The HMPPS Auth user's username, for the relevant environment (e.g. SPEGG_GEN)
-CYPRESS_PASSWORD=# The HMPPS Auth user's password, for the relevant environment (e.g. Password1!)
+CYPRESS_USERNAME=# NOMIS (prisons) HMPPS Auth user for the relevant environment (e.g. SPEGG_GEN)
+CYPRESS_PASSWORD=# NOMIS (prisons) HMPPS Auth password
+CYPRESS_PROBATION_USERNAME=# DELIUS (probation) HMPPS Auth user
+CYPRESS_PROBATION_PASSWORD=# DELIUS (probation) HMPPS Auth password
 CYPRESS_BASE_URL=# The URL of the UI to test (defaults to 'https://digital-prison-reporting-mi-ui-dev.hmpps.service.justice.gov.uk/')
 CYPRESS_SIGN_IN_URL=# The URL of the HMPPS Auth server (defaults to 'sign-in-dev.hmpps.service.justice.gov.uk')
 CYPRESS_API_BASE_URL=# The base URL of the environment's API (defaults to 'https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk')
+CYPRESS_PROBATION_BASE_URL=# Probation UI URL (defaults to 'https://hmpps-probation-mi-ui-dev.hmpps.service.justice.gov.uk/')
 ```
+
+Locally, add these to your `.env` file (Cypress maps `CYPRESS_*` shell vars to `Cypress.env()` keys automatically). In CircleCI they are stored in the `hmpps-digital-prison-reporting-mi-auth` project context.
 
 ## Maintenance Mode
 
