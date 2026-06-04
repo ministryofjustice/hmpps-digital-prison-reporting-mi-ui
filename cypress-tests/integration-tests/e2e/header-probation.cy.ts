@@ -15,8 +15,8 @@ context('Probation deployment — PDS header', () => {
   beforeEach(() => {
     Cypress.config('baseUrl', Cypress.env('probationBaseUrl') as string)
     cy.task('reset')
-    cy.task('stubSignIn')
-    cy.task('stubAuthUser')
+    cy.task('stubSignIn', 'delius')
+    cy.task('stubAuthUser', { authSource: 'delius' })
     cy.task('stubDefinitions')
     cy.task('stubDefinition')
     cy.task('stubUserCaseload')

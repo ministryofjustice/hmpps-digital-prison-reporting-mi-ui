@@ -3,7 +3,7 @@ import { Response } from 'superagent'
 
 import { stubFor, getMatchingRequests } from './wiremock'
 import tokenVerification from './tokenVerification'
-import {AuthSource} from '../../../server/config'
+import { AuthSource } from '../../../server/config'
 
 const createToken = (authSource: AuthSource = 'nomis') => {
   const payload = {

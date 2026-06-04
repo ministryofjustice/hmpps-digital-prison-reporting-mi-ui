@@ -24,7 +24,10 @@ module.exports = defineConfig({
   env: {
     USERNAME: 'Populated from CYPRESS_USERNAME env var',
     PASSWORD: 'Populated from CYPRESS_PASSWORD env var',
+    PROBATION_USERNAME: 'Populated from CYPRESS_PROBATION_USERNAME env var',
+    PROBATION_PASSWORD: 'Populated from CYPRESS_PROBATION_PASSWORD env var',
     SIGN_IN_URL: 'sign-in-dev.hmpps.service.justice.gov.uk',
     API_BASE_URL: 'https://digital-prison-reporting-mi-dev.hmpps.service.justice.gov.uk',
+    PROBATION_BASE_URL: 'https://hmpps-probation-mi-ui-dev.hmpps.service.justice.gov.uk/',
   },
 })

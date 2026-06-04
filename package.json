@@ -14,7 +14,7 @@
     "start-feature": "export $(cat feature.env) && node $NODE_DEBUG_OPTION dist/server.js | bunyan -o short",
     "start-feature:dev": "export $(cat feature.env) && concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
     "start-feature:probation": "export $(cat feature-probation.env) && node $NODE_DEBUG_OPTION dist/server.js | bunyan -o short",
-    "start-feature:probation:dev": "export $(cat feature-probation-test.env) && concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
+    "start-feature:probation:dev": "export $(cat feature-probation.env) && concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
     "record-build-info": "node ./bin/record-build-info",
     "lint": "eslint . --cache --max-warnings 0",
     "lint:fix": "eslint . --fix",

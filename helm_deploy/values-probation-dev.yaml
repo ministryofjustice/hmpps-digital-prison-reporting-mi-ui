@@ -21,7 +21,7 @@ generic-service:
     DPS_URL: 'https://dps-dev.prison.service.justice.gov.uk'
     ACTIVE_ESTABLISHMENTS: '***'
     DATA_PRODUCT_DEFINITIONS_PATH: 'definitions/probation/orphanage'
-    REQUIRED_AUTH_SOURCES: 'nomis,delius'
+    REQUIRED_AUTH_SOURCES: 'delius'
 
   allowlist:
     groups:
