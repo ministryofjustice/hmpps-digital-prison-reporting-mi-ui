@@ -35,10 +35,11 @@ The app requires:
 This app uses [hmpps-npm-script-allowlist](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/npm-script-allowlist) to restrict pre/post install scripts to help mitigate attacks using this vector. Any `npm ci` that you would normally execute or put in scripts, should be replaced by `npm run setup` which ensures the allowlist checks are run. This library forbids post/preinstall scripts to run as part of `npm i`, so if the library you are installing depends on them, you should check first whether it's a trustworthy library and whether there's an alternative, but if not, you will need to run `npm run setup` afterward and go through the warnings that pop up for it and check any scripts it needs.
 
 Whenever a library bump is required for one of the scripts in the [allowlist](./.allowed-scripts.mjs), you should:
-1) Run `npm run setup` - it will prod you that you need to update the allowlist to allow the new version
-2) Check - has the script changed (e.g. `postinstall: "node install.js"`? Look at changes in the package.json between the previous version in the allowlist and the one you've updated to
-3) If it did, check the updated package.json script and any scripts it triggers
-4) If it did not, check the script file it references. For example, ESBuild has a `postinstall` script of `node install.js` - so we should if that changed.
+
+1. Run `npm run setup` - it will prod you that you need to update the allowlist to allow the new version
+2. Check - has the script changed (e.g. `postinstall: "node install.js"`? Look at changes in the package.json between the previous version in the allowlist and the one you've updated to
+3. If it did, check the updated package.json script and any scripts it triggers
+4. If it did not, check the script file it references. For example, ESBuild has a `postinstall` script of `node install.js` - so we should if that changed.
 
 How to check a post/preinstall script?
 
@@ -185,6 +186,7 @@ env:
   value: "We are performing scheduled maintenance"
 ...
 ```
+
 # Developer Onboarding (Fresh Clone)
 
 After cloning the repository, run the following commands to enable the local pre-commit hooks.

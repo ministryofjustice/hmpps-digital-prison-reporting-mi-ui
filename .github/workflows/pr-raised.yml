@@ -24,7 +24,7 @@ jobs:
       - name: SLSA - supply chain attack mitigation
         uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
         with:
-          security-patch-package-exclusion: "@ministryofjustice/hmpps-digital-prison-reporting-frontend"
+          security-patch-package-exclusion: '@ministryofjustice/hmpps-digital-prison-reporting-frontend'
 
       - run: npm run setup --no-audit
 

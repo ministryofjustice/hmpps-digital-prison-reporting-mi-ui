@@ -1,6 +1,5 @@
 version: '3.1'
 services:
-
   redis:
     image: 'redis:7.0'
     networks:
@@ -18,7 +17,7 @@ services:
     depends_on:
       - redis
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - REDIS_HOST=redis
       - AUTHORISED_ROLES=ROLE_PRISONS_REPORTING_USER

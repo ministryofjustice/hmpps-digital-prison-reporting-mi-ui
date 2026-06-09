@@ -2,12 +2,14 @@
 {% from "domain-specific/probation/header/macro.njk" import pdsHeader %}
 
 <div data-qa="pds-header">
-  {{ pdsHeader({
-    environmentName: 'PRODUCTION',
-    name: (user.displayName | initialiseName) if user else 'User',
-    manageDetailsLink: '/account-details',
-    servicesLink: '/',
-    services: [{ heading: applicationName, href: '/', target: '_self' }],
-    titleLink: '/'
-  }) }}
+  {{
+    pdsHeader({
+      environmentName: 'PRODUCTION',
+      name: (user.displayName | initialiseName) if user else 'User',
+      manageDetailsLink: '/account-details',
+      servicesLink: '/',
+      services: [{ heading: applicationName, href: '/', target: '_self' }],
+      titleLink: '/'
+    })
+  }}
 </div>
