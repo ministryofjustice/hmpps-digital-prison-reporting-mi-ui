@@ -182,7 +182,7 @@ jobs:
     steps:
       - mem/remember:
           env_var: APP_VERSION
-          value: "Build.${CIRCLE_SHA1}"
+          value: 'Build.${CIRCLE_SHA1}'
 
   # helm_package_and_push_probation:
   #   executor:
