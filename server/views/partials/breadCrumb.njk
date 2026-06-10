@@ -2,21 +2,24 @@
 
 {% macro breadCrumb(dpsUrl, breadCrumbList = []) %}
 
-  {% set rows = [
-    {
-      text: "Digital Prison Services",
-      href: dpsUrl
-    }
-  ] %}
+  {%
+    set rows = [
+      {
+        text: "Digital Prison Services",
+        href: dpsUrl
+      }
+    ]
+  %}
 
   {% if (breadCrumbList.length > 0) %}
     {% set rows = rows.concat(breadCrumbList) %}
   {% endif %}
 
-  {{ govukBreadcrumbs({
-    collapseOnMobile: true,
-    items: rows,
-    classes: "govuk-!-display-none-print hmpps-header__container"
-  }) }}
-
+  {{
+    govukBreadcrumbs({
+      collapseOnMobile: true,
+      items: rows,
+      classes: "govuk-!-display-none-print hmpps-header__container"
+    })
+  }}
 {% endmacro %}

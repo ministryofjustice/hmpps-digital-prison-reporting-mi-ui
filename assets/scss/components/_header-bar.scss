@@ -69,7 +69,7 @@
     &__sub-text {
       @include govuk-font(16);
       & {
-       display: none;
+        display: none;
       }
       @include govuk-media-query($from: tablet) {
         display: block;
