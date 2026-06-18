@@ -96,7 +96,7 @@
     "@sentry/cli": "^3.5.0",
     "@sentry/node": "^10.56.0",
     "agentkeepalive": "^4.6.0",
-    "applicationinsights": "^2.9.2",
+    "applicationinsights": "^3.15.0",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
     "compression": "^1.8.1",
