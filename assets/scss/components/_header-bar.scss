@@ -121,7 +121,7 @@
   }
 
   .govuk-phase-banner {
-    background-color: white;
+    background-color: govuk-colour('white');
     padding-bottom: 0;
   }
 }
@@ -130,7 +130,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  border-bottom: 1px solid $govuk-border-colour;
+  border-bottom: 1px solid govuk-functional-colour(border);
   @include govuk-width-container;
   @include govuk-responsive-margin(3, 'bottom');
   @include govuk-responsive-padding(3, 'top');
