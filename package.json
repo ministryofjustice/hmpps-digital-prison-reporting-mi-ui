@@ -121,7 +121,7 @@
     "redis": "^5.12.1",
     "superagent": "^10.3.0",
     "url-value-parser": "^2.2.0",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.1"
   },
   "devDependencies": {
     "@golevelup/ts-jest": "^3.0.0",
