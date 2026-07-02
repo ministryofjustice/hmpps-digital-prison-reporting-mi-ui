@@ -19,8 +19,8 @@ generic-service:
     DPS_COMPONENT_API_URL: 'https://frontend-components-preprod.hmpps.service.justice.gov.uk'
     DPS_URL: 'https://dps-preprod.prison.service.justice.gov.uk'
     ACTIVE_ESTABLISHMENTS: '***'
-    DATA_PRODUCT_DEFINITIONS_PATH: 'definitions/probation/orphanage'
-    REQUIRED_AUTH_SOURCES: 'nomis,delius'
+    DATA_PRODUCT_DEFINITIONS_PATH: 'definitions/probation'
+    REQUIRED_AUTH_SOURCES: 'delius'
   allowlist:
     groups:
       - circleci

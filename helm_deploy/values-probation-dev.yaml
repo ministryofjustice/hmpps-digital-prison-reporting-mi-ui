@@ -20,7 +20,7 @@ generic-service:
     FRONTEND_COMPONENTS_API_PATH: '/api/components'
     DPS_URL: 'https://dps-dev.prison.service.justice.gov.uk'
     ACTIVE_ESTABLISHMENTS: '***'
-    DATA_PRODUCT_DEFINITIONS_PATH: 'definitions/probation/orphanage'
+    DATA_PRODUCT_DEFINITIONS_PATH: 'definitions/probation'
     REQUIRED_AUTH_SOURCES: 'delius'
 
   allowlist:
