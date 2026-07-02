@@ -21,4 +21,4 @@ generic-service:
     REQUIRED_AUTH_SOURCES: 'nomis,delius'
 
 generic-prometheus-alerts:
-  alertSeverity: dpr-alerts-preprod-alert
+  alertSeverity: digital-prison-reporting-preprod
