@@ -27,4 +27,4 @@ generic-service:
       - internal
 
 generic-prometheus-alerts:
-  alertSeverity: digital-prison-reporting-preprod
+  alertSeverity: probation-frontend-alerts-preprod
