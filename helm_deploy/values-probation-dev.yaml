@@ -34,4 +34,5 @@ generic-service:
       - internal
 
 generic-prometheus-alerts:
+  businessHoursOnly: true
   alertSeverity: probation-frontend-alerts-dev
