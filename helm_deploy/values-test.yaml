@@ -36,4 +36,5 @@ generic-service:
       - private_prisons
 
 generic-prometheus-alerts:
+  businessHoursOnly: true
   alertSeverity: digital-prison-reporting-dev
