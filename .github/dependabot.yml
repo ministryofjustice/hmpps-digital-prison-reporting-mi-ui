@@ -17,3 +17,19 @@ updates:
       interval: 'daily'
     cooldown:
       default-days: 3
+  - package-ecosystem: "helm"
+    directory: "/helm_deploy/hmpps-digital-prison-reporting-mi-ui"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-patch"
+  - package-ecosystem: "helm"
+    directory: "/helm_deploy/hmpps-probation-mi-ui"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-patch"

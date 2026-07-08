@@ -252,7 +252,7 @@ workflows:
             branches:
               only:
                 - main
-                - PDHD-118
+                - update-helm-charts
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -276,7 +276,7 @@ workflows:
             branches:
               only:
                 - main
-                - PDHD-118
+                - update-helm-charts
           requires:
             - helm_lint_dev
             - helm_lint_test
@@ -313,7 +313,7 @@ workflows:
             branches:
               only:
                 - main
-                - PDHD-118
+                - update-helm-charts
           requires:
             - helm_lint_probation_dev
             - unit_test
