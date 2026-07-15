@@ -1,11 +1,11 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-{% macro breadCrumb(dpsUrl, breadCrumbList = []) %}
+{% macro breadCrumb(dpsUrl, breadCrumbList = [], digitalServicesName = "Digital Prison Services") %}
 
   {%
     set rows = [
       {
-        text: "Digital Prison Services",
+        text: digitalServicesName,
         href: dpsUrl
       }
     ]

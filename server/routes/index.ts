@@ -7,6 +7,7 @@ import { routes as dprPlatformRoutes } from '@ministryofjustice/hmpps-digital-pr
 import process from 'process'
 import fs from 'fs'
 import type { Services } from '../services'
+import config from '../config'
 import { routerGet } from './routerGet'
 
 export default function routes(services: Services, layoutPath: string): Router {
@@ -18,7 +19,7 @@ export default function routes(services: Services, layoutPath: string): Router {
     const myReportsList = await initMyReports(req, res, services, { maxRows: 10 })
 
     res.render('pages/home', {
-      title: 'Digital Prison Reporting',
+      title: config.reportingServiceName,
       myReportsList,
       catalogue,
     })
