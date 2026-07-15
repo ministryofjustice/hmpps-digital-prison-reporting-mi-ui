@@ -5,7 +5,15 @@ import { services } from './services'
 
 promClient.collectDefaultMetrics()
 
-const app = createApp(services())
+const serviceContainer = services()
+
+// Run the reportId migration
+Promise.resolve(serviceContainer.reportIdMigrationService.migrate()).catch(error => {
+  // eslint-disable-next-line no-console
+  console.error(error)
+})
+
+const app = createApp(serviceContainer)
 const metricsApp = createMetricsApp()
 
 export { app, metricsApp }

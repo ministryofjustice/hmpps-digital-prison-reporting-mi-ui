@@ -177,4 +177,7 @@ export default {
     token: get('FLIPT_API_KEY', null, requiredInProduction),
     url: get('FLIPT_URL', 'http://localhost:9090/featureFlags', requiredInProduction),
   } as FeatureFlagConfig,
+  migrationServiceConfig: {
+    enabled: Boolean(get('REPORT_ID_MIGRATION_SERVICE_ENABLED', 'false', requiredInProduction) === 'true'),
+  },
 }
