@@ -16,6 +16,7 @@ export default function nunjucksSetup(app: express.Express, path: typeof pathMod
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = config.applicationName
   app.locals.digitalServicesName = config.digitalServicesName
+  app.locals.reportingServiceName = config.reportingServiceName
   app.locals.isProbationService = config.isProbationService
   app.locals.environmentName = config.environmentName
   let assetManifest: Record<string, string> = {}
