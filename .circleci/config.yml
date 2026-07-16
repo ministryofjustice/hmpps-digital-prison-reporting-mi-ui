@@ -252,6 +252,7 @@ workflows:
             branches:
               only:
                 - main
+                - test-cci
       - remember-app-version:
           name: remember-version-for-dev
           requires:
@@ -275,6 +276,7 @@ workflows:
             branches:
               only:
                 - main
+                - test-cci
           requires:
             - helm_lint_dev
             - helm_lint_test
@@ -311,6 +313,7 @@ workflows:
             branches:
               only:
                 - main
+                - test-cci
           requires:
             - helm_lint_probation_dev
             - unit_test
@@ -369,6 +372,7 @@ workflows:
             branches:
               only:
                 - main
+                - test-cci
           requires:
             - helm_lint_probation_test
             - remember-version-for-probation-test
@@ -389,10 +393,6 @@ workflows:
           name: remember-version-for-probation-preprod
           requires:
             - request-probation-preprod-approval
-          filters:
-            branches:
-              only:
-                - main
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_preprod
           requires:
@@ -422,10 +422,6 @@ workflows:
           context:
             - hmpps-common-vars
             - hmpps-probation-mi-ui-preprod
-          filters:
-            branches:
-              only:
-                - main
           requires:
             - helm_lint_probation_preprod
             - remember-version-for-probation-preprod
@@ -446,10 +442,6 @@ workflows:
           name: remember-version-for-probation-prod
           requires:
             - request-probation-prod-approval
-          filters:
-            branches:
-              only:
-                - main
       - update_sentry_git_ref_secret:
           name: update_sentry_git_ref_secret_prod
           requires:
@@ -483,10 +475,6 @@ workflows:
           context:
             - hmpps-common-vars
             - hmpps-probation-mi-ui-prod
-          filters:
-            branches:
-              only:
-                - main
           requires:
             - helm_lint_probation_prod
             - remember-version-for-probation-prod
