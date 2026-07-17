@@ -22,7 +22,6 @@ generic-service:
     ACTIVE_ESTABLISHMENTS: '***'
     DATA_PRODUCT_DEFINITIONS_PATH: 'definitions/probation'
     REQUIRED_AUTH_SOURCES: 'delius'
-    REPORT_ID_MIGRATION_SERVICE_ENABLED: true
 
   scheduledDowntime:
     enabled: true
