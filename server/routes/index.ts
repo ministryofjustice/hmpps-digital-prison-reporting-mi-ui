@@ -15,7 +15,7 @@ export default function routes(services: Services, layoutPath: string): Router {
   const get = routerGet(router)
 
   get('/', async (req, res) => {
-    const catalogue = await initCatalogue({ res, services })
+    const catalogue = await initCatalogue({ res, services, req })
     const myReportsList = await initMyReports(req, res, services, { maxRows: 10 })
 
     res.render('pages/home', {
