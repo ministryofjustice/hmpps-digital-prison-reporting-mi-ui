@@ -30,6 +30,7 @@ context('Auth source validation', () => {
       cy.task('stubAuthUser', { authSource: 'delius' })
       cy.signIn({ failOnStatusCode: false })
       cy.contains(authErrorMessage)
+      cy.contains('a', 'Go to digital services home page').should('exist')
     })
   })
 
@@ -59,6 +60,7 @@ context('Auth source validation', () => {
       cy.task('stubAuthUser', { authSource: 'nomis' })
       cy.signIn({ failOnStatusCode: false })
       cy.contains(authErrorMessage)
+      cy.contains('a', 'Go to digital services home page').should('not.exist')
     })
   })
 })
