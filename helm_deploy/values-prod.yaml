@@ -17,7 +17,7 @@ generic-service:
     DPS_COMPONENT_API_URL: 'https://frontend-components.hmpps.service.justice.gov.uk'
     DPS_URL: 'https://dps.prison.service.justice.gov.uk'
     REQUIRED_AUTH_SOURCES: 'nomis,delius'
-    REPORT_ID_MIGRATION_SERVICE_ENABLED: true
+    REPORT_ID_MIGRATION_SERVICE_ENABLED: false
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-reporting-prod
