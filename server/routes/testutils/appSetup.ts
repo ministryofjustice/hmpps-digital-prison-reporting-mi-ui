@@ -71,6 +71,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
         dprHomepage: '',
         requestReportPath: '',
         viewReportPath: '',
+        subscribePath: '',
       },
     }
     res.locals.user = { ...req.user }

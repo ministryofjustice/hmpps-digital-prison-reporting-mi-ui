@@ -10,7 +10,7 @@ interface ServiceActiveAgencies {
 }
 
 const applicationInfo: ServiceActiveAgencies = {
-  app: 'Digital Prison Reporting',
+  app: config.reportingServiceName,
   activeAgencies: config.activeEstablishments,
 }
 

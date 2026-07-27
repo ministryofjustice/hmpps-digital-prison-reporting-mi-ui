@@ -72,4 +72,15 @@ context('Probation deployment — PDS header', () => {
     cy.get('[data-qa="pds-footer"]').should('exist')
     cy.get('[data-qa="dps-footer"]').should('not.exist')
   })
+
+  it('uses probation reporting wording in the page title and breadcrumbs', () => {
+    cy.signIn()
+    Page.verifyOnPage(IndexPage)
+
+    cy.title().should('include', 'Digital Probation Reporting MI UI')
+    cy.get('h1').should('contain', 'Digital Probation Reporting')
+    cy.get('.govuk-breadcrumbs a').contains('Probation Digital Services').should('exist')
+    cy.get('.govuk-breadcrumbs').should('not.contain', 'Digital Prison Services')
+    cy.get('.govuk-breadcrumbs').should('not.contain', 'Digital Prison Reporting')
+  })
 })
