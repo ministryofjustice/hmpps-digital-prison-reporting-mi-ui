@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express'
 import type { components } from '@ministryofjustice/hmpps-digital-prison-reporting-frontend/api'
+import config from '../config'
 
 interface ReportMatch {
   reportId: string
@@ -18,7 +19,7 @@ export default (): RequestHandler => {
       const href = dpdPathFromQuery ? `/${pathSuffix}` : '/'
 
       res.locals.breadCrumbList.push({
-        text: 'Digital Prison Reporting',
+        text: config.reportingServiceName,
         href,
       })
 
