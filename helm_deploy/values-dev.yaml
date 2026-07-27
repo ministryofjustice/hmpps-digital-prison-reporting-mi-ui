@@ -20,7 +20,7 @@ generic-service:
     DPS_URL: 'https://dps-dev.prison.service.justice.gov.uk'
     ACTIVE_ESTABLISHMENTS: '***'
     REQUIRED_AUTH_SOURCES: 'nomis'
-    REPORT_ID_MIGRATION_SERVICE_ENABLED: false
+    REPORT_ID_MIGRATION_SERVICE_ENABLED: true
 
   scheduledDowntime:
     enabled: true

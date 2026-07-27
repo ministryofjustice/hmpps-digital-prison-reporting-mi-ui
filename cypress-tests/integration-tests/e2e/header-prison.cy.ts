@@ -68,4 +68,15 @@ context('Prison deployment — DPS header', () => {
     cy.get('[data-qa="dps-footer"]').should('exist')
     cy.get('[data-qa="pds-footer"]').should('not.exist')
   })
+
+  it('uses prison reporting wording in the page title and breadcrumbs', () => {
+    cy.signIn()
+    Page.verifyOnPage(IndexPage)
+
+    cy.title().should('include', 'Digital Prison Reporting MI UI')
+    cy.get('h1').should('contain', 'Digital Prison Reporting')
+    cy.get('.govuk-breadcrumbs a').contains('Digital Prison Services').should('exist')
+    cy.get('.govuk-breadcrumbs').should('not.contain', 'Probation Digital Services')
+    cy.get('.govuk-breadcrumbs').should('not.contain', 'Digital Probation Reporting')
+  })
 })
