@@ -20,7 +20,8 @@ generic-service:
     DPS_URL: 'https://dps-preprod.prison.service.justice.gov.uk'
     ACTIVE_ESTABLISHMENTS: '***'
     DATA_PRODUCT_DEFINITIONS_PATH: 'definitions/probation'
-    REQUIRED_AUTH_SOURCES: 'delius'
+    REQUIRED_AUTH_SOURCES: 'delius,auth'
+    REPORT_ID_MIGRATION_SERVICE_ENABLED: false
   allowlist:
     groups:
       - circleci
