@@ -1,5 +1,5 @@
 import { createClient } from 'redis'
-import type { RedisClientType } from 'redis'
+import type { RedisClientOptions, RedisClientType } from 'redis'
 import logger from '../../logger'
 import config from '../config'
 
@@ -16,7 +16,8 @@ export const createRedisClient = (): RedisClientType => {
         return nextDelay
       },
     },
-  }
+  } satisfies RedisClientOptions
+
   const client = createClient(
     process.env.NODE_ENV === 'development'
       ? {
