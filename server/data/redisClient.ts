@@ -1,12 +1,10 @@
-import { createClient, RedisClientOptions } from 'redis'
-
+import { createClient } from 'redis'
+import type { RedisClientType } from 'redis'
 import logger from '../../logger'
 import config from '../config'
 
-export type RedisClient = ReturnType<typeof createClient>
-
-export const createRedisClient = (): RedisClient => {
-  const commonConfig: RedisClientOptions = {
+export const createRedisClient = (): RedisClientType => {
+  const commonConfig = {
     password: config.redis.password,
     socket: {
       host: config.redis.host,
