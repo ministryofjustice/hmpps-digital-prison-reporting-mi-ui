@@ -110,7 +110,7 @@
     "express-session": "^1.19.0",
     "glob": "^13.0.6",
     "govuk-frontend": "6.2.0",
-    "helmet": "^8.2.0",
+    "helmet": "^8.3.0",
     "http-errors": "^2.0.1",
     "jwt-decode": "^4.0.0",
     "nocache": "^4.0.0",
