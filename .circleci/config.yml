@@ -266,10 +266,6 @@ workflows:
             - remember-version-for-dev
             - update_sentry_git_ref_secret_dev
           helm_timeout: 5m
-      - remember-app-version:
-          name: remember-version-for-probation-dev
-          requires:
-            - build_docker
       - hmpps/deploy_env:
           name: deploy_probation_dev
           env: 'probation-dev'
@@ -287,7 +283,7 @@ workflows:
             - helm_lint_probation_dev
             - unit_test
             - integration_test
-            - remember-version-for-probation-dev
+            - remember-version-for-dev
           helm_timeout: 5m
       - acceptance_test:
           requires:
