@@ -151,7 +151,7 @@
     "@types/qs": "^6.15.1",
     "@types/querystringify": "^2.0.2",
     "@types/superagent": "^8.1.11",
-    "@types/supertest": "^7.2.0",
+    "@types/supertest": "^7.2.1",
     "audit-ci": "^7.1.0",
     "axe-core": "^4.12.1",
     "chokidar": "^3.6.0",
