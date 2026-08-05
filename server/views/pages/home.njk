@@ -1,7 +1,7 @@
 {% extends "../partials/layout.njk" %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "dpr/components/_catalogue/catalogue/view.njk" import dprCatalogue %}
+{% from "dpr/components/catalogue/view.njk" import dprReportsCatalogue %}
 {% from "dpr/components/my-reports/view.njk" import dprMyReports %}
 
 {% set pageTitle = applicationName + " - " + title %}
@@ -25,7 +25,7 @@
     </div>
 
     <div id="reports-catalogue-section" class="govuk-width-container govuk-!-padding-top-7">
-      {{ dprCatalogue(catalogue) }}
+      {{ dprReportsCatalogue(catalogue) }}
     </div>
   </main>
 {% endblock %}
