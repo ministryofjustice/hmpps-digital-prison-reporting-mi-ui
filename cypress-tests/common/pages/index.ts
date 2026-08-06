@@ -10,5 +10,5 @@ export default class IndexPage extends Page {
 
   reportLinks = (): PageElement => cy.get('a[href^="/dpr/request-report"]')
 
-  reportTable = (): PageElement => cy.get('.dpr-search-table')
+  reportTable = (): PageElement => cy.get('.dpr-reports-catalogue')
 }
