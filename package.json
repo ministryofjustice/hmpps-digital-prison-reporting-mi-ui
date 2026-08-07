@@ -170,7 +170,7 @@
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "jsonwebtoken": "^9.0.3",
-    "lint-staged": "^17.0.8",
+    "lint-staged": "^17.3.0",
     "nock": "^14.0.17",
     "node-html-parser": "^9.0.1",
     "openapi-typescript": "^7.13.0",
