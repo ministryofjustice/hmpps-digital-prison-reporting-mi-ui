@@ -138,11 +138,13 @@ export default {
       agent: new AgentConfig(Number(get('REPORTING_API_TIMEOUT_RESPONSE', 60000))),
     },
     frontendComponents: {
-      url: usePdsHeader ? get(
-        'DPS_COMPONENT_API_URL',
-        'https://frontend-components-dev.hmpps.service.justice.gov.uk',
-        requiredInProduction,
-      ) : 'https://frontend-components-dev.hmpps.service.justice.gov.uk',
+      url: usePdsHeader
+        ? get(
+            'DPS_COMPONENT_API_URL',
+            'https://frontend-components-dev.hmpps.service.justice.gov.uk',
+            requiredInProduction,
+          )
+        : 'https://frontend-components-dev.hmpps.service.justice.gov.uk',
       apiPath: usePdsHeader ? get('FRONTEND_COMPONENTS_API_PATH', '/components') : '/components',
       timeout: {
         response: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_RESPONSE', 10000)),
@@ -176,7 +178,7 @@ export default {
   },
   systemTokenEnabled: get('SYSTEM_TOKEN_ENABLED', 'false') === 'true',
   isProbationService,
-  
+
   applicationName: isProbationService ? 'Digital Probation Reporting MI UI' : 'Digital Prison Reporting MI UI',
   reportingServiceName: isProbationService ? 'Digital Probation Reporting' : 'Digital Prison Reporting',
   digitalServicesName: isProbationService ? 'Probation Digital Services' : 'Digital Prison Services',
