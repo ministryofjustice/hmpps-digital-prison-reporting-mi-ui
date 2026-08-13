@@ -16,8 +16,7 @@ function get<T>(name: string, fallback: T, options = { requireInProduction: fals
 
 const requiredInProduction = { requireInProduction: true }
 
-/** Probation MI uses PDS components (`/api/components`); prison uses DPS (`/components`). */
-const isProbationService = get('FRONTEND_COMPONENTS_API_PATH', '/components') === '/api/components'
+const isProbationService = get('REQUIRED_AUTH_SOURCES', 'nomis', requiredInProduction).includes('delius')
 
 const getRequiredAuthSources = (): AuthSource[] => {
   const authSources = String(get('REQUIRED_AUTH_SOURCES', 'nomis', requiredInProduction))
@@ -174,6 +173,7 @@ export default {
   },
   systemTokenEnabled: get('SYSTEM_TOKEN_ENABLED', 'false') === 'true',
   isProbationService,
+
   applicationName: isProbationService ? 'Digital Probation Reporting MI UI' : 'Digital Prison Reporting MI UI',
   reportingServiceName: isProbationService ? 'Digital Probation Reporting' : 'Digital Prison Reporting',
   digitalServicesName: isProbationService ? 'Probation Digital Services' : 'Digital Prison Services',
