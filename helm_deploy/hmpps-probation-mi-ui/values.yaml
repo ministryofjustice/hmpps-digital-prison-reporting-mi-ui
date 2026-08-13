@@ -46,9 +46,6 @@ generic-service:
     MAINTENANCE_MODE_ENABLED: 'false'
     MAINTENANCE_MODE_MESSAGE: ''
     SYSTEM_TOKEN_ENABLED: true
-    USE_PDS_HEADER: false
-    DPS_COMPONENT_API_URL: 'https://probation-frontend-components-dev.hmpps.service.justice.gov.uk'
-    FRONTEND_COMPONENTS_API_PATH: '/api/components'
 
   namespace_secrets:
     hmpps-probation-mi-ui-ec-cluster-output:

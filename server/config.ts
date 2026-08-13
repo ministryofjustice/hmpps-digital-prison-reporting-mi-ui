@@ -16,10 +16,7 @@ function get<T>(name: string, fallback: T, options = { requireInProduction: fals
 
 const requiredInProduction = { requireInProduction: true }
 
-/** Probation MI uses PDS components (`/api/components`); prison uses DPS (`/components`). */
-const isProbationService = get('FRONTEND_COMPONENTS_API_PATH', '/components') === '/api/components'
-
-const usePdsHeader = get('USE_PDS_HEADER', false, requiredInProduction)
+const isProbationService = get('REQUIRED_AUTH_SOURCES', 'nomis', requiredInProduction).includes('delius')
 
 const getRequiredAuthSources = (): AuthSource[] => {
   const authSources = String(get('REQUIRED_AUTH_SOURCES', 'nomis', requiredInProduction))
@@ -138,14 +135,12 @@ export default {
       agent: new AgentConfig(Number(get('REPORTING_API_TIMEOUT_RESPONSE', 60000))),
     },
     frontendComponents: {
-      url: usePdsHeader
-        ? get(
-            'DPS_COMPONENT_API_URL',
-            'https://frontend-components-dev.hmpps.service.justice.gov.uk',
-            requiredInProduction,
-          )
-        : 'https://frontend-components-dev.hmpps.service.justice.gov.uk',
-      apiPath: usePdsHeader ? get('FRONTEND_COMPONENTS_API_PATH', '/components') : '/components',
+      url: get(
+        'DPS_COMPONENT_API_URL',
+        'https://frontend-components-dev.hmpps.service.justice.gov.uk',
+        requiredInProduction,
+      ),
+      apiPath: get('FRONTEND_COMPONENTS_API_PATH', '/components'),
       timeout: {
         response: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_RESPONSE', 10000)),
         deadline: Number(get('FRONTEND_COMPONENTS_API_TIMEOUT_DEADLINE', 10000)),
