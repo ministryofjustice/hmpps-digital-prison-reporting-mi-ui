@@ -35,6 +35,7 @@ generic-service:
       - internal
       - prisons
       - private_prisons
+      - accessibillity-testing-1
 
 generic-prometheus-alerts:
   businessHoursOnly: true
