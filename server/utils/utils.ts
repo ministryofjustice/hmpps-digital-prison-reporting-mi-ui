@@ -25,17 +25,3 @@ export const initialiseName = (fullName?: string): string | null => {
 }
 
 export const getQueryParamAsString = (query: ParsedQs, name: string) => (query[name] ? query[name].toString() : null)
-
-export const getDefinitionsPath = (query: ParsedQs) => getQueryParamAsString(query, 'dataProductDefinitionsPath')
-
-export const getDefinitionsParameters = (query: ParsedQs) => {
-  const definitionsPath = getDefinitionsPath(query)
-
-  if (definitionsPath) {
-    return {
-      dataProductDefinitionsPath: definitionsPath,
-    }
-  }
-
-  return null
-}

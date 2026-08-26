@@ -15,12 +15,9 @@ export default (): RequestHandler => {
     res.locals.breadCrumbList = []
 
     if (currentUrl !== '/') {
-      const { pathSuffix, dpdPathFromQuery } = res.locals
-      const href = dpdPathFromQuery ? `/${pathSuffix}` : '/'
-
       res.locals.breadCrumbList.push({
         text: config.reportingServiceName,
-        href,
+        href: '/',
       })
 
       if (currentUrl.includes('reports/') || currentUrl.includes('/reports/')) {
@@ -38,7 +35,7 @@ export default (): RequestHandler => {
         if (asyncReportMatch) {
           res.locals.breadCrumbList.push({
             text: 'Request report',
-            href: `/async-reports/${asyncReportMatch.reportId}/${asyncReportMatch.variantId}/request${res.locals.pathSuffix}`,
+            href: `/async-reports/${asyncReportMatch.reportId}/${asyncReportMatch.variantId}/request`,
           })
         }
       }

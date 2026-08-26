@@ -3,7 +3,7 @@ import Page from '../../common/pages/page'
 
 context('login smoke tests', () => {
   it('Should cause an error message to be displayed signing in with invalid credentials', () => {
-    cy.visit(`/?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest`)
+    cy.visit(`/`)
     const page = Page.verifyOnPage(AuthSignInPage)
     page.usernameInput().type('Invalid user')
     page.passwordInput().type('Invalid password')
@@ -13,7 +13,7 @@ context('login smoke tests', () => {
   })
 
   it('Unauthenticated user directed to auth', () => {
-    cy.visit(`/?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest`)
+    cy.visit(`/`)
     Page.verifyOnPage(AuthSignInPage)
   })
 
