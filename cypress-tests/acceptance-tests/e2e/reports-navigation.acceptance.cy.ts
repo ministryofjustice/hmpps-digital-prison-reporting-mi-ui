@@ -5,12 +5,12 @@ import RequestPage from '../../common/pages/requestPage'
 
 context('report navigation smoke tests', () => {
   it('should have a breadcrumb on the list page back to the home page', () => {
-    cy.visit('/?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest')
+    cy.visit('/')
     const page = Page.verifyOnPage(AuthSignInPage)
     page.usernameInput().type(Cypress.env('USERNAME'))
     page.passwordInput().type(Cypress.env('PASSWORD'))
     page.signInButton().click()
-    cy.visit('/?dataProductDefinitionsPath=definitions%2Fprisons%2Ftest')
+    cy.visit('/')
 
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.reportLinks().first().click()

@@ -44,10 +44,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
       collectionsEnabled: true,
       csrfToken: '',
       definitions: [],
-      definitionsPath: '',
       downloadingEnabled: true,
-      dpdPathFromConfig: true,
-      dpdPathFromQuery: true,
       dprUser: {
         ...req.user,
         id: 'dprUser',
