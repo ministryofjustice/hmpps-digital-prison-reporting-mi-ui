@@ -1,7 +1,6 @@
 import IndexPage from '../../common/pages'
 import AuthSignInPage from '../../common/pages/authSignIn'
 import Page from '../../common/pages/page'
-import RequestPage from '../../common/pages/requestPage'
 
 context('report navigation smoke tests', () => {
   it('should have a breadcrumb on the list page back to the home page', () => {
@@ -14,6 +13,6 @@ context('report navigation smoke tests', () => {
 
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.reportLinks().first().click()
-    cy.get(`a.govuk-breadcrumbs__link:not([href~="/"])`).contains('Digital Prison Reporting')
+    cy.get(`a.govuk-breadcrumbs__link`).contains('Digital Prison Reporting')
   })
 })
