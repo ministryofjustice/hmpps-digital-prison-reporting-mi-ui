@@ -18,7 +18,8 @@
     "inlineSources": true,
     "sourceRoot": "/",
     "isolatedModules": true,
-    "typeRoots": ["./server/@types", "./node_modules/@types"]
+    "typeRoots": ["./server/@types", "./node_modules/@types"],
+    "types": ["jest"]
   },
   "exclude": [
     "node_modules",
