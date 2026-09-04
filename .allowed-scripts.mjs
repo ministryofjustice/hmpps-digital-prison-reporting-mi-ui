@@ -8,6 +8,6 @@ export default configureAllowedScripts({
     'node_modules/fsevents@2.3.3': 'FORBID',
     'node_modules/unrs-resolver@1.12.2': 'FORBID',
     'node_modules/esbuild@0.28.2': 'ALLOW',
-    'node_modules/@sentry/cli@3.6.2': 'ALLOW',
+    'node_modules/@sentry/cli@3.7.0': 'ALLOW',
   },
 })
