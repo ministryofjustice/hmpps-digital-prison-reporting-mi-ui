@@ -1,0 +1,28 @@
+name: Pipeline
+
+on:
+  push:
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.sha || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  pipeline:
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/frontend_node_pipeline.yml@v1
+    secrets: inherit
+    with:
+      enable-probation: true
+      deploy-dev-on-feature-branches: true
+      node-version: '24'
+      slack-channel: 'dpr_cicd_approvals'
+      # Image: ghcr.io/ministryofjustice/hmpps-digital-prison-reporting-mi-ui
+      # Probation chart/env defaults live in frontend_node_pipeline

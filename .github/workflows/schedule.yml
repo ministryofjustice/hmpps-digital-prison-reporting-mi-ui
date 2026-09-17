@@ -1,0 +1,48 @@
+name: Scheduled security scans
+
+# Node stack: CodeQL + npm.
+# Veracode is omitted until security_veracode_* proxies support a Node
+# artifact build (current proxies always call gradle_verify).
+
+on:
+  workflow_dispatch:
+    inputs:
+      scan:
+        description: Which scan to run
+        type: choice
+        default: all
+        options:
+          - all
+          - codeql
+          - npm
+  schedule:
+    - cron: "19 6 * * MON-FRI"
+
+jobs:
+  codeql:
+    name: Project security CodeQL actions scan
+    if: |
+      github.event.schedule == '19 6 * * MON-FRI' ||
+      (github.event_name == 'workflow_dispatch' && contains(fromJSON('["all","codeql"]'), inputs.scan))
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/security_codeql_actions.yml@v1
+    with:
+      channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
+    secrets: inherit
+
+  npm:
+    name: Project security npm dependency check
+    if: |
+      github.event.schedule == '19 6 * * MON-FRI' ||
+      (github.event_name == 'workflow_dispatch' && contains(fromJSON('["all","npm"]'), inputs.scan))
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/security_npm_dependency.yml@v1
+    with:
+      channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
+    secrets: inherit
