@@ -1,0 +1,17 @@
+name: Pull request
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  checks:
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/pr_checks.yml@v1
+    secrets: inherit
+    with:
+      stack: node
+      node-version: '24'
+      unit-test-command: 'npm run test'
+      coverage-grep: '% Stmts'
