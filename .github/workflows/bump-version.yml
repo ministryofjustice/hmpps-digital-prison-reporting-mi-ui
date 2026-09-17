@@ -4,37 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  bump-version:
-    runs-on: ubuntu-latest
-
-    permissions:
-      pull-requests: write
-      contents: write
-
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-
-      - name: Setup Node and npm
-        uses: ministryofjustice/hmpps-reporting-actions/actions/setup-node-npm@v1
-        with:
-          node-version: '24'
-
-      - name: SLSA - supply chain attack mitigation
-        uses: ministryofjustice/devsecops-actions/sca/slsa@7dc13c20e2bf541b8a77fa1320a04983b18846f6
-        with:
-          security-patch-package-exclusion: '@ministryofjustice/hmpps-digital-prison-reporting-frontend'
-
-      - name: Get version
-        id: get-version
-        run: |
-          CURRENT_VERSION=$(npm view @ministryofjustice/hmpps-digital-prison-reporting-frontend version)
-          echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Bump version
-        uses: ministryofjustice/hmpps-reporting-actions/actions/bump-version@v1
-        with:
-          current-version: ${{ steps.get-version.outputs.current_version }}
-          apply-command: >-
-            npm install @ministryofjustice/hmpps-digital-prison-reporting-frontend@^${{ steps.get-version.outputs.current_version }} --save
-          files-to-commit: package.json package-lock.json
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+  bump:
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/bump_version.yml@v1
+    secrets: inherit
+    with:
+      stack: node
