@@ -1,0 +1,49 @@
+name: Release
+
+# Helm-only promote. Triggered manually or by digital-prison-reporting-releases.
+# Does not rebuild — image tag must already exist in GHCR.
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment (must match a GitHub Environment)
+        type: choice
+        options:
+          - preprod
+          - prod
+          - test
+          - dev
+        required: true
+      app-version:
+        description: Existing image tag (e.g. Build.<sha>)
+        type: string
+        required: true
+      release-values-yaml:
+        description: Optional extra Helm values YAML (from releases config/)
+        type: string
+        required: false
+        default: ''
+      verify-image:
+        description: Verify GHCR image exists before deploy
+        type: boolean
+        required: false
+        default: true
+
+permissions:
+  contents: read
+  packages: read
+  id-token: write
+
+jobs:
+  release:
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/generic_release_pipeline.yml@v1
+    secrets: inherit
+    with:
+      environment: ${{ inputs.environment }}
+      app-version: ${{ inputs.app-version }}
+      # Defaults: chart/release = repo name (hmpps-digital-prison-reporting-mi-ui)
+      release-values-yaml: ${{ inputs.release-values-yaml }}
+      verify-image: ${{ inputs.verify-image == true || inputs.verify-image == 'true' }}
+      slack-notification: ${{ inputs.environment == 'prod' && 'true' || 'false' }}
+      slack-channel: 'dpr_cicd_approvals'
