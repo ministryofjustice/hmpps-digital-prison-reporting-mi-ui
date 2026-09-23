@@ -21,8 +21,12 @@ jobs:
     secrets: inherit
     with:
       enable-probation: true
+      enable-sentry: true
+      sentry-secret-name: hmpps-digital-prison-reporting-mi-ui-sentry
       deploy-dev-on-feature-branches: true
       node-version: '24'
       slack-channel: 'dpr_cicd_approvals'
       # Image: ghcr.io/ministryofjustice/hmpps-digital-prison-reporting-mi-ui
       # Probation chart/env defaults live in frontend_node_pipeline
+      # Sentry: source maps need repo/org secret SENTRY_AUTH_TOKEN (secrets: inherit).
+      # RELEASE_GIT_SHA is patched into the existing k8s secret before primary deploys.
