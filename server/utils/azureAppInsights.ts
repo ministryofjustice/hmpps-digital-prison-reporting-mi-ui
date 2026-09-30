@@ -33,7 +33,7 @@ export type ContextObject = {
 }
 
 type CustomData = {
-  username: string
+  uuid: string
   activeCaseLoadId: string
   product?: string
   reportName?: string
@@ -46,7 +46,8 @@ const getCustomData = (
   locals: Response['locals'],
 ): CustomData | object => {
   if (locals.user) {
-    const { username, activeCaseLoadId } = locals.user
+    const { activeCaseLoadId } = locals.user
+    const { id } = locals.dprUser
     const selectedPage = query ? query.selectedPage : null
     const { tableId } = params
     const executionId = params.executionId ?? body?.executionId
@@ -86,7 +87,7 @@ const getCustomData = (
     }
 
     return {
-      username,
+      uuid: id,
       activeCaseLoadId,
       product: reportName,
       reportName: variantName,
@@ -143,13 +144,13 @@ export function appInsightsMiddleware(): RequestHandler {
 function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: Record<string, unknown> | undefined) {
   const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
   if (isRequest) {
-    const { username, activeCaseLoad } =
-      (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.user || {}
-    if (username) {
+    const { activeCaseLoad } = (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.user || {}
+    const { id } = (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.dprUser || {}
+    if (id) {
       const properties = envelope.data.baseData?.properties
       envelope.data.baseData ??= {}
       envelope.data.baseData.properties = {
-        username,
+        uuid: id,
         activeCaseLoadId: activeCaseLoad?.caseLoadId,
         ...properties,
       }
@@ -164,21 +165,21 @@ const addQueryDataToRequests = (
 ) => {
   const customProperties = contextObjects?.correlationContext?.customProperties
   const operationNameOverride = customProperties?.getProperty('operationName')
-  const usernameOverride = customProperties?.getProperty('username')
+  const uuidOverride = customProperties?.getProperty('uuid')
   const activeCaseLoadIdOverride = customProperties?.getProperty('activeCaseLoadId')
   const productOverride = customProperties?.getProperty('product')
   const reportNameOverride = customProperties?.getProperty('reportName')
   const pageOverride = customProperties?.getProperty('page')
   if (operationNameOverride && tags) {
     tags['ai.operation.name'] = operationNameOverride
-    tags['ai.operation.username'] = usernameOverride
+    tags['ai.operation.uuid'] = uuidOverride
     tags['ai.operation.activecaseloadid'] = activeCaseLoadIdOverride
     tags['ai.operation.product'] = productOverride
     tags['ai.operation.report_name'] = reportNameOverride
     tags['ai.operation.page'] = pageOverride
     if (data?.baseData) {
       data.baseData.properties.name = operationNameOverride
-      data.baseData.properties.username = usernameOverride
+      data.baseData.properties.uuid = uuidOverride
       data.baseData.properties.activeCaseloadId = activeCaseLoadIdOverride
       data.baseData.properties.product = productOverride
       data.baseData.properties.report_name = reportNameOverride
