@@ -4,7 +4,7 @@ generic-service:
   replicaCount: 4
 
   image:
-    repository: quay.io/hmpps/hmpps-digital-prison-reporting-mi-ui
+    repository: ghcr.io/ministryofjustice/hmpps-digital-prison-reporting-mi-ui
     tag: app_version # override at deployment time
     port: 3000
 
