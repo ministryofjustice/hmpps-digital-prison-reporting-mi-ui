@@ -26,6 +26,7 @@ jobs:
       deploy-dev-on-feature-branches: true
       node-version: '24'
       slack-channel: 'dpr_cicd_approvals'
+      deploy-ref: 'refs/heads/DHS-704'   # ← add this temporarily
       # Image: ghcr.io/ministryofjustice/hmpps-digital-prison-reporting-mi-ui
       # Probation chart/env defaults live in frontend_node_pipeline
       # Sentry: source maps need repo/org secret SENTRY_AUTH_TOKEN (secrets: inherit).

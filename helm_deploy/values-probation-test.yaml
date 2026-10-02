@@ -30,7 +30,6 @@ generic-service:
 
   allowlist:
     groups:
-      - github-actions
       - internal
 
 generic-prometheus-alerts:
