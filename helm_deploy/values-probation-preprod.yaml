@@ -24,7 +24,6 @@ generic-service:
     REPORT_ID_MIGRATION_SERVICE_ENABLED: false
   allowlist:
     groups:
-      - circleci
       - internal
 
 generic-prometheus-alerts:
