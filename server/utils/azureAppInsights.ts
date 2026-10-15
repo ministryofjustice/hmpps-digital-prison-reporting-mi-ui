@@ -46,8 +46,7 @@ const getCustomData = (
   locals: Response['locals'],
 ): CustomData | object => {
   if (locals.user) {
-    const { activeCaseLoadId } = locals.user
-    const { id } = locals.dprUser
+    const { activeCaseLoadId, uuid } = locals.user
     const selectedPage = query ? query.selectedPage : null
     const { tableId } = params
     const executionId = params.executionId ?? body?.executionId
@@ -87,7 +86,7 @@ const getCustomData = (
     }
 
     return {
-      uuid: id,
+      uuid,
       activeCaseLoadId,
       product: reportName,
       reportName: variantName,
@@ -144,13 +143,12 @@ export function appInsightsMiddleware(): RequestHandler {
 function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: Record<string, unknown> | undefined) {
   const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
   if (isRequest) {
-    const { activeCaseLoad } = (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.user || {}
-    const { id } = (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.dprUser || {}
-    if (id) {
+    const { uuid, activeCaseLoad } = (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.user || {}
+    if (uuid) {
       const properties = envelope.data.baseData?.properties
       envelope.data.baseData ??= {}
       envelope.data.baseData.properties = {
-        uuid: id,
+        uuid,
         activeCaseLoadId: activeCaseLoad?.caseLoadId,
         ...properties,
       }
