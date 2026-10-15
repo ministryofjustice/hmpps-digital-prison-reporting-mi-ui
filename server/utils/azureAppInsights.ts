@@ -143,7 +143,8 @@ export function appInsightsMiddleware(): RequestHandler {
 function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: Record<string, unknown> | undefined) {
   const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
   if (isRequest) {
-    const { uuid, activeCaseLoad } = (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.user || {}
+    const { uuid, activeCaseLoad } =
+      (contextObjects?.['http.ServerRequest'] as Request | undefined)?.res?.locals?.user || {}
     if (uuid) {
       const properties = envelope.data.baseData?.properties
       envelope.data.baseData ??= {}
