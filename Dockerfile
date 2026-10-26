@@ -17,7 +17,7 @@ ENV BUILD_NUMBER=${BUILD_NUMBER}
 ENV GIT_REF=${GIT_REF}
 RUN npm run record-build-info
 
-RUN apt-get update && apt-get install -y ca-certificates
+RUN apk upgrade --no-cache && apk add --no-cache ca-certificates
 
 ENV RELEASE_GIT_SHA=${GIT_REF}
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN if [ -z "$SENTRY_AUTH_TOKEN" ]; then echo "No sentry env var, not running sourcemapping"; else npm run sentry:login && npm run sentry:sourcemaps; fi
