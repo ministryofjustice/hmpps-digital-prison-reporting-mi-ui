@@ -229,10 +229,6 @@ workflows:
           name: build_docker
           additional_docker_tag: 'Build.${CIRCLE_SHA1}'
           additional_docker_build_args: --secret id=SENTRY_AUTH_TOKEN --build-arg GIT_REF=${CIRCLE_SHA1} --progress=plain
-          filters:
-            branches:
-              only:
-                - main
       - remember-app-version:
           name: remember-version-for-dev
           requires:
