@@ -42,7 +42,10 @@ COPY --from=build --chown=appuser:appgroup \
 
 EXPOSE 3000 3001
 
+ENV BUILD_NUMBER=${BUILD_NUMBER}
+ENV GIT_REF=${GIT_REF}
+ENV RELEASE_GIT_SHA=${GIT_REF}
 ENV NODE_ENV='production'
 USER 2000
 
-CMD ["sh", "-c", "node $NODE_OPTIONS dist/server.js | bunyan -o short"]
+CMD ["sh", "-c", "node $NODE_OPTIONS dist/server.js | node_modules/.bin/bunyan -o short"]
