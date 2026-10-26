@@ -48,4 +48,4 @@ ENV RELEASE_GIT_SHA=${GIT_REF}
 ENV NODE_ENV='production'
 USER 2000
 
-CMD [ "npm", "start" ]
+CMD ["sh", "-c", "node $NODE_OPTIONS dist/server.js | bunyan -o short"]
