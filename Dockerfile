@@ -26,6 +26,9 @@ RUN npm prune --no-audit --omit=dev --no-fund
 # Stage: copy production assets and dependencies
 FROM ghcr.io/ministryofjustice/hmpps-node:24-alpine-runtime
 
+ARG BUILD_NUMBER=1_0_0
+ARG GIT_REF=not-available
+
 COPY --from=build --chown=appuser:appgroup \
         /app/package.json \
         /app/package-lock.json \
