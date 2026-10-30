@@ -1,22 +1,24 @@
 name: Release
 
-# Helm-only promote. Triggered manually or by digital-prison-reporting-releases.
-# Does not rebuild — image tag must already exist in GHCR.
+# TEST BRANCH ONLY (DHS-704-tag-test) — DO NOT MERGE.
+# Helm-only release of an app release tag (vX.Y.Z). Deploys image :vX.Y.Z with
+# the Helm chart + values checked out at the tag.
 
 on:
+  # Push trigger only registers this workflow so it can be dispatched before
+  # release.yml exists on main (the job is skipped on push).
+  push:
+    branches: [DHS-704-tag-test]
   workflow_dispatch:
     inputs:
       environment:
         description: Target environment (must match a GitHub Environment)
         type: choice
         options:
-          - preprod
-          - prod
-          - test
           - dev
         required: true
-      app-version:
-        description: Existing image tag (e.g. Build.<sha>)
+      release-tag:
+        description: App release tag (e.g. v1.0.0)
         type: string
         required: true
       release-values-yaml:
@@ -37,13 +39,15 @@ permissions:
 
 jobs:
   release:
-    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/generic_release_pipeline.yml@v1
+    if: github.event_name == 'workflow_dispatch'
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/generic_release_pipeline.yml@test/tag-based-releases
     secrets: inherit
     with:
       environment: ${{ inputs.environment }}
-      app-version: ${{ inputs.app-version }}
-      # Defaults: chart/release = repo name (hmpps-digital-prison-reporting-mi-ui)
+      release-tag: ${{ inputs.release-tag }}
       release-values-yaml: ${{ inputs.release-values-yaml }}
       verify-image: ${{ inputs.verify-image == true || inputs.verify-image == 'true' }}
-      slack-notification: ${{ inputs.environment == 'prod' && 'true' || 'false' }}
+      slack-notification: 'false'
       slack-channel: 'dpr_cicd_approvals'
+      enable-sentry: true
+      sentry-secret-name: hmpps-digital-prison-reporting-mi-ui-sentry
