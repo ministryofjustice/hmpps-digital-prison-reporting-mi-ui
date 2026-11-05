@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  bump-version:
+  bump-version:      
     runs-on: ubuntu-latest
 
     permissions:
