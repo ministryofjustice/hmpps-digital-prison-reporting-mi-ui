@@ -1,0 +1,10 @@
+# Caller is hmpps-reporting-releases branch DHS-987, including a pull request
+# opened from that branch. This file must be on MI UI main.
+# Dispatch still uses release.yml on DHS-704-tag-test.
+issuer: https://token.actions.githubusercontent.com
+subject_pattern: '^repo:ministryofjustice/hmpps-reporting-releases:(ref:refs/heads/DHS-987|pull_request)$'
+claim_pattern:
+  job_workflow_ref: '^ministryofjustice/hmpps-reporting-releases/\.github/workflows/(raise-release-pr|helm_app_release)\.yml@refs/(heads/DHS-987|pull/[0-9]+/merge)$'
+  event_name: '^(workflow_dispatch|push|pull_request)$'
+permissions:
+  contents: read
