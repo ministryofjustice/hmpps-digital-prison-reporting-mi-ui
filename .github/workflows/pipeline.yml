@@ -27,7 +27,14 @@ jobs:
     uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/frontend_node_pipeline.yml@test/tag-based-releases
     secrets: inherit
     with:
-      deploy-ref: refs/heads/DHS-704-tag-test
+      #deploy-ref: refs/heads/DHS-704-tag-test
+      deploy-ref: refs/heads/main      
+
+
+
+
+
+       
       enable-release-tag: true
       deploy-preprod-prod: false
       deploy-dev-on-feature-branches: true
