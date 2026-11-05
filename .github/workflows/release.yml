@@ -1,8 +1,10 @@
 name: Release
 
 # TEST BRANCH ONLY (DHS-704-tag-test) — DO NOT MERGE.
-# Helm-only release of an app release tag (vX.Y.Z). Deploys image :vX.Y.Z with
-# the Helm chart + values checked out at the tag.
+# Helm-only release of a stable app tag (vX.Y.Z): image :vX.Y.Z with the Helm
+# chart + values checked out at the tag. preprod/prod need a published,
+# non-prerelease GitHub Release. dev/test may also use app-version (rc-* label)
+# + checkout-ref (commit SHA) to roll back to an earlier feature build.
 
 on:
   # Push trigger only registers this workflow so it can be dispatched before
@@ -16,11 +18,39 @@ on:
         type: choice
         options:
           - dev
+          - test
+          - preprod
+          - prod
+          - probation-dev
+          - probation-test
+          - probation-preprod
+          - probation-prod
         required: true
       release-tag:
-        description: App release tag (e.g. v1.0.0)
+        description: Stable app release tag (e.g. v1.0.1)
         type: string
-        required: true
+        required: false
+        default: ''
+      app-version:
+        description: dev/test only, instead of release-tag (rc-* label or Build.<sha>)
+        type: string
+        required: false
+        default: ''
+      checkout-ref:
+        description: dev/test only, with app-version (commit SHA for chart + values)
+        type: string
+        required: false
+        default: ''
+      helm-chart-name:
+        description: Chart to deploy (default hmpps-digital-prison-reporting-mi-ui; probation = hmpps-probation-mi-ui)
+        type: string
+        required: false
+        default: ''
+      release-name:
+        description: Helm release name (default = chart-name-environment)
+        type: string
+        required: false
+        default: ''
       release-values-yaml:
         description: Optional extra Helm values YAML (from releases config/)
         type: string
@@ -45,9 +75,14 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       release-tag: ${{ inputs.release-tag }}
+      app-version: ${{ inputs.app-version }}
+      checkout-ref: ${{ inputs.checkout-ref }}
+      helm-chart-name: ${{ inputs.helm-chart-name }}
+      release-name: ${{ inputs.release-name }}
       release-values-yaml: ${{ inputs.release-values-yaml }}
       verify-image: ${{ inputs.verify-image == true || inputs.verify-image == 'true' }}
-      slack-notification: 'false'
+      slack-notification: ${{ inputs.environment == 'prod' && 'true' || 'false' }}
       slack-channel: 'dpr_cicd_approvals'
-      enable-sentry: true
+      # Sentry release secret exists for the primary chart only.
+      enable-sentry: ${{ inputs.helm-chart-name == '' || inputs.helm-chart-name == 'hmpps-digital-prison-reporting-mi-ui' }}
       sentry-secret-name: hmpps-digital-prison-reporting-mi-ui-sentry
