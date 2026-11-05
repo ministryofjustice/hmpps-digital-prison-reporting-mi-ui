@@ -2,8 +2,10 @@ name: Pipeline
 
 # TEST BRANCH ONLY (DHS-704-tag-test) — DO NOT MERGE.
 # Exercises tag-based releases from hmpps-reporting-workflows@test/tag-based-releases.
-# deploy-ref = this branch so the release tag is created; every environment is
-# redirected to dev (no GitHub Environment here has approval gates).
+# deploy-ref = this branch, so builds here act like main: git tag vX.Y.Z, image
+# :vX.Y.Z and a GitHub Release. Any other branch built from here gets an image
+# RC label rc-<branch>-<run> only. preprod/prod are off (releases repo only);
+# test is redirected to dev.
 
 on:
   push:
@@ -11,7 +13,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write # release tag push (enable-release-tag)
+  contents: write # release tag + GitHub Release (enable-release-tag)
   packages: write
   id-token: write
   attestations: write
@@ -27,9 +29,9 @@ jobs:
     with:
       deploy-ref: refs/heads/DHS-704-tag-test
       enable-release-tag: true
+      deploy-preprod-prod: false
+      deploy-dev-on-feature-branches: true
       primary-test-env: dev
-      primary-preprod-env: dev
-      primary-prod-env: dev
       enable-probation: false
       enable-sentry: true
       sentry-secret-name: hmpps-digital-prison-reporting-mi-ui-sentry
