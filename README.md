@@ -13,7 +13,7 @@ Please raise any questions or queries there. Contributions welcome!
 
 Our security policy is located [here](https://github.com/ministryofjustice/hmpps-digital-prison-reporting-mi-ui/security/policy).
 
-More information about the template project including features can be found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
+More information about the template project including features can be found! [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
 
 ## Running the app
 
