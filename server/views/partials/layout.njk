@@ -13,7 +13,7 @@
   {% endif %}
 {% endblock %}
 
-{% set pageTitle = applicationName + " - " + (title | default('Reports')) %}
+{% set pageTitle = (title | default('Reports')) + " - " + applicationName%}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
