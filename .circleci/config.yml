@@ -226,6 +226,15 @@ workflows:
           chart_name: hmpps-probation-mi-ui
           env: probation-prod
       - hmpps/build_docker:
+          name: build_docker_test
+          additional_docker_tag: 'Build.${CIRCLE_SHA1}'
+          additional_docker_build_args: --secret id=SENTRY_AUTH_TOKEN --build-arg GIT_REF=${CIRCLE_SHA1} --progress=plain
+          publish: false
+          filters:
+            branches:
+              ignore:
+                - main
+      - hmpps/build_docker:
           name: build_docker
           additional_docker_tag: 'Build.${CIRCLE_SHA1}'
           additional_docker_build_args: --secret id=SENTRY_AUTH_TOKEN --build-arg GIT_REF=${CIRCLE_SHA1} --progress=plain
