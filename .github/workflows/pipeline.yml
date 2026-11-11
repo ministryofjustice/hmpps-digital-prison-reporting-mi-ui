@@ -9,6 +9,7 @@ name: Pipeline
 
 on:
   push:
+    # BEFORE MERGE TO MAIN: branches: [main]
     branches: ['**']
   workflow_dispatch:
 
@@ -27,17 +28,13 @@ jobs:
     uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/frontend_node_pipeline.yml@test/tag-based-releases
     secrets: inherit
     with:
-      #deploy-ref: refs/heads/DHS-704-tag-test
-      deploy-ref: refs/heads/main      
-
-
-
-
-
-       
+      # BEFORE MERGE TO MAIN: deploy-ref: refs/heads/main
+      deploy-ref: refs/heads/DHS-704-tag-test
       enable-release-tag: true
+      # BEFORE MERGE TO MAIN: keep false until the first planned preprod promotion.
       deploy-preprod-prod: false
       deploy-dev-on-feature-branches: true
+      # BEFORE MERGE TO MAIN: delete primary-test-env so test deploys to test, not dev.
       primary-test-env: dev
       enable-probation: false
       enable-sentry: true

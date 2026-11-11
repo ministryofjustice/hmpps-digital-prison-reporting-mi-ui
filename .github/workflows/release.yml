@@ -10,6 +10,7 @@ on:
   # Push trigger only registers this workflow so it can be dispatched before
   # release.yml exists on main (the job is skipped on push).
   push:
+    # BEFORE MERGE TO MAIN: branches: [main]
     branches: [DHS-704-tag-test]
   workflow_dispatch:
     inputs:
