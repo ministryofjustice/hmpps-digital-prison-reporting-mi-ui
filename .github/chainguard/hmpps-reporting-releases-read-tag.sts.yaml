@@ -1,11 +1,19 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Tag reads from helm_app_release.yml on hmpps-reporting-releases.
 # Includes the pull request check and a push or manual run from main.
 # MoJ OIDC subjects include owner id 2203574 and releases repo id 1446045442.
+=======
+# Tag reads from helm_app_release.yml on hmpps-reporting-releases.
+# Includes the pull request check and a push or manual run from main.
+# MoJ OIDC subjects include owner id 2203574 and releases repo id 1446045442.
+# Octo STS reads this file from the repository default branch only.
+>>>>>>> 761768c (feat: add Octo STS policies and pre-merge workflow notes)
 issuer: https://token.actions.githubusercontent.com
 subject_pattern: '^repo:ministryofjustice@2203574/hmpps-reporting-releases@1446045442:(ref:refs/heads/main|pull_request)$'
 claim_pattern:
   job_workflow_ref: '^ministryofjustice/hmpps-reporting-releases/\.github/workflows/helm_app_release\.yml@refs/(heads/main|pull/[0-9]+/merge)$'
+<<<<<<< HEAD
 =======
 # Caller is hmpps-reporting-releases branch DHS-987, including a pull request
 # opened from that branch. This file must be on MI UI main.
@@ -15,6 +23,8 @@ subject_pattern: '^repo:ministryofjustice/hmpps-reporting-releases:(ref:refs/hea
 claim_pattern:
   job_workflow_ref: '^ministryofjustice/hmpps-reporting-releases/\.github/workflows/(raise-release-pr|helm_app_release)\.yml@refs/(heads/DHS-987|pull/[0-9]+/merge)$'
 >>>>>>> aa1f3ab (add Octo STS trust policies for release tag validation and workflow dispatch)
+=======
+>>>>>>> 761768c (feat: add Octo STS policies and pre-merge workflow notes)
   event_name: '^(workflow_dispatch|push|pull_request)$'
 permissions:
   contents: read
