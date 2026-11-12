@@ -1,8 +1,9 @@
 name: Scheduled security scans
 
-# Node stack: CodeQL + npm.
-# Veracode is omitted until security_veracode_* proxies support a Node
-# artifact build (current proxies always call gradle_verify).
+# Node stack: CodeQL, npm, and Veracode, all through hmpps-reporting-workflows.
+# Veracode passes stack: node so the proxy builds with hmpps-reporting-actions.
+# Pinned to test/tag-based-releases until that Node path is on @v1. Gradle
+# callers stay on the default stack and are unchanged.
 
 on:
   workflow_dispatch:
@@ -15,14 +16,17 @@ on:
           - all
           - codeql
           - npm
+          - veracode-pipeline
+          - veracode-policy
           - prune-images
       prune-dry-run:
         description: prune-images only — list what would be deleted without deleting
         type: boolean
         default: true
   schedule:
-    - cron: "19 6 * * MON-FRI"
-    - cron: "41 6 * * 1" # prune-images, every Monday
+    - cron: "19 6 * * MON-FRI" # codeql + npm + veracode-pipeline, every weekday
+    - cron: "34 6 * * 1"       # veracode-policy, every Monday
+    - cron: "41 6 * * 1"       # prune-images, every Monday
 
 jobs:
   codeql:
@@ -51,6 +55,38 @@ jobs:
     uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/security_npm_dependency.yml@v1
     with:
       channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
+    secrets: inherit
+
+  veracode-pipeline:
+    name: Project security veracode pipeline scan
+    if: |
+      github.event.schedule == '19 6 * * MON-FRI' ||
+      (github.event_name == 'workflow_dispatch' && contains(fromJSON('["all","veracode-pipeline"]'), inputs.scan))
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/security_veracode_pipeline_scan.yml@test/tag-based-releases
+    with:
+      channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
+      stack: node
+      node-version: '24'
+    secrets: inherit
+
+  veracode-policy:
+    name: Project security veracode policy scan
+    if: |
+      github.event.schedule == '34 6 * * 1' ||
+      (github.event_name == 'workflow_dispatch' && contains(fromJSON('["all","veracode-policy"]'), inputs.scan))
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/security_veracode_policy_scan.yml@test/tag-based-releases
+    with:
+      channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
+      stack: node
+      node-version: '24'
     secrets: inherit
 
   prune-images:
