@@ -21,5 +21,9 @@ generic-service:
     REQUIRED_AUTH_SOURCES: 'nomis'
     REPORT_ID_MIGRATION_SERVICE_ENABLED: true
 
+  allowlist:
+    groups:
+      - internal
+
 generic-prometheus-alerts:
   alertSeverity: digital-prison-reporting-preprod

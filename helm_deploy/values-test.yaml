@@ -31,7 +31,6 @@ generic-service:
     hmp-parc-1: 217.161.76.162/32
     hmp-parc-2: 217.161.76.154/32
     groups:
-      - circleci
       - internal
       - prisons
       - private_prisons
@@ -41,4 +40,4 @@ generic-prometheus-alerts:
   businessHoursOnly: true
   businessHours:
     startHour: 9
-  alertSeverity: digital-prison-reporting-dev
+  alertSeverity: digital-prison-reporting-test

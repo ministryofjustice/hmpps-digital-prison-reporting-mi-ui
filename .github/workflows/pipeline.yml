@@ -1,0 +1,44 @@
+name: Pipeline
+
+# TEST BRANCH ONLY (DHS-704-tag-test) — DO NOT MERGE.
+# Exercises tag-based releases from hmpps-reporting-workflows@test/tag-based-releases.
+# deploy-ref = this branch, so builds here act like main: git tag vX.Y.Z, image
+# :vX.Y.Z and a GitHub Release. Any other branch built from here gets an image
+# RC label rc-<branch>-<run> only. preprod/prod are off (releases repo only);
+# test is redirected to dev.
+
+on:
+  push:
+    # BEFORE MERGE TO MAIN: branches: [main]
+    branches: ['**']
+  workflow_dispatch:
+
+permissions:
+  contents: write # release tag + GitHub Release (enable-release-tag)
+  packages: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.sha || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  pipeline:
+    uses: ministryofjustice/hmpps-reporting-workflows/.github/workflows/frontend_node_pipeline.yml@test/tag-based-releases
+    secrets: inherit
+    with:
+      # BEFORE MERGE TO MAIN: deploy-ref: refs/heads/main
+      deploy-ref: refs/heads/DHS-704-tag-test
+      enable-release-tag: true
+      # BEFORE MERGE TO MAIN: keep false until the first planned preprod promotion.
+      deploy-preprod-prod: false
+      deploy-dev-on-feature-branches: true
+      # BEFORE MERGE TO MAIN: delete primary-test-env so test deploys to test, not dev.
+      primary-test-env: dev
+      enable-probation: true
+      enable-sentry: true
+      sentry-secret-name: hmpps-digital-prison-reporting-mi-ui-sentry
+      node-version: '24'
+      slack-channel: 'dpr_cicd_approvals'
+      
