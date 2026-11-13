@@ -36,8 +36,9 @@ jobs:
       deploy-dev-on-feature-branches: true
       # BEFORE MERGE TO MAIN: delete primary-test-env so test deploys to test, not dev.
       primary-test-env: dev
-      enable-probation: false
+      enable-probation: true
       enable-sentry: true
       sentry-secret-name: hmpps-digital-prison-reporting-mi-ui-sentry
       node-version: '24'
       slack-channel: 'dpr_cicd_approvals'
+      
