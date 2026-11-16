@@ -187,7 +187,7 @@ env:
 ...
 ```
 
-# Developer Onboarding (Fresh Clone)
+## Developer Onboarding (Fresh Clone)
 
 After cloning the repository, run the following commands to enable the local pre-commit hooks.
 
