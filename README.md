@@ -293,4 +293,3 @@ npm run prepare
 
 prek run --all-files
 ```
-
