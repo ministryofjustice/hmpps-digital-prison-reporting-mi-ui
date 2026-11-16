@@ -1,29 +1,10 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# helm_app_release.yml on hmpps-reporting-releases main may dispatch this repo.
-# MoJ OIDC subjects include owner id 2203574 and releases repo id 1446045442.
-# This file must be on MI UI main before a deploy can start release.yml.
-=======
 # helm_app_release.yml on hmpps-reporting-releases main may dispatch this repo.
 # MoJ OIDC subjects include owner id 2203574 and releases repo id 1446045442.
 # Octo STS reads this file from the repository default branch only.
->>>>>>> 761768c (feat: add Octo STS policies and pre-merge workflow notes)
 issuer: https://token.actions.githubusercontent.com
 subject: repo:ministryofjustice@2203574/hmpps-reporting-releases@1446045442:ref:refs/heads/main
 claim_pattern:
   job_workflow_ref: '^ministryofjustice/hmpps-reporting-releases/\.github/workflows/helm_app_release\.yml@refs/heads/main$'
-<<<<<<< HEAD
-=======
-# Caller is helm_app_release.yml on hmpps-reporting-releases branch DHS-987.
-# This file must be on MI UI main. gh workflow run --ref selects DHS-704-tag-test.
-# Before production, change DHS-987 to main and set event_name to push.
-issuer: https://token.actions.githubusercontent.com
-subject: repo:ministryofjustice/hmpps-reporting-releases:ref:refs/heads/DHS-987
-claim_pattern:
-  job_workflow_ref: '^ministryofjustice/hmpps-reporting-releases/\.github/workflows/helm_app_release\.yml@refs/heads/DHS-987$'
->>>>>>> aa1f3ab (add Octo STS trust policies for release tag validation and workflow dispatch)
-=======
->>>>>>> 761768c (feat: add Octo STS policies and pre-merge workflow notes)
   event_name: '^(workflow_dispatch|push)$'
 permissions:
   actions: write
