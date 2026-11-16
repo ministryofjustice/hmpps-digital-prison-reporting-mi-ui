@@ -9,3 +9,5 @@ jobs:
     secrets: inherit
     with:
       stack: node
+      node-version: '24'
+      create-lib-tag: false
