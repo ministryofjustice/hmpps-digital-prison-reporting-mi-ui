@@ -6,8 +6,8 @@ name: Release
 # plus checkout-ref.
 
 on:
-  push:
-    branches: [main]
+  # Promote only via workflow_dispatch (Actions UI or hmpps-reporting-releases).
+  # Do not trigger on push to main — that produced empty skipped runs.
   workflow_dispatch:
     inputs:
       environment:
