@@ -15,3 +15,6 @@ jobs:
       node-version: '24'
       unit-test-command: 'npm run test'
       coverage-grep: '% Stmts'
+      enable-slsa: true
+      slsa-package-exclusion: '@ministryofjustice/hmpps-digital-prison-reporting-frontend'
+      enable-pre-commit: true
