@@ -71,7 +71,9 @@ jobs:
       app-version: ${{ inputs.app-version }}
       checkout-ref: ${{ inputs.checkout-ref }}
       helm-chart-name: ${{ inputs.helm-chart-name != '' && inputs.helm-chart-name || 'hmpps-digital-prison-reporting-mi-ui' }}
-      release-name: ${{ inputs.release-name != '' && inputs.release-name || 'hmpps-digital-prison-reporting-mi-ui' }}
+      # CircleCI used PROJECT_NAME_ENV_NAME (e.g. …-preprod). Keep that so
+      # Helm upgrades the existing release instead of conflicting on CRDs.
+      release-name: ${{ inputs.release-name != '' && inputs.release-name || format('hmpps-digital-prison-reporting-mi-ui-{0}', inputs.environment) }}
       release-values-yaml: ${{ inputs.release-values-yaml }}
       verify-image: ${{ inputs.verify-image == true || inputs.verify-image == 'true' }}
       slack-notification: ${{ inputs.environment == 'prod' && 'true' || 'false' }}
