@@ -56,6 +56,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
       nestedBaseUrl: '',
       requestMissingEnabled: true,
       saveDefaultsEnabled: true,
+      dashboardAuditEnabled: false,
       dprPaths: {
         bookmarkActionEndpoint: '',
         downloadActionEndpoint: '',
