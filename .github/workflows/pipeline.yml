@@ -35,7 +35,9 @@ jobs:
       enable-probation: true
       enable-sentry: true
       sentry-secret-name: hmpps-digital-prison-reporting-mi-ui-sentry
-      # Cypress acceptance hits live DEV on self-hosted hmpps-github-actions-runner.
+      # Cypress — match CircleCI: local integration on every PR; acceptance after DEV on main.
+      enable-integration-tests: true
+      # Defaults: Wiremock + Redis + start-feature + start-feature:probation + typecheck.
       enable-acceptance-tests: true
       acceptance-runs-on: '["self-hosted","Linux","X64","hmpps-github-actions-runner"]'
       node-version: '24'
