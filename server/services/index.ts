@@ -23,6 +23,7 @@ export const services = (): Services => {
     missingReports: true,
     saveDefaults: true,
     feedbackOnDownload: true,
+    dashboardAudit: false,
   }
   const dprServices = createDprServices(dprClients, serviceConfig)
 
